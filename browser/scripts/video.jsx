@@ -26,7 +26,7 @@ Video.defaultProps = {
   uploadDate: "26/06/2016",
   uploader: 'CTN',
   description: 'Vidéo Mediapiston',
-  url: '#'
+  url: '/mediapiston/watch/0'
 };
 
 class VideoList extends React.Component {
@@ -37,7 +37,7 @@ class VideoList extends React.Component {
     return (
       <div className="videoList">
         {this.props.videoList.map((videoObject) => {
-          return <Video {...videoObject} />
+          return <Video {...videoObject} key={videoObject.url} />
         })}
       </div>
     );
@@ -51,7 +51,7 @@ VideoList.defaultProps = {
                 uploadDate: "26/06/2016",
                 uploader: 'CTN',
                 description: 'Vidéo Mediapiston',
-                url: '#'
+                url: '/mediapiston/watch/0'
               },
               {
                 thumbUrl : require('~/public/assets/no_video.png'),
@@ -59,7 +59,7 @@ VideoList.defaultProps = {
                 uploadDate: "27/06/2016",
                 uploader: 'CTN',
                 description: 'Vidéo 2 Mediapiston',
-                url: '#'
+                url: '/mediapiston/watch/1'
               },
               {
                 thumbUrl : require('~/public/assets/no_video.png'),
@@ -67,7 +67,7 @@ VideoList.defaultProps = {
                 uploadDate: "27/06/2016",
                 uploader: 'CTN',
                 description: 'Vidéo 3 Mediapiston',
-                url: '#'
+                url: '/mediapiston/watch/2'
               }
             ]
 };

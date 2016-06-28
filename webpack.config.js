@@ -33,7 +33,7 @@ module.exports = {
             { test: /(\.css$)/, loaders: ['style', 'css'] },
             { test: /\.sass$/, loaders: ["style", "css", "sass"] },
             { test: /\.scss$/, loaders: ["style", "css", "sass"] },
-            { test: /\.(eot|woff|woff2|ttf|svg|png|jpg)(\?\S*)?$/, loader: 'file?name=[name].[ext]' },
+            { test: /\.(eot|woff|woff2|ttf|svg|png|jpg|mp4)(\?\S*)?$/, loader: 'file?name=[name].[ext]' },
         ]
     },
     sassLoader: {

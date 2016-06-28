@@ -7,19 +7,29 @@ class VideoPlayer extends React.Component {
   }
   render() {
     return (
-      <div className="card">
-        <a href={this.props.url} className="cardLink"><img className="card-img-top" src={this.props.thumbUrl} alt="Miniature" /></a>
-        <div className="card-block">
-          <h4 className="card-title">{this.props.title}</h4>
-          <p className="card-text">{description}</p>
-          <p className="card-text"><small class="text-muted">Mis en ligne le {this.props.uploadDate} par {this.props.uploader}</small></p>
+      <div className="videoPlayer container">
+        <div className="row">
+          <video poster={this.props.thumbUrl} src={this.props.videoUrl} controls="true" />
         </div>
+        <div className="row videoDetails">
+          <div className="col-md-8">
+            <h3>{this.props.title}</h3>
+          </div>
+          <div className="col-md-4">
+            <p>Mis en ligne le {this.props.uploadDate} par {this.props.uploader}<br/><small>{this.props.views} vues</small></p>
+          </div>
+        </div>
+        <div className="row videoDescription">
+          <p>{this.props.description}</p>
+        </div>
+
       </div>
     );
   }
 }
 VideoPlayer.defaultProps = {
   thumbUrl : require('~/public/assets/no_video.png'),
+  videoUrl : require('~/public/assets/no_video.mp4'),
   title: 'Titre',
   uploadDate: "26/06/2016",
   uploader: 'CTN',

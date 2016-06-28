@@ -9,7 +9,16 @@ import '~/browser/styles/mediapiston.sass';
 import Header from "./header.jsx";
 import VideoList from "./video.jsx";
 import MatosList from "./materiel.jsx";
+import VideoPlayer from "./video_player.jsx";
 
 
 render(<Header />, document.getElementById('reactHeader'));
-render(<MatosList />, document.getElementById('videos'));
+
+if (window.location.pathname === '/mediapiston' | window.location.pathname === '/mediapiston/')
+  render(<VideoList />, document.getElementById('videosList'));
+
+if (window.location.pathname.indexOf('/mediapiston/watch') > -1)
+  render(<VideoPlayer />, document.getElementById('videoContent'));
+
+if (window.location.pathname === '/pret-matos' | window.location.pathname === '/pret-matos/')
+  render(<MatosList />, document.getElementById('matosList'));

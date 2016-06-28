@@ -20,11 +20,23 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
+app.get('/mediapiston', (req, res) => {
+  res.render('mediapiston_home');
+});
+
+app.get('/mediapiston/watch/:videoid', (req, res) => {
+  res.render('mediapiston_video');
+});
+
+app.get('/pret-matos', (req, res) => {
+  res.render('materiel');
+});
+
 // 404
 app.use((req, res) => {
     res.status(404);
     res.render('error', {
-        message: 'Page not found !',
+        message: 'Page non trouvée !',
         error: {}
     });
 });

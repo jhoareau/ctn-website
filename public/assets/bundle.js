@@ -92,20 +92,27 @@
 	
 	var _video2 = _interopRequireDefault(_video);
 	
-	var _materiel = __webpack_require__(/*! ./materiel.jsx */ 310);
+	var _materiel = __webpack_require__(/*! ./materiel.jsx */ 308);
 	
 	var _materiel2 = _interopRequireDefault(_materiel);
 	
+	var _video_player = __webpack_require__(/*! ./video_player.jsx */ 310);
+	
+	var _video_player2 = _interopRequireDefault(_video_player);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	/* React & style */
-	
-	
-	(0, _reactDom.render)(_react2.default.createElement(_header2.default, null), document.getElementById('reactHeader'));
 	
 	/* Components */
 	
-	(0, _reactDom.render)(_react2.default.createElement(_materiel2.default, null), document.getElementById('videos'));
+	
+	(0, _reactDom.render)(_react2.default.createElement(_header2.default, null), document.getElementById('reactHeader')); /* React & style */
+	
+	
+	if (window.location.pathname === '/mediapiston' | window.location.pathname === '/mediapiston/') (0, _reactDom.render)(_react2.default.createElement(_video2.default, null), document.getElementById('videosList'));
+	
+	if (window.location.pathname.indexOf('/mediapiston/watch') > -1) (0, _reactDom.render)(_react2.default.createElement(_video_player2.default, null), document.getElementById('videoContent'));
+	
+	if (window.location.pathname === '/pret-matos' | window.location.pathname === '/pret-matos/') (0, _reactDom.render)(_react2.default.createElement(_materiel2.default, null), document.getElementById('matosList'));
 
 /***/ },
 /* 15 */
@@ -21729,7 +21736,7 @@
 	
 	
 	// module
-	exports.push([module.id, "#searchBox {\n  width: 100%;\n  margin-top: 10px;\n  text-align: center; }\n\n#searchBox form input {\n  width: 400px;\n  height: 45px; }\n\n.videoList .card {\n  margin: 20px;\n  flex-grow: 2;\n  flex-basis: 400px; }\n\n.matosList .card {\n  margin: 20px;\n  flex-grow: 2;\n  flex-basis: 200px; }\n\n.card-img-top {\n  width: 100%;\n  height: auto; }\n\na.cardLink, a.cardLink:hover {\n  text-decoration: none;\n  color: black; }\n\n.videoList, .matosList {\n  display: flex;\n  width: 80%;\n  flex-wrap: wrap;\n  margin: auto;\n  justify-content: center; }\n\n.materielDispo {\n  color: #3c763d; }\n", ""]);
+	exports.push([module.id, "#searchBox {\n  width: 100%;\n  margin-top: 10px;\n  text-align: center; }\n\n#searchBox form input {\n  width: 400px;\n  height: 45px; }\n\n.videoList .card {\n  margin: 20px;\n  flex-grow: 2;\n  flex-basis: 400px; }\n\n.matosList .card {\n  margin: 20px;\n  flex-grow: 2;\n  flex-basis: 200px; }\n\n.card-img-top {\n  width: 100%;\n  height: auto; }\n\na.cardLink, a.cardLink:hover {\n  text-decoration: none;\n  color: black; }\n\n.videoList, .matosList {\n  display: flex;\n  width: 80%;\n  flex-wrap: wrap;\n  margin: auto;\n  justify-content: center; }\n\n.materielDispo {\n  color: #3c763d; }\n\n.videoPlayer {\n  margin-top: 20px; }\n\n.videoDetails {\n  margin-top: 1em; }\n", ""]);
 	
 	// exports
 
@@ -21815,6 +21822,8 @@
 	  value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(/*! react */ 15);
@@ -21896,7 +21905,7 @@
 	  uploadDate: "26/06/2016",
 	  uploader: 'CTN',
 	  description: 'Vidéo Mediapiston',
-	  url: '#'
+	  url: '/mediapiston/watch/0'
 	};
 	
 	var VideoList = function (_React$Component2) {
@@ -21915,7 +21924,7 @@
 	        'div',
 	        { className: 'videoList' },
 	        this.props.videoList.map(function (videoObject) {
-	          return _react2.default.createElement(Video, videoObject);
+	          return _react2.default.createElement(Video, _extends({}, videoObject, { key: videoObject.url }));
 	        })
 	      );
 	    }
@@ -21931,21 +21940,21 @@
 	    uploadDate: "26/06/2016",
 	    uploader: 'CTN',
 	    description: 'Vidéo Mediapiston',
-	    url: '#'
+	    url: '/mediapiston/watch/0'
 	  }, {
 	    thumbUrl: __webpack_require__(/*! ~/public/assets/no_video.png */ 307),
 	    title: 'Titre 2',
 	    uploadDate: "27/06/2016",
 	    uploader: 'CTN',
 	    description: 'Vidéo 2 Mediapiston',
-	    url: '#'
+	    url: '/mediapiston/watch/1'
 	  }, {
 	    thumbUrl: __webpack_require__(/*! ~/public/assets/no_video.png */ 307),
 	    title: 'Titre 3',
 	    uploadDate: "27/06/2016",
 	    uploader: 'CTN',
 	    description: 'Vidéo 3 Mediapiston',
-	    url: '#'
+	    url: '/mediapiston/watch/2'
 	  }]
 	};
 	
@@ -36063,17 +36072,7 @@
 	module.exports = __webpack_require__.p + "no_video.png";
 
 /***/ },
-/* 308 */,
-/* 309 */
-/*!***********************************!*\
-  !*** ./public/assets/gopro_4.jpg ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "gopro_4.jpg";
-
-/***/ },
-/* 310 */
+/* 308 */
 /*!**************************************!*\
   !*** ./browser/scripts/materiel.jsx ***!
   \**************************************/
@@ -36270,6 +36269,137 @@
 	};
 	
 	exports.default = MatosList;
+
+/***/ },
+/* 309 */
+/*!***********************************!*\
+  !*** ./public/assets/gopro_4.jpg ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "gopro_4.jpg";
+
+/***/ },
+/* 310 */
+/*!******************************************!*\
+  !*** ./browser/scripts/video_player.jsx ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 15);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _moment = __webpack_require__(/*! moment */ 204);
+	
+	var moment = _interopRequireWildcard(_moment);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var VideoPlayer = function (_React$Component) {
+	  _inherits(VideoPlayer, _React$Component);
+	
+	  function VideoPlayer(props) {
+	    _classCallCheck(this, VideoPlayer);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(VideoPlayer).call(this, props));
+	  }
+	
+	  _createClass(VideoPlayer, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'videoPlayer container' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row' },
+	          _react2.default.createElement('video', { poster: this.props.thumbUrl, src: this.props.videoUrl, controls: 'true' })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row videoDetails' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-md-8' },
+	            _react2.default.createElement(
+	              'h3',
+	              null,
+	              this.props.title
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-md-4' },
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              'Mis en ligne le ',
+	              this.props.uploadDate,
+	              ' par ',
+	              this.props.uploader,
+	              _react2.default.createElement('br', null),
+	              _react2.default.createElement(
+	                'small',
+	                null,
+	                this.props.views,
+	                ' vues'
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row videoDescription' },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            this.props.description
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return VideoPlayer;
+	}(_react2.default.Component);
+	
+	VideoPlayer.defaultProps = {
+	  thumbUrl: __webpack_require__(/*! ~/public/assets/no_video.png */ 307),
+	  videoUrl: __webpack_require__(/*! ~/public/assets/no_video.mp4 */ 311),
+	  title: 'Titre',
+	  uploadDate: "26/06/2016",
+	  uploader: 'CTN',
+	  description: 'Vidéo Mediapiston',
+	  views: 0
+	};
+	
+	exports.default = VideoPlayer;
+
+/***/ },
+/* 311 */
+/*!************************************!*\
+  !*** ./public/assets/no_video.mp4 ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "no_video.mp4";
 
 /***/ }
 /******/ ]);
