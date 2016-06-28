@@ -92,9 +92,9 @@
 	
 	var _video2 = _interopRequireDefault(_video);
 	
-	var _cameraPret = __webpack_require__(/*! ./camera-pret.jsx */ 308);
+	var _materiel = __webpack_require__(/*! ./materiel.jsx */ 310);
 	
-	var _cameraPret2 = _interopRequireDefault(_cameraPret);
+	var _materiel2 = _interopRequireDefault(_materiel);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -105,7 +105,7 @@
 	
 	/* Components */
 	
-	(0, _reactDom.render)(_react2.default.createElement(_cameraPret2.default, null), document.getElementById('videos'));
+	(0, _reactDom.render)(_react2.default.createElement(_materiel2.default, null), document.getElementById('videos'));
 
 /***/ },
 /* 15 */
@@ -21729,7 +21729,7 @@
 	
 	
 	// module
-	exports.push([module.id, "#searchBox {\n  width: 100%;\n  margin-top: 10px;\n  text-align: center; }\n\n#searchBox form input {\n  width: 400px;\n  height: 45px; }\n\n.videoList .card {\n  margin: 20px;\n  flex-grow: 2;\n  flex-basis: 400px; }\n\n.cameraList .card {\n  margin: 20px;\n  flex-grow: 2;\n  flex-basis: 200px; }\n\n.card-img-top {\n  width: 100%;\n  height: auto; }\n\na.cardLink, a.cardLink:hover {\n  text-decoration: none;\n  color: black; }\n\n.videoList, .cameraList {\n  display: flex;\n  width: 80%;\n  flex-wrap: wrap;\n  margin: auto;\n  justify-content: center; }\n", ""]);
+	exports.push([module.id, "#searchBox {\n  width: 100%;\n  margin-top: 10px;\n  text-align: center; }\n\n#searchBox form input {\n  width: 400px;\n  height: 45px; }\n\n.videoList .card {\n  margin: 20px;\n  flex-grow: 2;\n  flex-basis: 400px; }\n\n.matosList .card {\n  margin: 20px;\n  flex-grow: 2;\n  flex-basis: 200px; }\n\n.card-img-top {\n  width: 100%;\n  height: auto; }\n\na.cardLink, a.cardLink:hover {\n  text-decoration: none;\n  color: black; }\n\n.videoList, .matosList {\n  display: flex;\n  width: 80%;\n  flex-wrap: wrap;\n  margin: auto;\n  justify-content: center; }\n\n.materielDispo {\n  color: #3c763d; }\n", ""]);
 	
 	// exports
 
@@ -36063,10 +36063,20 @@
 	module.exports = __webpack_require__.p + "no_video.png";
 
 /***/ },
-/* 308 */
-/*!*****************************************!*\
-  !*** ./browser/scripts/camera-pret.jsx ***!
-  \*****************************************/
+/* 308 */,
+/* 309 */
+/*!***********************************!*\
+  !*** ./public/assets/gopro_4.jpg ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "gopro_4.jpg";
+
+/***/ },
+/* 310 */
+/*!**************************************!*\
+  !*** ./browser/scripts/materiel.jsx ***!
+  \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36074,6 +36084,8 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
@@ -36113,7 +36125,13 @@
 	            { className: "card-title" },
 	            this.props.name
 	          ),
-	          !this.props.disponible ? _react2.default.createElement(
+	          _react2.default.createElement(
+	            "p",
+	            { className: "card-text" },
+	            "Caution : ",
+	            this.props.caution
+	          ),
+	          (!this.props.disponible || this.props.rendu_le) && this.props.responsable_emprunt ? _react2.default.createElement(
 	            "p",
 	            { className: "card-text" },
 	            "Empruntée par ",
@@ -36124,9 +36142,45 @@
 	            "Responsable : ",
 	            this.props.responsable_emprunt
 	          ) : null,
-	          this.props.disponible ? _react2.default.createElement(
-	            "a",
-	            { href: "#", className: "btn btn-primary" },
+	          !this.props.disponible && this.props.responsable_emprunt ? _react2.default.createElement(
+	            "button",
+	            { className: "btn btn-danger", "data-id": this.props.id_materiel, onClick: this.closeReservation },
+	            "Rendre matériel"
+	          ) : null,
+	          !this.props.disponible && !this.props.responsable_emprunt ? _react2.default.createElement(
+	            "p",
+	            { className: "card-text" },
+	            "Réservée par ",
+	            this.props.emprunteur,
+	            " le ",
+	            this.props.date_emprunt
+	          ) : null,
+	          !this.props.disponible && !this.props.responsable_emprunt ? _react2.default.createElement(
+	            "button",
+	            { className: "btn btn-success", "data-id": this.props.id_materiel, onClick: this.validerReservation },
+	            "Valider réservation"
+	          ) : null,
+	          !this.props.disponible && !this.props.responsable_emprunt ? _react2.default.createElement(
+	            "button",
+	            { className: "btn btn-danger", "data-id": this.props.id_materiel, onClick: this.closeReservation },
+	            "Annuler réservation"
+	          ) : null,
+	          this.props.rendu_le ? _react2.default.createElement(
+	            "p",
+	            { className: "card-text" },
+	            "Rendu le ",
+	            this.props.rendu_le,
+	            " avec ",
+	            this.props.responsable_rendu
+	          ) : null,
+	          this.props.disponible && !this.props.rendu_le ? _react2.default.createElement(
+	            "p",
+	            { className: "card-text materielDispo" },
+	            "Disponible !"
+	          ) : null,
+	          this.props.disponible && !this.props.rendu_le ? _react2.default.createElement(
+	            "button",
+	            { className: "btn btn-primary", "data-id": this.props.id_materiel, onClick: this.openReservation },
 	            "Réserver"
 	          ) : null
 	        )
@@ -36140,72 +36194,82 @@
 	Camera.defaultProps = {
 	  thumbUrl: __webpack_require__(/*! ~/public/assets/gopro_4.jpg */ 309),
 	  name: 'Clara - GoPro Hero 4',
+	  caution: '300€',
 	  disponible: true,
 	  emprunteur: null,
 	  date_emprunt: null,
-	  responsable_emprunt: null
+	  responsable_emprunt: null,
+	  id_materiel: 0,
+	  id_histo: '',
+	  rendu_le: null,
+	  responsable_rendu: null
 	};
 	
-	var CameraList = function (_React$Component2) {
-	  _inherits(CameraList, _React$Component2);
+	var MatosList = function (_React$Component2) {
+	  _inherits(MatosList, _React$Component2);
 	
-	  function CameraList(props) {
-	    _classCallCheck(this, CameraList);
+	  function MatosList(props) {
+	    _classCallCheck(this, MatosList);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(CameraList).call(this, props));
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(MatosList).call(this, props));
 	  }
 	
-	  _createClass(CameraList, [{
+	  _createClass(MatosList, [{
 	    key: "render",
 	    value: function render() {
 	      return _react2.default.createElement(
 	        "div",
-	        { className: "cameraList" },
-	        this.props.cameraList.map(function (cameraObject) {
-	          return _react2.default.createElement(Camera, cameraObject);
+	        { className: "matosList" },
+	        this.props.matosList.map(function (cameraObject) {
+	          return _react2.default.createElement(Camera, _extends({}, cameraObject, { key: cameraObject.id_materiel + cameraObject.id_histo }));
 	        })
 	      );
 	    }
 	  }]);
 	
-	  return CameraList;
+	  return MatosList;
 	}(_react2.default.Component);
 	
-	CameraList.defaultProps = {
-	  cameraList: [{
+	MatosList.defaultProps = {
+	  matosList: [{
 	    thumbUrl: __webpack_require__(/*! ~/public/assets/gopro_4.jpg */ 309),
 	    name: 'Clara - GoPro Hero 4',
 	    disponible: true,
-	    emprunteur: null,
-	    date_emprunt: null,
-	    responsable_emprunt: null
+	    caution: '400€',
+	    id_histo: '',
+	    id_materiel: 1
 	  }, {
 	    thumbUrl: __webpack_require__(/*! ~/public/assets/gopro_4.jpg */ 309),
 	    name: 'GoPro Hero 3',
 	    disponible: false,
 	    emprunteur: 'Antonio de Jesus Montez',
 	    date_emprunt: '27/06/2016',
-	    responsable_emprunt: 'Akelo'
+	    id_histo: '',
+	    id_materiel: 2
 	  }, {
 	    thumbUrl: __webpack_require__(/*! ~/public/assets/gopro_4.jpg */ 309),
 	    name: 'GoPro Hero 3',
 	    disponible: false,
 	    emprunteur: 'Antonio de Jesus Montez',
 	    date_emprunt: '27/06/2016',
-	    responsable_emprunt: 'Akelo'
+	    responsable_emprunt: 'Akelo',
+	    id_histo: '',
+	    id_materiel: 3
+	  }, {
+	    thumbUrl: __webpack_require__(/*! ~/public/assets/gopro_4.jpg */ 309),
+	    name: 'GoPro Hero 3',
+	    disponible: true,
+	    emprunteur: 'Antonio de Jesus Montez',
+	    date_emprunt: '27/06/2016',
+	    responsable_emprunt: 'Akelo',
+	    rendu_le: '28/06/2016',
+	    responsable_rendu: 'Khynder',
+	    id_histo: 'sha1',
+	    id_materiel: 4
 	  }]
 	};
 	
-	exports.default = CameraList;
-
-/***/ },
-/* 309 */
-/*!***********************************!*\
-  !*** ./public/assets/gopro_4.jpg ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "gopro_4.jpg";
+	exports.default = MatosList;
 
 /***/ }
 /******/ ]);

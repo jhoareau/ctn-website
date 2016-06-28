@@ -8,8 +8,8 @@ import '~/browser/styles/mediapiston.sass';
 /* Components */
 import Header from "./header.jsx";
 import VideoList from "./video.jsx";
-import CameraList from "./camera-pret.jsx";
+import MatosList from "./materiel.jsx";
 
 
 render(<Header />, document.getElementById('reactHeader'));
-render(<CameraList />, document.getElementById('videos'));
+render(<MatosList />, document.getElementById('videos'));
