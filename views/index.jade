@@ -1,0 +1,18 @@
+doctype html
+
+html
+  meta(charset='utf-8')
+  title Mediapiston
+  body
+    header
+      nav.navbar.navbar-light.bg-faded.navbar-full
+        a.navbar-brand(href='/') CTN
+        div#reactHeader.pull-xs-right
+    section.container-fluid
+      div#searchBox
+        form.form-inline(method="GET" action='/search')
+          input.form-control(type='text' name="search" placeholder='Rechercher...')
+          button.btn.btn-success-outline(type='submit')
+            i.fa.fa-search(aria-hidden='true')
+      div#videos
+    script(src='assets/bundle.js' type='text/javascript')
