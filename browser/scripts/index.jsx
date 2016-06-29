@@ -1,6 +1,7 @@
-/* React & style */
+/* React & libraries & style */
 import React from 'react';
 import {render} from 'react-dom';
+import $ from 'jquery';
 import 'bootstrap-loader';
 import 'font-awesome-webpack';
 import '~/browser/styles/mediapiston.sass';
