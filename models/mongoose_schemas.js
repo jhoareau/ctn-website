@@ -32,3 +32,5 @@ let matosListSchema = new mongoose.Schema({
     responsable_rendu: String
   }]
 });
+
+module.exports = {userSchema: userSchema, videoListSchema: videoListSchema, matosListSchema: matosListSchema};
