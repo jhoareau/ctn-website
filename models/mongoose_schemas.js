@@ -1,7 +1,7 @@
 let mongoose = require('mongoose');
 
 let userSchema = new mongoose.Schema({
-  login: String,
+  username: String,
   isAdmin: Boolean
 });
 

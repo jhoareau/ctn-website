@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  form(method="POST" action="/login" class="form")
+    input(type='text' name='username' placeholder="Nom d'utilisateur" class='form-control')
+    input(type='password' name='password' placeholder="Password" class='form-control')
+    button(type="submit" class="btn btn-primary") Se connecter
