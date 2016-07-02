@@ -86,7 +86,7 @@
 	
 	__webpack_require__(/*! font-awesome-webpack */ 190);
 	
-	__webpack_require__(/*! ~/browser/styles/mediapiston.sass */ 201);
+	__webpack_require__(/*! ~/browser/styles/global.sass */ 310);
 	
 	var _header = __webpack_require__(/*! ./header.jsx */ 203);
 	
@@ -114,11 +114,23 @@
 	  (0, _reactDom.render)(_react2.default.createElement(_header2.default, { links: data }), document.getElementById('reactHeader'));
 	});
 	
-	if (window.location.pathname === '/mediapiston' | window.location.pathname === '/mediapiston/') (0, _reactDom.render)(_react2.default.createElement(_video2.default, null), document.getElementById('videosList'));
+	if (window.location.pathname === '/mediapiston' | window.location.pathname === '/mediapiston/') {
+	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 312);
+	  __webpack_require__(/*! ~/browser/styles/search.sass */ 314);
+	  (0, _reactDom.render)(_react2.default.createElement(_video2.default, null), document.getElementById('videosList'));
+	}
 	
-	if (window.location.pathname.indexOf('/mediapiston/watch') > -1) (0, _reactDom.render)(_react2.default.createElement(_video_player2.default, null), document.getElementById('videoContent'));
+	if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
+	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 312);
+	  __webpack_require__(/*! ~/browser/styles/search.sass */ 314);
+	  (0, _reactDom.render)(_react2.default.createElement(_video_player2.default, null), document.getElementById('videoContent'));
+	}
 	
-	if (window.location.pathname === '/pret-matos' | window.location.pathname === '/pret-matos/') (0, _reactDom.render)(_react2.default.createElement(_materiel2.default, null), document.getElementById('matosList'));
+	if (window.location.pathname === '/pret-matos' | window.location.pathname === '/pret-matos/') {
+	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 312);
+	  __webpack_require__(/*! ~/browser/styles/search.sass */ 314);
+	  (0, _reactDom.render)(_react2.default.createElement(_materiel2.default, null), document.getElementById('matosList'));
+	}
 
 /***/ },
 /* 15 */
@@ -31748,52 +31760,8 @@
 
 
 /***/ },
-/* 201 */
-/*!*****************************************!*\
-  !*** ./browser/styles/mediapiston.sass ***!
-  \*****************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./mediapiston.sass */ 202);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 188)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./mediapiston.sass", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./mediapiston.sass");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 202 */
-/*!*******************************************************************************************!*\
-  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/mediapiston.sass ***!
-  \*******************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 187)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "#searchBox {\n  width: 100%;\n  margin-top: 10px;\n  text-align: center; }\n\n#searchBox form input {\n  width: 400px;\n  height: 45px; }\n\n.videoList .card {\n  margin: 20px;\n  -webkit-box-flex: 2;\n      -ms-flex-positive: 2;\n          flex-grow: 2;\n  -ms-flex-preferred-size: 400px;\n      flex-basis: 400px; }\n\n.matosList .card {\n  margin: 20px;\n  -webkit-box-flex: 2;\n      -ms-flex-positive: 2;\n          flex-grow: 2;\n  -ms-flex-preferred-size: 200px;\n      flex-basis: 200px; }\n\n.card-img-top {\n  width: 100%;\n  height: auto; }\n\na.cardLink, a.cardLink:hover {\n  text-decoration: none;\n  color: black; }\n\n.videoList, .matosList {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 80%;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  margin: auto;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center; }\n\n.materielDispo {\n  color: #3c763d; }\n\n.videoPlayer {\n  margin-top: 20px; }\n\n.videoDetails {\n  margin-top: 1em; }\n", ""]);
-	
-	// exports
-
-
-/***/ },
+/* 201 */,
+/* 202 */,
 /* 203 */
 /*!************************************!*\
   !*** ./browser/scripts/header.jsx ***!
@@ -46426,6 +46394,144 @@
 	};
 	
 	exports.default = VideoPlayer;
+
+/***/ },
+/* 310 */
+/*!************************************!*\
+  !*** ./browser/styles/global.sass ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./global.sass */ 311);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 188)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./global.sass", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./global.sass");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 311 */
+/*!**************************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/global.sass ***!
+  \**************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 187)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "body {\n  margin-bottom: 60px; }\n\nfooter {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n  height: 60px;\n  line-height: 60px;\n  background-color: #f5f5f5; }\n\nfooter a {\n  display: inline-block;\n  margin-left: 15px;\n  text-decoration: none;\n  color: black; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 312 */
+/*!***********************************!*\
+  !*** ./browser/styles/cards.sass ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./cards.sass */ 313);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 188)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./cards.sass", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./cards.sass");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 313 */
+/*!*************************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/cards.sass ***!
+  \*************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 187)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".videoList .card {\n  margin: 20px;\n  -webkit-box-flex: 2;\n      -ms-flex-positive: 2;\n          flex-grow: 2;\n  -ms-flex-preferred-size: 400px;\n      flex-basis: 400px; }\n\n.matosList .card {\n  margin: 20px;\n  -webkit-box-flex: 2;\n      -ms-flex-positive: 2;\n          flex-grow: 2;\n  -ms-flex-preferred-size: 200px;\n      flex-basis: 200px; }\n\n.card-img-top {\n  width: 100%;\n  height: auto; }\n\na.cardLink, a.cardLink:hover {\n  text-decoration: none;\n  color: black; }\n\n.videoList, .matosList {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 80%;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  margin: auto;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center; }\n\n.materielDispo {\n  color: #3c763d; }\n\n.videoPlayer {\n  margin-top: 20px; }\n\n.videoDetails {\n  margin-top: 1em; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 314 */
+/*!************************************!*\
+  !*** ./browser/styles/search.sass ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./search.sass */ 315);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 188)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./search.sass", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./search.sass");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 315 */
+/*!**************************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/search.sass ***!
+  \**************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 187)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "#searchBox {\n  width: 100%;\n  margin-top: 10px;\n  text-align: center; }\n\n#searchBox form input {\n  width: 400px;\n  height: 45px; }\n", ""]);
+	
+	// exports
+
 
 /***/ }
 /******/ ]);
