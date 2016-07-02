@@ -2,7 +2,7 @@ let mongoose = require('mongoose');
 
 let userSchema = new mongoose.Schema({
   username: String,
-  isAdmin: Boolean
+  admin: Boolean
 });
 
 let videoListSchema = new mongoose.Schema({

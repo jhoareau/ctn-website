@@ -13,7 +13,9 @@ import MatosList from "./materiel.jsx";
 import VideoPlayer from "./video_player.jsx";
 
 
-render(<Header />, document.getElementById('reactHeader'));
+$.get('/ajax/header', (data) => {
+  render(<Header links={data} />, document.getElementById('reactHeader'));
+})
 
 if (window.location.pathname === '/mediapiston' | window.location.pathname === '/mediapiston/')
   render(<VideoList />, document.getElementById('videosList'));

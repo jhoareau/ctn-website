@@ -1,7 +1,8 @@
 extends layout
 
 block content
-  form(method="POST" action="/login" class="form")
-    input(type='text' name='username' placeholder="Nom d'utilisateur" class='form-control')
-    input(type='password' name='password' placeholder="Password" class='form-control')
-    button(type="submit" class="btn btn-primary") Se connecter
+  section.container(style="margin-top: 20px")
+    form.form(method="POST" action="/login")
+      input.form-control(type='text' name='username' placeholder="Nom d'utilisateur")
+      input.form-control(type='password' name='password' placeholder="Password")
+      button.btn.btn-primary(type="submit") Se connecter

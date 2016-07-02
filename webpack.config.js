@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const autoprefixer = require('autoprefixer');
 
 let minimize = process.argv.indexOf('--minimize') !== -1;
 let pluginArray = [];
@@ -29,12 +30,15 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.jsx?$/, loader: "babel-loader", include: path.resolve(__dirname, "browser/scripts") },
-            { test: /(\.less$)/, loaders: ['style', 'css', 'less'] },
-            { test: /(\.css$)/, loaders: ['style', 'css'] },
-            { test: /\.sass$/, loaders: ["style", "css", "sass"] },
-            { test: /\.scss$/, loaders: ["style", "css", "sass"] },
+            { test: /(\.less$)/, loaders: ['style', 'css', 'postcss-loader', 'less'] },
+            { test: /(\.css$)/, loaders: ['style', 'postcss-loader', 'css'] },
+            { test: /\.sass$/, loaders: ["style", "css", "postcss-loader", "sass"] },
+            { test: /\.scss$/, loaders: ["style", "css", "postcss-loader", "sass"] },
             { test: /\.(eot|woff|woff2|ttf|svg|png|jpg|mp4)(\?\S*)?$/, loader: 'file?name=[name].[ext]' },
         ]
+    },
+    postcss: function () {
+        return [autoprefixer];
     },
     sassLoader: {
       includePaths: [path.resolve(__dirname, "public/assets/"), path.resolve(__dirname, "browser/styles/")]

@@ -28,8 +28,8 @@ class VideoPlayer extends React.Component {
   }
 }
 VideoPlayer.defaultProps = {
-  thumbUrl : require('~/public/assets/no_video.png'),
-  videoUrl : require('~/public/assets/no_video.mp4'),
+  thumbUrl : '/defaults/no_video.png',
+  videoUrl : '/defaults/no_video.mp4',
   title: 'Titre',
   uploadDate: "26/06/2016",
   uploader: 'CTN',

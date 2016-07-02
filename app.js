@@ -35,8 +35,10 @@ const passportMiddleware = passport.authenticate('local', { failureRedirect: '/l
 const loggedIn = (req, res, next) => {
   if (req.isAuthenticated())
     next();
-  else
+  else {
+    req.session.redirectTo = req.path;
     res.redirect('/login');
+  }
 }
 
 // view engine setup
@@ -58,15 +60,19 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-app.get('/login', loggedIn, (req, res) => {
-  if (req.isAuthenticated()) res.redirect('/');
+app.get('/login', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.redirect(req.session.redirectTo || '/')
+    delete req.session.redirectTo;
+  }
   else res.render('login');
 });
 
 app.post("/login",
     passportMiddleware,
     function (req, res) {
-        res.redirect("/");
+      res.redirect(req.session.redirectTo || '/')
+      delete req.session.redirectTo;
 });
 
 app.get('/logout', (req, res) => {
@@ -92,8 +98,34 @@ app.get('/pret-matos', loggedIn, (req, res) => {
   res.render('materiel');
 });
 
-app.get('/ctn-asso', loggedIn, (req, res) => {
+app.get('/a-propos', (req, res) => {
   res.redirect('/');
+});
+
+app.get('/ctn-asso', loggedIn, (req, res, next) => {
+  if (req.user.admin)
+    res.redirect('/');
+  else next();
+});
+
+// Routes REST
+app.get('/ajax/header', (req, res) => {
+  if (!req.isAuthenticated())
+    return res.json([ { title: "Connexion", href: '/login' }, { title: "A propos", href: '/a-propos' } ]);
+  if (req.user.admin)
+    return res.json([
+            { title: "Mediapiston", href: '/mediapiston' },
+            { title: "Matériel", href: '/pret-matos' },
+            { title: "A propos", href: '/a-propos' },
+            { title: "Admin", href: '/ctn-asso' },
+            { title: "Déconnexion", href: '/logout', logout: true },
+           ]);
+  res.json([
+          { title: "Mediapiston", href: '/mediapiston' },
+          { title: "Matériel", href: '/pret-matos' },
+          { title: "A propos", href: '/a-propos' },
+          { title: "Déconnexion", href: '/logout', logout: true },
+        ]);
 });
 
 // 404

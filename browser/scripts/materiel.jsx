@@ -26,7 +26,7 @@ class Camera extends React.Component {
   }
 }
 Camera.defaultProps = {
-  thumbUrl : require('~/public/assets/gopro_4.jpg'),
+  thumbUrl : '/defaults/gopro_4.jpg',
   name: 'Clara - GoPro Hero 4',
   caution: '300€',
   disponible: true,
@@ -56,7 +56,7 @@ class MatosList extends React.Component {
 MatosList.defaultProps = {
   matosList: [
                 {
-                  thumbUrl : require('~/public/assets/gopro_4.jpg'),
+                  thumbUrl : '/defaults/gopro_4.jpg',
                   name: 'Clara - GoPro Hero 4',
                   disponible: true,
                   caution: '400€',
@@ -64,7 +64,7 @@ MatosList.defaultProps = {
                   id_materiel: 1
                 },
                 {
-                  thumbUrl : require('~/public/assets/gopro_4.jpg'),
+                  thumbUrl : '/defaults/gopro_4.jpg',
                   name: 'GoPro Hero 3',
                   disponible: false,
                   emprunteur: 'Antonio de Jesus Montez',
@@ -73,7 +73,7 @@ MatosList.defaultProps = {
                   id_materiel: 2
                 },
                 {
-                  thumbUrl : require('~/public/assets/gopro_4.jpg'),
+                  thumbUrl : '/defaults/gopro_4.jpg',
                   name: 'GoPro Hero 3',
                   disponible: false,
                   emprunteur: 'Antonio de Jesus Montez',
@@ -83,7 +83,7 @@ MatosList.defaultProps = {
                   id_materiel: 3
                 },
                 {
-                  thumbUrl : require('~/public/assets/gopro_4.jpg'),
+                  thumbUrl : '/defaults/gopro_4.jpg',
                   name: 'GoPro Hero 3',
                   disponible: true,
                   emprunteur: 'Antonio de Jesus Montez',

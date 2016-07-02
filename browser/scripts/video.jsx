@@ -21,7 +21,7 @@ class Video extends React.Component {
   }
 }
 Video.defaultProps = {
-  thumbUrl : require('~/public/assets/no_video.png'),
+  thumbUrl : '/defaults/no_video.png',
   title: 'Titre',
   uploadDate: "26/06/2016",
   uploader: 'CTN',
@@ -46,7 +46,7 @@ class VideoList extends React.Component {
 VideoList.defaultProps = {
   videoList: [
               {
-                thumbUrl : require('~/public/assets/no_video.png'),
+                thumbUrl : '/defaults/no_video.png',
                 title: 'Titre',
                 uploadDate: "26/06/2016",
                 uploader: 'CTN',
@@ -54,7 +54,7 @@ VideoList.defaultProps = {
                 url: '/mediapiston/watch/0'
               },
               {
-                thumbUrl : require('~/public/assets/no_video.png'),
+                thumbUrl : '/defaults/no_video.png',
                 title: 'Titre 2',
                 uploadDate: "27/06/2016",
                 uploader: 'CTN',
@@ -62,7 +62,7 @@ VideoList.defaultProps = {
                 url: '/mediapiston/watch/1'
               },
               {
-                thumbUrl : require('~/public/assets/no_video.png'),
+                thumbUrl : '/defaults/no_video.png',
                 title: 'Titre 3',
                 uploadDate: "27/06/2016",
                 uploader: 'CTN',

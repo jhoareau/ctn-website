@@ -8,7 +8,8 @@ class Header extends React.Component {
     return (
         <ul className="nav navbar-nav">{
           this.props.links.map((link) => {
-            let className = link.active ? 'nav-link active' : 'nav-link';
+            let active = window.location.pathname.indexOf(link.href) != -1;
+            let className = active ? 'nav-link active' : 'nav-link';
             if (link.logout) className += " text-danger";
             return (<li className="nav-item" key={link.href}>
                       <a href={link.href} className={className}>{link.title}</a>
@@ -20,11 +21,11 @@ class Header extends React.Component {
 }
 Header.defaultProps = {
   links: [
-          { title: "Mediapiston", href: '/mediapiston', active: false },
-          { title: "Matériel", href: '/pret-matos', active: false },
-          { title: "A propos", href: '/a-propos', active: false },
-          { title: "Admin", href: '/ctn-asso', active: false },
-          { title: "Déconnexion", href: '/logout', active: false, logout: true },
+          { title: "Mediapiston", href: '/mediapiston' },
+          { title: "Matériel", href: '/pret-matos' },
+          { title: "A propos", href: '/a-propos' },
+          { title: "Admin", href: '/ctn-asso' },
+          { title: "Déconnexion", href: '/logout', logout: true },
          ]
 };
 
