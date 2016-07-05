@@ -2,7 +2,8 @@ let mongoDB = require('./mongodb');
 let users = [
   {username: 'test_ctn', password: 'test_ctn'},
   {username: 'jhoareau', password: 'jhoareau'},
-  {username: 'zeroA', password: 'zeroA'}
+  {username: 'zeroA', password: 'zeroA'},
+  {username: 'antonio', password: 'antonio'}
 ];
 
 let serializeUser = (user, done) => {

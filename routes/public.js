@@ -31,14 +31,6 @@ router.get('/login/callback', loggedIn, (req, res) => {
   res.redirect('/');
 });
 
-router.get('/mediapiston', loggedIn, (req, res) => {
-  res.render('mediapiston_home');
-});
-
-router.get('/mediapiston/watch/:videoid', loggedIn, (req, res) => {
-  res.render('mediapiston_video');
-});
-
 router.get('/pret-matos', loggedIn, (req, res) => {
   res.render('materiel');
 });
