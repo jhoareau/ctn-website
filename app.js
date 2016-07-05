@@ -32,14 +32,7 @@ passport.use(new LocalStrategy({
 passport.serializeUser(Account.serializeUser);
 passport.deserializeUser(Account.deserializeUser);
 const passportMiddleware = passport.authenticate('local', { failureRedirect: '/login' });
-const loggedIn = (req, res, next) => {
-  if (req.isAuthenticated())
-    next();
-  else {
-    req.session.redirectTo = req.path;
-    res.redirect('/login');
-  }
-}
+//app.use(passport.authenticate('oauth2', { failureRedirect: '/login' }));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -55,78 +48,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, 'public')));
+let publicRoutes = require('./routes/public')(passportMiddleware);
+let restRoutes = require('./routes/public');
 
-app.get('/', (req, res) => {
-  res.render('index');
-});
-
-app.get('/login', (req, res) => {
-  if (req.isAuthenticated()) {
-    res.redirect(req.session.redirectTo || '/')
-    delete req.session.redirectTo;
-  }
-  else res.render('login');
-});
-
-app.post("/login",
-    passportMiddleware,
-    function (req, res) {
-      res.redirect(req.session.redirectTo || '/')
-      delete req.session.redirectTo;
-});
-
-app.get('/logout', (req, res) => {
-  req.logout();
-  res.redirect('/');
-});
-
-//app.use(passport.authenticate('oauth2', { failureRedirect: '/login' }));
-
-app.get('/login/callback', loggedIn, (req, res) => {
-  res.redirect('/');
-});
-
-app.get('/mediapiston', loggedIn, (req, res) => {
-  res.render('mediapiston_home');
-});
-
-app.get('/mediapiston/watch/:videoid', loggedIn, (req, res) => {
-  res.render('mediapiston_video');
-});
-
-app.get('/pret-matos', loggedIn, (req, res) => {
-  res.render('materiel');
-});
-
-app.get('/a-propos', (req, res) => {
-  res.redirect('/');
-});
-
-app.get('/ctn-asso', loggedIn, (req, res, next) => {
-  if (req.user.admin)
-    res.redirect('/');
-  else next();
-});
-
-// Routes REST
-app.get('/ajax/header', (req, res) => {
-  if (!req.isAuthenticated())
-    return res.json([ { title: "Connexion", href: '/login' }, { title: "A propos", href: '/a-propos' } ]);
-  if (req.user.admin)
-    return res.json([
-            { title: "Mediapiston", href: '/mediapiston' },
-            { title: "Matériel", href: '/pret-matos' },
-            { title: "A propos", href: '/a-propos' },
-            { title: "Admin", href: '/ctn-asso' },
-            { title: "Déconnexion", href: '/logout', logout: true },
-           ]);
-  res.json([
-          { title: "Mediapiston", href: '/mediapiston' },
-          { title: "Matériel", href: '/pret-matos' },
-          { title: "A propos", href: '/a-propos' },
-          { title: "Déconnexion", href: '/logout', logout: true },
-        ]);
-});
+app.use('/', publicRoutes);
+app.use('/ajax', restRoutes);
 
 // 404
 app.use((req, res) => {
