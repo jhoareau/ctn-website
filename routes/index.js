@@ -1,10 +1,24 @@
-var models = require(__dirname + "/../models/")
-var mediapiston = require(__dirname + "/mediapiston.js");
+let models = require(__dirname + "/../models/")
+let mediapiston = require(__dirname + "/mediapiston.js");
+let matos = require(__dirname + "/matos.js");
+let login = require(__dirname + "/user.js");
+let admin = require(__dirname + "/admin.js");
+
+const loggedIn = (req, res, next) => {
+  if (req.isAuthenticated())
+    next();
+  else {
+    req.session.redirectTo = req.path;
+    res.redirect('/login');
+  }
+}
 
 exports.create = function (app) {
 
 	mediapiston.createRoutes(app);
-	
+	matos.createRoutes(app);
+	login.createRoutes(app);
+	admin.createRoutes(app);
 }
 
 exports.loadUser = function(req, res, next) {

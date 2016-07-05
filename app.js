@@ -50,14 +50,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, 'public')));
-let publicRoutes = require('./routes/public')(passportMiddleware);
-let restRoutes = require('./routes/public');
+//let publicRoutes = require('./routes/public')(passportMiddleware);
+//let restRoutes = require('./routes/public');
 app.use(app.router);
 
 routes.create(app);
 
-app.use('/', publicRoutes);
-app.use('/ajax', restRoutes);
+//app.use('/', publicRoutes);
+//app.use('/ajax', restRoutes);
 
 // 404
 app.use((req, res) => {
