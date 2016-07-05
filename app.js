@@ -39,8 +39,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.locals.pretty = true; //app.get('env') === 'development';
 
-var routes = require(__dirname + '/routes');
-
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -50,14 +48,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, 'public')));
-//let publicRoutes = require('./routes/public')(passportMiddleware);
-//let restRoutes = require('./routes/public');
-app.use(app.router);
+let publicRoutes = require('./routes/public')(passportMiddleware);
+let restRoutes = require('./routes/public');
 
-routes.create(app);
-
-//app.use('/', publicRoutes);
-//app.use('/ajax', restRoutes);
+app.use('/', publicRoutes);
+app.use('/ajax', restRoutes);
 
 // 404
 app.use((req, res) => {
