@@ -35,13 +35,20 @@ class VideoList extends React.Component {
     super(props);
   }
   render() {
-    return (
-      <div className="videoList">
-        {this.props.videoList.map((videoObject) => {
-          return <Video {...videoObject} key={videoObject._id} />
-        })}
-      </div>
-    );
+    if (this.props.videoList.length > 0)
+      return (
+        <div className="videoList">
+          {this.props.videoList.map((videoObject) => {
+            return <Video {...videoObject} key={videoObject._id} />
+          })}
+        </div>
+      );
+    else
+      return (
+        <div className="alert alert-warning" role="alert">
+          Il n'y a pas de vidéos correspondant à ces critères...
+        </div>
+      );
   }
 }
 VideoList.defaultProps = {

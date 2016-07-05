@@ -32000,12 +32000,16 @@
 	  _createClass(VideoList, [{
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(
+	      if (this.props.videoList.length > 0) return _react2.default.createElement(
 	        'div',
 	        { className: 'videoList' },
 	        this.props.videoList.map(function (videoObject) {
 	          return _react2.default.createElement(Video, _extends({}, videoObject, { key: videoObject._id }));
 	        })
+	      );else return _react2.default.createElement(
+	        'div',
+	        { className: 'alert alert-warning', role: 'alert' },
+	        'Il n\'y a pas de vidéos correspondant à ces critères...'
 	      );
 	    }
 	  }]);
