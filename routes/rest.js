@@ -1,5 +1,15 @@
 let express = require('express');
 let router = express.Router();
+let mongodb = require('../models/mongodb.js');
+
+const loggedIn = (req, res, next) => {
+  if (req.isAuthenticated())
+    next();
+  else {
+    req.session.redirectTo = req.path;
+    res.redirect('/login');
+  }
+}
 
 // Routes REST
 router.get('/header', (req, res) => {
@@ -19,6 +29,13 @@ router.get('/header', (req, res) => {
           { title: "A propos", href: '/a-propos' },
           { title: "Déconnexion", href: '/logout', logout: true },
         ]);
+});
+
+router.get('/videoList', loggedIn, (req, res) => {
+  mongodb.returnListVideos(null, data => {
+    if (data === null) data = [];
+    return res.json(data);
+  });
 });
 
 module.exports = router;

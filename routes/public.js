@@ -54,7 +54,7 @@ router.get('/ctn-asso', loggedIn, (req, res, next) => {
 });
 
 module.exports = (passportMiddleware) => {
-  router.use(passportMiddleware);
+  router.post('/login', passportMiddleware);
   router.post('/login',
       function (req, res) {
         res.redirect(req.session.redirectTo || '/')

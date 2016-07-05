@@ -10,7 +10,7 @@ class Video extends React.Component {
     if (description.length > 150) description = description.substring(0, 147) + "...";
     return (
       <div className="card">
-        <a href={this.props.url} className="cardLink"><img className="card-img-top" src={this.props.thumbUrl} alt="Miniature" /></a>
+        <a href={'/mediapiston/watch/' + this.props._id} className="cardLink"><img className="card-img-top" src={this.props.thumbUrl} alt="Miniature" /></a>
         <div className="card-block">
           <h4 className="card-title">{this.props.title}</h4>
           <p className="card-text">{description}</p>
@@ -26,7 +26,8 @@ Video.defaultProps = {
   uploadDate: "26/06/2016",
   uploader: 'CTN',
   description: 'Vidéo Mediapiston',
-  url: '/mediapiston/watch/0'
+  url: '/mediapiston/watch/null',
+  _id: null
 };
 
 class VideoList extends React.Component {
@@ -37,7 +38,7 @@ class VideoList extends React.Component {
     return (
       <div className="videoList">
         {this.props.videoList.map((videoObject) => {
-          return <Video {...videoObject} key={videoObject.url} />
+          return <Video {...videoObject} key={videoObject._id} />
         })}
       </div>
     );
@@ -51,7 +52,7 @@ VideoList.defaultProps = {
                 uploadDate: "26/06/2016",
                 uploader: 'CTN',
                 description: 'Vidéo Mediapiston',
-                url: '/mediapiston/watch/0'
+                _id: 0
               },
               {
                 thumbUrl : '/defaults/no_video.png',
@@ -59,7 +60,7 @@ VideoList.defaultProps = {
                 uploadDate: "27/06/2016",
                 uploader: 'CTN',
                 description: 'Vidéo 2 Mediapiston',
-                url: '/mediapiston/watch/1'
+                _id: 1
               },
               {
                 thumbUrl : '/defaults/no_video.png',
@@ -67,7 +68,7 @@ VideoList.defaultProps = {
                 uploadDate: "27/06/2016",
                 uploader: 'CTN',
                 description: 'Vidéo 3 Mediapiston',
-                url: '/mediapiston/watch/2'
+                _id: 2
               }
             ]
 };

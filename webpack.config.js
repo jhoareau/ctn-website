@@ -34,7 +34,7 @@ module.exports = {
             { test: /(\.css$)/, loaders: ['style', 'postcss-loader', 'css'] },
             { test: /\.sass$/, loaders: ["style", "css", "postcss-loader", "sass"] },
             { test: /\.scss$/, loaders: ["style", "css", "postcss-loader", "sass"] },
-            { test: /\.(eot|woff|woff2|ttf|svg|png|jpg|mp4)(\?\S*)?$/, loader: 'file?name=[name].[ext]' },
+            { test: /\.(eot|woff|woff2|ttf|svg|png|jpg|mp4|svg)(\?\S*)?$/, loader: 'file?name=[name].[ext]' },
         ]
     },
     postcss: function () {

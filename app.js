@@ -49,7 +49,7 @@ app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, 'public')));
 let publicRoutes = require('./routes/public')(passportMiddleware);
-let restRoutes = require('./routes/public');
+let restRoutes = require('./routes/rest');
 
 app.use('/', publicRoutes);
 app.use('/ajax', restRoutes);
