@@ -3,6 +3,7 @@ let mediapiston = require(__dirname + "/mediapiston.js");
 let matos = require(__dirname + "/matos.js");
 let login = require(__dirname + "/user.js");
 let admin = require(__dirname + "/admin.js");
+let apropos = require(__dirname + "/apropos.js");
 
 const loggedIn = (req, res, next) => {
   if (req.isAuthenticated())
@@ -19,8 +20,10 @@ exports.create = function (app) {
 	matos.createRoutes(app);
 	login.createRoutes(app);
 	admin.createRoutes(app);
+	apropos.createRoutes(app);
 }
 
+//pense-bête, à remplacer
 exports.loadUser = function(req, res, next) {
     if (req.param('token') || req.cookies.sessionToken)
     {
