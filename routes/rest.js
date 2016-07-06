@@ -11,6 +11,18 @@ const loggedIn = (req, res, next) => {
   }
 }
 
+const isAdmin = (req, res, next) => {
+  if (req.isAuthenticated() && req.user.admin)
+    next();
+  else {
+    res.status(404);
+    res.render('error', {
+        message: 'Page non trouvée !',
+        error: {}
+    });
+  }
+}
+
 // Routes REST
 router.get('/header', (req, res) => {
   if (!req.isAuthenticated())
@@ -36,6 +48,35 @@ router.get('/videoList', loggedIn, (req, res) => {
     if (data === null) data = [];
     return res.json(data);
   });
+});
+
+router.get('/video/:id', loggedIn, (req, res) => {
+  mongodb.returnListVideos(req.params.id, data => {
+    if (data === null) data = {};
+    return res.json(data);
+  });
+});
+
+router.get('/matosList/public', loggedIn, (req, res) => {
+  mongodb.returnListMateriel(null, data => {
+    if (data === null) data = [];
+    return res.json(data);
+  });
+});
+
+router.get('/matosList/admin', isAdmin, (req, res) => {
+  mongodb.returnListMateriel(true, data => {
+    if (data === null) data = [];
+    return res.json(data);
+  });
+});
+
+router.post('/matosList/update/:id', isAdmin, (req, res) => {
+  mongodb.updateMateriel(req.params.id, req.body, answer => res.json(answer));
+});
+
+router.put('/matosList/add', isAdmin, (req, res) => {
+  mongodb.addMateriel(req.body, answer => res.json(answer));
 });
 
 module.exports = router;

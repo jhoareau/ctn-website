@@ -100,7 +100,7 @@
 	
 	var _materiel2 = _interopRequireDefault(_materiel);
 	
-	var _video_player = __webpack_require__(/*! ./video_player.jsx */ 312);
+	var _video_player = __webpack_require__(/*! ./video_player.jsx */ 316);
 	
 	var _video_player2 = _interopRequireDefault(_video_player);
 	
@@ -115,8 +115,8 @@
 	});
 	
 	if (window.location.pathname === '/mediapiston' | window.location.pathname === '/mediapiston/') {
-	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 313);
-	  __webpack_require__(/*! ~/browser/styles/search.sass */ 315);
+	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 317);
+	  __webpack_require__(/*! ~/browser/styles/search.sass */ 319);
 	
 	  // Récupération liste des vidéos
 	  _jquery2.default.get('/ajax/videoList', function (data) {
@@ -126,24 +126,24 @@
 	}
 	
 	if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
-	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 313);
-	  __webpack_require__(/*! ~/browser/styles/search.sass */ 315);
+	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 317);
+	  __webpack_require__(/*! ~/browser/styles/search.sass */ 319);
 	
 	  // Lecteur Vidéo HTML5
-	  var Plyr = __webpack_require__(/*! ~/~/plyr/dist/plyr.js */ 317);
-	  __webpack_require__(/*! ~/~/plyr/src/scss/plyr.scss */ 318);
+	  var Plyr = __webpack_require__(/*! ~/~/plyr/dist/plyr.js */ 321);
+	  __webpack_require__(/*! ~/~/plyr/src/scss/plyr.scss */ 322);
 	
 	  // VideoPlayer React
 	  (0, _reactDom.render)(_react2.default.createElement(_video_player2.default, null), document.getElementById('videoContent'));
 	
 	  // Attacher lecteur à la balise <video>
-	  __webpack_require__(/*! ./videoplayer_setup */ 320)(Plyr);
+	  __webpack_require__(/*! ./videoplayer_setup */ 324)(Plyr);
 	}
 	
 	if (window.location.pathname === '/pret-matos' | window.location.pathname === '/pret-matos/') {
-	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 313);
-	  __webpack_require__(/*! ~/browser/styles/search.sass */ 315);
-	  __webpack_require__(/*! ~/browser/styles/cards_animations.sass */ 329);
+	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 317);
+	  __webpack_require__(/*! ~/browser/styles/search.sass */ 319);
+	  __webpack_require__(/*! ~/browser/styles/cards_animations.sass */ 326);
 	
 	  (0, _reactDom.render)(_react2.default.createElement(_materiel2.default, null), document.getElementById('matosList'));
 	}
@@ -47055,9 +47055,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactAddonsCssTransitionGroup = __webpack_require__(/*! react-addons-css-transition-group */ 322);
+	var _reactCssTransitionReplace = __webpack_require__(/*! react-css-transition-replace */ 312);
 	
-	var _reactAddonsCssTransitionGroup2 = _interopRequireDefault(_reactAddonsCssTransitionGroup);
+	var _reactCssTransitionReplace2 = _interopRequireDefault(_reactCssTransitionReplace);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -47087,12 +47087,14 @@
 	  _createClass(Camera, [{
 	    key: 'openDescription',
 	    value: function openDescription() {
-	      this.setState({ description: true, height: document.getElementsByClassName('card-img-top')[0].clientHeight });
+	      this.setState({ description: true });
+	      this.forceUpdate();
 	    }
 	  }, {
 	    key: 'closeDescription',
 	    value: function closeDescription() {
 	      this.setState({ description: false });
+	      this.forceUpdate();
 	    }
 	  }, {
 	    key: 'validerReservation',
@@ -47103,16 +47105,15 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+	
 	      var cardImgContent = null;
 	      if (!this.state.description) {
 	        cardImgContent = _react2.default.createElement('img', { className: 'card-img-top', src: this.props.thumbUrl, alt: 'Caméra', key: "img" + this.props.id_materiel });
 	      } else {
-	        var style = {
-	          height: this.state.height
-	        };
 	        cardImgContent = _react2.default.createElement(
 	          'div',
-	          { className: 'card-block', key: "desc" + this.props.id_materiel, style: style },
+	          { className: 'card-block', key: "desc" + this.props.id_materiel },
 	          _react2.default.createElement(
 	            'p',
 	            { className: 'card-text' },
@@ -47121,12 +47122,25 @@
 	        );
 	      }
 	
+	      var emprunteOuReserve = !this.props.disponible;
+	      var index = 0;
+	      var emprunte = emprunteOuReserve && !this.props.historique.length === 0 && this.props.historique.reverse()[0].valide;
+	      var reserve = emprunteOuReserve && (this.props.historique.length === 0 || !this.props.historique.reverse()[0].valide);
+	      // Pour accéder à l'historique
+	      var emprunt = function emprunt(i) {
+	        return {
+	          nom: _this2.props.historique.reverse()[i].emprunteur,
+	          date: _this2.props.historique.reverse()[i].date_emprunt,
+	          responsable: _this2.props.historique.reverse()[i].responsable_emprunt
+	        };
+	      };
+	
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'card', onMouseEnter: this.openDescription, onMouseLeave: this.closeDescription },
+	        { className: 'card', onMouseEnter: this.openDescription, onMouseLeave: this.closeDescription, 'data-id': this.props._id },
 	        _react2.default.createElement(
-	          _reactAddonsCssTransitionGroup2.default,
-	          { transitionName: 'description' },
+	          _reactCssTransitionReplace2.default,
+	          { transitionName: 'cross-fade', transitionLeave: false, transitionEnterTimeout: 100 },
 	          cardImgContent
 	        ),
 	        _react2.default.createElement(
@@ -47143,56 +47157,48 @@
 	            'Caution : ',
 	            this.props.caution
 	          ),
-	          !this.props.disponible && this.props.responsable_emprunt ? _react2.default.createElement(
+	          emprunte ? _react2.default.createElement(
 	            'p',
 	            { className: 'card-text' },
 	            'Empruntée par ',
-	            this.props.emprunteur,
+	            emprunt(index).nom,
 	            ' le ',
-	            this.props.date_emprunt,
+	            emprunt(index).date,
 	            _react2.default.createElement('br', null),
 	            'Responsable : ',
-	            this.props.responsable_emprunt
+	            emprunt(index).responsable
 	          ) : null,
-	          !this.props.disponible && this.props.responsable_emprunt && !this.props.rendu_le ? _react2.default.createElement(
+	          emprunte ? _react2.default.createElement(
 	            'button',
-	            { className: 'btn btn-danger', 'data-id': this.props.id_materiel, onClick: this.closeReservation },
+	            { className: 'btn btn-danger', onClick: this.closeReservation },
 	            'Rendre matériel'
 	          ) : null,
-	          !this.props.disponible && !this.props.responsable_emprunt ? _react2.default.createElement(
+	          reserve ? _react2.default.createElement(
 	            'p',
 	            { className: 'card-text' },
 	            'Réservée par ',
-	            this.props.emprunteur,
+	            emprunt(index).nom,
 	            ' le ',
-	            this.props.date_emprunt
+	            emprunt(index).date
 	          ) : null,
-	          !this.props.disponible && !this.props.responsable_emprunt ? _react2.default.createElement(
+	          reserve ? _react2.default.createElement(
 	            'button',
-	            { className: 'btn btn-success', 'data-id': this.props.id_materiel, onClick: this.validerReservation },
+	            { className: 'btn btn-success', onClick: this.validerReservation },
 	            'Valider réservation'
 	          ) : null,
-	          !this.props.disponible && !this.props.responsable_emprunt ? _react2.default.createElement(
+	          reserve ? _react2.default.createElement(
 	            'button',
-	            { className: 'btn btn-danger', 'data-id': this.props.id_materiel, onClick: this.closeReservation },
+	            { className: 'btn btn-danger', onClick: this.closeReservation },
 	            'Annuler réservation'
 	          ) : null,
-	          this.props.rendu_le ? _react2.default.createElement(
-	            'p',
-	            { className: 'card-text' },
-	            'Rendu le ',
-	            this.props.rendu_le,
-	            ' avec ',
-	            this.props.responsable_rendu
-	          ) : null,
-	          this.props.disponible && !this.props.rendu_le ? _react2.default.createElement(
+	          !emprunteOuReserve ? _react2.default.createElement(
 	            'p',
 	            { className: 'card-text materielDispo' },
 	            'Disponible !'
 	          ) : null,
-	          this.props.disponible && !this.props.rendu_le ? _react2.default.createElement(
+	          !emprunteOuReserve ? _react2.default.createElement(
 	            'button',
-	            { className: 'btn btn-primary', 'data-id': this.props.id_materiel, onClick: this.openReservation },
+	            { className: 'btn btn-primary', onClick: this.openReservation },
 	            'Réserver'
 	          ) : null
 	        )
@@ -47209,13 +47215,8 @@
 	  description: 'Caméra CTN',
 	  caution: '300€',
 	  disponible: true,
-	  emprunteur: null,
-	  date_emprunt: null,
-	  responsable_emprunt: null,
-	  id_materiel: 0,
-	  id_histo: null,
-	  rendu_le: null,
-	  responsable_rendu: null
+	  historique: [],
+	  showHistorique: true
 	};
 	
 	var MatosList = function (_React$Component2) {
@@ -47234,7 +47235,7 @@
 	        'div',
 	        { className: 'matosList' },
 	        this.props.matosList.map(function (cameraObject) {
-	          return _react2.default.createElement(Camera, _extends({}, cameraObject, { key: cameraObject.id_materiel + cameraObject.id_histo }));
+	          return _react2.default.createElement(Camera, _extends({}, cameraObject, { key: JSON.stringify(cameraObject) }));
 	        })
 	      );
 	    }
@@ -47245,45 +47246,25 @@
 	
 	MatosList.defaultProps = {
 	  matosList: [{
-	    thumbUrl: '/defaults/gopro_4.jpg',
-	    name: 'Clara - GoPro Hero 4',
-	    description: 'Caméra CTN',
-	    disponible: true,
-	    caution: '400€',
-	    id_histo: null,
-	    id_materiel: 1
+	    caution: '400€'
 	  }, {
-	    thumbUrl: '/defaults/gopro_4.jpg',
 	    name: 'GoPro Hero 3',
 	    description: 'Caméra CTN moins bien',
 	    disponible: false,
-	    emprunteur: 'Antonio de Jesus Montez',
-	    date_emprunt: '27/06/2016',
-	    id_histo: null,
-	    id_materiel: 2
+	    historique: [{
+	      emprunteur: 'Antonio de Jesus Montez',
+	      date_emprunt: '27/06/2016',
+	      valide: false
+	    }]
 	  }, {
-	    thumbUrl: '/defaults/gopro_4.jpg',
 	    name: 'GoPro Hero 3',
 	    description: 'Caméra CTN moins bien',
 	    disponible: false,
-	    emprunteur: 'Antonio de Jesus Montez',
-	    date_emprunt: '27/06/2016',
-	    responsable_emprunt: 'Akelo',
-	    id_histo: 'ghi',
-	    id_materiel: 3
-	  }, {
-	    thumbUrl: '/defaults/gopro_4.jpg',
-	    name: 'GoPro Hero 2',
-	    description: 'Caméra CTN pas bien',
-	    caution: '250€',
-	    disponible: false,
-	    emprunteur: 'Antonio de Jesus Montez',
-	    date_emprunt: '27/06/2016',
-	    responsable_emprunt: 'Akelo',
-	    rendu_le: '28/06/2016',
-	    responsable_rendu: 'Khynder',
-	    id_histo: 'jkl',
-	    id_materiel: 4
+	    historique: [{
+	      emprunteur: 'Antonio de Jesus Montez',
+	      date_emprunt: '28/06/2016',
+	      valide: true
+	    }]
 	  }]
 	};
 	
@@ -47291,322 +47272,54 @@
 
 /***/ },
 /* 312 */
-/*!******************************************!*\
-  !*** ./browser/scripts/video_player.jsx ***!
-  \******************************************/
+/*!*************************************************************************!*\
+  !*** ./~/react-css-transition-replace/lib/ReactCSSTransitionReplace.js ***!
+  \*************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
+	/**
+	 * Adapted from ReactCSSTransitionGroup.js by Facebook
+	 *
+	 * @providesModule ReactCSSTransitionReplace
+	 */
+	
 	'use strict';
 	
-	Object.defineProperty(exports, "__esModule", {
+	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var _react = __webpack_require__(/*! react */ 15);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _moment = __webpack_require__(/*! moment */ 207);
+	var _reactDom = __webpack_require__(/*! react-dom */ 47);
 	
-	var moment = _interopRequireWildcard(_moment);
+	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	var _objectAssign = __webpack_require__(/*! object-assign */ 18);
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _objectAssign2 = _interopRequireDefault(_objectAssign);
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var _reactLibReactCSSTransitionGroupChild = __webpack_require__(/*! react/lib/ReactCSSTransitionGroupChild */ 313);
 	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	var _reactLibReactCSSTransitionGroupChild2 = _interopRequireDefault(_reactLibReactCSSTransitionGroupChild);
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	var reactCSSTransitionGroupChild = _react2['default'].createFactory(_reactLibReactCSSTransitionGroupChild2['default']);
 	
-	var VideoPlayer = function (_React$Component) {
-	  _inherits(VideoPlayer, _React$Component);
-	
-	  function VideoPlayer(props) {
-	    _classCallCheck(this, VideoPlayer);
-	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(VideoPlayer).call(this, props));
-	  }
-	
-	  _createClass(VideoPlayer, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'videoPlayer container' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'row' },
-	          _react2.default.createElement('video', { poster: this.props.thumbUrl, src: this.props.videoUrl, controls: 'true' })
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'row videoDetails' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'col-md-8' },
-	            _react2.default.createElement(
-	              'h3',
-	              null,
-	              this.props.title
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'col-md-4' },
-	            _react2.default.createElement(
-	              'p',
-	              null,
-	              'Mis en ligne le ',
-	              this.props.uploadDate,
-	              ' par ',
-	              this.props.uploader,
-	              _react2.default.createElement('br', null),
-	              _react2.default.createElement(
-	                'small',
-	                null,
-	                this.props.views,
-	                ' vues'
-	              )
-	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'row videoDescription' },
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            this.props.description
-	          )
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return VideoPlayer;
-	}(_react2.default.Component);
-	
-	VideoPlayer.defaultProps = {
-	  thumbUrl: '/defaults/no_video.png',
-	  videoUrl: '/defaults/no_video.mp4',
-	  title: 'Titre',
-	  uploadDate: "26/06/2016",
-	  uploader: 'CTN',
-	  description: 'Vidéo Mediapiston',
-	  views: 0
-	};
-	
-	exports.default = VideoPlayer;
-
-/***/ },
-/* 313 */
-/*!***********************************!*\
-  !*** ./browser/styles/cards.sass ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./cards.sass */ 314);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 190)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./cards.sass", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./cards.sass");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 314 */
-/*!*************************************************************************************!*\
-  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/cards.sass ***!
-  \*************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 189)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "#videosList, #matosList {\n  text-align: center; }\n\n.videoList .card {\n  margin: 20px;\n  -webkit-box-flex: 2;\n      -ms-flex-positive: 2;\n          flex-grow: 2;\n  -ms-flex-preferred-size: 400px;\n      flex-basis: 400px; }\n\n.matosList .card {\n  margin: 20px;\n  -webkit-box-flex: 2;\n      -ms-flex-positive: 2;\n          flex-grow: 2;\n  -ms-flex-preferred-size: 200px;\n      flex-basis: 200px; }\n\n.card-img-top {\n  width: 100%;\n  height: auto; }\n\na.cardLink, a.cardLink:hover {\n  text-decoration: none;\n  color: black; }\n\n.videoList, .matosList {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 80%;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  margin: auto;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center; }\n\n.materielDispo {\n  color: #3c763d; }\n\n.videoPlayer {\n  margin-top: 20px; }\n\n.videoDetails {\n  margin-top: 1em; }\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 315 */
-/*!************************************!*\
-  !*** ./browser/styles/search.sass ***!
-  \************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./search.sass */ 316);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 190)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./search.sass", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./search.sass");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 316 */
-/*!**************************************************************************************!*\
-  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/search.sass ***!
-  \**************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 189)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "#searchBox {\n  width: 100%;\n  margin-top: 10px;\n  text-align: center;\n  margin-bottom: 10px; }\n\n#searchBox form input {\n  width: 400px;\n  height: 45px; }\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 317 */
-/*!*****************************!*\
-  !*** ./~/plyr/dist/plyr.js ***!
-  \*****************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.exports=t(e,document): true?!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){t(e,document)}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):e.plyr=t(e,document)}("undefined"!=typeof window?window:this,function(e,t){"use strict";function n(){var e,n,r,a=navigator.userAgent,s=navigator.appName,o=""+parseFloat(navigator.appVersion),i=parseInt(navigator.appVersion,10),l=!1,u=!1,c=!1,p=!1;return-1!==navigator.appVersion.indexOf("Windows NT")&&-1!==navigator.appVersion.indexOf("rv:11")?(l=!0,s="IE",o="11"):-1!==(n=a.indexOf("MSIE"))?(l=!0,s="IE",o=a.substring(n+5)):-1!==(n=a.indexOf("Chrome"))?(c=!0,s="Chrome",o=a.substring(n+7)):-1!==(n=a.indexOf("Safari"))?(p=!0,s="Safari",o=a.substring(n+7),-1!==(n=a.indexOf("Version"))&&(o=a.substring(n+8))):-1!==(n=a.indexOf("Firefox"))?(u=!0,s="Firefox",o=a.substring(n+8)):(e=a.lastIndexOf(" ")+1)<(n=a.lastIndexOf("/"))&&(s=a.substring(e,n),o=a.substring(n+1),s.toLowerCase()==s.toUpperCase()&&(s=navigator.appName)),-1!==(r=o.indexOf(";"))&&(o=o.substring(0,r)),-1!==(r=o.indexOf(" "))&&(o=o.substring(0,r)),i=parseInt(""+o,10),isNaN(i)&&(o=""+parseFloat(navigator.appVersion),i=parseInt(navigator.appVersion,10)),{name:s,version:i,isIE:l,isFirefox:u,isChrome:c,isSafari:p,isIos:/(iPad|iPhone|iPod)/g.test(navigator.platform),isTouch:"ontouchstart"in t.documentElement}}function r(e,t){var n=e.media;if("video"==e.type)switch(t){case"video/webm":return!(!n.canPlayType||!n.canPlayType('video/webm; codecs="vp8, vorbis"').replace(/no/,""));case"video/mp4":return!(!n.canPlayType||!n.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/,""));case"video/ogg":return!(!n.canPlayType||!n.canPlayType('video/ogg; codecs="theora"').replace(/no/,""))}else if("audio"==e.type)switch(t){case"audio/mpeg":return!(!n.canPlayType||!n.canPlayType("audio/mpeg;").replace(/no/,""));case"audio/ogg":return!(!n.canPlayType||!n.canPlayType('audio/ogg; codecs="vorbis"').replace(/no/,""));case"audio/wav":return!(!n.canPlayType||!n.canPlayType('audio/wav; codecs="1"').replace(/no/,""))}return!1}function a(e){if(!t.querySelectorAll('script[src="'+e+'"]').length){var n=t.createElement("script");n.src=e;var r=t.getElementsByTagName("script")[0];r.parentNode.insertBefore(n,r)}}function s(e,t){return Array.prototype.indexOf&&-1!=e.indexOf(t)}function o(e,t,n){return e.replace(new RegExp(t.replace(/([.*+?\^=!:${}()|\[\]\/\\])/g,"\\$1"),"g"),n)}function i(e,t){e.length||(e=[e]);for(var n=e.length-1;n>=0;n--){var r=n>0?t.cloneNode(!0):t,a=e[n],s=a.parentNode,o=a.nextSibling;return r.appendChild(a),o?s.insertBefore(r,o):s.appendChild(r),r}}function l(e){for(var t=e.parentNode;e.firstChild;)t.insertBefore(e.firstChild,e);t.removeChild(e)}function u(e){e&&e.parentNode.removeChild(e)}function c(e,t){e.insertBefore(t,e.firstChild)}function p(e,t){for(var n in t)e.setAttribute(n,"boolean"==typeof t[n]&&t[n]?"":t[n])}function d(e,n,r){var a=t.createElement(e);p(a,r),c(n,a)}function A(e){return e.replace(".","")}function m(e,t,n){if(e)if(e.classList)e.classList[n?"add":"remove"](t);else{var r=(" "+e.className+" ").replace(/\s+/g," ").replace(" "+t+" ","");e.className=r+(n?" "+t:"")}}function f(e,t){return e?e.classList?e.classList.contains(t):new RegExp("(\\s|^)"+t+"(\\s|$)").test(e.className):!1}function y(e,n){var r=Element.prototype,a=r.matches||r.webkitMatchesSelector||r.mozMatchesSelector||r.msMatchesSelector||function(e){return-1!==[].indexOf.call(t.querySelectorAll(e),this)};return a.call(e,n)}function b(e,t,n,r){e&&h(e,t,n,!0,r)}function v(e,t,n,r){e&&h(e,t,n,!1,r)}function g(e,t,n,r,a){b(e,t,function(t){n&&n.apply(e,[t]),r.apply(e,[t])},a)}function h(e,t,n,r,a){var s=t.split(" ");if("boolean"!=typeof a&&(a=!1),e instanceof NodeList)for(var o=0;o<e.length;o++)e[o]instanceof Node&&h(e[o],arguments[1],arguments[2],arguments[3]);else for(var i=0;i<s.length;i++)e[r?"addEventListener":"removeEventListener"](s[i],n,a)}function k(e,t,n,r){if(e&&t){"boolean"!=typeof n&&(n=!1);var a=new CustomEvent(t,{bubbles:n,detail:r});e.dispatchEvent(a)}}function w(e,t){return e?(t="boolean"==typeof t?t:!e.getAttribute("aria-pressed"),e.setAttribute("aria-pressed",t),t):void 0}function x(e,t){return 0===e||0===t||isNaN(e)||isNaN(t)?0:(e/t*100).toFixed(2)}function T(){var e=arguments;if(e.length){if(1==e.lenth)return e[0];for(var t=Array.prototype.shift.call(e),n=e.length,r=0;n>r;r++){var a=e[r];for(var s in a)a[s]&&a[s].constructor&&a[s].constructor===Object?(t[s]=t[s]||{},T(t[s],a[s])):t[s]=a[s]}return t}}function E(){var e={supportsFullScreen:!1,isFullScreen:function(){return!1},requestFullScreen:function(){},cancelFullScreen:function(){},fullScreenEventName:"",element:null,prefix:""},n="webkit moz o ms khtml".split(" ");if("undefined"!=typeof t.cancelFullScreen)e.supportsFullScreen=!0;else for(var r=0,a=n.length;a>r;r++){if(e.prefix=n[r],"undefined"!=typeof t[e.prefix+"CancelFullScreen"]){e.supportsFullScreen=!0;break}if("undefined"!=typeof t.msExitFullscreen&&t.msFullscreenEnabled){e.prefix="ms",e.supportsFullScreen=!0;break}}return e.supportsFullScreen&&(e.fullScreenEventName="ms"==e.prefix?"MSFullscreenChange":e.prefix+"fullscreenchange",e.isFullScreen=function(e){switch("undefined"==typeof e&&(e=t.body),this.prefix){case"":return t.fullscreenElement==e;case"moz":return t.mozFullScreenElement==e;default:return t[this.prefix+"FullscreenElement"]==e}},e.requestFullScreen=function(e){return"undefined"==typeof e&&(e=t.body),""===this.prefix?e.requestFullScreen():e[this.prefix+("ms"==this.prefix?"RequestFullscreen":"RequestFullScreen")]()},e.cancelFullScreen=function(){return""===this.prefix?t.cancelFullScreen():t[this.prefix+("ms"==this.prefix?"ExitFullscreen":"CancelFullScreen")]()},e.element=function(){return""===this.prefix?t.fullscreenElement:t[this.prefix+"FullscreenElement"]}),e}function _(){var t={supported:function(){if(!("localStorage"in e))return!1;try{e.localStorage.setItem("___test","OK");var t=e.localStorage.getItem("___test");return e.localStorage.removeItem("___test"),"OK"===t}catch(n){return!1}return!1}()};return t}function C(y,h){function T(){h.debug&&e.console&&console.log.apply(console,arguments)}function C(){h.debug&&e.console&&console.warn.apply(console,arguments)}function I(){return{url:h.iconUrl,absolute:0===h.iconUrl.indexOf("http")||Oe.browser.isIE}}function P(){var e=[],t=I(),n=(t.absolute?"":t.url)+"#"+h.iconPrefix;return s(h.controls,"play-large")&&e.push('<button type="button" data-plyr="play" class="plyr__play-large">','<svg><use xlink:href="'+n+'-play" /></svg>','<span class="plyr__sr-only">'+h.i18n.play+"</span>","</button>"),e.push('<div class="plyr__controls">'),s(h.controls,"restart")&&e.push('<button type="button" data-plyr="restart">','<svg><use xlink:href="'+n+'-restart" /></svg>','<span class="plyr__sr-only">'+h.i18n.restart+"</span>","</button>"),s(h.controls,"rewind")&&e.push('<button type="button" data-plyr="rewind">','<svg><use xlink:href="'+n+'-rewind" /></svg>','<span class="plyr__sr-only">'+h.i18n.rewind+"</span>","</button>"),s(h.controls,"play")&&e.push('<button type="button" data-plyr="play">','<svg><use xlink:href="'+n+'-play" /></svg>','<span class="plyr__sr-only">'+h.i18n.play+"</span>","</button>",'<button type="button" data-plyr="pause">','<svg><use xlink:href="'+n+'-pause" /></svg>','<span class="plyr__sr-only">'+h.i18n.pause+"</span>","</button>"),s(h.controls,"fast-forward")&&e.push('<button type="button" data-plyr="fast-forward">','<svg><use xlink:href="'+n+'-fast-forward" /></svg>','<span class="plyr__sr-only">'+h.i18n.forward+"</span>","</button>"),s(h.controls,"progress")&&(e.push('<span class="plyr__progress">','<label for="seek{id}" class="plyr__sr-only">Seek</label>','<input id="seek{id}" class="plyr__progress--seek" type="range" min="0" max="100" step="0.1" value="0" data-plyr="seek">','<progress class="plyr__progress--played" max="100" value="0" role="presentation"></progress>','<progress class="plyr__progress--buffer" max="100" value="0">',"<span>0</span>% "+h.i18n.buffered,"</progress>"),h.tooltips.seek&&e.push('<span class="plyr__tooltip">00:00</span>'),e.push("</span>")),s(h.controls,"current-time")&&e.push('<span class="plyr__time">','<span class="plyr__sr-only">'+h.i18n.currentTime+"</span>",'<span class="plyr__time--current">00:00</span>',"</span>"),s(h.controls,"duration")&&e.push('<span class="plyr__time">','<span class="plyr__sr-only">'+h.i18n.duration+"</span>",'<span class="plyr__time--duration">00:00</span>',"</span>"),s(h.controls,"mute")&&e.push('<button type="button" data-plyr="mute">','<svg class="icon--muted"><use xlink:href="'+n+'-muted" /></svg>','<svg><use xlink:href="'+n+'-volume" /></svg>','<span class="plyr__sr-only">'+h.i18n.toggleMute+"</span>","</button>"),s(h.controls,"volume")&&e.push('<span class="plyr__volume">','<label for="volume{id}" class="plyr__sr-only">'+h.i18n.volume+"</label>",'<input id="volume{id}" class="plyr__volume--input" type="range" min="'+h.volumeMin+'" max="'+h.volumeMax+'" value="'+h.volume+'" data-plyr="volume">','<progress class="plyr__volume--display" max="'+h.volumeMax+'" value="'+h.volumeMin+'" role="presentation"></progress>',"</span>"),s(h.controls,"captions")&&e.push('<button type="button" data-plyr="captions">','<svg class="icon--captions-on"><use xlink:href="'+n+'-captions-on" /></svg>','<svg><use xlink:href="'+n+'-captions-off" /></svg>','<span class="plyr__sr-only">'+h.i18n.toggleCaptions+"</span>","</button>"),s(h.controls,"fullscreen")&&e.push('<button type="button" data-plyr="fullscreen">','<svg class="icon--exit-fullscreen"><use xlink:href="'+n+'-exit-fullscreen" /></svg>','<svg><use xlink:href="'+n+'-enter-fullscreen" /></svg>','<span class="plyr__sr-only">'+h.i18n.toggleFullscreen+"</span>","</button>"),e.push("</div>"),e.join("")}function R(){if(Oe.supported.full&&("audio"!=Oe.type||h.fullscreen.allowAudio)&&h.fullscreen.enabled){var e=M.supportsFullScreen;e||h.fullscreen.fallback&&!W()?(T((e?"Native":"Fallback")+" fullscreen enabled"),m(Oe.container,h.classes.fullscreen.enabled,!0)):T("Fullscreen not supported and fallback disabled"),w(Oe.buttons.fullscreen,!1),Y()}}function L(){if("video"===Oe.type){G(h.selectors.captions)||Oe.videoContainer.insertAdjacentHTML("afterbegin",'<div class="'+A(h.selectors.captions)+'"></div>'),Oe.usingTextTracks=!1,Oe.media.textTracks&&(Oe.usingTextTracks=!0);for(var e,t="",n=Oe.media.childNodes,r=0;r<n.length;r++)"track"===n[r].nodeName.toLowerCase()&&(e=n[r].kind,"captions"!==e&&"subtitles"!==e||(t=n[r].getAttribute("src")));if(Oe.captionExists=!0,""===t?(Oe.captionExists=!1,T("No caption track found")):T("Caption track found; URI: "+t),Oe.captionExists){for(var a=Oe.media.textTracks,s=0;s<a.length;s++)a[s].mode="hidden";if(H(Oe),(Oe.browser.isIE&&Oe.browser.version>=10||Oe.browser.isFirefox&&Oe.browser.version>=31)&&(T("Detected browser with known TextTrack issues - using manual fallback"),Oe.usingTextTracks=!1),Oe.usingTextTracks){T("TextTracks supported");for(var o=0;o<a.length;o++){var i=a[o];"captions"!==i.kind&&"subtitles"!==i.kind||b(i,"cuechange",function(){this.activeCues[0]&&"text"in this.activeCues[0]?B(this.activeCues[0].getCueAsHTML()):B()})}}else if(T("TextTracks not supported so rendering captions manually"),Oe.currentCaption="",Oe.captions=[],""!==t){var l=new XMLHttpRequest;l.onreadystatechange=function(){if(4===l.readyState)if(200===l.status){var e,t=[],n=l.responseText;t=n.split("\n\n");for(var r=0;r<t.length;r++){e=t[r],Oe.captions[r]=[];var a=e.split("\n"),s=0;-1===a[s].indexOf(":")&&(s=1),Oe.captions[r]=[a[s],a[s+1]]}Oe.captions.shift(),T("Successfully loaded the caption file via AJAX")}else C("There was a problem loading the caption file via AJAX")},l.open("get",t,!0),l.send()}}else m(Oe.container,h.classes.captions.enabled)}}function B(e){var n=G(h.selectors.captions),r=t.createElement("span");n.innerHTML="","undefined"==typeof e&&(e=""),"string"==typeof e?r.innerHTML=e.trim():r.appendChild(e),n.appendChild(r);n.offsetHeight}function O(e){function t(e,t){var n=[];n=e.split(" --> ");for(var r=0;r<n.length;r++)n[r]=n[r].replace(/(\d+:\d+:\d+\.\d+).*/,"$1");return a(n[t])}function n(e){return t(e,0)}function r(e){return t(e,1)}function a(e){if(null===e||void 0===e)return 0;var t,n=[],r=[];return n=e.split(","),r=n[0].split(":"),t=Math.floor(60*r[0]*60)+Math.floor(60*r[1])+Math.floor(r[2])}if(!Oe.usingTextTracks&&"video"===Oe.type&&Oe.supported.full&&(Oe.subcount=0,e="number"==typeof e?e:Oe.media.currentTime,Oe.captions[Oe.subcount])){for(;r(Oe.captions[Oe.subcount][0])<e.toFixed(1);)if(Oe.subcount++,Oe.subcount>Oe.captions.length-1){Oe.subcount=Oe.captions.length-1;break}Oe.media.currentTime.toFixed(1)>=n(Oe.captions[Oe.subcount][0])&&Oe.media.currentTime.toFixed(1)<=r(Oe.captions[Oe.subcount][0])?(Oe.currentCaption=Oe.captions[Oe.subcount][1],B(Oe.currentCaption)):B()}}function H(){Oe.buttons.captions&&(m(Oe.container,h.classes.captions.enabled,!0),h.captions.defaultActive&&(m(Oe.container,h.classes.captions.active,!0),w(Oe.buttons.captions,!0)))}function V(e){return Oe.container.querySelectorAll(e)}function G(e){return V(e)[0]}function W(){try{return e.self!==e.top}catch(t){return!0}}function Y(){function e(e){9===e.which&&Oe.isFullscreen&&(e.target!==r||e.shiftKey?e.target===n&&e.shiftKey&&(e.preventDefault(),r.focus()):(e.preventDefault(),n.focus()))}var t=V("input:not([disabled]), button:not([disabled])"),n=t[0],r=t[t.length-1];b(Oe.container,"keydown",e)}function q(e,t){if("string"==typeof t)d(e,Oe.media,{src:t});else if(t.constructor===Array)for(var n=t.length-1;n>=0;n--)d(e,Oe.media,t[n])}function X(){if(h.loadSprite){var e=I();e.absolute?(T("AJAX loading absolute SVG sprite"+(Oe.browser.isIE?" (due to IE)":"")),S(e.url,"sprite-plyr")):T("Sprite will be used as external resource directly")}var n=h.html;T("Injecting custom controls"),n||(n=P()),n=o(n,"{seektime}",h.seekTime),n=o(n,"{id}",Math.floor(1e4*Math.random()));var r;if(null!==h.selectors.controls.container&&(r=h.selectors.controls.container,"string"==typeof selector&&(r=t.querySelector(r))),r instanceof HTMLElement||(r=Oe.container),r.insertAdjacentHTML("beforeend",n),h.tooltips.controls)for(var a=V([h.selectors.controls.wrapper," ",h.selectors.labels," .",h.classes.hidden].join("")),s=a.length-1;s>=0;s--){var i=a[s];m(i,h.classes.hidden,!1),m(i,h.classes.tooltip,!0)}}function z(){try{return Oe.controls=G(h.selectors.controls.wrapper),Oe.buttons={},Oe.buttons.seek=G(h.selectors.buttons.seek),Oe.buttons.play=V(h.selectors.buttons.play),Oe.buttons.pause=G(h.selectors.buttons.pause),Oe.buttons.restart=G(h.selectors.buttons.restart),Oe.buttons.rewind=G(h.selectors.buttons.rewind),Oe.buttons.forward=G(h.selectors.buttons.forward),Oe.buttons.fullscreen=G(h.selectors.buttons.fullscreen),Oe.buttons.mute=G(h.selectors.buttons.mute),Oe.buttons.captions=G(h.selectors.buttons.captions),Oe.progress={},Oe.progress.container=G(h.selectors.progress.container),Oe.progress.buffer={},Oe.progress.buffer.bar=G(h.selectors.progress.buffer),Oe.progress.buffer.text=Oe.progress.buffer.bar&&Oe.progress.buffer.bar.getElementsByTagName("span")[0],Oe.progress.played=G(h.selectors.progress.played),Oe.progress.tooltip=Oe.progress.container&&Oe.progress.container.querySelector("."+h.classes.tooltip),Oe.volume={},Oe.volume.input=G(h.selectors.volume.input),Oe.volume.display=G(h.selectors.volume.display),Oe.duration=G(h.selectors.duration),Oe.currentTime=G(h.selectors.currentTime),Oe.seekTime=V(h.selectors.seekTime),!0}catch(e){return C("It looks like there is a problem with your controls HTML"),Q(!0),!1}}function D(){m(Oe.container,h.selectors.container.replace(".",""),Oe.supported.full)}function Q(e){e&&s(h.types.html5,Oe.type)?Oe.media.setAttribute("controls",""):Oe.media.removeAttribute("controls")}function j(e){var t=h.i18n.play;if("undefined"!=typeof h.title&&h.title.length&&(t+=", "+h.title),Oe.supported.full&&Oe.buttons.play)for(var n=Oe.buttons.play.length-1;n>=0;n--)Oe.buttons.play[n].setAttribute("aria-label",t);e instanceof HTMLElement&&e.setAttribute("title",h.i18n.frameTitle.replace("{title}",h.title))}function U(){if(!Oe.media)return void C("No media element found!");if(Oe.supported.full&&(m(Oe.container,h.classes.type.replace("{0}",Oe.type),!0),s(h.types.embed,Oe.type)&&m(Oe.container,h.classes.type.replace("{0}","video"),!0),m(Oe.container,h.classes.stopped,h.autoplay),m(Oe.container,h.classes.isIos,Oe.browser.isIos),m(Oe.container,h.classes.isTouch,Oe.browser.isTouch),"video"===Oe.type)){var e=t.createElement("div");e.setAttribute("class",h.classes.videoWrapper),i(Oe.media,e),Oe.videoContainer=e}s(h.types.embed,Oe.type)&&(Z(),Oe.embedId=null)}function Z(){for(var n=t.createElement("div"),r=Oe.embedId,s=Oe.type+"-"+Math.floor(1e4*Math.random()),o=V('[id^="'+Oe.type+'-"]'),i=o.length-1;i>=0;i--)u(o[i]);if(m(Oe.media,h.classes.videoWrapper,!0),m(Oe.media,h.classes.embedWrapper,!0),"youtube"===Oe.type)Oe.media.appendChild(n),n.setAttribute("id",s),"object"==typeof YT?J(r,n):(a(h.urls.youtube.api),e.onYouTubeReadyCallbacks=e.onYouTubeReadyCallbacks||[],e.onYouTubeReadyCallbacks.push(function(){J(r,n)}),e.onYouTubeIframeAPIReady=function(){e.onYouTubeReadyCallbacks.forEach(function(e){e()})});else if("vimeo"===Oe.type){var l=t.createElement("iframe");l.loaded=!1,b(l,"load",function(){l.loaded=!0}),p(l,{src:"https://player.vimeo.com/video/"+r+"?player_id="+s+"&api=1&badge=0&byline=0&portrait=0&title=0",id:s,allowfullscreen:"",frameborder:0}),Oe.supported.full?(n.appendChild(l),Oe.media.appendChild(n)):Oe.media.appendChild(l),"$f"in e||a(h.urls.vimeo.api);var c=e.setInterval(function(){"$f"in e&&l.loaded&&(e.clearInterval(c),K.call(l))},50)}else if("soundcloud"===Oe.type){var d=t.createElement("iframe");d.loaded=!1,b(d,"load",function(){d.loaded=!0}),p(d,{src:"https://w.soundcloud.com/player/?url=https://api.soundcloud.com/tracks/"+r,id:s}),n.appendChild(d),Oe.media.appendChild(n),e.SC||a(h.urls.soundcloud.api);var A=e.setInterval(function(){e.SC&&d.loaded&&(e.clearInterval(A),ee.call(d))},50)}}function $(){Oe.container.plyr.embed=Oe.embed,Oe.supported.full&&Be(),j(G("iframe"))}function J(t,n){"timer"in Oe||(Oe.timer={}),Oe.embed=new YT.Player(n.id,{videoId:t,playerVars:{autoplay:h.autoplay?1:0,controls:Oe.supported.full?0:1,rel:0,showinfo:0,iv_load_policy:3,cc_load_policy:h.captions.defaultActive?1:0,cc_lang_pref:"en",wmode:"transparent",modestbranding:1,disablekb:1,origin:"*"},events:{onError:function(e){k(Oe.container,"error",!0,{code:e.data,embed:e.target})},onReady:function(t){var n=t.target;Oe.media.play=function(){n.playVideo(),Oe.media.paused=!1},Oe.media.pause=function(){n.pauseVideo(),Oe.media.paused=!0},Oe.media.stop=function(){n.stopVideo(),Oe.media.paused=!0},Oe.media.duration=n.getDuration(),Oe.media.paused=!0,Oe.media.currentTime=n.getCurrentTime(),Oe.media.muted=n.isMuted(),h.title=n.getVideoData().title,k(Oe.media,"timeupdate"),e.clearInterval(Oe.timer.buffering),Oe.timer.buffering=e.setInterval(function(){Oe.media.buffered=n.getVideoLoadedFraction(),k(Oe.media,"progress"),1===Oe.media.buffered&&(e.clearInterval(Oe.timer.buffering),k(Oe.media,"canplaythrough"))},200),$(),xe()},onStateChange:function(t){var n=t.target;switch(e.clearInterval(Oe.timer.playing),t.data){case 0:Oe.media.paused=!0,k(Oe.media,"ended");break;case 1:Oe.media.paused=!1,Oe.media.seeking=!1,k(Oe.media,"play"),k(Oe.media,"playing"),Oe.timer.playing=e.setInterval(function(){Oe.media.currentTime=n.getCurrentTime(),k(Oe.media,"timeupdate")},100);break;case 2:Oe.media.paused=!0,k(Oe.media,"pause")}k(Oe.container,"statechange",!1,{code:t.data})}}})}function K(){Oe.embed=$f(this),Oe.embed.addEvent("ready",function(){Oe.media.play=function(){Oe.embed.api("play"),Oe.media.paused=!1},Oe.media.pause=function(){Oe.embed.api("pause"),Oe.media.paused=!0},Oe.media.stop=function(){Oe.embed.api("stop"),Oe.media.paused=!0},Oe.media.paused=!0,Oe.media.currentTime=0,$(),Oe.embed.api("getCurrentTime",function(e){Oe.media.currentTime=e,k(Oe.media,"timeupdate")}),Oe.embed.api("getDuration",function(e){Oe.media.duration=e,xe()}),Oe.embed.addEvent("play",function(){Oe.media.paused=!1,k(Oe.media,"play"),k(Oe.media,"playing")}),Oe.embed.addEvent("pause",function(){Oe.media.paused=!0,k(Oe.media,"pause")}),Oe.embed.addEvent("playProgress",function(e){Oe.media.seeking=!1,Oe.media.currentTime=e.seconds,k(Oe.media,"timeupdate")}),Oe.embed.addEvent("loadProgress",function(e){Oe.media.buffered=e.percent,k(Oe.media,"progress"),1===parseInt(e.percent)&&k(Oe.media,"canplaythrough")}),Oe.embed.addEvent("finish",function(){Oe.media.paused=!0,k(Oe.media,"ended")}),h.autoplay&&Oe.embed.api("play")})}function ee(){Oe.embed=e.SC.Widget(this),Oe.embed.bind(e.SC.Widget.Events.READY,function(){Oe.media.play=function(){Oe.embed.play(),Oe.media.paused=!1},Oe.media.pause=function(){Oe.embed.pause(),Oe.media.paused=!0},Oe.media.stop=function(){Oe.embed.seekTo(0),Oe.embed.pause(),Oe.media.paused=!0},Oe.media.paused=!0,Oe.media.currentTime=0,$(),Oe.embed.getPosition(function(e){Oe.media.currentTime=e,k(Oe.media,"timeupdate")}),Oe.embed.getDuration(function(e){Oe.media.duration=e/1e3,xe()}),Oe.embed.bind(e.SC.Widget.Events.PLAY,function(){Oe.media.paused=!1,k(Oe.media,"play"),k(Oe.media,"playing")}),Oe.embed.bind(e.SC.Widget.Events.PAUSE,function(){Oe.media.paused=!0,k(Oe.media,"pause")}),Oe.embed.bind(e.SC.Widget.Events.PLAY_PROGRESS,function(e){Oe.media.seeking=!1,Oe.media.currentTime=e.currentPosition/1e3,k(Oe.media,"timeupdate")}),Oe.embed.bind(e.SC.Widget.Events.LOAD_PROGRESS,function(e){Oe.media.buffered=e.loadProgress,k(Oe.media,"progress"),1===parseInt(e.loadProgress)&&k(Oe.media,"canplaythrough")}),Oe.embed.bind(e.SC.Widget.Events.FINISH,function(){Oe.media.paused=!0,k(Oe.media,"ended")}),h.autoplay&&Oe.embed.play()})}function te(){"play"in Oe.media&&Oe.media.play()}function ne(){"pause"in Oe.media&&Oe.media.pause()}function re(e){e===!0?te():e===!1?ne():Oe.media[Oe.media.paused?"play":"pause"]()}function ae(e){"number"!=typeof e&&(e=h.seekTime),oe(Oe.media.currentTime-e)}function se(e){"number"!=typeof e&&(e=h.seekTime),oe(Oe.media.currentTime+e)}function oe(e){var t=0,n=Oe.media.paused,r=ie();"number"==typeof e?t=e:e.type&&s(["input","change"],e.type)&&(t=e.target.value/e.target.max*r),0>t?t=0:t>r&&(t=r),Ee(t);try{Oe.media.currentTime=t.toFixed(4)}catch(a){}if(s(h.types.embed,Oe.type)){switch(Oe.type){case"youtube":Oe.embed.seekTo(t);break;case"vimeo":Oe.embed.api("seekTo",t.toFixed(0));break;case"soundcloud":Oe.embed.seekTo(1e3*t)}n&&ne(),k(Oe.media,"timeupdate"),Oe.media.seeking=!0}T("Seeking to "+Oe.media.currentTime+" seconds"),O(t)}function ie(){var e=parseInt(h.duration),t=0;return null===Oe.media.duration||isNaN(Oe.media.duration)||(t=Oe.media.duration),isNaN(e)?t:e}function le(){m(Oe.container,h.classes.playing,!Oe.media.paused),m(Oe.container,h.classes.stopped,Oe.media.paused),Ce(Oe.media.paused)}function ue(){N={x:e.pageXOffset||0,y:e.pageYOffset||0}}function ce(){e.scrollTo(N.x,N.y)}function pe(e){var n=M.supportsFullScreen;e&&e.type===M.fullScreenEventName?Oe.isFullscreen=M.isFullScreen(Oe.container):n?(M.isFullScreen(Oe.container)?M.cancelFullScreen():(ue(),M.requestFullScreen(Oe.container)),Oe.isFullscreen=M.isFullScreen(Oe.container)):(Oe.isFullscreen=!Oe.isFullscreen,Oe.isFullscreen?(b(t,"keyup",de),t.body.style.overflow="hidden"):(v(t,"keyup",de),t.body.style.overflow="")),m(Oe.container,h.classes.fullscreen.active,Oe.isFullscreen),Oe.isFullscreen?Oe.container.setAttribute("tabindex","-1"):Oe.container.removeAttribute("tabindex"),Y(Oe.isFullscreen),w(Oe.buttons.fullscreen,Oe.isFullscreen),k(Oe.container,Oe.isFullscreen?"enterfullscreen":"exitfullscreen",!0),!Oe.isFullscreen&&n&&ce()}function de(e){27===(e.which||e.charCode||e.keyCode)&&Oe.isFullscreen&&pe()}function Ae(e){if("boolean"!=typeof e&&(e=!Oe.media.muted),w(Oe.buttons.mute,e),Oe.media.muted=e,0===Oe.media.volume&&me(h.volume),s(h.types.embed,Oe.type)){switch(Oe.type){case"youtube":Oe.embed[Oe.media.muted?"mute":"unMute"]();break;case"vimeo":Oe.embed.api("setVolume",Oe.media.muted?0:parseFloat(h.volume/h.volumeMax));break;case"soundcloud":Oe.embed.setVolume(Oe.media.muted?0:parseFloat(h.volume/h.volumeMax))}k(Oe.media,"volumechange")}}function me(t){var n=h.volumeMax,r=h.volumeMin;if("undefined"==typeof t&&(t=h.volume,h.storage.enabled&&_().supported&&(t=e.localStorage.getItem(h.storage.key),e.localStorage.removeItem("plyr-volume"))),(null===t||isNaN(t))&&(t=h.volume),t>n&&(t=n),r>t&&(t=r),Oe.media.volume=parseFloat(t/n),Oe.volume.display&&(Oe.volume.display.value=t),s(h.types.embed,Oe.type)){switch(Oe.type){case"youtube":Oe.embed.setVolume(100*Oe.media.volume);break;case"vimeo":Oe.embed.api("setVolume",Oe.media.volume);break;case"soundcloud":Oe.embed.setVolume(Oe.media.volume)}k(Oe.media,"volumechange")}Oe.media.muted&&t>0&&Ae()}function fe(){var e=Oe.media.muted?0:Oe.media.volume*h.volumeMax;me(e+h.volumeStep/5)}function ye(){var e=Oe.media.muted?0:Oe.media.volume*h.volumeMax;me(e-h.volumeStep/5)}function be(){var t=Oe.media.muted?0:Oe.media.volume*h.volumeMax;Oe.supported.full&&(Oe.volume.input&&(Oe.volume.input.value=t),Oe.volume.display&&(Oe.volume.display.value=t)),h.storage.enabled&&_().supported&&!isNaN(t)&&e.localStorage.setItem(h.storage.key,t),m(Oe.container,h.classes.muted,0===t),Oe.supported.full&&Oe.buttons.mute&&w(Oe.buttons.mute,0===t)}function ve(e){Oe.supported.full&&Oe.buttons.captions&&("boolean"!=typeof e&&(e=-1===Oe.container.className.indexOf(h.classes.captions.active)),Oe.captionsEnabled=e,w(Oe.buttons.captions,Oe.captionsEnabled),m(Oe.container,h.classes.captions.active,Oe.captionsEnabled),k(Oe.container,Oe.captionsEnabled?"captionsenabled":"captionsdisabled",!0))}function ge(e){var t="waiting"===e.type;clearTimeout(Oe.timers.loading),Oe.timers.loading=setTimeout(function(){m(Oe.container,h.classes.loading,t)},t?250:0)}function he(e){if(Oe.supported.full){var t=Oe.progress.played,n=0,r=ie();if(e)switch(e.type){case"timeupdate":case"seeking":if(Oe.controls.pressed)return;n=x(Oe.media.currentTime,r),"timeupdate"==e.type&&Oe.buttons.seek&&(Oe.buttons.seek.value=n);break;case"playing":case"progress":t=Oe.progress.buffer,n=function(){var e=Oe.media.buffered;return e&&e.length?x(e.end(0),r):"number"==typeof e?100*e:0}()}ke(t,n)}}function ke(e,t){if(Oe.supported.full){if("undefined"==typeof t&&(t=0),"undefined"==typeof e){if(!Oe.progress||!Oe.progress.buffer)return;e=Oe.progress.buffer}e instanceof HTMLElement?e.value=t:e&&(e.bar&&(e.bar.value=t),e.text&&(e.text.innerHTML=t))}}function we(e,t){if(t){isNaN(e)&&(e=0),Oe.secs=parseInt(e%60),Oe.mins=parseInt(e/60%60),Oe.hours=parseInt(e/60/60%60);var n=parseInt(ie()/60/60%60)>0;Oe.secs=("0"+Oe.secs).slice(-2),Oe.mins=("0"+Oe.mins).slice(-2),t.innerHTML=(n?Oe.hours+":":"")+Oe.mins+":"+Oe.secs}}function xe(){if(Oe.supported.full){var e=ie()||0;!Oe.duration&&h.displayDuration&&Oe.media.paused&&we(e,Oe.currentTime),Oe.duration&&we(e,Oe.duration),_e()}}function Te(e){we(Oe.media.currentTime,Oe.currentTime),e&&"timeupdate"==e.type&&Oe.media.seeking||he(e)}function Ee(e){"number"!=typeof e&&(e=0);var t=ie(),n=x(e,t);Oe.progress&&Oe.progress.played&&(Oe.progress.played.value=n),Oe.buttons&&Oe.buttons.seek&&(Oe.buttons.seek.value=n)}function _e(e){var t=ie();if(h.tooltips.seek&&Oe.progress.container&&0!==t){var n=Oe.progress.container.getBoundingClientRect(),r=0,a=h.classes.tooltip+"--visible";if(e)r=100/n.width*(e.pageX-n.left);else{if(!f(Oe.progress.tooltip,a))return;r=Oe.progress.tooltip.style.left.replace("%","")}0>r?r=0:r>100&&(r=100),we(t/100*r,Oe.progress.tooltip),Oe.progress.tooltip.style.left=r+"%",e&&s(["mouseenter","mouseleave"],e.type)&&m(Oe.progress.tooltip,a,"mouseenter"===e.type)}}function Ce(t){if(h.hideControls&&"audio"!==Oe.type){var n=0,r=!1,a=t;if("boolean"!=typeof t&&(t&&t.type?(r="enterfullscreen"===t.type,a=s(["mousemove","touchstart","mouseenter","focus"],t.type),s(["mousemove","touchmove"],t.type)&&(n=2e3),"focus"===t.type&&(n=3e3)):a=f(Oe.container,h.classes.hideControls)),e.clearTimeout(Oe.timers.hover),a||Oe.media.paused){if(m(Oe.container,h.classes.hideControls,!1),Oe.media.paused)return;Oe.browser.isTouch&&(n=3e3)}a&&Oe.media.paused||(Oe.timers.hover=e.setTimeout(function(){(!Oe.controls.pressed&&!Oe.controls.hover||r)&&m(Oe.container,h.classes.hideControls,!0)},n))}}function Se(e){if("undefined"!=typeof e)return void Fe(e);var t;switch(Oe.type){case"youtube":t=Oe.embed.getVideoUrl();break;case"vimeo":Oe.embed.api("getVideoUrl",function(e){t=e});break;case"soundcloud":Oe.embed.getCurrentSound(function(e){t=e.permalink_url});break;default:t=Oe.media.currentSrc}return t||""}function Fe(n){if(!("undefined"!=typeof n&&"sources"in n&&n.sources.length))return void C("Invalid source format");if(ne(),Ee(),ke(),Pe(),"youtube"===Oe.type?(Oe.embed.destroy(),e.clearInterval(Oe.timer.buffering),e.clearInterval(Oe.timer.playing)):"video"===Oe.type&&Oe.videoContainer&&u(Oe.videoContainer),Oe.embed=null,u(Oe.media),"type"in n&&(Oe.type=n.type,"video"===Oe.type)){var r=n.sources[0];"type"in r&&s(h.types.embed,r.type)&&(Oe.type=r.type)}switch(Oe.supported=F(Oe.type),Oe.type){case"video":Oe.media=t.createElement("video");break;case"audio":Oe.media=t.createElement("audio");break;case"youtube":case"vimeo":case"soundcloud":Oe.media=t.createElement("div"),Oe.embedId=n.sources[0].src}c(Oe.container,Oe.media),"undefined"!=typeof n.autoplay&&(h.autoplay=n.autoplay),s(h.types.html5,Oe.type)&&(h.crossorigin&&Oe.media.setAttribute("crossorigin",""),h.autoplay&&Oe.media.setAttribute("autoplay",""),"poster"in n&&Oe.media.setAttribute("poster",n.poster),h.loop&&Oe.media.setAttribute("loop","")),Oe.container.className=Oe.originalClassName,m(Oe.container,h.classes.fullscreen.active,Oe.isFullscreen),m(Oe.container,h.classes.captions.active,Oe.captionsEnabled),D(),s(h.types.html5,Oe.type)&&q("source",n.sources),U(),s(h.types.html5,Oe.type)?("tracks"in n&&q("track",n.tracks),Oe.media.load(),Be(),xe()):s(h.types.embed,Oe.type)&&!Oe.supported.full&&Be(),h.title=n.title,j(),Oe.container.plyr.media=Oe.media}function Ie(e){"video"===Oe.type&&Oe.media.setAttribute("poster",e)}function Me(){function n(){var e=Oe.media.paused;e?te():ne();var t=Oe.buttons[e?"play":"pause"],n=Oe.buttons[e?"pause":"play"];if(n=n&&n.length>1?n[n.length-1]:n[0]){var r=f(t,h.classes.tabFocus);setTimeout(function(){n.focus(),r&&(m(t,h.classes.tabFocus,!1),m(n,h.classes.tabFocus,!0))},100)}}function r(){var e=t.activeElement;e&&e!=t.body?t.querySelector&&(e=t.querySelector(":focus")):e=null;for(var n in Oe.buttons){var r=Oe.buttons[n];if(r instanceof NodeList)for(var a=0;a<r.length;a++)m(r[a],h.classes.tabFocus,r[a]===e);else m(r,h.classes.tabFocus,r===e)}}var a=Oe.browser.isIE?"change":"input";b(e,"keyup",function(e){var t=e.keyCode?e.keyCode:e.which;9==t&&r()}),b(t.body,"click",function(){m(G("."+h.classes.tabFocus),h.classes.tabFocus,!1)});for(var o in Oe.buttons){var i=Oe.buttons[o];b(i,"blur",function(){m(i,"tab-focus",!1)})}g(Oe.buttons.play,"click",h.listeners.play,n),g(Oe.buttons.pause,"click",h.listeners.pause,n),g(Oe.buttons.restart,"click",h.listeners.restart,oe),g(Oe.buttons.rewind,"click",h.listeners.rewind,ae),g(Oe.buttons.forward,"click",h.listeners.forward,se),g(Oe.buttons.seek,a,h.listeners.seek,oe),g(Oe.volume.input,a,h.listeners.volume,function(){me(Oe.volume.input.value)}),g(Oe.buttons.mute,"click",h.listeners.mute,Ae),g(Oe.buttons.fullscreen,"click",h.listeners.fullscreen,pe),M.supportsFullScreen&&b(t,M.fullScreenEventName,pe),b(Oe.buttons.captions,"click",ve),b(Oe.progress.container,"mouseenter mouseleave mousemove",_e),h.hideControls&&(b(Oe.container,"mouseenter mouseleave mousemove touchstart touchend touchcancel touchmove enterfullscreen",Ce),b(Oe.controls,"mouseenter mouseleave",function(e){Oe.controls.hover="mouseenter"===e.type}),b(Oe.controls,"mousedown mouseup touchstart touchend touchcancel",function(e){Oe.controls.pressed=s(["mousedown","touchstart"],e.type)}),b(Oe.controls,"focus blur",Ce,!0)),b(Oe.volume.input,"wheel",function(e){e.preventDefault();
-	var t=e.webkitDirectionInvertedFromDevice;(e.deltaY<0||e.deltaX>0)&&(t?ye():fe()),(e.deltaY>0||e.deltaX<0)&&(t?fe():ye())})}function Ne(){if(b(Oe.media,"timeupdate seeking",Te),b(Oe.media,"timeupdate",O),b(Oe.media,"durationchange loadedmetadata",xe),b(Oe.media,"ended",function(){"video"===Oe.type&&B(),le(),oe(0),xe(),"video"===Oe.type&&h.showPosterOnEnd&&Oe.media.load()}),b(Oe.media,"progress playing",he),b(Oe.media,"volumechange",be),b(Oe.media,"play pause",le),b(Oe.media,"waiting canplay seeked",ge),h.clickToPlay&&"audio"!==Oe.type){var e=G("."+h.classes.videoWrapper);if(!e)return;e.style.cursor="pointer",b(e,"click",function(){Oe.browser.isTouch&&!Oe.media.paused||(Oe.media.paused?te():Oe.media.ended?(oe(),te()):ne())})}h.disableContextMenu&&b(Oe.media,"contextmenu",function(e){e.preventDefault()}),b(Oe.media,h.events.join(" "),function(e){k(Oe.container,e.type,!0)})}function Pe(){if(s(h.types.html5,Oe.type)){for(var e=Oe.media.querySelectorAll("source"),t=0;t<e.length;t++)u(e[t]);Oe.media.setAttribute("src","data:video/mp4;base64,AAAAHGZ0eXBpc29tAAACAGlzb21pc28ybXA0MQAAAAhmcmVlAAAAGm1kYXQAAAGzABAHAAABthBgUYI9t+8AAAMNbW9vdgAAAGxtdmhkAAAAAMXMvvrFzL76AAAD6AAAACoAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAABhpb2RzAAAAABCAgIAHAE/////+/wAAAiF0cmFrAAAAXHRraGQAAAAPxcy++sXMvvoAAAABAAAAAAAAACoAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAgAAAAIAAAAAAG9bWRpYQAAACBtZGhkAAAAAMXMvvrFzL76AAAAGAAAAAEVxwAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAABaG1pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAAShzdGJsAAAAxHN0c2QAAAAAAAAAAQAAALRtcDR2AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAgACABIAAAASAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGP//AAAAXmVzZHMAAAAAA4CAgE0AAQAEgICAPyARAAAAAAMNQAAAAAAFgICALQAAAbABAAABtYkTAAABAAAAASAAxI2IAMUARAEUQwAAAbJMYXZjNTMuMzUuMAaAgIABAgAAABhzdHRzAAAAAAAAAAEAAAABAAAAAQAAABxzdHNjAAAAAAAAAAEAAAABAAAAAQAAAAEAAAAUc3RzegAAAAAAAAASAAAAAQAAABRzdGNvAAAAAAAAAAEAAAAsAAAAYHVkdGEAAABYbWV0YQAAAAAAAAAhaGRscgAAAAAAAAAAbWRpcmFwcGwAAAAAAAAAAAAAAAAraWxzdAAAACOpdG9vAAAAG2RhdGEAAAABAAAAAExhdmY1My4yMS4x"),Oe.media.load(),T("Cancelled network requests for old media")}}function Re(){if(!Oe.init)return null;if(Oe.container.setAttribute("class",A(h.selectors.container)),Oe.init=!1,u(G(h.selectors.controls.wrapper)),"youtube"===Oe.type)return void Oe.embed.destroy();"video"===Oe.type&&(u(G(h.selectors.captions)),l(Oe.videoContainer)),Q(!0);var e=Oe.media.cloneNode(!0);Oe.media.parentNode.replaceChild(e,Oe.media)}function Le(){if(Oe.init)return null;if(M=E(),Oe.browser=n(),Oe.media=Oe.container.querySelectorAll("audio, video")[0],Oe.media||(Oe.media=Oe.container.querySelectorAll("[data-type]")[0]),Oe.media){Oe.originalClassName=Oe.container.className;var e=Oe.media.tagName.toLowerCase();if("div"===e?(Oe.type=Oe.media.getAttribute("data-type"),Oe.embedId=Oe.media.getAttribute("data-video-id"),Oe.media.removeAttribute("data-type"),Oe.media.removeAttribute("data-video-id")):(Oe.type=e,h.crossorigin=null!==Oe.media.getAttribute("crossorigin"),h.autoplay=h.autoplay||null!==Oe.media.getAttribute("autoplay"),h.loop=h.loop||null!==Oe.media.getAttribute("loop")),Oe.supported=F(Oe.type),D(),!Oe.supported.basic)return!1;if(T(Oe.browser.name+" "+Oe.browser.version),U(),s(h.types.html5,Oe.type)){if(!Oe.supported.full)return void(Oe.init=!0);Be(),j(),h.autoplay&&te()}else s(h.types.embed,Oe.type)&&!Oe.supported.full&&Be();Oe.init=!0}}function Be(){if(!Oe.supported.full)return C("No full support for this media type ("+Oe.type+")"),u(G(h.selectors.controls.wrapper)),u(G(h.selectors.buttons.play)),void Q(!0);var e=!V(h.selectors.controls.wrapper).length;e&&X(),z()&&(e&&Me(),Ne(),Q(),R(),L(),me(),be(),Te(),le(),xe(),k(Oe.container,"ready",!0))}var Oe=this;return Oe.container=y,Oe.timers={},T(h),Le(),Oe.init?{media:Oe.media,play:te,pause:ne,restart:oe,rewind:ae,forward:se,seek:oe,source:Se,poster:Ie,setVolume:me,togglePlay:re,toggleMute:Ae,toggleCaptions:ve,toggleFullscreen:pe,toggleControls:Ce,isFullscreen:function(){return Oe.isFullscreen||!1},support:function(e){return r(Oe,e)},destroy:Re,restore:Le}:{}}function S(e,n){var r=new XMLHttpRequest;"string"==typeof n&&null!==t.querySelector("#"+n)||"withCredentials"in r&&(r.open("GET",e,!0),r.onload=function(){var e=t.createElement("div");e.setAttribute("hidden",""),"string"==typeof n&&e.setAttribute("id",n),e.innerHTML=r.responseText,t.body.insertBefore(e,t.body.childNodes[0])},r.send())}function F(e){var r,a,s=n(),o=s.isIE&&s.version<=9,i=s.isIos,l=/iPhone|iPod/i.test(navigator.userAgent),u=!!t.createElement("audio").canPlayType,c=!!t.createElement("video").canPlayType;switch(e){case"video":r=c,a=r&&!o&&!l;break;case"audio":r=u,a=r&&!o;break;case"vimeo":case"youtube":case"soundcloud":r=!0,a=!o&&!i;break;default:r=u&&c,a=r&&!o}return{basic:r,full:a}}function I(e,n){var r=[],a=[],s=[P.selectors.html5,P.selectors.embed].join(",");if("string"==typeof e?e=t.querySelectorAll(e):e instanceof HTMLElement?e=[e]:e instanceof NodeList||"string"==typeof e||("undefined"==typeof n&&"object"==typeof e&&(n=e),e=t.querySelectorAll(s)),!F().basic||!e.length)return!1;e instanceof NodeList&&(e=Array.prototype.slice.call(e));for(var o=0;o<e.length;o++){var l=e[o],u=l.querySelectorAll(s);if(u.length>1)for(var c=0;c<u.length;c++)a.push({element:i(u[c],t.createElement("div")),original:l});else a.push({element:l})}for(var p in a){var d=a[p].element,A=a[p].original||d;if(y(d,s)&&(d=i(d,t.createElement("div"))),!("plyr"in d)){var m=T({},P,n,JSON.parse(A.getAttribute("data-plyr")));if(!m.enabled)return null;var f=new C(d,m);d.plyr=Object.keys(f).length?f:!1,k(A,"setup",!0,{plyr:d.plyr})}r.push(d)}return r}var M,N={x:0,y:0},P={enabled:!0,debug:!1,autoplay:!1,loop:!1,seekTime:10,volume:5,volumeMin:0,volumeMax:10,volumeStep:1,duration:null,displayDuration:!0,loadSprite:!0,iconPrefix:"plyr",iconUrl:"https://cdn.plyr.io/1.8.6/plyr.svg",clickToPlay:!0,hideControls:!0,showPosterOnEnd:!1,disableContextMenu:!0,tooltips:{controls:!1,seek:!0},selectors:{html5:"video, audio",embed:"[data-type]",container:".plyr",controls:{container:null,wrapper:".plyr__controls"},labels:"[data-plyr]",buttons:{seek:'[data-plyr="seek"]',play:'[data-plyr="play"]',pause:'[data-plyr="pause"]',restart:'[data-plyr="restart"]',rewind:'[data-plyr="rewind"]',forward:'[data-plyr="fast-forward"]',mute:'[data-plyr="mute"]',captions:'[data-plyr="captions"]',fullscreen:'[data-plyr="fullscreen"]'},volume:{input:'[data-plyr="volume"]',display:".plyr__volume--display"},progress:{container:".plyr__progress",buffer:".plyr__progress--buffer",played:".plyr__progress--played"},captions:".plyr__captions",currentTime:".plyr__time--current",duration:".plyr__time--duration"},classes:{videoWrapper:"plyr__video-wrapper",embedWrapper:"plyr__video-embed",type:"plyr--{0}",stopped:"plyr--stopped",playing:"plyr--playing",muted:"plyr--muted",loading:"plyr--loading",hover:"plyr--hover",tooltip:"plyr__tooltip",hidden:"plyr__sr-only",hideControls:"plyr--hide-controls",isIos:"plyr--is-ios",isTouch:"plyr--is-touch",captions:{enabled:"plyr--captions-enabled",active:"plyr--captions-active"},fullscreen:{enabled:"plyr--fullscreen-enabled",active:"plyr--fullscreen-active"},tabFocus:"tab-focus"},captions:{defaultActive:!1},fullscreen:{enabled:!0,fallback:!0,allowAudio:!1},storage:{enabled:!0,key:"plyr"},controls:["play-large","play","progress","current-time","mute","volume","captions","fullscreen"],i18n:{restart:"Restart",rewind:"Rewind {seektime} secs",play:"Play",pause:"Pause",forward:"Forward {seektime} secs",played:"played",buffered:"buffered",currentTime:"Current time",duration:"Duration",volume:"Volume",toggleMute:"Toggle Mute",toggleCaptions:"Toggle Captions",toggleFullscreen:"Toggle Fullscreen",frameTitle:"Player for {title}"},types:{embed:["youtube","vimeo","soundcloud"],html5:["video","audio"]},urls:{vimeo:{api:"https://cdn.plyr.io/froogaloop/1.0.1/plyr.froogaloop.js"},youtube:{api:"https://www.youtube.com/iframe_api"},soundcloud:{api:"https://w.soundcloud.com/player/api.js"}},listeners:{seek:null,play:null,pause:null,restart:null,rewind:null,forward:null,mute:null,volume:null,captions:null,fullscreen:null},events:["ended","progress","stalled","playing","waiting","canplay","canplaythrough","loadstart","loadeddata","loadedmetadata","timeupdate","volumechange","play","pause","error","seeking","emptied"]};return{setup:I,supported:F,loadSprite:S}}),function(){function e(e,t){t=t||{bubbles:!1,cancelable:!1,detail:void 0};var n=document.createEvent("CustomEvent");return n.initCustomEvent(e,t.bubbles,t.cancelable,t.detail),n}return"function"==typeof window.CustomEvent?!1:(e.prototype=window.Event.prototype,void(window.CustomEvent=e))}();
-
-/***/ },
-/* 318 */
-/*!***********************************!*\
-  !*** ./~/plyr/src/scss/plyr.scss ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(/*! !./../../../css-loader!./../../../postcss-loader!./../../../sass-loader!./plyr.scss */ 319);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../../style-loader/addStyles.js */ 190)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../css-loader/index.js!./../../../postcss-loader/index.js!./../../../sass-loader/index.js!./plyr.scss", function() {
-				var newContent = require("!!./../../../css-loader/index.js!./../../../postcss-loader/index.js!./../../../sass-loader/index.js!./plyr.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 319 */
-/*!*************************************************************************************!*\
-  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./~/plyr/src/scss/plyr.scss ***!
-  \*************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(/*! ./../../../css-loader/lib/css-base.js */ 189)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "@-webkit-keyframes plyr-progress {\n  to {\n    background-position: 25px 0; } }\n\n@keyframes plyr-progress {\n  to {\n    background-position: 25px 0; } }\n\n.plyr {\n  position: relative;\n  max-width: 100%;\n  min-width: 200px;\n  font-family: \"San Francisco\", -apple-system, BlinkMacSystemFont, \".SFNSText-Regular\", Avenir, \"Avenir Next\", \"Helvetica Neue\", \"Segoe UI\", Helvetica, Arial, sans-serif;\n  direction: ltr; }\n  .plyr,\n  .plyr *,\n  .plyr *::after,\n  .plyr *::before {\n    box-sizing: border-box; }\n  .plyr a, .plyr button, .plyr input, .plyr label {\n    -ms-touch-action: manipulation;\n        touch-action: manipulation; }\n  .plyr video,\n  .plyr audio {\n    width: 100%;\n    height: auto;\n    vertical-align: middle;\n    border-radius: inherit; }\n  .plyr input[type='range'] {\n    display: block;\n    height: 20px;\n    width: 100%;\n    margin: 0;\n    padding: 0;\n    vertical-align: middle;\n    -webkit-appearance: none;\n       -moz-appearance: none;\n            appearance: none;\n    cursor: pointer;\n    border: none;\n    background: transparent; }\n    .plyr input[type='range']::-webkit-slider-runnable-track {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      border-radius: 4px;\n      -webkit-user-select: none;\n              user-select: none; }\n    .plyr input[type='range']::-webkit-slider-thumb {\n      -webkit-appearance: none;\n      margin-top: -4px;\n      position: relative;\n      height: 16px;\n      width: 16px;\n      background: #fff;\n      border: 2px solid transparent;\n      border-radius: 100%;\n      -webkit-transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease, -webkit-transform .2s ease;\n      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);\n      box-sizing: border-box; }\n    .plyr input[type='range']::-moz-range-track {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      border-radius: 4px;\n      -moz-user-select: none;\n           user-select: none; }\n    .plyr input[type='range']::-moz-range-thumb {\n      position: relative;\n      height: 16px;\n      width: 16px;\n      background: #fff;\n      border: 2px solid transparent;\n      border-radius: 100%;\n      -webkit-transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease, -webkit-transform .2s ease;\n      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);\n      box-sizing: border-box; }\n    .plyr input[type='range']::-ms-track {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      color: transparent; }\n    .plyr input[type='range']::-ms-fill-upper {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      border-radius: 4px;\n      -ms-user-select: none;\n          user-select: none; }\n    .plyr input[type='range']::-ms-fill-lower {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      border-radius: 4px;\n      -ms-user-select: none;\n          user-select: none;\n      background: #3498db; }\n    .plyr input[type='range']::-ms-thumb {\n      position: relative;\n      height: 16px;\n      width: 16px;\n      background: #fff;\n      border: 2px solid transparent;\n      border-radius: 100%;\n      -webkit-transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease, -webkit-transform .2s ease;\n      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);\n      box-sizing: border-box;\n      margin-top: 0; }\n    .plyr input[type='range']::-ms-tooltip {\n      display: none; }\n    .plyr input[type='range']:focus {\n      outline: 0; }\n    .plyr input[type='range']::-moz-focus-outer {\n      border: 0; }\n    .plyr input[type='range'].tab-focus:focus {\n      outline-offset: 3px; }\n    .plyr input[type='range']:active::-webkit-slider-thumb {\n      background: #3498db;\n      border-color: #fff;\n      -webkit-transform: scale(1.25);\n              transform: scale(1.25); }\n    .plyr input[type='range']:active::-moz-range-thumb {\n      background: #3498db;\n      border-color: #fff;\n      transform: scale(1.25); }\n    .plyr input[type='range']:active::-ms-thumb {\n      background: #3498db;\n      border-color: #fff;\n      transform: scale(1.25); }\n\n.plyr--video input[type='range'].tab-focus:focus {\n  outline: 1px dotted rgba(255, 255, 255, 0.5); }\n\n.plyr--audio input[type='range'].tab-focus:focus {\n  outline: 1px dotted rgba(86, 93, 100, 0.5); }\n\n.plyr__sr-only {\n  clip: rect(1px, 1px, 1px, 1px);\n  overflow: hidden;\n  position: absolute !important;\n  padding: 0 !important;\n  border: 0 !important;\n  height: 1px !important;\n  width: 1px !important; }\n\n.plyr__video-wrapper {\n  position: relative;\n  background: #000;\n  border-radius: inherit;\n  -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC); }\n\n.plyr__video-embed {\n  padding-bottom: 56.25%;\n  /* 16:9 */\n  height: 0;\n  overflow: hidden;\n  border-radius: inherit; }\n  .plyr__video-embed iframe {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    border: 0;\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none; }\n  .plyr__video-embed > div {\n    position: relative;\n    padding-bottom: 200%;\n    -webkit-transform: translateY(-35.95%);\n            transform: translateY(-35.95%); }\n\n.plyr .plyr__video-embed iframe {\n  pointer-events: none; }\n\n.plyr video::-webkit-media-text-track-container {\n  display: none; }\n\n.plyr__captions {\n  display: none;\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  padding: 20px;\n  -webkit-transform: translateY(-60px);\n          transform: translateY(-60px);\n  -webkit-transition: -webkit-transform .3s ease;\n  transition: -webkit-transform .3s ease;\n  transition: transform .3s ease;\n  transition: transform .3s ease, -webkit-transform .3s ease;\n  color: #fff;\n  font-size: 16px;\n  text-align: center;\n  font-weight: 400; }\n  .plyr__captions span {\n    border-radius: 2px;\n    padding: 3px 10px;\n    background: rgba(0, 0, 0, 0.7); }\n  .plyr__captions span:empty {\n    display: none; }\n  @media (min-width: 768px) {\n    .plyr__captions {\n      font-size: 24px; } }\n\n.plyr--captions-active .plyr__captions {\n  display: block; }\n\n.plyr--fullscreen-active .plyr__captions {\n  font-size: 32px; }\n\n.plyr--hide-controls .plyr__captions {\n  -webkit-transform: translateY(-20px);\n          transform: translateY(-20px); }\n\n.plyr ::-webkit-media-controls {\n  display: none; }\n\n.plyr__controls {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  line-height: 1;\n  text-align: center; }\n  .plyr__controls > button,\n  .plyr__controls .plyr__progress,\n  .plyr__controls .plyr__time {\n    margin-left: 5px; }\n    .plyr__controls > button:first-child,\n    .plyr__controls .plyr__progress:first-child,\n    .plyr__controls .plyr__time:first-child {\n      margin-left: 0; }\n  .plyr__controls .plyr__volume {\n    margin-left: 5px; }\n  .plyr__controls [data-plyr=\"pause\"] {\n    margin-left: 0; }\n  .plyr__controls button {\n    position: relative;\n    display: inline-block;\n    -ms-flex-negative: 0;\n        flex-shrink: 0;\n    overflow: visible;\n    vertical-align: middle;\n    padding: 7px;\n    border: 0;\n    background: transparent;\n    border-radius: 3px;\n    cursor: pointer;\n    -webkit-transition: background .3s ease, color .3s ease, opacity .3s ease;\n    transition: background .3s ease, color .3s ease, opacity .3s ease;\n    color: inherit; }\n    .plyr__controls button svg {\n      width: 18px;\n      height: 18px;\n      display: block;\n      fill: currentColor; }\n    .plyr__controls button:focus {\n      outline: 0; }\n  .plyr__controls .icon--exit-fullscreen,\n  .plyr__controls .icon--muted,\n  .plyr__controls .icon--captions-on {\n    display: none; }\n  @media (min-width: 480px) {\n    .plyr__controls > button,\n    .plyr__controls .plyr__progress,\n    .plyr__controls .plyr__time {\n      margin-left: 10px; } }\n\n.plyr--hide-controls .plyr__controls {\n  opacity: 0;\n  pointer-events: none; }\n\n.plyr--video .plyr__controls {\n  position: absolute;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  padding: 50px 10px 10px;\n  background: -webkit-linear-gradient(transparent, rgba(0, 0, 0, 0.5));\n  background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));\n  border-bottom-left-radius: inherit;\n  border-bottom-right-radius: inherit;\n  color: #fff;\n  -webkit-transition: opacity .3s ease;\n  transition: opacity .3s ease; }\n  .plyr--video .plyr__controls button.tab-focus:focus, .plyr--video .plyr__controls button:hover {\n    background: #3498db;\n    color: #fff; }\n\n.plyr--audio .plyr__controls {\n  padding: 10px;\n  border-radius: inherit;\n  background: #fff;\n  border: 1px solid #dbe3e8;\n  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);\n  color: #565D64; }\n  .plyr--audio .plyr__controls button.tab-focus:focus, .plyr--audio .plyr__controls button:hover {\n    background: #3498db;\n    color: #fff; }\n\n.plyr__play-large {\n  display: none;\n  position: absolute;\n  z-index: 1;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  padding: 10px;\n  background: #3498db;\n  border: 4px solid currentColor;\n  border-radius: 100%;\n  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);\n  color: #fff;\n  -webkit-transition: all .3s ease;\n  transition: all .3s ease; }\n  .plyr__play-large svg {\n    position: relative;\n    left: 2px;\n    width: 20px;\n    height: 20px;\n    display: block;\n    fill: currentColor; }\n  .plyr__play-large:focus {\n    outline: 1px dotted rgba(255, 255, 255, 0.5); }\n\n.plyr .plyr__play-large {\n  display: inline-block; }\n\n.plyr--audio .plyr__play-large {\n  display: none; }\n\n.plyr--playing .plyr__play-large {\n  opacity: 0;\n  visibility: hidden; }\n\n.plyr__controls [data-plyr='pause'],\n.plyr--playing .plyr__controls [data-plyr='play'] {\n  display: none; }\n\n.plyr--playing .plyr__controls [data-plyr='pause'] {\n  display: inline-block; }\n\n.plyr--fullscreen-active .icon--exit-fullscreen,\n.plyr--muted .plyr__controls .icon--muted,\n.plyr--captions-active .plyr__controls .icon--captions-on {\n  display: block; }\n  .plyr--fullscreen-active .icon--exit-fullscreen + svg,\n  .plyr--muted .plyr__controls .icon--muted + svg,\n  .plyr--captions-active .plyr__controls .icon--captions-on + svg {\n    display: none; }\n\n.plyr [data-plyr='captions'],\n.plyr [data-plyr='fullscreen'] {\n  display: none; }\n\n.plyr--captions-enabled [data-plyr='captions'],\n.plyr--fullscreen-enabled [data-plyr='fullscreen'] {\n  display: inline-block; }\n\n.plyr__tooltip {\n  position: absolute;\n  z-index: 2;\n  bottom: 100%;\n  margin-bottom: 10px;\n  padding: 5px 7.5px;\n  pointer-events: none;\n  opacity: 0;\n  background: rgba(0, 0, 0, 0.7);\n  border-radius: 3px;\n  color: #fff;\n  font-size: 14px;\n  line-height: 1.3;\n  -webkit-transform: translate(-50%, 10px) scale(0.8);\n          transform: translate(-50%, 10px) scale(0.8);\n  -webkit-transform-origin: 50% 100%;\n          transform-origin: 50% 100%;\n  -webkit-transition: opacity .2s .1s ease, -webkit-transform .2s .1s ease;\n  transition: opacity .2s .1s ease, -webkit-transform .2s .1s ease;\n  transition: transform .2s .1s ease, opacity .2s .1s ease;\n  transition: transform .2s .1s ease, opacity .2s .1s ease, -webkit-transform .2s .1s ease; }\n  .plyr__tooltip::before {\n    content: '';\n    position: absolute;\n    width: 0;\n    height: 0;\n    left: 50%;\n    -webkit-transform: translateX(-50%);\n            transform: translateX(-50%);\n    bottom: -4px;\n    border-right: 4px solid transparent;\n    border-top: 4px solid rgba(0, 0, 0, 0.7);\n    border-left: 4px solid transparent;\n    z-index: 2; }\n\n.plyr button:hover .plyr__tooltip,\n.plyr button.tab-focus:focus .plyr__tooltip,\n.plyr__tooltip--visible {\n  opacity: 1;\n  -webkit-transform: translate(-50%, 0) scale(1);\n          transform: translate(-50%, 0) scale(1); }\n\n.plyr button:hover .plyr__tooltip {\n  z-index: 3; }\n\n.plyr__controls button:first-child .plyr__tooltip {\n  left: 0;\n  -webkit-transform: translate(0, 10px) scale(0.8);\n          transform: translate(0, 10px) scale(0.8);\n  -webkit-transform-origin: 0 100%;\n          transform-origin: 0 100%; }\n  .plyr__controls button:first-child .plyr__tooltip::before {\n    left: 16px; }\n\n.plyr__controls button:last-child .plyr__tooltip {\n  right: 0;\n  -webkit-transform: translate(0, 10px) scale(0.8);\n          transform: translate(0, 10px) scale(0.8);\n  -webkit-transform-origin: 100% 100%;\n          transform-origin: 100% 100%; }\n  .plyr__controls button:last-child .plyr__tooltip::before {\n    left: auto;\n    right: 16px;\n    -webkit-transform: translateX(50%);\n            transform: translateX(50%); }\n\n.plyr__controls button:first-child:hover .plyr__tooltip,\n.plyr__controls button:first-child.tab-focus:focus .plyr__tooltip,\n.plyr__controls button:first-child .plyr__tooltip--visible,\n.plyr__controls button:last-child:hover .plyr__tooltip,\n.plyr__controls button:last-child.tab-focus:focus .plyr__tooltip,\n.plyr__controls button:last-child .plyr__tooltip--visible {\n  -webkit-transform: translate(0, 0) scale(1);\n          transform: translate(0, 0) scale(1); }\n\n.plyr__progress {\n  display: none;\n  position: relative;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1; }\n  .plyr__progress input[type=\"range\"] {\n    position: relative;\n    z-index: 2; }\n    .plyr__progress input[type=\"range\"]::-webkit-slider-runnable-track {\n      background: transparent; }\n    .plyr__progress input[type=\"range\"]::-moz-range-track {\n      background: transparent; }\n    .plyr__progress input[type=\"range\"]::-ms-fill-upper {\n      background: transparent; }\n  .plyr__progress .plyr__tooltip {\n    left: 0; }\n\n.plyr .plyr__progress {\n  display: inline-block; }\n\n.plyr__progress--buffer,\n.plyr__progress--played,\n.plyr__volume--display {\n  position: absolute;\n  left: 0;\n  top: 50%;\n  width: 100%;\n  height: 8px;\n  margin: -4px 0 0;\n  padding: 0;\n  vertical-align: top;\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  border: none;\n  border-radius: 100px; }\n  .plyr__progress--buffer::-webkit-progress-bar,\n  .plyr__progress--played::-webkit-progress-bar,\n  .plyr__volume--display::-webkit-progress-bar {\n    background: transparent; }\n  .plyr__progress--buffer::-webkit-progress-value,\n  .plyr__progress--played::-webkit-progress-value,\n  .plyr__volume--display::-webkit-progress-value {\n    background: currentColor;\n    border-radius: 100px;\n    min-width: 8px; }\n  .plyr__progress--buffer::-moz-progress-bar,\n  .plyr__progress--played::-moz-progress-bar,\n  .plyr__volume--display::-moz-progress-bar {\n    background: currentColor;\n    border-radius: 100px;\n    min-width: 8px; }\n  .plyr__progress--buffer::-ms-fill,\n  .plyr__progress--played::-ms-fill,\n  .plyr__volume--display::-ms-fill {\n    border-radius: 100px; }\n\n.plyr__progress--played,\n.plyr__volume--display {\n  z-index: 1;\n  color: #3498db;\n  background: transparent;\n  -webkit-transition: none;\n  transition: none; }\n  .plyr__progress--played::-webkit-progress-value,\n  .plyr__volume--display::-webkit-progress-value {\n    min-width: 8px;\n    max-width: 99%;\n    border-top-right-radius: 0;\n    border-bottom-right-radius: 0;\n    -webkit-transition: none;\n    transition: none; }\n  .plyr__progress--played::-moz-progress-bar,\n  .plyr__volume--display::-moz-progress-bar {\n    min-width: 8px;\n    max-width: 99%;\n    border-top-right-radius: 0;\n    border-bottom-right-radius: 0;\n    -webkit-transition: none;\n    transition: none; }\n  .plyr__progress--played::-ms-fill,\n  .plyr__volume--display::-ms-fill {\n    display: none; }\n\n.plyr__progress--buffer::-webkit-progress-value {\n  -webkit-transition: width .2s ease;\n  transition: width .2s ease; }\n\n.plyr__progress--buffer::-moz-progress-bar {\n  -webkit-transition: width .2s ease;\n  transition: width .2s ease; }\n\n.plyr__progress--buffer::-ms-fill {\n  -webkit-transition: width .2s ease;\n  transition: width .2s ease; }\n\n.plyr--video .plyr__progress--buffer,\n.plyr--video .plyr__volume--display {\n  background: rgba(255, 255, 255, 0.25); }\n\n.plyr--video .plyr__progress--buffer {\n  color: rgba(255, 255, 255, 0.25); }\n\n.plyr--audio .plyr__progress--buffer,\n.plyr--audio .plyr__volume--display {\n  background: rgba(198, 214, 219, 0.67); }\n\n.plyr--audio .plyr__progress--buffer {\n  color: rgba(198, 214, 219, 0.67); }\n\n.plyr--loading .plyr__progress--buffer {\n  -webkit-animation: plyr-progress 1s linear infinite;\n          animation: plyr-progress 1s linear infinite;\n  background-size: 25px 25px;\n  background-repeat: repeat-x;\n  background-image: -webkit-linear-gradient(135deg, rgba(0, 0, 0, 0.15) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0.15) 75%, transparent 75%, transparent);\n  background-image: linear-gradient(-45deg, rgba(0, 0, 0, 0.15) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0.15) 75%, transparent 75%, transparent);\n  color: transparent; }\n\n.plyr--video.plyr--loading .plyr__progress--buffer {\n  background-color: rgba(255, 255, 255, 0.25); }\n\n.plyr--audio.plyr--loading .plyr__progress--buffer {\n  background-color: rgba(198, 214, 219, 0.67); }\n\n.plyr__time {\n  display: inline-block;\n  vertical-align: middle;\n  font-size: 14px; }\n\n.plyr__time + .plyr__time {\n  display: none; }\n  @media (min-width: 768px) {\n    .plyr__time + .plyr__time {\n      display: inline-block; } }\n  .plyr__time + .plyr__time::before {\n    content: '\\2044';\n    margin-right: 10px; }\n\n.plyr__volume {\n  display: none; }\n\n.plyr .plyr__volume {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  position: relative; }\n  .plyr .plyr__volume input[type=\"range\"] {\n    position: relative;\n    z-index: 2; }\n  @media (min-width: 480px) {\n    .plyr .plyr__volume {\n      display: block;\n      max-width: 60px; } }\n  @media (min-width: 768px) {\n    .plyr .plyr__volume {\n      max-width: 100px; } }\n\n.plyr--is-ios .plyr__volume,\n.plyr--is-ios [data-plyr='mute'] {\n  display: none !important; }\n\n.plyr--fullscreen,\n.plyr--fullscreen-active {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  height: 100%;\n  width: 100%;\n  z-index: 10000000;\n  background: #000;\n  border-radius: 0; }\n  .plyr--fullscreen video,\n  .plyr--fullscreen-active video {\n    height: 100%; }\n  .plyr--fullscreen .plyr__video-wrapper,\n  .plyr--fullscreen-active .plyr__video-wrapper {\n    height: 100%;\n    width: 100%; }\n  .plyr--fullscreen .plyr__controls,\n  .plyr--fullscreen-active .plyr__controls {\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    right: 0; }\n  .plyr--fullscreen.plyr--vimeo .plyr__video-wrapper,\n  .plyr--fullscreen-active.plyr--vimeo .plyr__video-wrapper {\n    height: 0;\n    top: 50%;\n    -webkit-transform: translateY(-50%);\n            transform: translateY(-50%); }\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 320 */
-/*!**********************************************!*\
-  !*** ./browser/scripts/videoplayer_setup.js ***!
-  \**********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	module.exports = function (plyr) {
-	  return plyr.setup({ iconUrl: __webpack_require__(/*! ~/~/plyr/dist/plyr.svg */ 321) });
-	};
-
-/***/ },
-/* 321 */
-/*!******************************!*\
-  !*** ./~/plyr/dist/plyr.svg ***!
-  \******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "plyr.svg";
-
-/***/ },
-/* 322 */
-/*!******************************************************!*\
-  !*** ./~/react-addons-css-transition-group/index.js ***!
-  \******************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(/*! react/lib/ReactCSSTransitionGroup */ 323);
-
-/***/ },
-/* 323 */
-/*!************************************************!*\
-  !*** ./~/react/lib/ReactCSSTransitionGroup.js ***!
-  \************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactCSSTransitionGroup
-	 */
-	
-	'use strict';
-	
-	var _assign = __webpack_require__(/*! object-assign */ 18);
-	
-	var React = __webpack_require__(/*! ./React */ 16);
-	
-	var ReactTransitionGroup = __webpack_require__(/*! ./ReactTransitionGroup */ 324);
-	var ReactCSSTransitionGroupChild = __webpack_require__(/*! ./ReactCSSTransitionGroupChild */ 326);
+	var TICK = 17;
 	
 	function createTransitionTimeoutPropValidator(transitionType) {
 	  var timeoutPropName = 'transition' + transitionType + 'Timeout';
@@ -47616,8 +47329,8 @@
 	    // If the transition is enabled
 	    if (props[enabledPropName]) {
 	      // If no timeout duration is provided
-	      if (props[timeoutPropName] == null) {
-	        return new Error(timeoutPropName + ' wasn\'t supplied to ReactCSSTransitionGroup: ' + 'this can cause unreliable animations and won\'t be supported in ' + 'a future version of React. See ' + 'https://fb.me/react-animation-transition-group-timeout for more ' + 'information.');
+	      if (!props[timeoutPropName]) {
+	        return new Error(timeoutPropName + ' wasn\'t supplied to ReactCSSTransitionReplace: ' + 'this can cause unreliable animations and won\'t be supported in ' + 'a future version of React. See ' + 'https://fb.me/react-animation-transition-group-timeout for more ' + 'information.');
 	
 	        // If the duration isn't a number
 	      } else if (typeof props[timeoutPropName] !== 'number') {
@@ -47627,423 +47340,238 @@
 	  };
 	}
 	
-	/**
-	 * An easy way to perform CSS transitions and animations when a React component
-	 * enters or leaves the DOM.
-	 * See https://facebook.github.io/react/docs/animation.html#high-level-api-reactcsstransitiongroup
-	 */
-	var ReactCSSTransitionGroup = React.createClass({
-	  displayName: 'ReactCSSTransitionGroup',
+	var ReactCSSTransitionReplace = (function (_React$Component) {
+	  _inherits(ReactCSSTransitionReplace, _React$Component);
 	
-	  propTypes: {
-	    transitionName: ReactCSSTransitionGroupChild.propTypes.name,
+	  function ReactCSSTransitionReplace() {
+	    var _this = this;
 	
-	    transitionAppear: React.PropTypes.bool,
-	    transitionEnter: React.PropTypes.bool,
-	    transitionLeave: React.PropTypes.bool,
-	    transitionAppearTimeout: createTransitionTimeoutPropValidator('Appear'),
-	    transitionEnterTimeout: createTransitionTimeoutPropValidator('Enter'),
-	    transitionLeaveTimeout: createTransitionTimeoutPropValidator('Leave')
-	  },
+	    _classCallCheck(this, ReactCSSTransitionReplace);
 	
-	  getDefaultProps: function () {
-	    return {
+	    _get(Object.getPrototypeOf(ReactCSSTransitionReplace.prototype), 'constructor', this).apply(this, arguments);
+	
+	    this.state = {
+	      currentChild: this.props.children ? _react2['default'].Children.only(this.props.children) : null,
+	      nextChild: null,
+	      height: null
+	    };
+	
+	    this._handleDoneAppearing = function () {
+	      _this.isTransitioning = false;
+	    };
+	
+	    this._handleDoneEntering = function () {
+	      _this.isTransitioning = false;
+	      _this.setState({
+	        currentChild: _this.state.nextChild,
+	        nextChild: null,
+	        height: null
+	      });
+	    };
+	
+	    this._handleDoneLeaving = function () {
+	      if (_this.isTransitioning) {
+	        var state = { currentChild: null };
+	
+	        if (!_this.state.nextChild) {
+	          _this.isTransitioning = false;
+	          state.height = null;
+	        }
+	
+	        _this.setState(state);
+	      }
+	    };
+	  }
+	
+	  _createClass(ReactCSSTransitionReplace, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      if (this.props.transitionAppear && this.state.currentChild) {
+	        this.appearCurrent();
+	      }
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      if (this.timeout) {
+	        clearTimeout(this.timeout);
+	      }
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      var _this2 = this;
+	
+	      // Setting false indicates that the child has changed, but it is a removal so there is no next child.
+	      var nextChild = nextProps.children ? _react2['default'].Children.only(nextProps.children) : false;
+	      var currentChild = this.state.currentChild;
+	
+	      if (currentChild && nextChild && nextChild.key === currentChild.key) {
+	        // Nothing changed, but we are re-rendering so update the currentChild.
+	        return this.setState({
+	          currentChild: nextChild
+	        });
+	      }
+	
+	      // Set the next child to start the transition, and set the current height.
+	      this.setState({
+	        nextChild: nextChild,
+	        height: this.state.currentChild ? _reactDom2['default'].findDOMNode(this.refs.curr).offsetHeight : 0
+	      });
+	
+	      // Enqueue setting the next height to trigger the height transition.
+	      this.timeout = setTimeout(function () {
+	        _this2.setState({ height: _this2.state.nextChild ? _reactDom2['default'].findDOMNode(_this2.refs.next).offsetHeight : 0 });
+	        _this2.timeout = null;
+	      }, TICK);
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      if (!this.isTransitioning) {
+	        if (this.state.nextChild) {
+	          this.enterNext();
+	        }
+	        if (this.state.currentChild && (this.state.nextChild || this.state.nextChild === false)) {
+	          this.leaveCurrent();
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'appearCurrent',
+	    value: function appearCurrent() {
+	      this.refs.curr.componentWillAppear(this._handleDoneAppearing);
+	      this.isTransitioning = true;
+	    }
+	  }, {
+	    key: 'enterNext',
+	    value: function enterNext() {
+	      this.refs.next.componentWillEnter(this._handleDoneEntering);
+	      this.isTransitioning = true;
+	    }
+	  }, {
+	    key: 'leaveCurrent',
+	    value: function leaveCurrent() {
+	      this.refs.curr.componentWillLeave(this._handleDoneLeaving);
+	      this.isTransitioning = true;
+	    }
+	
+	    // When the leave transition time-out expires the animation classes are removed, so the
+	    // element must be removed from the DOM if the enter transition is still in progress.
+	  }, {
+	    key: '_wrapChild',
+	    value: function _wrapChild(child, moreProps) {
+	      // We need to provide this childFactory so that
+	      // ReactCSSTransitionReplaceChild can receive updates to name,
+	      // enter, and leave while it is leaving.
+	      return reactCSSTransitionGroupChild((0, _objectAssign2['default'])({
+	        name: this.props.transitionName,
+	        appear: this.props.transitionAppear,
+	        enter: this.props.transitionEnter,
+	        leave: this.props.transitionLeave,
+	        appearTimeout: this.props.transitionAppearTimeout,
+	        enterTimeout: this.props.transitionEnterTimeout,
+	        leaveTimeout: this.props.transitionLeaveTimeout
+	      }, moreProps), child);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _state = this.state;
+	      var currentChild = _state.currentChild;
+	      var nextChild = _state.nextChild;
+	      var height = _state.height;
+	
+	      var childrenToRender = [];
+	
+	      var _props = this.props;
+	      var overflowHidden = _props.overflowHidden;
+	
+	      var containerProps = _objectWithoutProperties(_props, ['overflowHidden']);
+	
+	      if (currentChild) {
+	        childrenToRender.push(this._wrapChild(currentChild, {
+	          ref: 'curr', key: 'curr'
+	        }));
+	      }
+	
+	      if (height !== null) {
+	        containerProps.className = (containerProps.className || '') + ' ' + containerProps.transitionName + '-height';
+	        containerProps.style = (0, _objectAssign2['default'])({}, containerProps.style, {
+	          position: 'relative',
+	          display: 'block',
+	          height: height
+	        });
+	
+	        if (overflowHidden) {
+	          containerProps.style.overflow = 'hidden';
+	        }
+	      }
+	
+	      if (nextChild) {
+	        childrenToRender.push(_react2['default'].createElement('span', {
+	          style: {
+	            position: 'absolute',
+	            top: 0,
+	            left: 0,
+	            right: 0,
+	            bottom: 0
+	          },
+	          key: 'next'
+	        }, this._wrapChild(nextChild, { ref: 'next' })));
+	      }
+	
+	      return _react2['default'].createElement(this.props.component, containerProps, childrenToRender);
+	    }
+	  }], [{
+	    key: 'displayName',
+	    value: 'ReactCSSTransitionReplace',
+	    enumerable: true
+	  }, {
+	    key: 'propTypes',
+	    value: {
+	      transitionName: _react2['default'].PropTypes.oneOfType([_react2['default'].PropTypes.string, _react2['default'].PropTypes.shape({
+	        enter: _react2['default'].PropTypes.string,
+	        leave: _react2['default'].PropTypes.string,
+	        active: _react2['default'].PropTypes.string
+	      }), _react2['default'].PropTypes.shape({
+	        enter: _react2['default'].PropTypes.string,
+	        enterActive: _react2['default'].PropTypes.string,
+	        leave: _react2['default'].PropTypes.string,
+	        leaveActive: _react2['default'].PropTypes.string,
+	        appear: _react2['default'].PropTypes.string,
+	        appearActive: _react2['default'].PropTypes.string
+	      })]).isRequired,
+	
+	      transitionAppear: _react2['default'].PropTypes.bool,
+	      transitionEnter: _react2['default'].PropTypes.bool,
+	      transitionLeave: _react2['default'].PropTypes.bool,
+	      transitionAppearTimeout: createTransitionTimeoutPropValidator('Appear'),
+	      transitionEnterTimeout: createTransitionTimeoutPropValidator('Enter'),
+	      transitionLeaveTimeout: createTransitionTimeoutPropValidator('Leave'),
+	      overflowHidden: _react2['default'].PropTypes.bool
+	    },
+	    enumerable: true
+	  }, {
+	    key: 'defaultProps',
+	    value: {
 	      transitionAppear: false,
 	      transitionEnter: true,
-	      transitionLeave: true
-	    };
-	  },
+	      transitionLeave: true,
+	      overflowHidden: true,
+	      component: 'span'
+	    },
+	    enumerable: true
+	  }]);
 	
-	  _wrapChild: function (child) {
-	    // We need to provide this childFactory so that
-	    // ReactCSSTransitionGroupChild can receive updates to name, enter, and
-	    // leave while it is leaving.
-	    return React.createElement(ReactCSSTransitionGroupChild, {
-	      name: this.props.transitionName,
-	      appear: this.props.transitionAppear,
-	      enter: this.props.transitionEnter,
-	      leave: this.props.transitionLeave,
-	      appearTimeout: this.props.transitionAppearTimeout,
-	      enterTimeout: this.props.transitionEnterTimeout,
-	      leaveTimeout: this.props.transitionLeaveTimeout
-	    }, child);
-	  },
+	  return ReactCSSTransitionReplace;
+	})(_react2['default'].Component);
 	
-	  render: function () {
-	    return React.createElement(ReactTransitionGroup, _assign({}, this.props, { childFactory: this._wrapChild }));
-	  }
-	});
-	
-	module.exports = ReactCSSTransitionGroup;
+	exports['default'] = ReactCSSTransitionReplace;
+	module.exports = exports['default'];
 
 /***/ },
-/* 324 */
-/*!*********************************************!*\
-  !*** ./~/react/lib/ReactTransitionGroup.js ***!
-  \*********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactTransitionGroup
-	 */
-	
-	'use strict';
-	
-	var _assign = __webpack_require__(/*! object-assign */ 18);
-	
-	var React = __webpack_require__(/*! ./React */ 16);
-	var ReactInstanceMap = __webpack_require__(/*! ./ReactInstanceMap */ 134);
-	var ReactTransitionChildMapping = __webpack_require__(/*! ./ReactTransitionChildMapping */ 325);
-	
-	var emptyFunction = __webpack_require__(/*! fbjs/lib/emptyFunction */ 26);
-	
-	/**
-	 * A basis for animations. When children are declaratively added or removed,
-	 * special lifecycle hooks are called.
-	 * See https://facebook.github.io/react/docs/animation.html#low-level-api-reacttransitiongroup
-	 */
-	var ReactTransitionGroup = React.createClass({
-	  displayName: 'ReactTransitionGroup',
-	
-	  propTypes: {
-	    component: React.PropTypes.any,
-	    childFactory: React.PropTypes.func
-	  },
-	
-	  getDefaultProps: function () {
-	    return {
-	      component: 'span',
-	      childFactory: emptyFunction.thatReturnsArgument
-	    };
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      // TODO: can we get useful debug information to show at this point?
-	      children: ReactTransitionChildMapping.getChildMapping(this.props.children)
-	    };
-	  },
-	
-	  componentWillMount: function () {
-	    this.currentlyTransitioningKeys = {};
-	    this.keysToEnter = [];
-	    this.keysToLeave = [];
-	  },
-	
-	  componentDidMount: function () {
-	    var initialChildMapping = this.state.children;
-	    for (var key in initialChildMapping) {
-	      if (initialChildMapping[key]) {
-	        this.performAppear(key);
-	      }
-	    }
-	  },
-	
-	  componentWillReceiveProps: function (nextProps) {
-	    var nextChildMapping;
-	    if (process.env.NODE_ENV !== 'production') {
-	      nextChildMapping = ReactTransitionChildMapping.getChildMapping(nextProps.children, ReactInstanceMap.get(this)._debugID);
-	    } else {
-	      nextChildMapping = ReactTransitionChildMapping.getChildMapping(nextProps.children);
-	    }
-	    var prevChildMapping = this.state.children;
-	
-	    this.setState({
-	      children: ReactTransitionChildMapping.mergeChildMappings(prevChildMapping, nextChildMapping)
-	    });
-	
-	    var key;
-	
-	    for (key in nextChildMapping) {
-	      var hasPrev = prevChildMapping && prevChildMapping.hasOwnProperty(key);
-	      if (nextChildMapping[key] && !hasPrev && !this.currentlyTransitioningKeys[key]) {
-	        this.keysToEnter.push(key);
-	      }
-	    }
-	
-	    for (key in prevChildMapping) {
-	      var hasNext = nextChildMapping && nextChildMapping.hasOwnProperty(key);
-	      if (prevChildMapping[key] && !hasNext && !this.currentlyTransitioningKeys[key]) {
-	        this.keysToLeave.push(key);
-	      }
-	    }
-	
-	    // If we want to someday check for reordering, we could do it here.
-	  },
-	
-	  componentDidUpdate: function () {
-	    var keysToEnter = this.keysToEnter;
-	    this.keysToEnter = [];
-	    keysToEnter.forEach(this.performEnter);
-	
-	    var keysToLeave = this.keysToLeave;
-	    this.keysToLeave = [];
-	    keysToLeave.forEach(this.performLeave);
-	  },
-	
-	  performAppear: function (key) {
-	    this.currentlyTransitioningKeys[key] = true;
-	
-	    var component = this.refs[key];
-	
-	    if (component.componentWillAppear) {
-	      component.componentWillAppear(this._handleDoneAppearing.bind(this, key));
-	    } else {
-	      this._handleDoneAppearing(key);
-	    }
-	  },
-	
-	  _handleDoneAppearing: function (key) {
-	    var component = this.refs[key];
-	    if (component.componentDidAppear) {
-	      component.componentDidAppear();
-	    }
-	
-	    delete this.currentlyTransitioningKeys[key];
-	
-	    var currentChildMapping;
-	    if (process.env.NODE_ENV !== 'production') {
-	      currentChildMapping = ReactTransitionChildMapping.getChildMapping(this.props.children, ReactInstanceMap.get(this)._debugID);
-	    } else {
-	      currentChildMapping = ReactTransitionChildMapping.getChildMapping(this.props.children);
-	    }
-	
-	    if (!currentChildMapping || !currentChildMapping.hasOwnProperty(key)) {
-	      // This was removed before it had fully appeared. Remove it.
-	      this.performLeave(key);
-	    }
-	  },
-	
-	  performEnter: function (key) {
-	    this.currentlyTransitioningKeys[key] = true;
-	
-	    var component = this.refs[key];
-	
-	    if (component.componentWillEnter) {
-	      component.componentWillEnter(this._handleDoneEntering.bind(this, key));
-	    } else {
-	      this._handleDoneEntering(key);
-	    }
-	  },
-	
-	  _handleDoneEntering: function (key) {
-	    var component = this.refs[key];
-	    if (component.componentDidEnter) {
-	      component.componentDidEnter();
-	    }
-	
-	    delete this.currentlyTransitioningKeys[key];
-	
-	    var currentChildMapping;
-	    if (process.env.NODE_ENV !== 'production') {
-	      currentChildMapping = ReactTransitionChildMapping.getChildMapping(this.props.children, ReactInstanceMap.get(this)._debugID);
-	    } else {
-	      currentChildMapping = ReactTransitionChildMapping.getChildMapping(this.props.children);
-	    }
-	
-	    if (!currentChildMapping || !currentChildMapping.hasOwnProperty(key)) {
-	      // This was removed before it had fully entered. Remove it.
-	      this.performLeave(key);
-	    }
-	  },
-	
-	  performLeave: function (key) {
-	    this.currentlyTransitioningKeys[key] = true;
-	
-	    var component = this.refs[key];
-	    if (component.componentWillLeave) {
-	      component.componentWillLeave(this._handleDoneLeaving.bind(this, key));
-	    } else {
-	      // Note that this is somewhat dangerous b/c it calls setState()
-	      // again, effectively mutating the component before all the work
-	      // is done.
-	      this._handleDoneLeaving(key);
-	    }
-	  },
-	
-	  _handleDoneLeaving: function (key) {
-	    var component = this.refs[key];
-	
-	    if (component.componentDidLeave) {
-	      component.componentDidLeave();
-	    }
-	
-	    delete this.currentlyTransitioningKeys[key];
-	
-	    var currentChildMapping;
-	    if (process.env.NODE_ENV !== 'production') {
-	      currentChildMapping = ReactTransitionChildMapping.getChildMapping(this.props.children, ReactInstanceMap.get(this)._debugID);
-	    } else {
-	      currentChildMapping = ReactTransitionChildMapping.getChildMapping(this.props.children);
-	    }
-	
-	    if (currentChildMapping && currentChildMapping.hasOwnProperty(key)) {
-	      // This entered again before it fully left. Add it again.
-	      this.performEnter(key);
-	    } else {
-	      this.setState(function (state) {
-	        var newChildren = _assign({}, state.children);
-	        delete newChildren[key];
-	        return { children: newChildren };
-	      });
-	    }
-	  },
-	
-	  render: function () {
-	    // TODO: we could get rid of the need for the wrapper node
-	    // by cloning a single child
-	    var childrenToRender = [];
-	    for (var key in this.state.children) {
-	      var child = this.state.children[key];
-	      if (child) {
-	        // You may need to apply reactive updates to a child as it is leaving.
-	        // The normal React way to do it won't work since the child will have
-	        // already been removed. In case you need this behavior you can provide
-	        // a childFactory function to wrap every child, even the ones that are
-	        // leaving.
-	        childrenToRender.push(React.cloneElement(this.props.childFactory(child), { ref: key, key: key }));
-	      }
-	    }
-	
-	    // Do not forward ReactTransitionGroup props to primitive DOM nodes
-	    var props = _assign({}, this.props);
-	    delete props.transitionLeave;
-	    delete props.transitionName;
-	    delete props.transitionAppear;
-	    delete props.transitionEnter;
-	    delete props.childFactory;
-	    delete props.transitionLeaveTimeout;
-	    delete props.transitionEnterTimeout;
-	    delete props.component;
-	
-	    return React.createElement(this.props.component, props, childrenToRender);
-	  }
-	});
-	
-	module.exports = ReactTransitionGroup;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 17)))
-
-/***/ },
-/* 325 */
-/*!****************************************************!*\
-  !*** ./~/react/lib/ReactTransitionChildMapping.js ***!
-  \****************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactTransitionChildMapping
-	 */
-	
-	'use strict';
-	
-	var flattenChildren = __webpack_require__(/*! ./flattenChildren */ 143);
-	
-	var ReactTransitionChildMapping = {
-	  /**
-	   * Given `this.props.children`, return an object mapping key to child. Just
-	   * simple syntactic sugar around flattenChildren().
-	   *
-	   * @param {*} children `this.props.children`
-	   * @param {number=} selfDebugID Optional debugID of the current internal instance.
-	   * @return {object} Mapping of key to child
-	   */
-	  getChildMapping: function (children, selfDebugID) {
-	    if (!children) {
-	      return children;
-	    }
-	
-	    if (process.env.NODE_ENV !== 'production') {
-	      return flattenChildren(children, selfDebugID);
-	    }
-	
-	    return flattenChildren(children);
-	  },
-	
-	  /**
-	   * When you're adding or removing children some may be added or removed in the
-	   * same render pass. We want to show *both* since we want to simultaneously
-	   * animate elements in and out. This function takes a previous set of keys
-	   * and a new set of keys and merges them with its best guess of the correct
-	   * ordering. In the future we may expose some of the utilities in
-	   * ReactMultiChild to make this easy, but for now React itself does not
-	   * directly have this concept of the union of prevChildren and nextChildren
-	   * so we implement it here.
-	   *
-	   * @param {object} prev prev children as returned from
-	   * `ReactTransitionChildMapping.getChildMapping()`.
-	   * @param {object} next next children as returned from
-	   * `ReactTransitionChildMapping.getChildMapping()`.
-	   * @return {object} a key set that contains all keys in `prev` and all keys
-	   * in `next` in a reasonable order.
-	   */
-	  mergeChildMappings: function (prev, next) {
-	    prev = prev || {};
-	    next = next || {};
-	
-	    function getValueForKey(key) {
-	      if (next.hasOwnProperty(key)) {
-	        return next[key];
-	      } else {
-	        return prev[key];
-	      }
-	    }
-	
-	    // For each key of `next`, the list of keys to insert before that key in
-	    // the combined list
-	    var nextKeysPending = {};
-	
-	    var pendingKeys = [];
-	    for (var prevKey in prev) {
-	      if (next.hasOwnProperty(prevKey)) {
-	        if (pendingKeys.length) {
-	          nextKeysPending[prevKey] = pendingKeys;
-	          pendingKeys = [];
-	        }
-	      } else {
-	        pendingKeys.push(prevKey);
-	      }
-	    }
-	
-	    var i;
-	    var childMapping = {};
-	    for (var nextKey in next) {
-	      if (nextKeysPending.hasOwnProperty(nextKey)) {
-	        for (i = 0; i < nextKeysPending[nextKey].length; i++) {
-	          var pendingNextKey = nextKeysPending[nextKey][i];
-	          childMapping[nextKeysPending[nextKey][i]] = getValueForKey(pendingNextKey);
-	        }
-	      }
-	      childMapping[nextKey] = getValueForKey(nextKey);
-	    }
-	
-	    // Finally, add the keys which didn't appear before any key in `next`
-	    for (i = 0; i < pendingKeys.length; i++) {
-	      childMapping[pendingKeys[i]] = getValueForKey(pendingKeys[i]);
-	    }
-	
-	    return childMapping;
-	  }
-	};
-	
-	module.exports = ReactTransitionChildMapping;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 17)))
-
-/***/ },
-/* 326 */
+/* 313 */
 /*!*****************************************************!*\
   !*** ./~/react/lib/ReactCSSTransitionGroupChild.js ***!
   \*****************************************************/
@@ -48065,8 +47593,8 @@
 	var React = __webpack_require__(/*! ./React */ 16);
 	var ReactDOM = __webpack_require__(/*! ./ReactDOM */ 48);
 	
-	var CSSCore = __webpack_require__(/*! fbjs/lib/CSSCore */ 327);
-	var ReactTransitionEvents = __webpack_require__(/*! ./ReactTransitionEvents */ 328);
+	var CSSCore = __webpack_require__(/*! fbjs/lib/CSSCore */ 314);
+	var ReactTransitionEvents = __webpack_require__(/*! ./ReactTransitionEvents */ 315);
 	
 	var onlyChild = __webpack_require__(/*! ./onlyChild */ 46);
 	
@@ -48218,7 +47746,7 @@
 	module.exports = ReactCSSTransitionGroupChild;
 
 /***/ },
-/* 327 */
+/* 314 */
 /*!*******************************!*\
   !*** ./~/fbjs/lib/CSSCore.js ***!
   \*******************************/
@@ -48348,7 +47876,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 17)))
 
 /***/ },
-/* 328 */
+/* 315 */
 /*!**********************************************!*\
   !*** ./~/react/lib/ReactTransitionEvents.js ***!
   \**********************************************/
@@ -48429,7 +47957,290 @@
 	module.exports = ReactTransitionEvents;
 
 /***/ },
-/* 329 */
+/* 316 */
+/*!******************************************!*\
+  !*** ./browser/scripts/video_player.jsx ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 15);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _moment = __webpack_require__(/*! moment */ 207);
+	
+	var moment = _interopRequireWildcard(_moment);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var VideoPlayer = function (_React$Component) {
+	  _inherits(VideoPlayer, _React$Component);
+	
+	  function VideoPlayer(props) {
+	    _classCallCheck(this, VideoPlayer);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(VideoPlayer).call(this, props));
+	  }
+	
+	  _createClass(VideoPlayer, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'videoPlayer container' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row' },
+	          _react2.default.createElement('video', { poster: this.props.thumbUrl, src: this.props.videoUrl, controls: 'true' })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row videoDetails' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-md-8' },
+	            _react2.default.createElement(
+	              'h3',
+	              null,
+	              this.props.title
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-md-4' },
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              'Mis en ligne le ',
+	              this.props.uploadDate,
+	              ' par ',
+	              this.props.uploader,
+	              _react2.default.createElement('br', null),
+	              _react2.default.createElement(
+	                'small',
+	                null,
+	                this.props.views,
+	                ' vues'
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row videoDescription' },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            this.props.description
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return VideoPlayer;
+	}(_react2.default.Component);
+	
+	VideoPlayer.defaultProps = {
+	  thumbUrl: '/defaults/no_video.png',
+	  videoUrl: '/defaults/no_video.mp4',
+	  title: 'Titre',
+	  uploadDate: "26/06/2016",
+	  uploader: 'CTN',
+	  description: 'Vidéo Mediapiston',
+	  views: 0
+	};
+	
+	exports.default = VideoPlayer;
+
+/***/ },
+/* 317 */
+/*!***********************************!*\
+  !*** ./browser/styles/cards.sass ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./cards.sass */ 318);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 190)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./cards.sass", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./cards.sass");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 318 */
+/*!*************************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/cards.sass ***!
+  \*************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 189)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "#videosList, #matosList {\n  text-align: center; }\n\n.videoList .card {\n  margin: 20px;\n  -webkit-box-flex: 2;\n      -ms-flex-positive: 2;\n          flex-grow: 2;\n  -ms-flex-preferred-size: 400px;\n      flex-basis: 400px; }\n\n.matosList .card {\n  margin: 20px;\n  -webkit-box-flex: 2;\n      -ms-flex-positive: 2;\n          flex-grow: 2;\n  -ms-flex-preferred-size: 200px;\n      flex-basis: 200px; }\n\n.card-img-top {\n  width: 100%;\n  height: auto; }\n\na.cardLink, a.cardLink:hover {\n  text-decoration: none;\n  color: black; }\n\n.videoList, .matosList {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 80%;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  margin: auto;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center; }\n\n.materielDispo {\n  color: #3c763d; }\n\n.videoPlayer {\n  margin-top: 20px; }\n\n.videoDetails {\n  margin-top: 1em; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 319 */
+/*!************************************!*\
+  !*** ./browser/styles/search.sass ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./search.sass */ 320);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 190)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./search.sass", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./search.sass");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 320 */
+/*!**************************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/search.sass ***!
+  \**************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 189)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "#searchBox {\n  width: 100%;\n  margin-top: 10px;\n  text-align: center;\n  margin-bottom: 10px; }\n\n#searchBox form input {\n  width: 400px;\n  height: 45px; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 321 */
+/*!*****************************!*\
+  !*** ./~/plyr/dist/plyr.js ***!
+  \*****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.exports=t(e,document): true?!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){t(e,document)}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):e.plyr=t(e,document)}("undefined"!=typeof window?window:this,function(e,t){"use strict";function n(){var e,n,r,a=navigator.userAgent,s=navigator.appName,o=""+parseFloat(navigator.appVersion),i=parseInt(navigator.appVersion,10),l=!1,u=!1,c=!1,p=!1;return-1!==navigator.appVersion.indexOf("Windows NT")&&-1!==navigator.appVersion.indexOf("rv:11")?(l=!0,s="IE",o="11"):-1!==(n=a.indexOf("MSIE"))?(l=!0,s="IE",o=a.substring(n+5)):-1!==(n=a.indexOf("Chrome"))?(c=!0,s="Chrome",o=a.substring(n+7)):-1!==(n=a.indexOf("Safari"))?(p=!0,s="Safari",o=a.substring(n+7),-1!==(n=a.indexOf("Version"))&&(o=a.substring(n+8))):-1!==(n=a.indexOf("Firefox"))?(u=!0,s="Firefox",o=a.substring(n+8)):(e=a.lastIndexOf(" ")+1)<(n=a.lastIndexOf("/"))&&(s=a.substring(e,n),o=a.substring(n+1),s.toLowerCase()==s.toUpperCase()&&(s=navigator.appName)),-1!==(r=o.indexOf(";"))&&(o=o.substring(0,r)),-1!==(r=o.indexOf(" "))&&(o=o.substring(0,r)),i=parseInt(""+o,10),isNaN(i)&&(o=""+parseFloat(navigator.appVersion),i=parseInt(navigator.appVersion,10)),{name:s,version:i,isIE:l,isFirefox:u,isChrome:c,isSafari:p,isIos:/(iPad|iPhone|iPod)/g.test(navigator.platform),isTouch:"ontouchstart"in t.documentElement}}function r(e,t){var n=e.media;if("video"==e.type)switch(t){case"video/webm":return!(!n.canPlayType||!n.canPlayType('video/webm; codecs="vp8, vorbis"').replace(/no/,""));case"video/mp4":return!(!n.canPlayType||!n.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/,""));case"video/ogg":return!(!n.canPlayType||!n.canPlayType('video/ogg; codecs="theora"').replace(/no/,""))}else if("audio"==e.type)switch(t){case"audio/mpeg":return!(!n.canPlayType||!n.canPlayType("audio/mpeg;").replace(/no/,""));case"audio/ogg":return!(!n.canPlayType||!n.canPlayType('audio/ogg; codecs="vorbis"').replace(/no/,""));case"audio/wav":return!(!n.canPlayType||!n.canPlayType('audio/wav; codecs="1"').replace(/no/,""))}return!1}function a(e){if(!t.querySelectorAll('script[src="'+e+'"]').length){var n=t.createElement("script");n.src=e;var r=t.getElementsByTagName("script")[0];r.parentNode.insertBefore(n,r)}}function s(e,t){return Array.prototype.indexOf&&-1!=e.indexOf(t)}function o(e,t,n){return e.replace(new RegExp(t.replace(/([.*+?\^=!:${}()|\[\]\/\\])/g,"\\$1"),"g"),n)}function i(e,t){e.length||(e=[e]);for(var n=e.length-1;n>=0;n--){var r=n>0?t.cloneNode(!0):t,a=e[n],s=a.parentNode,o=a.nextSibling;return r.appendChild(a),o?s.insertBefore(r,o):s.appendChild(r),r}}function l(e){for(var t=e.parentNode;e.firstChild;)t.insertBefore(e.firstChild,e);t.removeChild(e)}function u(e){e&&e.parentNode.removeChild(e)}function c(e,t){e.insertBefore(t,e.firstChild)}function p(e,t){for(var n in t)e.setAttribute(n,"boolean"==typeof t[n]&&t[n]?"":t[n])}function d(e,n,r){var a=t.createElement(e);p(a,r),c(n,a)}function A(e){return e.replace(".","")}function m(e,t,n){if(e)if(e.classList)e.classList[n?"add":"remove"](t);else{var r=(" "+e.className+" ").replace(/\s+/g," ").replace(" "+t+" ","");e.className=r+(n?" "+t:"")}}function f(e,t){return e?e.classList?e.classList.contains(t):new RegExp("(\\s|^)"+t+"(\\s|$)").test(e.className):!1}function y(e,n){var r=Element.prototype,a=r.matches||r.webkitMatchesSelector||r.mozMatchesSelector||r.msMatchesSelector||function(e){return-1!==[].indexOf.call(t.querySelectorAll(e),this)};return a.call(e,n)}function b(e,t,n,r){e&&h(e,t,n,!0,r)}function v(e,t,n,r){e&&h(e,t,n,!1,r)}function g(e,t,n,r,a){b(e,t,function(t){n&&n.apply(e,[t]),r.apply(e,[t])},a)}function h(e,t,n,r,a){var s=t.split(" ");if("boolean"!=typeof a&&(a=!1),e instanceof NodeList)for(var o=0;o<e.length;o++)e[o]instanceof Node&&h(e[o],arguments[1],arguments[2],arguments[3]);else for(var i=0;i<s.length;i++)e[r?"addEventListener":"removeEventListener"](s[i],n,a)}function k(e,t,n,r){if(e&&t){"boolean"!=typeof n&&(n=!1);var a=new CustomEvent(t,{bubbles:n,detail:r});e.dispatchEvent(a)}}function w(e,t){return e?(t="boolean"==typeof t?t:!e.getAttribute("aria-pressed"),e.setAttribute("aria-pressed",t),t):void 0}function x(e,t){return 0===e||0===t||isNaN(e)||isNaN(t)?0:(e/t*100).toFixed(2)}function T(){var e=arguments;if(e.length){if(1==e.lenth)return e[0];for(var t=Array.prototype.shift.call(e),n=e.length,r=0;n>r;r++){var a=e[r];for(var s in a)a[s]&&a[s].constructor&&a[s].constructor===Object?(t[s]=t[s]||{},T(t[s],a[s])):t[s]=a[s]}return t}}function E(){var e={supportsFullScreen:!1,isFullScreen:function(){return!1},requestFullScreen:function(){},cancelFullScreen:function(){},fullScreenEventName:"",element:null,prefix:""},n="webkit moz o ms khtml".split(" ");if("undefined"!=typeof t.cancelFullScreen)e.supportsFullScreen=!0;else for(var r=0,a=n.length;a>r;r++){if(e.prefix=n[r],"undefined"!=typeof t[e.prefix+"CancelFullScreen"]){e.supportsFullScreen=!0;break}if("undefined"!=typeof t.msExitFullscreen&&t.msFullscreenEnabled){e.prefix="ms",e.supportsFullScreen=!0;break}}return e.supportsFullScreen&&(e.fullScreenEventName="ms"==e.prefix?"MSFullscreenChange":e.prefix+"fullscreenchange",e.isFullScreen=function(e){switch("undefined"==typeof e&&(e=t.body),this.prefix){case"":return t.fullscreenElement==e;case"moz":return t.mozFullScreenElement==e;default:return t[this.prefix+"FullscreenElement"]==e}},e.requestFullScreen=function(e){return"undefined"==typeof e&&(e=t.body),""===this.prefix?e.requestFullScreen():e[this.prefix+("ms"==this.prefix?"RequestFullscreen":"RequestFullScreen")]()},e.cancelFullScreen=function(){return""===this.prefix?t.cancelFullScreen():t[this.prefix+("ms"==this.prefix?"ExitFullscreen":"CancelFullScreen")]()},e.element=function(){return""===this.prefix?t.fullscreenElement:t[this.prefix+"FullscreenElement"]}),e}function _(){var t={supported:function(){if(!("localStorage"in e))return!1;try{e.localStorage.setItem("___test","OK");var t=e.localStorage.getItem("___test");return e.localStorage.removeItem("___test"),"OK"===t}catch(n){return!1}return!1}()};return t}function C(y,h){function T(){h.debug&&e.console&&console.log.apply(console,arguments)}function C(){h.debug&&e.console&&console.warn.apply(console,arguments)}function I(){return{url:h.iconUrl,absolute:0===h.iconUrl.indexOf("http")||Oe.browser.isIE}}function P(){var e=[],t=I(),n=(t.absolute?"":t.url)+"#"+h.iconPrefix;return s(h.controls,"play-large")&&e.push('<button type="button" data-plyr="play" class="plyr__play-large">','<svg><use xlink:href="'+n+'-play" /></svg>','<span class="plyr__sr-only">'+h.i18n.play+"</span>","</button>"),e.push('<div class="plyr__controls">'),s(h.controls,"restart")&&e.push('<button type="button" data-plyr="restart">','<svg><use xlink:href="'+n+'-restart" /></svg>','<span class="plyr__sr-only">'+h.i18n.restart+"</span>","</button>"),s(h.controls,"rewind")&&e.push('<button type="button" data-plyr="rewind">','<svg><use xlink:href="'+n+'-rewind" /></svg>','<span class="plyr__sr-only">'+h.i18n.rewind+"</span>","</button>"),s(h.controls,"play")&&e.push('<button type="button" data-plyr="play">','<svg><use xlink:href="'+n+'-play" /></svg>','<span class="plyr__sr-only">'+h.i18n.play+"</span>","</button>",'<button type="button" data-plyr="pause">','<svg><use xlink:href="'+n+'-pause" /></svg>','<span class="plyr__sr-only">'+h.i18n.pause+"</span>","</button>"),s(h.controls,"fast-forward")&&e.push('<button type="button" data-plyr="fast-forward">','<svg><use xlink:href="'+n+'-fast-forward" /></svg>','<span class="plyr__sr-only">'+h.i18n.forward+"</span>","</button>"),s(h.controls,"progress")&&(e.push('<span class="plyr__progress">','<label for="seek{id}" class="plyr__sr-only">Seek</label>','<input id="seek{id}" class="plyr__progress--seek" type="range" min="0" max="100" step="0.1" value="0" data-plyr="seek">','<progress class="plyr__progress--played" max="100" value="0" role="presentation"></progress>','<progress class="plyr__progress--buffer" max="100" value="0">',"<span>0</span>% "+h.i18n.buffered,"</progress>"),h.tooltips.seek&&e.push('<span class="plyr__tooltip">00:00</span>'),e.push("</span>")),s(h.controls,"current-time")&&e.push('<span class="plyr__time">','<span class="plyr__sr-only">'+h.i18n.currentTime+"</span>",'<span class="plyr__time--current">00:00</span>',"</span>"),s(h.controls,"duration")&&e.push('<span class="plyr__time">','<span class="plyr__sr-only">'+h.i18n.duration+"</span>",'<span class="plyr__time--duration">00:00</span>',"</span>"),s(h.controls,"mute")&&e.push('<button type="button" data-plyr="mute">','<svg class="icon--muted"><use xlink:href="'+n+'-muted" /></svg>','<svg><use xlink:href="'+n+'-volume" /></svg>','<span class="plyr__sr-only">'+h.i18n.toggleMute+"</span>","</button>"),s(h.controls,"volume")&&e.push('<span class="plyr__volume">','<label for="volume{id}" class="plyr__sr-only">'+h.i18n.volume+"</label>",'<input id="volume{id}" class="plyr__volume--input" type="range" min="'+h.volumeMin+'" max="'+h.volumeMax+'" value="'+h.volume+'" data-plyr="volume">','<progress class="plyr__volume--display" max="'+h.volumeMax+'" value="'+h.volumeMin+'" role="presentation"></progress>',"</span>"),s(h.controls,"captions")&&e.push('<button type="button" data-plyr="captions">','<svg class="icon--captions-on"><use xlink:href="'+n+'-captions-on" /></svg>','<svg><use xlink:href="'+n+'-captions-off" /></svg>','<span class="plyr__sr-only">'+h.i18n.toggleCaptions+"</span>","</button>"),s(h.controls,"fullscreen")&&e.push('<button type="button" data-plyr="fullscreen">','<svg class="icon--exit-fullscreen"><use xlink:href="'+n+'-exit-fullscreen" /></svg>','<svg><use xlink:href="'+n+'-enter-fullscreen" /></svg>','<span class="plyr__sr-only">'+h.i18n.toggleFullscreen+"</span>","</button>"),e.push("</div>"),e.join("")}function R(){if(Oe.supported.full&&("audio"!=Oe.type||h.fullscreen.allowAudio)&&h.fullscreen.enabled){var e=M.supportsFullScreen;e||h.fullscreen.fallback&&!W()?(T((e?"Native":"Fallback")+" fullscreen enabled"),m(Oe.container,h.classes.fullscreen.enabled,!0)):T("Fullscreen not supported and fallback disabled"),w(Oe.buttons.fullscreen,!1),Y()}}function L(){if("video"===Oe.type){G(h.selectors.captions)||Oe.videoContainer.insertAdjacentHTML("afterbegin",'<div class="'+A(h.selectors.captions)+'"></div>'),Oe.usingTextTracks=!1,Oe.media.textTracks&&(Oe.usingTextTracks=!0);for(var e,t="",n=Oe.media.childNodes,r=0;r<n.length;r++)"track"===n[r].nodeName.toLowerCase()&&(e=n[r].kind,"captions"!==e&&"subtitles"!==e||(t=n[r].getAttribute("src")));if(Oe.captionExists=!0,""===t?(Oe.captionExists=!1,T("No caption track found")):T("Caption track found; URI: "+t),Oe.captionExists){for(var a=Oe.media.textTracks,s=0;s<a.length;s++)a[s].mode="hidden";if(H(Oe),(Oe.browser.isIE&&Oe.browser.version>=10||Oe.browser.isFirefox&&Oe.browser.version>=31)&&(T("Detected browser with known TextTrack issues - using manual fallback"),Oe.usingTextTracks=!1),Oe.usingTextTracks){T("TextTracks supported");for(var o=0;o<a.length;o++){var i=a[o];"captions"!==i.kind&&"subtitles"!==i.kind||b(i,"cuechange",function(){this.activeCues[0]&&"text"in this.activeCues[0]?B(this.activeCues[0].getCueAsHTML()):B()})}}else if(T("TextTracks not supported so rendering captions manually"),Oe.currentCaption="",Oe.captions=[],""!==t){var l=new XMLHttpRequest;l.onreadystatechange=function(){if(4===l.readyState)if(200===l.status){var e,t=[],n=l.responseText;t=n.split("\n\n");for(var r=0;r<t.length;r++){e=t[r],Oe.captions[r]=[];var a=e.split("\n"),s=0;-1===a[s].indexOf(":")&&(s=1),Oe.captions[r]=[a[s],a[s+1]]}Oe.captions.shift(),T("Successfully loaded the caption file via AJAX")}else C("There was a problem loading the caption file via AJAX")},l.open("get",t,!0),l.send()}}else m(Oe.container,h.classes.captions.enabled)}}function B(e){var n=G(h.selectors.captions),r=t.createElement("span");n.innerHTML="","undefined"==typeof e&&(e=""),"string"==typeof e?r.innerHTML=e.trim():r.appendChild(e),n.appendChild(r);n.offsetHeight}function O(e){function t(e,t){var n=[];n=e.split(" --> ");for(var r=0;r<n.length;r++)n[r]=n[r].replace(/(\d+:\d+:\d+\.\d+).*/,"$1");return a(n[t])}function n(e){return t(e,0)}function r(e){return t(e,1)}function a(e){if(null===e||void 0===e)return 0;var t,n=[],r=[];return n=e.split(","),r=n[0].split(":"),t=Math.floor(60*r[0]*60)+Math.floor(60*r[1])+Math.floor(r[2])}if(!Oe.usingTextTracks&&"video"===Oe.type&&Oe.supported.full&&(Oe.subcount=0,e="number"==typeof e?e:Oe.media.currentTime,Oe.captions[Oe.subcount])){for(;r(Oe.captions[Oe.subcount][0])<e.toFixed(1);)if(Oe.subcount++,Oe.subcount>Oe.captions.length-1){Oe.subcount=Oe.captions.length-1;break}Oe.media.currentTime.toFixed(1)>=n(Oe.captions[Oe.subcount][0])&&Oe.media.currentTime.toFixed(1)<=r(Oe.captions[Oe.subcount][0])?(Oe.currentCaption=Oe.captions[Oe.subcount][1],B(Oe.currentCaption)):B()}}function H(){Oe.buttons.captions&&(m(Oe.container,h.classes.captions.enabled,!0),h.captions.defaultActive&&(m(Oe.container,h.classes.captions.active,!0),w(Oe.buttons.captions,!0)))}function V(e){return Oe.container.querySelectorAll(e)}function G(e){return V(e)[0]}function W(){try{return e.self!==e.top}catch(t){return!0}}function Y(){function e(e){9===e.which&&Oe.isFullscreen&&(e.target!==r||e.shiftKey?e.target===n&&e.shiftKey&&(e.preventDefault(),r.focus()):(e.preventDefault(),n.focus()))}var t=V("input:not([disabled]), button:not([disabled])"),n=t[0],r=t[t.length-1];b(Oe.container,"keydown",e)}function q(e,t){if("string"==typeof t)d(e,Oe.media,{src:t});else if(t.constructor===Array)for(var n=t.length-1;n>=0;n--)d(e,Oe.media,t[n])}function X(){if(h.loadSprite){var e=I();e.absolute?(T("AJAX loading absolute SVG sprite"+(Oe.browser.isIE?" (due to IE)":"")),S(e.url,"sprite-plyr")):T("Sprite will be used as external resource directly")}var n=h.html;T("Injecting custom controls"),n||(n=P()),n=o(n,"{seektime}",h.seekTime),n=o(n,"{id}",Math.floor(1e4*Math.random()));var r;if(null!==h.selectors.controls.container&&(r=h.selectors.controls.container,"string"==typeof selector&&(r=t.querySelector(r))),r instanceof HTMLElement||(r=Oe.container),r.insertAdjacentHTML("beforeend",n),h.tooltips.controls)for(var a=V([h.selectors.controls.wrapper," ",h.selectors.labels," .",h.classes.hidden].join("")),s=a.length-1;s>=0;s--){var i=a[s];m(i,h.classes.hidden,!1),m(i,h.classes.tooltip,!0)}}function z(){try{return Oe.controls=G(h.selectors.controls.wrapper),Oe.buttons={},Oe.buttons.seek=G(h.selectors.buttons.seek),Oe.buttons.play=V(h.selectors.buttons.play),Oe.buttons.pause=G(h.selectors.buttons.pause),Oe.buttons.restart=G(h.selectors.buttons.restart),Oe.buttons.rewind=G(h.selectors.buttons.rewind),Oe.buttons.forward=G(h.selectors.buttons.forward),Oe.buttons.fullscreen=G(h.selectors.buttons.fullscreen),Oe.buttons.mute=G(h.selectors.buttons.mute),Oe.buttons.captions=G(h.selectors.buttons.captions),Oe.progress={},Oe.progress.container=G(h.selectors.progress.container),Oe.progress.buffer={},Oe.progress.buffer.bar=G(h.selectors.progress.buffer),Oe.progress.buffer.text=Oe.progress.buffer.bar&&Oe.progress.buffer.bar.getElementsByTagName("span")[0],Oe.progress.played=G(h.selectors.progress.played),Oe.progress.tooltip=Oe.progress.container&&Oe.progress.container.querySelector("."+h.classes.tooltip),Oe.volume={},Oe.volume.input=G(h.selectors.volume.input),Oe.volume.display=G(h.selectors.volume.display),Oe.duration=G(h.selectors.duration),Oe.currentTime=G(h.selectors.currentTime),Oe.seekTime=V(h.selectors.seekTime),!0}catch(e){return C("It looks like there is a problem with your controls HTML"),Q(!0),!1}}function D(){m(Oe.container,h.selectors.container.replace(".",""),Oe.supported.full)}function Q(e){e&&s(h.types.html5,Oe.type)?Oe.media.setAttribute("controls",""):Oe.media.removeAttribute("controls")}function j(e){var t=h.i18n.play;if("undefined"!=typeof h.title&&h.title.length&&(t+=", "+h.title),Oe.supported.full&&Oe.buttons.play)for(var n=Oe.buttons.play.length-1;n>=0;n--)Oe.buttons.play[n].setAttribute("aria-label",t);e instanceof HTMLElement&&e.setAttribute("title",h.i18n.frameTitle.replace("{title}",h.title))}function U(){if(!Oe.media)return void C("No media element found!");if(Oe.supported.full&&(m(Oe.container,h.classes.type.replace("{0}",Oe.type),!0),s(h.types.embed,Oe.type)&&m(Oe.container,h.classes.type.replace("{0}","video"),!0),m(Oe.container,h.classes.stopped,h.autoplay),m(Oe.container,h.classes.isIos,Oe.browser.isIos),m(Oe.container,h.classes.isTouch,Oe.browser.isTouch),"video"===Oe.type)){var e=t.createElement("div");e.setAttribute("class",h.classes.videoWrapper),i(Oe.media,e),Oe.videoContainer=e}s(h.types.embed,Oe.type)&&(Z(),Oe.embedId=null)}function Z(){for(var n=t.createElement("div"),r=Oe.embedId,s=Oe.type+"-"+Math.floor(1e4*Math.random()),o=V('[id^="'+Oe.type+'-"]'),i=o.length-1;i>=0;i--)u(o[i]);if(m(Oe.media,h.classes.videoWrapper,!0),m(Oe.media,h.classes.embedWrapper,!0),"youtube"===Oe.type)Oe.media.appendChild(n),n.setAttribute("id",s),"object"==typeof YT?J(r,n):(a(h.urls.youtube.api),e.onYouTubeReadyCallbacks=e.onYouTubeReadyCallbacks||[],e.onYouTubeReadyCallbacks.push(function(){J(r,n)}),e.onYouTubeIframeAPIReady=function(){e.onYouTubeReadyCallbacks.forEach(function(e){e()})});else if("vimeo"===Oe.type){var l=t.createElement("iframe");l.loaded=!1,b(l,"load",function(){l.loaded=!0}),p(l,{src:"https://player.vimeo.com/video/"+r+"?player_id="+s+"&api=1&badge=0&byline=0&portrait=0&title=0",id:s,allowfullscreen:"",frameborder:0}),Oe.supported.full?(n.appendChild(l),Oe.media.appendChild(n)):Oe.media.appendChild(l),"$f"in e||a(h.urls.vimeo.api);var c=e.setInterval(function(){"$f"in e&&l.loaded&&(e.clearInterval(c),K.call(l))},50)}else if("soundcloud"===Oe.type){var d=t.createElement("iframe");d.loaded=!1,b(d,"load",function(){d.loaded=!0}),p(d,{src:"https://w.soundcloud.com/player/?url=https://api.soundcloud.com/tracks/"+r,id:s}),n.appendChild(d),Oe.media.appendChild(n),e.SC||a(h.urls.soundcloud.api);var A=e.setInterval(function(){e.SC&&d.loaded&&(e.clearInterval(A),ee.call(d))},50)}}function $(){Oe.container.plyr.embed=Oe.embed,Oe.supported.full&&Be(),j(G("iframe"))}function J(t,n){"timer"in Oe||(Oe.timer={}),Oe.embed=new YT.Player(n.id,{videoId:t,playerVars:{autoplay:h.autoplay?1:0,controls:Oe.supported.full?0:1,rel:0,showinfo:0,iv_load_policy:3,cc_load_policy:h.captions.defaultActive?1:0,cc_lang_pref:"en",wmode:"transparent",modestbranding:1,disablekb:1,origin:"*"},events:{onError:function(e){k(Oe.container,"error",!0,{code:e.data,embed:e.target})},onReady:function(t){var n=t.target;Oe.media.play=function(){n.playVideo(),Oe.media.paused=!1},Oe.media.pause=function(){n.pauseVideo(),Oe.media.paused=!0},Oe.media.stop=function(){n.stopVideo(),Oe.media.paused=!0},Oe.media.duration=n.getDuration(),Oe.media.paused=!0,Oe.media.currentTime=n.getCurrentTime(),Oe.media.muted=n.isMuted(),h.title=n.getVideoData().title,k(Oe.media,"timeupdate"),e.clearInterval(Oe.timer.buffering),Oe.timer.buffering=e.setInterval(function(){Oe.media.buffered=n.getVideoLoadedFraction(),k(Oe.media,"progress"),1===Oe.media.buffered&&(e.clearInterval(Oe.timer.buffering),k(Oe.media,"canplaythrough"))},200),$(),xe()},onStateChange:function(t){var n=t.target;switch(e.clearInterval(Oe.timer.playing),t.data){case 0:Oe.media.paused=!0,k(Oe.media,"ended");break;case 1:Oe.media.paused=!1,Oe.media.seeking=!1,k(Oe.media,"play"),k(Oe.media,"playing"),Oe.timer.playing=e.setInterval(function(){Oe.media.currentTime=n.getCurrentTime(),k(Oe.media,"timeupdate")},100);break;case 2:Oe.media.paused=!0,k(Oe.media,"pause")}k(Oe.container,"statechange",!1,{code:t.data})}}})}function K(){Oe.embed=$f(this),Oe.embed.addEvent("ready",function(){Oe.media.play=function(){Oe.embed.api("play"),Oe.media.paused=!1},Oe.media.pause=function(){Oe.embed.api("pause"),Oe.media.paused=!0},Oe.media.stop=function(){Oe.embed.api("stop"),Oe.media.paused=!0},Oe.media.paused=!0,Oe.media.currentTime=0,$(),Oe.embed.api("getCurrentTime",function(e){Oe.media.currentTime=e,k(Oe.media,"timeupdate")}),Oe.embed.api("getDuration",function(e){Oe.media.duration=e,xe()}),Oe.embed.addEvent("play",function(){Oe.media.paused=!1,k(Oe.media,"play"),k(Oe.media,"playing")}),Oe.embed.addEvent("pause",function(){Oe.media.paused=!0,k(Oe.media,"pause")}),Oe.embed.addEvent("playProgress",function(e){Oe.media.seeking=!1,Oe.media.currentTime=e.seconds,k(Oe.media,"timeupdate")}),Oe.embed.addEvent("loadProgress",function(e){Oe.media.buffered=e.percent,k(Oe.media,"progress"),1===parseInt(e.percent)&&k(Oe.media,"canplaythrough")}),Oe.embed.addEvent("finish",function(){Oe.media.paused=!0,k(Oe.media,"ended")}),h.autoplay&&Oe.embed.api("play")})}function ee(){Oe.embed=e.SC.Widget(this),Oe.embed.bind(e.SC.Widget.Events.READY,function(){Oe.media.play=function(){Oe.embed.play(),Oe.media.paused=!1},Oe.media.pause=function(){Oe.embed.pause(),Oe.media.paused=!0},Oe.media.stop=function(){Oe.embed.seekTo(0),Oe.embed.pause(),Oe.media.paused=!0},Oe.media.paused=!0,Oe.media.currentTime=0,$(),Oe.embed.getPosition(function(e){Oe.media.currentTime=e,k(Oe.media,"timeupdate")}),Oe.embed.getDuration(function(e){Oe.media.duration=e/1e3,xe()}),Oe.embed.bind(e.SC.Widget.Events.PLAY,function(){Oe.media.paused=!1,k(Oe.media,"play"),k(Oe.media,"playing")}),Oe.embed.bind(e.SC.Widget.Events.PAUSE,function(){Oe.media.paused=!0,k(Oe.media,"pause")}),Oe.embed.bind(e.SC.Widget.Events.PLAY_PROGRESS,function(e){Oe.media.seeking=!1,Oe.media.currentTime=e.currentPosition/1e3,k(Oe.media,"timeupdate")}),Oe.embed.bind(e.SC.Widget.Events.LOAD_PROGRESS,function(e){Oe.media.buffered=e.loadProgress,k(Oe.media,"progress"),1===parseInt(e.loadProgress)&&k(Oe.media,"canplaythrough")}),Oe.embed.bind(e.SC.Widget.Events.FINISH,function(){Oe.media.paused=!0,k(Oe.media,"ended")}),h.autoplay&&Oe.embed.play()})}function te(){"play"in Oe.media&&Oe.media.play()}function ne(){"pause"in Oe.media&&Oe.media.pause()}function re(e){e===!0?te():e===!1?ne():Oe.media[Oe.media.paused?"play":"pause"]()}function ae(e){"number"!=typeof e&&(e=h.seekTime),oe(Oe.media.currentTime-e)}function se(e){"number"!=typeof e&&(e=h.seekTime),oe(Oe.media.currentTime+e)}function oe(e){var t=0,n=Oe.media.paused,r=ie();"number"==typeof e?t=e:e.type&&s(["input","change"],e.type)&&(t=e.target.value/e.target.max*r),0>t?t=0:t>r&&(t=r),Ee(t);try{Oe.media.currentTime=t.toFixed(4)}catch(a){}if(s(h.types.embed,Oe.type)){switch(Oe.type){case"youtube":Oe.embed.seekTo(t);break;case"vimeo":Oe.embed.api("seekTo",t.toFixed(0));break;case"soundcloud":Oe.embed.seekTo(1e3*t)}n&&ne(),k(Oe.media,"timeupdate"),Oe.media.seeking=!0}T("Seeking to "+Oe.media.currentTime+" seconds"),O(t)}function ie(){var e=parseInt(h.duration),t=0;return null===Oe.media.duration||isNaN(Oe.media.duration)||(t=Oe.media.duration),isNaN(e)?t:e}function le(){m(Oe.container,h.classes.playing,!Oe.media.paused),m(Oe.container,h.classes.stopped,Oe.media.paused),Ce(Oe.media.paused)}function ue(){N={x:e.pageXOffset||0,y:e.pageYOffset||0}}function ce(){e.scrollTo(N.x,N.y)}function pe(e){var n=M.supportsFullScreen;e&&e.type===M.fullScreenEventName?Oe.isFullscreen=M.isFullScreen(Oe.container):n?(M.isFullScreen(Oe.container)?M.cancelFullScreen():(ue(),M.requestFullScreen(Oe.container)),Oe.isFullscreen=M.isFullScreen(Oe.container)):(Oe.isFullscreen=!Oe.isFullscreen,Oe.isFullscreen?(b(t,"keyup",de),t.body.style.overflow="hidden"):(v(t,"keyup",de),t.body.style.overflow="")),m(Oe.container,h.classes.fullscreen.active,Oe.isFullscreen),Oe.isFullscreen?Oe.container.setAttribute("tabindex","-1"):Oe.container.removeAttribute("tabindex"),Y(Oe.isFullscreen),w(Oe.buttons.fullscreen,Oe.isFullscreen),k(Oe.container,Oe.isFullscreen?"enterfullscreen":"exitfullscreen",!0),!Oe.isFullscreen&&n&&ce()}function de(e){27===(e.which||e.charCode||e.keyCode)&&Oe.isFullscreen&&pe()}function Ae(e){if("boolean"!=typeof e&&(e=!Oe.media.muted),w(Oe.buttons.mute,e),Oe.media.muted=e,0===Oe.media.volume&&me(h.volume),s(h.types.embed,Oe.type)){switch(Oe.type){case"youtube":Oe.embed[Oe.media.muted?"mute":"unMute"]();break;case"vimeo":Oe.embed.api("setVolume",Oe.media.muted?0:parseFloat(h.volume/h.volumeMax));break;case"soundcloud":Oe.embed.setVolume(Oe.media.muted?0:parseFloat(h.volume/h.volumeMax))}k(Oe.media,"volumechange")}}function me(t){var n=h.volumeMax,r=h.volumeMin;if("undefined"==typeof t&&(t=h.volume,h.storage.enabled&&_().supported&&(t=e.localStorage.getItem(h.storage.key),e.localStorage.removeItem("plyr-volume"))),(null===t||isNaN(t))&&(t=h.volume),t>n&&(t=n),r>t&&(t=r),Oe.media.volume=parseFloat(t/n),Oe.volume.display&&(Oe.volume.display.value=t),s(h.types.embed,Oe.type)){switch(Oe.type){case"youtube":Oe.embed.setVolume(100*Oe.media.volume);break;case"vimeo":Oe.embed.api("setVolume",Oe.media.volume);break;case"soundcloud":Oe.embed.setVolume(Oe.media.volume)}k(Oe.media,"volumechange")}Oe.media.muted&&t>0&&Ae()}function fe(){var e=Oe.media.muted?0:Oe.media.volume*h.volumeMax;me(e+h.volumeStep/5)}function ye(){var e=Oe.media.muted?0:Oe.media.volume*h.volumeMax;me(e-h.volumeStep/5)}function be(){var t=Oe.media.muted?0:Oe.media.volume*h.volumeMax;Oe.supported.full&&(Oe.volume.input&&(Oe.volume.input.value=t),Oe.volume.display&&(Oe.volume.display.value=t)),h.storage.enabled&&_().supported&&!isNaN(t)&&e.localStorage.setItem(h.storage.key,t),m(Oe.container,h.classes.muted,0===t),Oe.supported.full&&Oe.buttons.mute&&w(Oe.buttons.mute,0===t)}function ve(e){Oe.supported.full&&Oe.buttons.captions&&("boolean"!=typeof e&&(e=-1===Oe.container.className.indexOf(h.classes.captions.active)),Oe.captionsEnabled=e,w(Oe.buttons.captions,Oe.captionsEnabled),m(Oe.container,h.classes.captions.active,Oe.captionsEnabled),k(Oe.container,Oe.captionsEnabled?"captionsenabled":"captionsdisabled",!0))}function ge(e){var t="waiting"===e.type;clearTimeout(Oe.timers.loading),Oe.timers.loading=setTimeout(function(){m(Oe.container,h.classes.loading,t)},t?250:0)}function he(e){if(Oe.supported.full){var t=Oe.progress.played,n=0,r=ie();if(e)switch(e.type){case"timeupdate":case"seeking":if(Oe.controls.pressed)return;n=x(Oe.media.currentTime,r),"timeupdate"==e.type&&Oe.buttons.seek&&(Oe.buttons.seek.value=n);break;case"playing":case"progress":t=Oe.progress.buffer,n=function(){var e=Oe.media.buffered;return e&&e.length?x(e.end(0),r):"number"==typeof e?100*e:0}()}ke(t,n)}}function ke(e,t){if(Oe.supported.full){if("undefined"==typeof t&&(t=0),"undefined"==typeof e){if(!Oe.progress||!Oe.progress.buffer)return;e=Oe.progress.buffer}e instanceof HTMLElement?e.value=t:e&&(e.bar&&(e.bar.value=t),e.text&&(e.text.innerHTML=t))}}function we(e,t){if(t){isNaN(e)&&(e=0),Oe.secs=parseInt(e%60),Oe.mins=parseInt(e/60%60),Oe.hours=parseInt(e/60/60%60);var n=parseInt(ie()/60/60%60)>0;Oe.secs=("0"+Oe.secs).slice(-2),Oe.mins=("0"+Oe.mins).slice(-2),t.innerHTML=(n?Oe.hours+":":"")+Oe.mins+":"+Oe.secs}}function xe(){if(Oe.supported.full){var e=ie()||0;!Oe.duration&&h.displayDuration&&Oe.media.paused&&we(e,Oe.currentTime),Oe.duration&&we(e,Oe.duration),_e()}}function Te(e){we(Oe.media.currentTime,Oe.currentTime),e&&"timeupdate"==e.type&&Oe.media.seeking||he(e)}function Ee(e){"number"!=typeof e&&(e=0);var t=ie(),n=x(e,t);Oe.progress&&Oe.progress.played&&(Oe.progress.played.value=n),Oe.buttons&&Oe.buttons.seek&&(Oe.buttons.seek.value=n)}function _e(e){var t=ie();if(h.tooltips.seek&&Oe.progress.container&&0!==t){var n=Oe.progress.container.getBoundingClientRect(),r=0,a=h.classes.tooltip+"--visible";if(e)r=100/n.width*(e.pageX-n.left);else{if(!f(Oe.progress.tooltip,a))return;r=Oe.progress.tooltip.style.left.replace("%","")}0>r?r=0:r>100&&(r=100),we(t/100*r,Oe.progress.tooltip),Oe.progress.tooltip.style.left=r+"%",e&&s(["mouseenter","mouseleave"],e.type)&&m(Oe.progress.tooltip,a,"mouseenter"===e.type)}}function Ce(t){if(h.hideControls&&"audio"!==Oe.type){var n=0,r=!1,a=t;if("boolean"!=typeof t&&(t&&t.type?(r="enterfullscreen"===t.type,a=s(["mousemove","touchstart","mouseenter","focus"],t.type),s(["mousemove","touchmove"],t.type)&&(n=2e3),"focus"===t.type&&(n=3e3)):a=f(Oe.container,h.classes.hideControls)),e.clearTimeout(Oe.timers.hover),a||Oe.media.paused){if(m(Oe.container,h.classes.hideControls,!1),Oe.media.paused)return;Oe.browser.isTouch&&(n=3e3)}a&&Oe.media.paused||(Oe.timers.hover=e.setTimeout(function(){(!Oe.controls.pressed&&!Oe.controls.hover||r)&&m(Oe.container,h.classes.hideControls,!0)},n))}}function Se(e){if("undefined"!=typeof e)return void Fe(e);var t;switch(Oe.type){case"youtube":t=Oe.embed.getVideoUrl();break;case"vimeo":Oe.embed.api("getVideoUrl",function(e){t=e});break;case"soundcloud":Oe.embed.getCurrentSound(function(e){t=e.permalink_url});break;default:t=Oe.media.currentSrc}return t||""}function Fe(n){if(!("undefined"!=typeof n&&"sources"in n&&n.sources.length))return void C("Invalid source format");if(ne(),Ee(),ke(),Pe(),"youtube"===Oe.type?(Oe.embed.destroy(),e.clearInterval(Oe.timer.buffering),e.clearInterval(Oe.timer.playing)):"video"===Oe.type&&Oe.videoContainer&&u(Oe.videoContainer),Oe.embed=null,u(Oe.media),"type"in n&&(Oe.type=n.type,"video"===Oe.type)){var r=n.sources[0];"type"in r&&s(h.types.embed,r.type)&&(Oe.type=r.type)}switch(Oe.supported=F(Oe.type),Oe.type){case"video":Oe.media=t.createElement("video");break;case"audio":Oe.media=t.createElement("audio");break;case"youtube":case"vimeo":case"soundcloud":Oe.media=t.createElement("div"),Oe.embedId=n.sources[0].src}c(Oe.container,Oe.media),"undefined"!=typeof n.autoplay&&(h.autoplay=n.autoplay),s(h.types.html5,Oe.type)&&(h.crossorigin&&Oe.media.setAttribute("crossorigin",""),h.autoplay&&Oe.media.setAttribute("autoplay",""),"poster"in n&&Oe.media.setAttribute("poster",n.poster),h.loop&&Oe.media.setAttribute("loop","")),Oe.container.className=Oe.originalClassName,m(Oe.container,h.classes.fullscreen.active,Oe.isFullscreen),m(Oe.container,h.classes.captions.active,Oe.captionsEnabled),D(),s(h.types.html5,Oe.type)&&q("source",n.sources),U(),s(h.types.html5,Oe.type)?("tracks"in n&&q("track",n.tracks),Oe.media.load(),Be(),xe()):s(h.types.embed,Oe.type)&&!Oe.supported.full&&Be(),h.title=n.title,j(),Oe.container.plyr.media=Oe.media}function Ie(e){"video"===Oe.type&&Oe.media.setAttribute("poster",e)}function Me(){function n(){var e=Oe.media.paused;e?te():ne();var t=Oe.buttons[e?"play":"pause"],n=Oe.buttons[e?"pause":"play"];if(n=n&&n.length>1?n[n.length-1]:n[0]){var r=f(t,h.classes.tabFocus);setTimeout(function(){n.focus(),r&&(m(t,h.classes.tabFocus,!1),m(n,h.classes.tabFocus,!0))},100)}}function r(){var e=t.activeElement;e&&e!=t.body?t.querySelector&&(e=t.querySelector(":focus")):e=null;for(var n in Oe.buttons){var r=Oe.buttons[n];if(r instanceof NodeList)for(var a=0;a<r.length;a++)m(r[a],h.classes.tabFocus,r[a]===e);else m(r,h.classes.tabFocus,r===e)}}var a=Oe.browser.isIE?"change":"input";b(e,"keyup",function(e){var t=e.keyCode?e.keyCode:e.which;9==t&&r()}),b(t.body,"click",function(){m(G("."+h.classes.tabFocus),h.classes.tabFocus,!1)});for(var o in Oe.buttons){var i=Oe.buttons[o];b(i,"blur",function(){m(i,"tab-focus",!1)})}g(Oe.buttons.play,"click",h.listeners.play,n),g(Oe.buttons.pause,"click",h.listeners.pause,n),g(Oe.buttons.restart,"click",h.listeners.restart,oe),g(Oe.buttons.rewind,"click",h.listeners.rewind,ae),g(Oe.buttons.forward,"click",h.listeners.forward,se),g(Oe.buttons.seek,a,h.listeners.seek,oe),g(Oe.volume.input,a,h.listeners.volume,function(){me(Oe.volume.input.value)}),g(Oe.buttons.mute,"click",h.listeners.mute,Ae),g(Oe.buttons.fullscreen,"click",h.listeners.fullscreen,pe),M.supportsFullScreen&&b(t,M.fullScreenEventName,pe),b(Oe.buttons.captions,"click",ve),b(Oe.progress.container,"mouseenter mouseleave mousemove",_e),h.hideControls&&(b(Oe.container,"mouseenter mouseleave mousemove touchstart touchend touchcancel touchmove enterfullscreen",Ce),b(Oe.controls,"mouseenter mouseleave",function(e){Oe.controls.hover="mouseenter"===e.type}),b(Oe.controls,"mousedown mouseup touchstart touchend touchcancel",function(e){Oe.controls.pressed=s(["mousedown","touchstart"],e.type)}),b(Oe.controls,"focus blur",Ce,!0)),b(Oe.volume.input,"wheel",function(e){e.preventDefault();
+	var t=e.webkitDirectionInvertedFromDevice;(e.deltaY<0||e.deltaX>0)&&(t?ye():fe()),(e.deltaY>0||e.deltaX<0)&&(t?fe():ye())})}function Ne(){if(b(Oe.media,"timeupdate seeking",Te),b(Oe.media,"timeupdate",O),b(Oe.media,"durationchange loadedmetadata",xe),b(Oe.media,"ended",function(){"video"===Oe.type&&B(),le(),oe(0),xe(),"video"===Oe.type&&h.showPosterOnEnd&&Oe.media.load()}),b(Oe.media,"progress playing",he),b(Oe.media,"volumechange",be),b(Oe.media,"play pause",le),b(Oe.media,"waiting canplay seeked",ge),h.clickToPlay&&"audio"!==Oe.type){var e=G("."+h.classes.videoWrapper);if(!e)return;e.style.cursor="pointer",b(e,"click",function(){Oe.browser.isTouch&&!Oe.media.paused||(Oe.media.paused?te():Oe.media.ended?(oe(),te()):ne())})}h.disableContextMenu&&b(Oe.media,"contextmenu",function(e){e.preventDefault()}),b(Oe.media,h.events.join(" "),function(e){k(Oe.container,e.type,!0)})}function Pe(){if(s(h.types.html5,Oe.type)){for(var e=Oe.media.querySelectorAll("source"),t=0;t<e.length;t++)u(e[t]);Oe.media.setAttribute("src","data:video/mp4;base64,AAAAHGZ0eXBpc29tAAACAGlzb21pc28ybXA0MQAAAAhmcmVlAAAAGm1kYXQAAAGzABAHAAABthBgUYI9t+8AAAMNbW9vdgAAAGxtdmhkAAAAAMXMvvrFzL76AAAD6AAAACoAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAABhpb2RzAAAAABCAgIAHAE/////+/wAAAiF0cmFrAAAAXHRraGQAAAAPxcy++sXMvvoAAAABAAAAAAAAACoAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAgAAAAIAAAAAAG9bWRpYQAAACBtZGhkAAAAAMXMvvrFzL76AAAAGAAAAAEVxwAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAABaG1pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAAShzdGJsAAAAxHN0c2QAAAAAAAAAAQAAALRtcDR2AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAgACABIAAAASAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGP//AAAAXmVzZHMAAAAAA4CAgE0AAQAEgICAPyARAAAAAAMNQAAAAAAFgICALQAAAbABAAABtYkTAAABAAAAASAAxI2IAMUARAEUQwAAAbJMYXZjNTMuMzUuMAaAgIABAgAAABhzdHRzAAAAAAAAAAEAAAABAAAAAQAAABxzdHNjAAAAAAAAAAEAAAABAAAAAQAAAAEAAAAUc3RzegAAAAAAAAASAAAAAQAAABRzdGNvAAAAAAAAAAEAAAAsAAAAYHVkdGEAAABYbWV0YQAAAAAAAAAhaGRscgAAAAAAAAAAbWRpcmFwcGwAAAAAAAAAAAAAAAAraWxzdAAAACOpdG9vAAAAG2RhdGEAAAABAAAAAExhdmY1My4yMS4x"),Oe.media.load(),T("Cancelled network requests for old media")}}function Re(){if(!Oe.init)return null;if(Oe.container.setAttribute("class",A(h.selectors.container)),Oe.init=!1,u(G(h.selectors.controls.wrapper)),"youtube"===Oe.type)return void Oe.embed.destroy();"video"===Oe.type&&(u(G(h.selectors.captions)),l(Oe.videoContainer)),Q(!0);var e=Oe.media.cloneNode(!0);Oe.media.parentNode.replaceChild(e,Oe.media)}function Le(){if(Oe.init)return null;if(M=E(),Oe.browser=n(),Oe.media=Oe.container.querySelectorAll("audio, video")[0],Oe.media||(Oe.media=Oe.container.querySelectorAll("[data-type]")[0]),Oe.media){Oe.originalClassName=Oe.container.className;var e=Oe.media.tagName.toLowerCase();if("div"===e?(Oe.type=Oe.media.getAttribute("data-type"),Oe.embedId=Oe.media.getAttribute("data-video-id"),Oe.media.removeAttribute("data-type"),Oe.media.removeAttribute("data-video-id")):(Oe.type=e,h.crossorigin=null!==Oe.media.getAttribute("crossorigin"),h.autoplay=h.autoplay||null!==Oe.media.getAttribute("autoplay"),h.loop=h.loop||null!==Oe.media.getAttribute("loop")),Oe.supported=F(Oe.type),D(),!Oe.supported.basic)return!1;if(T(Oe.browser.name+" "+Oe.browser.version),U(),s(h.types.html5,Oe.type)){if(!Oe.supported.full)return void(Oe.init=!0);Be(),j(),h.autoplay&&te()}else s(h.types.embed,Oe.type)&&!Oe.supported.full&&Be();Oe.init=!0}}function Be(){if(!Oe.supported.full)return C("No full support for this media type ("+Oe.type+")"),u(G(h.selectors.controls.wrapper)),u(G(h.selectors.buttons.play)),void Q(!0);var e=!V(h.selectors.controls.wrapper).length;e&&X(),z()&&(e&&Me(),Ne(),Q(),R(),L(),me(),be(),Te(),le(),xe(),k(Oe.container,"ready",!0))}var Oe=this;return Oe.container=y,Oe.timers={},T(h),Le(),Oe.init?{media:Oe.media,play:te,pause:ne,restart:oe,rewind:ae,forward:se,seek:oe,source:Se,poster:Ie,setVolume:me,togglePlay:re,toggleMute:Ae,toggleCaptions:ve,toggleFullscreen:pe,toggleControls:Ce,isFullscreen:function(){return Oe.isFullscreen||!1},support:function(e){return r(Oe,e)},destroy:Re,restore:Le}:{}}function S(e,n){var r=new XMLHttpRequest;"string"==typeof n&&null!==t.querySelector("#"+n)||"withCredentials"in r&&(r.open("GET",e,!0),r.onload=function(){var e=t.createElement("div");e.setAttribute("hidden",""),"string"==typeof n&&e.setAttribute("id",n),e.innerHTML=r.responseText,t.body.insertBefore(e,t.body.childNodes[0])},r.send())}function F(e){var r,a,s=n(),o=s.isIE&&s.version<=9,i=s.isIos,l=/iPhone|iPod/i.test(navigator.userAgent),u=!!t.createElement("audio").canPlayType,c=!!t.createElement("video").canPlayType;switch(e){case"video":r=c,a=r&&!o&&!l;break;case"audio":r=u,a=r&&!o;break;case"vimeo":case"youtube":case"soundcloud":r=!0,a=!o&&!i;break;default:r=u&&c,a=r&&!o}return{basic:r,full:a}}function I(e,n){var r=[],a=[],s=[P.selectors.html5,P.selectors.embed].join(",");if("string"==typeof e?e=t.querySelectorAll(e):e instanceof HTMLElement?e=[e]:e instanceof NodeList||"string"==typeof e||("undefined"==typeof n&&"object"==typeof e&&(n=e),e=t.querySelectorAll(s)),!F().basic||!e.length)return!1;e instanceof NodeList&&(e=Array.prototype.slice.call(e));for(var o=0;o<e.length;o++){var l=e[o],u=l.querySelectorAll(s);if(u.length>1)for(var c=0;c<u.length;c++)a.push({element:i(u[c],t.createElement("div")),original:l});else a.push({element:l})}for(var p in a){var d=a[p].element,A=a[p].original||d;if(y(d,s)&&(d=i(d,t.createElement("div"))),!("plyr"in d)){var m=T({},P,n,JSON.parse(A.getAttribute("data-plyr")));if(!m.enabled)return null;var f=new C(d,m);d.plyr=Object.keys(f).length?f:!1,k(A,"setup",!0,{plyr:d.plyr})}r.push(d)}return r}var M,N={x:0,y:0},P={enabled:!0,debug:!1,autoplay:!1,loop:!1,seekTime:10,volume:5,volumeMin:0,volumeMax:10,volumeStep:1,duration:null,displayDuration:!0,loadSprite:!0,iconPrefix:"plyr",iconUrl:"https://cdn.plyr.io/1.8.6/plyr.svg",clickToPlay:!0,hideControls:!0,showPosterOnEnd:!1,disableContextMenu:!0,tooltips:{controls:!1,seek:!0},selectors:{html5:"video, audio",embed:"[data-type]",container:".plyr",controls:{container:null,wrapper:".plyr__controls"},labels:"[data-plyr]",buttons:{seek:'[data-plyr="seek"]',play:'[data-plyr="play"]',pause:'[data-plyr="pause"]',restart:'[data-plyr="restart"]',rewind:'[data-plyr="rewind"]',forward:'[data-plyr="fast-forward"]',mute:'[data-plyr="mute"]',captions:'[data-plyr="captions"]',fullscreen:'[data-plyr="fullscreen"]'},volume:{input:'[data-plyr="volume"]',display:".plyr__volume--display"},progress:{container:".plyr__progress",buffer:".plyr__progress--buffer",played:".plyr__progress--played"},captions:".plyr__captions",currentTime:".plyr__time--current",duration:".plyr__time--duration"},classes:{videoWrapper:"plyr__video-wrapper",embedWrapper:"plyr__video-embed",type:"plyr--{0}",stopped:"plyr--stopped",playing:"plyr--playing",muted:"plyr--muted",loading:"plyr--loading",hover:"plyr--hover",tooltip:"plyr__tooltip",hidden:"plyr__sr-only",hideControls:"plyr--hide-controls",isIos:"plyr--is-ios",isTouch:"plyr--is-touch",captions:{enabled:"plyr--captions-enabled",active:"plyr--captions-active"},fullscreen:{enabled:"plyr--fullscreen-enabled",active:"plyr--fullscreen-active"},tabFocus:"tab-focus"},captions:{defaultActive:!1},fullscreen:{enabled:!0,fallback:!0,allowAudio:!1},storage:{enabled:!0,key:"plyr"},controls:["play-large","play","progress","current-time","mute","volume","captions","fullscreen"],i18n:{restart:"Restart",rewind:"Rewind {seektime} secs",play:"Play",pause:"Pause",forward:"Forward {seektime} secs",played:"played",buffered:"buffered",currentTime:"Current time",duration:"Duration",volume:"Volume",toggleMute:"Toggle Mute",toggleCaptions:"Toggle Captions",toggleFullscreen:"Toggle Fullscreen",frameTitle:"Player for {title}"},types:{embed:["youtube","vimeo","soundcloud"],html5:["video","audio"]},urls:{vimeo:{api:"https://cdn.plyr.io/froogaloop/1.0.1/plyr.froogaloop.js"},youtube:{api:"https://www.youtube.com/iframe_api"},soundcloud:{api:"https://w.soundcloud.com/player/api.js"}},listeners:{seek:null,play:null,pause:null,restart:null,rewind:null,forward:null,mute:null,volume:null,captions:null,fullscreen:null},events:["ended","progress","stalled","playing","waiting","canplay","canplaythrough","loadstart","loadeddata","loadedmetadata","timeupdate","volumechange","play","pause","error","seeking","emptied"]};return{setup:I,supported:F,loadSprite:S}}),function(){function e(e,t){t=t||{bubbles:!1,cancelable:!1,detail:void 0};var n=document.createEvent("CustomEvent");return n.initCustomEvent(e,t.bubbles,t.cancelable,t.detail),n}return"function"==typeof window.CustomEvent?!1:(e.prototype=window.Event.prototype,void(window.CustomEvent=e))}();
+
+/***/ },
+/* 322 */
+/*!***********************************!*\
+  !*** ./~/plyr/src/scss/plyr.scss ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../../css-loader!./../../../postcss-loader!./../../../sass-loader!./plyr.scss */ 323);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../../style-loader/addStyles.js */ 190)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../css-loader/index.js!./../../../postcss-loader/index.js!./../../../sass-loader/index.js!./plyr.scss", function() {
+				var newContent = require("!!./../../../css-loader/index.js!./../../../postcss-loader/index.js!./../../../sass-loader/index.js!./plyr.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 323 */
+/*!*************************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./~/plyr/src/scss/plyr.scss ***!
+  \*************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../../css-loader/lib/css-base.js */ 189)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "@-webkit-keyframes plyr-progress {\n  to {\n    background-position: 25px 0; } }\n\n@keyframes plyr-progress {\n  to {\n    background-position: 25px 0; } }\n\n.plyr {\n  position: relative;\n  max-width: 100%;\n  min-width: 200px;\n  font-family: \"San Francisco\", -apple-system, BlinkMacSystemFont, \".SFNSText-Regular\", Avenir, \"Avenir Next\", \"Helvetica Neue\", \"Segoe UI\", Helvetica, Arial, sans-serif;\n  direction: ltr; }\n  .plyr,\n  .plyr *,\n  .plyr *::after,\n  .plyr *::before {\n    box-sizing: border-box; }\n  .plyr a, .plyr button, .plyr input, .plyr label {\n    -ms-touch-action: manipulation;\n        touch-action: manipulation; }\n  .plyr video,\n  .plyr audio {\n    width: 100%;\n    height: auto;\n    vertical-align: middle;\n    border-radius: inherit; }\n  .plyr input[type='range'] {\n    display: block;\n    height: 20px;\n    width: 100%;\n    margin: 0;\n    padding: 0;\n    vertical-align: middle;\n    -webkit-appearance: none;\n       -moz-appearance: none;\n            appearance: none;\n    cursor: pointer;\n    border: none;\n    background: transparent; }\n    .plyr input[type='range']::-webkit-slider-runnable-track {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      border-radius: 4px;\n      -webkit-user-select: none;\n              user-select: none; }\n    .plyr input[type='range']::-webkit-slider-thumb {\n      -webkit-appearance: none;\n      margin-top: -4px;\n      position: relative;\n      height: 16px;\n      width: 16px;\n      background: #fff;\n      border: 2px solid transparent;\n      border-radius: 100%;\n      -webkit-transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease, -webkit-transform .2s ease;\n      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);\n      box-sizing: border-box; }\n    .plyr input[type='range']::-moz-range-track {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      border-radius: 4px;\n      -moz-user-select: none;\n           user-select: none; }\n    .plyr input[type='range']::-moz-range-thumb {\n      position: relative;\n      height: 16px;\n      width: 16px;\n      background: #fff;\n      border: 2px solid transparent;\n      border-radius: 100%;\n      -webkit-transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease, -webkit-transform .2s ease;\n      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);\n      box-sizing: border-box; }\n    .plyr input[type='range']::-ms-track {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      color: transparent; }\n    .plyr input[type='range']::-ms-fill-upper {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      border-radius: 4px;\n      -ms-user-select: none;\n          user-select: none; }\n    .plyr input[type='range']::-ms-fill-lower {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      border-radius: 4px;\n      -ms-user-select: none;\n          user-select: none;\n      background: #3498db; }\n    .plyr input[type='range']::-ms-thumb {\n      position: relative;\n      height: 16px;\n      width: 16px;\n      background: #fff;\n      border: 2px solid transparent;\n      border-radius: 100%;\n      -webkit-transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease, -webkit-transform .2s ease;\n      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);\n      box-sizing: border-box;\n      margin-top: 0; }\n    .plyr input[type='range']::-ms-tooltip {\n      display: none; }\n    .plyr input[type='range']:focus {\n      outline: 0; }\n    .plyr input[type='range']::-moz-focus-outer {\n      border: 0; }\n    .plyr input[type='range'].tab-focus:focus {\n      outline-offset: 3px; }\n    .plyr input[type='range']:active::-webkit-slider-thumb {\n      background: #3498db;\n      border-color: #fff;\n      -webkit-transform: scale(1.25);\n              transform: scale(1.25); }\n    .plyr input[type='range']:active::-moz-range-thumb {\n      background: #3498db;\n      border-color: #fff;\n      transform: scale(1.25); }\n    .plyr input[type='range']:active::-ms-thumb {\n      background: #3498db;\n      border-color: #fff;\n      transform: scale(1.25); }\n\n.plyr--video input[type='range'].tab-focus:focus {\n  outline: 1px dotted rgba(255, 255, 255, 0.5); }\n\n.plyr--audio input[type='range'].tab-focus:focus {\n  outline: 1px dotted rgba(86, 93, 100, 0.5); }\n\n.plyr__sr-only {\n  clip: rect(1px, 1px, 1px, 1px);\n  overflow: hidden;\n  position: absolute !important;\n  padding: 0 !important;\n  border: 0 !important;\n  height: 1px !important;\n  width: 1px !important; }\n\n.plyr__video-wrapper {\n  position: relative;\n  background: #000;\n  border-radius: inherit;\n  -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC); }\n\n.plyr__video-embed {\n  padding-bottom: 56.25%;\n  /* 16:9 */\n  height: 0;\n  overflow: hidden;\n  border-radius: inherit; }\n  .plyr__video-embed iframe {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    border: 0;\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none; }\n  .plyr__video-embed > div {\n    position: relative;\n    padding-bottom: 200%;\n    -webkit-transform: translateY(-35.95%);\n            transform: translateY(-35.95%); }\n\n.plyr .plyr__video-embed iframe {\n  pointer-events: none; }\n\n.plyr video::-webkit-media-text-track-container {\n  display: none; }\n\n.plyr__captions {\n  display: none;\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  padding: 20px;\n  -webkit-transform: translateY(-60px);\n          transform: translateY(-60px);\n  -webkit-transition: -webkit-transform .3s ease;\n  transition: -webkit-transform .3s ease;\n  transition: transform .3s ease;\n  transition: transform .3s ease, -webkit-transform .3s ease;\n  color: #fff;\n  font-size: 16px;\n  text-align: center;\n  font-weight: 400; }\n  .plyr__captions span {\n    border-radius: 2px;\n    padding: 3px 10px;\n    background: rgba(0, 0, 0, 0.7); }\n  .plyr__captions span:empty {\n    display: none; }\n  @media (min-width: 768px) {\n    .plyr__captions {\n      font-size: 24px; } }\n\n.plyr--captions-active .plyr__captions {\n  display: block; }\n\n.plyr--fullscreen-active .plyr__captions {\n  font-size: 32px; }\n\n.plyr--hide-controls .plyr__captions {\n  -webkit-transform: translateY(-20px);\n          transform: translateY(-20px); }\n\n.plyr ::-webkit-media-controls {\n  display: none; }\n\n.plyr__controls {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  line-height: 1;\n  text-align: center; }\n  .plyr__controls > button,\n  .plyr__controls .plyr__progress,\n  .plyr__controls .plyr__time {\n    margin-left: 5px; }\n    .plyr__controls > button:first-child,\n    .plyr__controls .plyr__progress:first-child,\n    .plyr__controls .plyr__time:first-child {\n      margin-left: 0; }\n  .plyr__controls .plyr__volume {\n    margin-left: 5px; }\n  .plyr__controls [data-plyr=\"pause\"] {\n    margin-left: 0; }\n  .plyr__controls button {\n    position: relative;\n    display: inline-block;\n    -ms-flex-negative: 0;\n        flex-shrink: 0;\n    overflow: visible;\n    vertical-align: middle;\n    padding: 7px;\n    border: 0;\n    background: transparent;\n    border-radius: 3px;\n    cursor: pointer;\n    -webkit-transition: background .3s ease, color .3s ease, opacity .3s ease;\n    transition: background .3s ease, color .3s ease, opacity .3s ease;\n    color: inherit; }\n    .plyr__controls button svg {\n      width: 18px;\n      height: 18px;\n      display: block;\n      fill: currentColor; }\n    .plyr__controls button:focus {\n      outline: 0; }\n  .plyr__controls .icon--exit-fullscreen,\n  .plyr__controls .icon--muted,\n  .plyr__controls .icon--captions-on {\n    display: none; }\n  @media (min-width: 480px) {\n    .plyr__controls > button,\n    .plyr__controls .plyr__progress,\n    .plyr__controls .plyr__time {\n      margin-left: 10px; } }\n\n.plyr--hide-controls .plyr__controls {\n  opacity: 0;\n  pointer-events: none; }\n\n.plyr--video .plyr__controls {\n  position: absolute;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  padding: 50px 10px 10px;\n  background: -webkit-linear-gradient(transparent, rgba(0, 0, 0, 0.5));\n  background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));\n  border-bottom-left-radius: inherit;\n  border-bottom-right-radius: inherit;\n  color: #fff;\n  -webkit-transition: opacity .3s ease;\n  transition: opacity .3s ease; }\n  .plyr--video .plyr__controls button.tab-focus:focus, .plyr--video .plyr__controls button:hover {\n    background: #3498db;\n    color: #fff; }\n\n.plyr--audio .plyr__controls {\n  padding: 10px;\n  border-radius: inherit;\n  background: #fff;\n  border: 1px solid #dbe3e8;\n  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);\n  color: #565D64; }\n  .plyr--audio .plyr__controls button.tab-focus:focus, .plyr--audio .plyr__controls button:hover {\n    background: #3498db;\n    color: #fff; }\n\n.plyr__play-large {\n  display: none;\n  position: absolute;\n  z-index: 1;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  padding: 10px;\n  background: #3498db;\n  border: 4px solid currentColor;\n  border-radius: 100%;\n  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);\n  color: #fff;\n  -webkit-transition: all .3s ease;\n  transition: all .3s ease; }\n  .plyr__play-large svg {\n    position: relative;\n    left: 2px;\n    width: 20px;\n    height: 20px;\n    display: block;\n    fill: currentColor; }\n  .plyr__play-large:focus {\n    outline: 1px dotted rgba(255, 255, 255, 0.5); }\n\n.plyr .plyr__play-large {\n  display: inline-block; }\n\n.plyr--audio .plyr__play-large {\n  display: none; }\n\n.plyr--playing .plyr__play-large {\n  opacity: 0;\n  visibility: hidden; }\n\n.plyr__controls [data-plyr='pause'],\n.plyr--playing .plyr__controls [data-plyr='play'] {\n  display: none; }\n\n.plyr--playing .plyr__controls [data-plyr='pause'] {\n  display: inline-block; }\n\n.plyr--fullscreen-active .icon--exit-fullscreen,\n.plyr--muted .plyr__controls .icon--muted,\n.plyr--captions-active .plyr__controls .icon--captions-on {\n  display: block; }\n  .plyr--fullscreen-active .icon--exit-fullscreen + svg,\n  .plyr--muted .plyr__controls .icon--muted + svg,\n  .plyr--captions-active .plyr__controls .icon--captions-on + svg {\n    display: none; }\n\n.plyr [data-plyr='captions'],\n.plyr [data-plyr='fullscreen'] {\n  display: none; }\n\n.plyr--captions-enabled [data-plyr='captions'],\n.plyr--fullscreen-enabled [data-plyr='fullscreen'] {\n  display: inline-block; }\n\n.plyr__tooltip {\n  position: absolute;\n  z-index: 2;\n  bottom: 100%;\n  margin-bottom: 10px;\n  padding: 5px 7.5px;\n  pointer-events: none;\n  opacity: 0;\n  background: rgba(0, 0, 0, 0.7);\n  border-radius: 3px;\n  color: #fff;\n  font-size: 14px;\n  line-height: 1.3;\n  -webkit-transform: translate(-50%, 10px) scale(0.8);\n          transform: translate(-50%, 10px) scale(0.8);\n  -webkit-transform-origin: 50% 100%;\n          transform-origin: 50% 100%;\n  -webkit-transition: opacity .2s .1s ease, -webkit-transform .2s .1s ease;\n  transition: opacity .2s .1s ease, -webkit-transform .2s .1s ease;\n  transition: transform .2s .1s ease, opacity .2s .1s ease;\n  transition: transform .2s .1s ease, opacity .2s .1s ease, -webkit-transform .2s .1s ease; }\n  .plyr__tooltip::before {\n    content: '';\n    position: absolute;\n    width: 0;\n    height: 0;\n    left: 50%;\n    -webkit-transform: translateX(-50%);\n            transform: translateX(-50%);\n    bottom: -4px;\n    border-right: 4px solid transparent;\n    border-top: 4px solid rgba(0, 0, 0, 0.7);\n    border-left: 4px solid transparent;\n    z-index: 2; }\n\n.plyr button:hover .plyr__tooltip,\n.plyr button.tab-focus:focus .plyr__tooltip,\n.plyr__tooltip--visible {\n  opacity: 1;\n  -webkit-transform: translate(-50%, 0) scale(1);\n          transform: translate(-50%, 0) scale(1); }\n\n.plyr button:hover .plyr__tooltip {\n  z-index: 3; }\n\n.plyr__controls button:first-child .plyr__tooltip {\n  left: 0;\n  -webkit-transform: translate(0, 10px) scale(0.8);\n          transform: translate(0, 10px) scale(0.8);\n  -webkit-transform-origin: 0 100%;\n          transform-origin: 0 100%; }\n  .plyr__controls button:first-child .plyr__tooltip::before {\n    left: 16px; }\n\n.plyr__controls button:last-child .plyr__tooltip {\n  right: 0;\n  -webkit-transform: translate(0, 10px) scale(0.8);\n          transform: translate(0, 10px) scale(0.8);\n  -webkit-transform-origin: 100% 100%;\n          transform-origin: 100% 100%; }\n  .plyr__controls button:last-child .plyr__tooltip::before {\n    left: auto;\n    right: 16px;\n    -webkit-transform: translateX(50%);\n            transform: translateX(50%); }\n\n.plyr__controls button:first-child:hover .plyr__tooltip,\n.plyr__controls button:first-child.tab-focus:focus .plyr__tooltip,\n.plyr__controls button:first-child .plyr__tooltip--visible,\n.plyr__controls button:last-child:hover .plyr__tooltip,\n.plyr__controls button:last-child.tab-focus:focus .plyr__tooltip,\n.plyr__controls button:last-child .plyr__tooltip--visible {\n  -webkit-transform: translate(0, 0) scale(1);\n          transform: translate(0, 0) scale(1); }\n\n.plyr__progress {\n  display: none;\n  position: relative;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1; }\n  .plyr__progress input[type=\"range\"] {\n    position: relative;\n    z-index: 2; }\n    .plyr__progress input[type=\"range\"]::-webkit-slider-runnable-track {\n      background: transparent; }\n    .plyr__progress input[type=\"range\"]::-moz-range-track {\n      background: transparent; }\n    .plyr__progress input[type=\"range\"]::-ms-fill-upper {\n      background: transparent; }\n  .plyr__progress .plyr__tooltip {\n    left: 0; }\n\n.plyr .plyr__progress {\n  display: inline-block; }\n\n.plyr__progress--buffer,\n.plyr__progress--played,\n.plyr__volume--display {\n  position: absolute;\n  left: 0;\n  top: 50%;\n  width: 100%;\n  height: 8px;\n  margin: -4px 0 0;\n  padding: 0;\n  vertical-align: top;\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  border: none;\n  border-radius: 100px; }\n  .plyr__progress--buffer::-webkit-progress-bar,\n  .plyr__progress--played::-webkit-progress-bar,\n  .plyr__volume--display::-webkit-progress-bar {\n    background: transparent; }\n  .plyr__progress--buffer::-webkit-progress-value,\n  .plyr__progress--played::-webkit-progress-value,\n  .plyr__volume--display::-webkit-progress-value {\n    background: currentColor;\n    border-radius: 100px;\n    min-width: 8px; }\n  .plyr__progress--buffer::-moz-progress-bar,\n  .plyr__progress--played::-moz-progress-bar,\n  .plyr__volume--display::-moz-progress-bar {\n    background: currentColor;\n    border-radius: 100px;\n    min-width: 8px; }\n  .plyr__progress--buffer::-ms-fill,\n  .plyr__progress--played::-ms-fill,\n  .plyr__volume--display::-ms-fill {\n    border-radius: 100px; }\n\n.plyr__progress--played,\n.plyr__volume--display {\n  z-index: 1;\n  color: #3498db;\n  background: transparent;\n  -webkit-transition: none;\n  transition: none; }\n  .plyr__progress--played::-webkit-progress-value,\n  .plyr__volume--display::-webkit-progress-value {\n    min-width: 8px;\n    max-width: 99%;\n    border-top-right-radius: 0;\n    border-bottom-right-radius: 0;\n    -webkit-transition: none;\n    transition: none; }\n  .plyr__progress--played::-moz-progress-bar,\n  .plyr__volume--display::-moz-progress-bar {\n    min-width: 8px;\n    max-width: 99%;\n    border-top-right-radius: 0;\n    border-bottom-right-radius: 0;\n    -webkit-transition: none;\n    transition: none; }\n  .plyr__progress--played::-ms-fill,\n  .plyr__volume--display::-ms-fill {\n    display: none; }\n\n.plyr__progress--buffer::-webkit-progress-value {\n  -webkit-transition: width .2s ease;\n  transition: width .2s ease; }\n\n.plyr__progress--buffer::-moz-progress-bar {\n  -webkit-transition: width .2s ease;\n  transition: width .2s ease; }\n\n.plyr__progress--buffer::-ms-fill {\n  -webkit-transition: width .2s ease;\n  transition: width .2s ease; }\n\n.plyr--video .plyr__progress--buffer,\n.plyr--video .plyr__volume--display {\n  background: rgba(255, 255, 255, 0.25); }\n\n.plyr--video .plyr__progress--buffer {\n  color: rgba(255, 255, 255, 0.25); }\n\n.plyr--audio .plyr__progress--buffer,\n.plyr--audio .plyr__volume--display {\n  background: rgba(198, 214, 219, 0.67); }\n\n.plyr--audio .plyr__progress--buffer {\n  color: rgba(198, 214, 219, 0.67); }\n\n.plyr--loading .plyr__progress--buffer {\n  -webkit-animation: plyr-progress 1s linear infinite;\n          animation: plyr-progress 1s linear infinite;\n  background-size: 25px 25px;\n  background-repeat: repeat-x;\n  background-image: -webkit-linear-gradient(135deg, rgba(0, 0, 0, 0.15) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0.15) 75%, transparent 75%, transparent);\n  background-image: linear-gradient(-45deg, rgba(0, 0, 0, 0.15) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0.15) 75%, transparent 75%, transparent);\n  color: transparent; }\n\n.plyr--video.plyr--loading .plyr__progress--buffer {\n  background-color: rgba(255, 255, 255, 0.25); }\n\n.plyr--audio.plyr--loading .plyr__progress--buffer {\n  background-color: rgba(198, 214, 219, 0.67); }\n\n.plyr__time {\n  display: inline-block;\n  vertical-align: middle;\n  font-size: 14px; }\n\n.plyr__time + .plyr__time {\n  display: none; }\n  @media (min-width: 768px) {\n    .plyr__time + .plyr__time {\n      display: inline-block; } }\n  .plyr__time + .plyr__time::before {\n    content: '\\2044';\n    margin-right: 10px; }\n\n.plyr__volume {\n  display: none; }\n\n.plyr .plyr__volume {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  position: relative; }\n  .plyr .plyr__volume input[type=\"range\"] {\n    position: relative;\n    z-index: 2; }\n  @media (min-width: 480px) {\n    .plyr .plyr__volume {\n      display: block;\n      max-width: 60px; } }\n  @media (min-width: 768px) {\n    .plyr .plyr__volume {\n      max-width: 100px; } }\n\n.plyr--is-ios .plyr__volume,\n.plyr--is-ios [data-plyr='mute'] {\n  display: none !important; }\n\n.plyr--fullscreen,\n.plyr--fullscreen-active {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  height: 100%;\n  width: 100%;\n  z-index: 10000000;\n  background: #000;\n  border-radius: 0; }\n  .plyr--fullscreen video,\n  .plyr--fullscreen-active video {\n    height: 100%; }\n  .plyr--fullscreen .plyr__video-wrapper,\n  .plyr--fullscreen-active .plyr__video-wrapper {\n    height: 100%;\n    width: 100%; }\n  .plyr--fullscreen .plyr__controls,\n  .plyr--fullscreen-active .plyr__controls {\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    right: 0; }\n  .plyr--fullscreen.plyr--vimeo .plyr__video-wrapper,\n  .plyr--fullscreen-active.plyr--vimeo .plyr__video-wrapper {\n    height: 0;\n    top: 50%;\n    -webkit-transform: translateY(-50%);\n            transform: translateY(-50%); }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 324 */
+/*!**********************************************!*\
+  !*** ./browser/scripts/videoplayer_setup.js ***!
+  \**********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	module.exports = function (plyr) {
+	  return plyr.setup({ iconUrl: __webpack_require__(/*! ~/~/plyr/dist/plyr.svg */ 325) });
+	};
+
+/***/ },
+/* 325 */
+/*!******************************!*\
+  !*** ./~/plyr/dist/plyr.svg ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "plyr.svg";
+
+/***/ },
+/* 326 */
 /*!**********************************************!*\
   !*** ./browser/styles/cards_animations.sass ***!
   \**********************************************/
@@ -48438,7 +48249,7 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./cards_animations.sass */ 330);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./cards_animations.sass */ 327);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 190)(content, {});
@@ -48458,7 +48269,7 @@
 	}
 
 /***/ },
-/* 330 */
+/* 327 */
 /*!************************************************************************************************!*\
   !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/cards_animations.sass ***!
   \************************************************************************************************/
@@ -48469,7 +48280,7 @@
 	
 	
 	// module
-	exports.push([module.id, "@-webkit-keyframes goToTop {\n  0% {\n    opacity: 1;\n    -webkit-transform: translateX(0px);\n            transform: translateX(0px); }\n  100% {\n    opacity: 0;\n    -webkit-transform: translateX(-100%);\n            transform: translateX(-100%); } }\n\n@keyframes goToTop {\n  0% {\n    opacity: 1;\n    -webkit-transform: translateX(0px);\n            transform: translateX(0px); }\n  100% {\n    opacity: 0;\n    -webkit-transform: translateX(-100%);\n            transform: translateX(-100%); } }\n\n.description-enter.description-enter-active {\n  -webkit-animation: goToTop 0.3s ease-in reverse forwards;\n          animation: goToTop 0.3s ease-in reverse forwards; }\n\n.description-leave.description-leave-active {\n  -webkit-animation: goToTop 0.3s ease-in forwards;\n          animation: goToTop 0.3s ease-in forwards; }\n", ""]);
+	exports.push([module.id, ".cross-fade-leave {\n  opacity: 1; }\n\n.cross-fade-leave.cross-fade-leave-active {\n  opacity: 0;\n  -webkit-transition: opacity .5s ease-in;\n  transition: opacity .5s ease-in; }\n\n.cross-fade-enter {\n  opacity: 0; }\n\n.cross-fade-enter.cross-fade-enter-active {\n  opacity: 1;\n  -webkit-transition: opacity .5s ease-in;\n  transition: opacity .5s ease-in; }\n\n.cross-fade-height {\n  -webkit-transition: height .3s ease-in-out;\n  transition: height .3s ease-in-out; }\n", ""]);
 	
 	// exports
 

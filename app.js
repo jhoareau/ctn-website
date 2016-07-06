@@ -1,7 +1,7 @@
 let express = require('express'), session = require('express-session');
 let path = require('path');
 let logger = require('morgan');
-let bodyParser = require('body-parser');
+let bodyParser = require('body-parser'), helmet = require('helmet');
 let passport = require('passport'), OAuth2Strategy = require('passport-oauth2').Strategy, LocalStrategy = require('passport-local').Strategy;
 
 let app = express();
@@ -40,6 +40,7 @@ app.set('view engine', 'jade');
 app.locals.pretty = true; //app.get('env') === 'development';
 
 app.use(logger('dev'));
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

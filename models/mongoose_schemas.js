@@ -20,13 +20,14 @@ let matosSchema = new mongoose.Schema({
   name: String,
   caution: String,
   disponible: Boolean,
-  emprunteur: String,
-  date_emprunt: Date,
-  responsable_emprunt: String,
-  id_materiel: Number,
-  id_histo: mongoose.Schema.Types.ObjectId,
-  rendu_le: Date,
-  responsable_rendu: String
+  historique: [{
+    emprunteur: String,
+    date_emprunt: Date,
+    responsable_emprunt: String,
+    rendu_le: Date,
+    responsable_rendu: String,
+    valide: Boolean
+  }]
 });
 
 module.exports = {userSchema: userSchema, videoSchema: videoSchema, matosSchema: matosSchema};

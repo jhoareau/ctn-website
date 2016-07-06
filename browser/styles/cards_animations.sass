@@ -1,17 +1,16 @@
-@keyframes goToTop
-  0%
-    opacity: 1
-    transform: translateX(0px)
-  100%
-    opacity: 0
-    transform: translateX(-100%)
+.cross-fade-leave
+  opacity: 1
 
-//.description-enter
+.cross-fade-leave.cross-fade-leave-active
+  opacity: 0
+  transition: opacity .5s ease-in
 
-.description-enter.description-enter-active
-  animation: goToTop 0.3s ease-in reverse forwards
+.cross-fade-enter
+  opacity: 0
 
-//.description-leave
+.cross-fade-enter.cross-fade-enter-active
+  opacity: 1
+  transition: opacity .5s ease-in
 
-.description-leave.description-leave-active
-  animation: goToTop 0.3s ease-in forwards
+.cross-fade-height
+  transition: height .3s ease-in-out

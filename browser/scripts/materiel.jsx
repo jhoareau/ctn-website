@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import ReactCSSTransitionReplace from 'react-css-transition-replace';
 
 class Camera extends React.Component {
   constructor(props) {
@@ -12,10 +12,12 @@ class Camera extends React.Component {
     this.state = {description: false};
   }
   openDescription() {
-    this.setState({description: true, height: document.getElementsByClassName('card-img-top')[0].clientHeight });
+    this.setState({description: true});
+    this.forceUpdate();
   }
   closeDescription() {
     this.setState({description: false});
+    this.forceUpdate();
   }
   validerReservation() {
 
@@ -30,36 +32,46 @@ class Camera extends React.Component {
 
     }
     else {
-      let style = {
-        height: this.state.height
-      }
-      cardImgContent =  <div className="card-block" key={"desc"+this.props.id_materiel} style={style} >
+      cardImgContent =  <div className="card-block" key={"desc"+this.props.id_materiel} >
                             <p className="card-text">{this.props.description}</p>
                         </div>;
     }
 
+    let emprunteOuReserve = !this.props.disponible;
+    let index = 0;
+    let emprunte = emprunteOuReserve && !this.props.historique.length === 0 && this.props.historique.reverse()[0].valide;
+    let reserve = emprunteOuReserve && (this.props.historique.length === 0 || !this.props.historique.reverse()[0].valide);
+    // Pour accéder à l'historique
+    let emprunt = i => {
+      return {
+        nom: this.props.historique.reverse()[i].emprunteur,
+        date: this.props.historique.reverse()[i].date_emprunt,
+        responsable: this.props.historique.reverse()[i].responsable_emprunt
+      }
+    };
+
     return (
-      <div className="card"  onMouseEnter={this.openDescription} onMouseLeave={this.closeDescription}>
-        <ReactCSSTransitionGroup transitionName="description">
+      <div className="card" onMouseEnter={this.openDescription} onMouseLeave={this.closeDescription} data-id={this.props._id}>
+        <ReactCSSTransitionReplace transitionName="cross-fade" transitionLeave={false} transitionEnterTimeout={100}>
           {cardImgContent}
-        </ReactCSSTransitionGroup>
+        </ReactCSSTransitionReplace>
         <div className="card-block">
           <h4 className="card-title">{this.props.name}</h4>
           <p className="card-text">Caution : {this.props.caution}</p>
-          {/* Empruntée dans le présent ou dans le passé */}
-          {!this.props.disponible && this.props.responsable_emprunt ? <p className="card-text">Empruntée par {this.props.emprunteur} le {this.props.date_emprunt}
-                                                             <br/>Responsable : {this.props.responsable_emprunt}</p> : null}
           {/* Empruntée dans le présent */}
-          {!this.props.disponible && this.props.responsable_emprunt && !this.props.rendu_le ? <button className="btn btn-danger" data-id={this.props.id_materiel} onClick={this.closeReservation}>Rendre matériel</button> : null}
+          {emprunte ? <p className="card-text">Empruntée par {emprunt(index).nom} le {emprunt(index).date}
+                                                             <br/>Responsable : {emprunt(index).responsable}</p> : null}
+          {/* Empruntée dans le présent */}
+          {emprunte ? <button className="btn btn-danger" onClick={this.closeReservation}>Rendre matériel</button> : null}
           {/* Réservée */}
-          {!this.props.disponible && !this.props.responsable_emprunt ? <p className="card-text">Réservée par {this.props.emprunteur} le {this.props.date_emprunt}</p> : null}
-          {!this.props.disponible && !this.props.responsable_emprunt ? <button className="btn btn-success" data-id={this.props.id_materiel} onClick={this.validerReservation}>Valider réservation</button> : null}
-          {!this.props.disponible && !this.props.responsable_emprunt ? <button className="btn btn-danger" data-id={this.props.id_materiel} onClick={this.closeReservation}>Annuler réservation</button> : null}
+          {reserve ? <p className="card-text">Réservée par {emprunt(index).nom} le {emprunt(index).date}</p> : null}
+          {reserve ? <button className="btn btn-success" onClick={this.validerReservation}>Valider réservation</button> : null}
+          {reserve ? <button className="btn btn-danger" onClick={this.closeReservation}>Annuler réservation</button> : null}
           {/* Emprunté dans le passé */}
-          {this.props.rendu_le ? <p className="card-text">Rendu le {this.props.rendu_le} avec {this.props.responsable_rendu}</p> : null}
+          {/*this.props.rendu_le ? <p className="card-text">Rendu le {this.props.rendu_le} avec {this.props.responsable_rendu}</p> : null*/}
           {/* Ni emprunté ni réservé */}
-          {this.props.disponible && !this.props.rendu_le ? <p className="card-text materielDispo">Disponible !</p> : null}
-          {this.props.disponible && !this.props.rendu_le ? <button className="btn btn-primary" data-id={this.props.id_materiel} onClick={this.openReservation}>Réserver</button> : null}
+          {!emprunteOuReserve ? <p className="card-text materielDispo">Disponible !</p> : null}
+          {!emprunteOuReserve ? <button className="btn btn-primary" onClick={this.openReservation}>Réserver</button> : null}
         </div>
       </div>
     );
@@ -71,13 +83,8 @@ Camera.defaultProps = {
   description: 'Caméra CTN',
   caution: '300€',
   disponible: true,
-  emprunteur: null,
-  date_emprunt: null,
-  responsable_emprunt: null,
-  id_materiel: 0,
-  id_histo: null,
-  rendu_le: null,
-  responsable_rendu: null
+  historique: [],
+  showHistorique: true
 };
 
 class MatosList extends React.Component {
@@ -88,7 +95,7 @@ class MatosList extends React.Component {
     return (
       <div className="matosList">
         {this.props.matosList.map((cameraObject) => {
-          return <Camera {...cameraObject} key={cameraObject.id_materiel + cameraObject.id_histo} />
+          return <Camera {...cameraObject} key={JSON.stringify(cameraObject)} />
         })}
       </div>
     );
@@ -97,48 +104,31 @@ class MatosList extends React.Component {
 MatosList.defaultProps = {
   matosList: [
                 {
-                  thumbUrl : '/defaults/gopro_4.jpg',
-                  name: 'Clara - GoPro Hero 4',
-                  description: 'Caméra CTN',
-                  disponible: true,
-                  caution: '400€',
-                  id_histo: null,
-                  id_materiel: 1
+                  caution: '400€'
                 },
                 {
-                  thumbUrl : '/defaults/gopro_4.jpg',
                   name: 'GoPro Hero 3',
                   description: 'Caméra CTN moins bien',
                   disponible: false,
-                  emprunteur: 'Antonio de Jesus Montez',
-                  date_emprunt: '27/06/2016',
-                  id_histo: null,
-                  id_materiel: 2
+                  historique: [
+                    {
+                      emprunteur: 'Antonio de Jesus Montez',
+                      date_emprunt: '27/06/2016',
+                      valide: false
+                    }
+                  ]
                 },
                 {
-                  thumbUrl : '/defaults/gopro_4.jpg',
                   name: 'GoPro Hero 3',
                   description: 'Caméra CTN moins bien',
                   disponible: false,
-                  emprunteur: 'Antonio de Jesus Montez',
-                  date_emprunt: '27/06/2016',
-                  responsable_emprunt: 'Akelo',
-                  id_histo: 'ghi',
-                  id_materiel: 3
-                },
-                {
-                  thumbUrl : '/defaults/gopro_4.jpg',
-                  name: 'GoPro Hero 2',
-                  description: 'Caméra CTN pas bien',
-                  caution: '250€',
-                  disponible: false,
-                  emprunteur: 'Antonio de Jesus Montez',
-                  date_emprunt: '27/06/2016',
-                  responsable_emprunt: 'Akelo',
-                  rendu_le: '28/06/2016',
-                  responsable_rendu: 'Khynder',
-                  id_histo: 'jkl',
-                  id_materiel: 4
+                  historique: [
+                    {
+                      emprunteur: 'Antonio de Jesus Montez',
+                      date_emprunt: '28/06/2016',
+                      valide: true,
+                    }
+                  ]
                 }
               ]
 };
