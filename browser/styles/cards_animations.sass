@@ -1,0 +1,17 @@
+@keyframes goToTop
+  0%
+    opacity: 1
+    transform: translateX(0px)
+  100%
+    opacity: 0
+    transform: translateX(-100%)
+
+//.description-enter
+
+.description-enter.description-enter-active
+  animation: goToTop 0.3s ease-in reverse forwards
+
+//.description-leave
+
+.description-leave.description-leave-active
+  animation: goToTop 0.3s ease-in forwards

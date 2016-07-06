@@ -47,5 +47,7 @@ if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
 if (window.location.pathname === '/pret-matos' | window.location.pathname === '/pret-matos/') {
   require('~/browser/styles/cards.sass');
   require('~/browser/styles/search.sass');
+  require('~/browser/styles/cards_animations.sass');
+
   render(<MatosList />, document.getElementById('matosList'));
 }
