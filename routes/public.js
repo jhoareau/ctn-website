@@ -10,6 +10,18 @@ const loggedIn = (req, res, next) => {
   }
 }
 
+const isAdmin = (req, res, next) => {
+  if (req.isAuthenticated() && req.user.admin)
+    next();
+  else {
+    res.status(404);
+    res.render('error', {
+        message: 'Page non trouvée !',
+        error: {}
+    });
+  }
+}
+
 router.get('/', (req, res) => {
   res.render('index');
 });
@@ -39,18 +51,32 @@ router.get('/mediapiston/watch/:videoid', loggedIn, (req, res) => {
   res.render('mediapiston_video');
 });
 
+router.get('/mediapiston/upload', isAdmin, (req, res) => {
+  res.render('mediapiston_upload');
+});
+
+router.get('/mediapiston/update/:id', isAdmin, (req, res) => {
+  res.render('mediapiston_upload', {update: true});
+});
+
 router.get('/pret-matos', loggedIn, (req, res) => {
   res.render('materiel');
+});
+
+router.get('/pret-matos/add', isAdmin, (req, res) => {
+  res.render('materiel_add');
+});
+
+router.get('/pret-matos/update/:id', isAdmin, (req, res) => {
+  res.render('materiel_add', {update: true});
 });
 
 router.get('/a-propos', (req, res) => {
   res.redirect('/');
 });
 
-router.get('/ctn-asso', loggedIn, (req, res, next) => {
-  if (req.user.admin)
-    res.redirect('/');
-  else next();
+router.get('/ctn-asso', isAdmin, (req, res, next) => {
+  res.render('admin');
 });
 
 module.exports = (passportMiddleware) => {

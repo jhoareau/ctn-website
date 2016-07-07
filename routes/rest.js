@@ -57,6 +57,17 @@ router.get('/video/:id', loggedIn, (req, res) => {
   });
 });
 
+router.post('/video/:id/update', isAdmin, (req, res) => {
+  mongodb.updateMateriel(req.params.id, req.body, answer => res.json(answer));
+});
+
+router.put('/video/add', isAdmin, (req, res) => {
+  let uploader = req.user;
+  let request = req.body;
+  request.session = uploader;
+  mongodb.addVideo(request, answer => res.json(answer));
+});
+
 router.get('/matosList/public', loggedIn, (req, res) => {
   mongodb.returnListMateriel(null, data => {
     if (data === null) data = [];
@@ -71,7 +82,7 @@ router.get('/matosList/admin', isAdmin, (req, res) => {
   });
 });
 
-router.post('/matosList/update/:id', isAdmin, (req, res) => {
+router.post('/matosList/:id/update', isAdmin, (req, res) => {
   mongodb.updateMateriel(req.params.id, req.body, answer => res.json(answer));
 });
 

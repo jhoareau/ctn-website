@@ -27,12 +27,47 @@ let returnVideo = (id, callback) => {
     });
   }
   else {
-    Video.findOne({_id: id}, (err, result) => {
+    Video.findById(id, (err, result) => {
       if (err) throw new Error('Erreur lors de la récupération de la vidéo.');
       callback(result);
     });
   }
 }
+
+let addVideo = (data, callback) => {
+  let Video = mongoose.model('Video', videoSchema);
+  let schema = {
+    thumbUrl: data.thumb,
+    title: data.title,
+    description: data.description,
+    date: new Date(),
+    uploader: data.session.uploader,
+    url: data.videoURL
+  };
+
+  let newVideo = new Video(schema);
+  newVideo.save((err) => {
+    if (err) throw new Error("Erreur lors de l'ajout de la nouvelle vidéo.");
+    callback({ok: true});
+  });
+};
+
+let updateVideo = (id, data, callback) => {
+  Video.findById(id, (err, video) => {
+    if (err) throw new Error('Erreur lors de la récupération de la vidéo à mettre à jour.');
+    if (video === null) return callback({ok: false});
+    
+    video.thumbUrl = data.thumb;
+    video.title = data.title;
+    video.description = data.description;
+    video.url = data.videoURL;
+
+    video.save((err) => {
+      if (err) throw new Error('Erreur lors de la mise à jour de la vidéo.');
+      callback({ok: true});
+    });
+  });
+};
 
 let returnListMateriel = (admin, callback) => {
   let Materiel = mongoose.model('Materiel', matosSchema);
@@ -58,13 +93,7 @@ let addMateriel = (data, callback) => {
     name: data.name,
     caution: data.caution,
     disponible: true,
-    emprunteur: null,
-    date_emprunt: null,
-    responsable_emprunt: null,
-    id_materiel: 0,
-    id_histo: null,
-    rendu_le: null,
-    responsable_rendu: null
+    historique: []
   };
 
   let newMateriel = new Materiel(schema);
@@ -75,8 +104,23 @@ let addMateriel = (data, callback) => {
 };
 
 let updateMateriel = (id, data, callback) => {
+  Materiel.findById(id, (err, materiel) => {
+    if (err) throw new Error('Erreur lors de la récupération du matériel à mettre à jour.');
+    if (materiel === null) return callback({ok: false});
 
+    materiel.thumbUrl = data.thumb;
+    materiel.extes = data.extes;
+    materiel.name = data.name;
+    materiel.caution = data.caution;
+    materiel.disponible = data.updatedDisponible;
+    materiel.historique = data.updatedHistorique;
+
+    materiel.save((err) => {
+      if (err) throw new Error('Erreur lors de la mise à jour du matériel.');
+      callback({ok: true});
+    });
+  });
 };
 
-module.exports = {returnUser: returnUser, returnListVideos: returnVideo, returnVideo: returnVideo,
+module.exports = {returnUser: returnUser, returnListVideos: returnVideo, returnVideo: returnVideo, addVideo: addVideo, updateVideo: updateVideo,
                   returnListMateriel: returnListMateriel, addMateriel: addMateriel, updateMateriel: updateMateriel};
