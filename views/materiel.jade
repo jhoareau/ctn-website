@@ -1,9 +1,10 @@
 extends layout
 
-block content
-  div#searchBox
-    form.form-inline(method="GET" action='/pret-matos/search')
+block search
+    form.form-inline.nav.nav-center#searchBox(method="GET" action='/pret-matos/search')
       input.form-control(type='text' name="search" placeholder='Rechercher...')
       button.btn.btn-success-outline(type='submit')
         i.fa.fa-search(aria-hidden='true')
+
+block content
   div#matosList

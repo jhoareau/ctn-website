@@ -32444,7 +32444,7 @@
 	
 	
 	// module
-	exports.push([module.id, "body {\n  margin-bottom: 60px; }\n\nfooter {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n  height: 60px;\n  line-height: 60px;\n  background-color: #f5f5f5; }\n\nfooter a {\n  display: inline-block;\n  margin-left: 15px;\n  text-decoration: none;\n  color: black; }\n", ""]);
+	exports.push([module.id, "body, html {\n  height: 100%; }\n\n#mainContainer {\n  min-height: 100%;\n  position: relative; }\n\nfooter {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n  height: 60px;\n  line-height: 60px;\n  background-color: #f5f5f5; }\n\nfooter a {\n  display: inline-block;\n  margin-left: 15px;\n  text-decoration: none;\n  color: black; }\n\n.container-fluid {\n  padding-bottom: 100px; }\n", ""]);
 	
 	// exports
 
@@ -47124,7 +47124,7 @@
 	
 	      var emprunteOuReserve = !this.props.disponible;
 	      var index = 0;
-	      var emprunte = emprunteOuReserve && !this.props.historique.length === 0 && this.props.historique.reverse()[0].valide;
+	      var emprunte = emprunteOuReserve && this.props.historique.length !== 0 && this.props.historique.reverse()[0].valide;
 	      var reserve = emprunteOuReserve && (this.props.historique.length === 0 || !this.props.historique.reverse()[0].valide);
 	      // Pour accéder à l'historique
 	      var emprunt = function emprunt(i) {
@@ -47263,7 +47263,8 @@
 	    historique: [{
 	      emprunteur: 'Antonio de Jesus Montez',
 	      date_emprunt: '28/06/2016',
-	      valide: true
+	      valide: true,
+	      responsable_emprunt: 'Akelo'
 	    }]
 	  }]
 	};
@@ -48156,7 +48157,7 @@
 	
 	
 	// module
-	exports.push([module.id, "#searchBox {\n  width: 100%;\n  margin-top: 10px;\n  text-align: center;\n  margin-bottom: 10px; }\n\n#searchBox form input {\n  width: 400px;\n  height: 45px; }\n", ""]);
+	exports.push([module.id, ".nav.nav-center {\n  margin: 0;\n  float: none;\n  display: inline-block;\n  left: 0;\n  right: 0; }\n\n.navbar {\n  text-align: center; }\n\n#searchBox input {\n  width: 300px; }\n", ""]);
 	
 	// exports
 

@@ -39,7 +39,7 @@ class Camera extends React.Component {
 
     let emprunteOuReserve = !this.props.disponible;
     let index = 0;
-    let emprunte = emprunteOuReserve && !this.props.historique.length === 0 && this.props.historique.reverse()[0].valide;
+    let emprunte = emprunteOuReserve && this.props.historique.length !== 0 && this.props.historique.reverse()[0].valide;
     let reserve = emprunteOuReserve && (this.props.historique.length === 0 || !this.props.historique.reverse()[0].valide);
     // Pour accéder à l'historique
     let emprunt = i => {
@@ -127,6 +127,7 @@ MatosList.defaultProps = {
                       emprunteur: 'Antonio de Jesus Montez',
                       date_emprunt: '28/06/2016',
                       valide: true,
+                      responsable_emprunt: 'Akelo'
                     }
                   ]
                 }

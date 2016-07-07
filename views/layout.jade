@@ -14,20 +14,22 @@ html
       opacity: 0
     }
   body
-    header
-      nav.navbar.navbar-light.bg-faded.navbar-full
-        a.navbar-brand(href='/') CTN
-        div#reactHeader.pull-xs-right
-    section.container-fluid
-      block content
-    footer
-      div.container
-        span.text-muted Sulu pour CTN
-        a(href="https://www.youtube.com/channel/UC75jolKCt0V_AqHJM2QpWYQ")
-          i.fa.fa-youtube(aria-hidden="true")
-        a(href="https://www.facebook.com/ctnecl/")
-          i.fa.fa-facebook-official(aria-hidden="true")
-        a(href="https://twitter.com/ctn_ecl")
-          i.fa.fa-twitter(aria-hidden="true")
-    script(src='/assets/bundle.js' type='text/javascript')
+    div#mainContainer
+      header
+        nav.navbar.navbar-light.bg-faded.navbar-full
+          a.navbar-brand(href='/') CTN
+          block search
+          div#reactHeader.pull-xs-right
+      section.container-fluid
+        block content
+      footer
+        div.container
+          span.text-muted Sulu pour CTN
+          a(href="https://www.youtube.com/channel/UC75jolKCt0V_AqHJM2QpWYQ")
+            i.fa.fa-youtube(aria-hidden="true")
+          a(href="https://www.facebook.com/ctnecl/")
+            i.fa.fa-facebook-official(aria-hidden="true")
+          a(href="https://twitter.com/ctn_ecl")
+            i.fa.fa-twitter(aria-hidden="true")
+      script(src='/assets/bundle.js' type='text/javascript')
     
