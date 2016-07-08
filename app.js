@@ -3,26 +3,26 @@ let path = require('path');
 let logger = require('morgan');
 let bodyParser = require('body-parser'), helmet = require('helmet');
 let passport = require('passport'), OAuth2Strategy = require('passport-oauth2').Strategy, LocalStrategy = require('passport-local').Strategy;
+let request = require('superagent');
 
 let app = express();
+let config = require('./config.secrets.json');
 
 /* Passport */
 
-/*passport.use(new OAuth2Strategy({
+var Account_OAuth = require('./models/oauth_passport');
+passport.use(new OAuth2Strategy({
     authorizationURL: 'https://www.myecl.fr/oauth/v2/auth',
     tokenURL: 'https://www.myecl.fr/oauth/v2/token',
-    clientID: 'EXAMPLE_CLIENT_ID',
-    clientSecret: 'EXAMPLE_CLIENT_SECRET',
+    clientID: config.oauth2.clientID,
+    clientSecret: config.oauth2.clientSecret,
     callbackURL: "http://localhost/login/callback"
   },
-  function(accessToken, refreshToken, profile, cb) {
-    'https://www.myecl.fr/api/users'
-    User.findOrCreate({ login: profile.username }, function (err, user) {
-      return cb(err, user);
-    });
-  }
-));*/
-var Account = require('./models/local_passport');
+  Account.authenticator));
+passport.serializeUser(Account.serializeUser);
+passport.deserializeUser(Account.deserializeUser);
+const passportMiddleware = passport.authenticate('oauth2', { failureRedirect: '/login' });
+/*var Account = require('./models/local_passport');
 passport.use(new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password',
@@ -31,8 +31,7 @@ passport.use(new LocalStrategy({
   }, Account.authenticator));
 passport.serializeUser(Account.serializeUser);
 passport.deserializeUser(Account.deserializeUser);
-const passportMiddleware = passport.authenticate('local', { failureRedirect: '/login' });
-//app.use(passport.authenticate('oauth2', { failureRedirect: '/login' }));
+const passportMiddleware = passport.authenticate('local', { failureRedirect: '/login' });*/
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -44,7 +43,7 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(session({ secret: 'ctn_secret_beta_test', resave: true, saveUninitialized: true }));
+app.use(session({ secret: config.session.secret, resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
