@@ -1,16 +1,28 @@
-.cross-fade-leave
-  opacity: 1
+.cardDescription-enter
+  transform: scale3d(0, 1, 1)
+  display: none
+  width: 0px
+  flex-basis: 0px
 
-.cross-fade-leave.cross-fade-leave-active
-  opacity: 0
-  transition: opacity .5s ease-in
+.cardDescription-enter.cardDescription-enter-active
+  display: block
+  animation: openDescription 0.5s cubic-bezier(0.470, 0.000, 0.745, 0.715) forwards
+  transform-origin: left
 
-.cross-fade-enter
-  opacity: 0
+.cardDescription-leave.cardDescription-leave-active
+  animation: openDescription 0.4s cubic-bezier(0.470, 0.000, 0.745, 0.715) reverse forwards
+  transform-origin: left
 
-.cross-fade-enter.cross-fade-enter-active
-  opacity: 1
-  transition: opacity .5s ease-in
-
-.cross-fade-height
-  transition: height .3s ease-in-out
+@keyframes openDescription
+  0%
+    transform: scale3d(0, 1, 1)
+    display: none
+    opacity: 0
+    width: 0px
+    flex-basis: 0px
+  100%
+    opacity: 1
+    display: block
+    transform: scale3d(1, 1, 1)
+    width: 500px
+    flex-basis: 500px

@@ -18,9 +18,9 @@ passport.use(new OAuth2Strategy({
     clientSecret: config.oauth2.clientSecret,
     callbackURL: "http://localhost/login/callback"
   },
-  Account.authenticator));
-passport.serializeUser(Account.serializeUser);
-passport.deserializeUser(Account.deserializeUser);
+  Account_OAuth.authenticator));
+passport.serializeUser(Account_OAuth.serializeUser);
+passport.deserializeUser(Account_OAuth.deserializeUser);
 const passportMiddleware = passport.authenticate('oauth2', { failureRedirect: '/login' });
 /*var Account = require('./models/local_passport');
 passport.use(new LocalStrategy({

@@ -1,30 +1,58 @@
 #videosList, #matosList
   text-align: center
 
-.videoList .card
-  margin: 20px
-  flex-grow: 2
-  flex-basis: 400px
-
-.matosList .card
-  margin: 20px
-  flex-grow: 2
-  flex-basis: 200px
-
-.card-img-top
-  width: 100%
-  height: auto
-
-a.cardLink, a.cardLink:hover
-  text-decoration: none
-  color: black
-
 .videoList, .matosList
   display: flex
   width: 80%
   flex-wrap: wrap
   margin: auto
   justify-content: center
+
+.videoList .card
+  margin: 20px
+  flex-grow: 2
+  flex-basis: 400px
+
+.matosList .cardWrapper
+  margin: 20px
+  flex-grow: 4
+  flex-shrink: 0
+  display: flex
+
+.cardWrapper > .card
+  flex-grow: 0
+  flex-shrink: 0
+  padding-bottom: 50px
+
+.cardWrapper > .card:nth-child(2)
+  flex-grow: 3
+  flex-basis: 500px
+
+.cardHidden
+  border: none
+
+.cardHidden .card
+  width: 500px
+  height: 100%
+
+.card-img-top
+  max-width: 300px
+  height: auto
+
+.link
+  cursor: pointer
+
+.openDescription
+  border-top: 1px #d4d4d4 solid
+  height: 50px
+  line-height: 10px
+  position: absolute
+  bottom: 0
+  width: 100%
+
+a.cardLink, a.cardLink:hover
+  text-decoration: none
+  color: black
 
 .materielDispo
   color: #3c763d
