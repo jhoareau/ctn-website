@@ -16,6 +16,7 @@ let isCorrect = (username, password) => {
 }
 
 let authenticator = (accessToken, refreshToken, profile, done) => {
+  console.log(accessToken); console.log(refreshToken);
   mongoDB.returnUser(username, (user) => {
     return done(null, user);
   });

@@ -11,6 +11,7 @@ let config = require('./config.secrets.json');
 /* Passport */
 
 var Account_OAuth = require('./models/oauth_passport');
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // Désolé...
 passport.use(new OAuth2Strategy({
     authorizationURL: 'https://www.myecl.fr/oauth/v2/auth',
     tokenURL: 'https://www.myecl.fr/oauth/v2/token',

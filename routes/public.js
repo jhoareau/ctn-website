@@ -6,7 +6,8 @@ const loggedIn = (req, res, next) => {
     next();
   else {
     req.session.redirectTo = req.path;
-    res.redirect('/login');
+    //res.redirect('/login');
+    res.redirect('/');
   }
 }
 
@@ -26,22 +27,23 @@ router.get('/', (req, res) => {
   res.render('index');
 });
 
-router.get('/login', (req, res) => {
+
+/*router.get('/login', (req, res) => {
   if (req.isAuthenticated()) {
     res.redirect(req.session.redirectTo || '/')
     delete req.session.redirectTo;
   }
   else res.render('login');
-});
+});*/
 
 router.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
 });
 
-router.get('/login/callback', loggedIn, (req, res) => {
+/*router.get('/login/callback', loggedIn, (req, res) => {
   res.redirect('/');
-});
+});*/
 
 router.get('/mediapiston', loggedIn, (req, res) => {
   res.render('mediapiston_home');
@@ -80,12 +82,14 @@ router.get('/ctn-asso', isAdmin, (req, res, next) => {
 });
 
 module.exports = (passportMiddleware) => {
-  router.post('/login', passportMiddleware);
+  router.get('/login', passportMiddleware);
+  router.get('/login/callback', passportMiddleware, (req, res) => {res.redirect('/')});
+  /*router.post('/login', passportMiddleware);
   router.post('/login',
       function (req, res) {
         res.redirect(req.session.redirectTo || '/')
         delete req.session.redirectTo;
-  });
+  });*/
 
   return router;
 };
