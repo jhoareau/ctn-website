@@ -3,7 +3,6 @@ let path = require('path');
 let logger = require('morgan');
 let bodyParser = require('body-parser'), helmet = require('helmet');
 let passport = require('passport'), OAuth2Strategy = require('passport-oauth2').Strategy, LocalStrategy = require('passport-local').Strategy;
-let request = require('superagent');
 
 let app = express();
 let config = require('./config.secrets.json');

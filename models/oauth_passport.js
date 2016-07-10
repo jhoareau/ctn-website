@@ -1,10 +1,11 @@
 let mongoDB = require('./mongodb');
+let request = require('superagent');
 
 let serializeUser = (user, done) => {
   done(null, user.username);
 }
 let deserializeUser = (username, done) => {
-  mongoDB.returnUser(username, (user) => {
+  mongoDB.returnUser({username: username}, (user) => {
     return done(null, user);
   });
 }
@@ -16,9 +17,10 @@ let isCorrect = (username, password) => {
 }
 
 let authenticator = (accessToken, refreshToken, profile, done) => {
-  console.log(accessToken); console.log(refreshToken);
-  mongoDB.returnUser(username, (user) => {
-    return done(null, user);
+  request.get('https://www.myecl.fr/api/users').set('Authorization', 'Bearer ' + accessToken).end((err, res) => {
+    mongoDB.returnUser(res.body, (user) => {
+      return done(null, user);
+    });
   });
 }
 

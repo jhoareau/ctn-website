@@ -1,18 +1,23 @@
 let mongoose = require('mongoose');
 let {userSchema: userSchema, videoSchema: videoSchema, matosSchema: matosSchema} = require('./mongoose_schemas');
+let config = require('../config.secrets.json');
 
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://' + config.mongo.server + '/' + config.mongo.db, {
+  user: config.mongo.user,
+  pass: config.mongo.password
+});
 
-let returnUser = (username, callback) => {
+let returnUser = (userObject, callback) => {
   let User = mongoose.model('User', userSchema);
-  User.findOne({username: username}, (err, result) => {
+  User.findOne({username: userObject.username}, (err, result) => {
     if (err) throw err;
     if (result == null) {
-      let userInstance = new User({username: username, admin: false});
+      let userInstance = new User({username: userObject.username, fullName: userObject.prenom + ' ' + userObject.nom,
+                                    surname: userObject.surnom, email: userObject.email, admin: true, superAdmin: true});
       userInstance.save((err) => {
         if (err) throw new Error("Erreur de création d'utilisateur dans la BDD");
       });
-      callback(userInstance);
+      return callback(userInstance);
     }
     callback(result);
   });
@@ -56,7 +61,7 @@ let updateVideo = (id, data, callback) => {
   Video.findById(id, (err, video) => {
     if (err) throw new Error('Erreur lors de la récupération de la vidéo à mettre à jour.');
     if (video === null) return callback({ok: false});
-    
+
     video.thumbUrl = data.thumb;
     video.title = data.title;
     video.description = data.description;
