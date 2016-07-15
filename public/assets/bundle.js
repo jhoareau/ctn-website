@@ -51538,7 +51538,7 @@
 	          ) : null,
 	          reserve && !this.props.showHistorique ? _react2.default.createElement(
 	            'button',
-	            { className: 'mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect', onClick: this.closeReservation },
+	            { className: 'mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect', onClick: this.closeReservation },
 	            'Annuler réservation'
 	          ) : null,
 	          !emprunteOuReserve && !this.props.showHistorique ? _react2.default.createElement(
@@ -52655,7 +52655,7 @@
 	
 	
 	// module
-	exports.push([module.id, "#videosList, #matosList {\n  text-align: center; }\n\n.mdl-card {\n  text-align: left;\n  display: inline-block;\n  width: 512px;\n  margin-right: 10px; }\n\n.mdl-card > .mdl-card__title {\n  height: 300px;\n  background-position: bottom left;\n  background-size: auto 100%;\n  background-repeat: no-repeat;\n  background-color: #46B6AC;\n  padding: 0; }\n\n#videosList .mdl-card > .mdl-card__title {\n  background-size: cover; }\n\n#videosList .mdl-card > .mdl-card__title a {\n  width: 50%; }\n\n#videosList .mdl-card > .mdl-card__title .mdl-card__title-text {\n  background-color: rgba(255, 255, 255, 0.8);\n  color: black; }\n\n.mdl-card > .mdl-card__title .mdl-card__title-text {\n  background-color: rgba(0, 0, 0, 0.6);\n  color: white;\n  width: 100%;\n  padding: 12px 12px; }\n\n.mdl-card > .mdl-card__menu {\n  top: 300px;\n  -webkit-transform: translateY(-50%);\n          transform: translateY(-50%); }\n\n.mdl_card > .mdl-card__supporting-text {\n  height: 300px; }\n\n.materielDispo {\n  color: #3c763d; }\n\n.videoPlayer {\n  margin-top: 20px; }\n\n.videoDetails {\n  margin-top: 1em; }\n", ""]);
+	exports.push([module.id, "#videosList, #matosList {\n  text-align: center; }\n\n.mdl-card {\n  text-align: left;\n  display: inline-block;\n  width: 512px;\n  margin-right: 20px;\n  margin-top: 15px;\n  vertical-align: middle; }\n\n.mdl-card > .mdl-card__title {\n  height: 300px;\n  background-position: bottom left;\n  background-size: auto 100%;\n  background-repeat: no-repeat;\n  background-color: #46B6AC;\n  padding: 0; }\n\n#videosList .mdl-card > .mdl-card__title {\n  background-size: cover; }\n\n#videosList .mdl-card > .mdl-card__title a {\n  width: 50%; }\n\n#videosList .mdl-card > .mdl-card__title .mdl-card__title-text {\n  background-color: rgba(255, 255, 255, 0.9);\n  color: black;\n  padding: 12px 12px;\n  -webkit-transition: color 0.3s ease-in, background-color 0.3s ease-in;\n  transition: color 0.3s ease-in, background-color 0.3s ease-in; }\n\n#videosList .mdl-card > .mdl-card__title .mdl-card__title-text:hover {\n  background-color: rgba(0, 0, 0, 0.9);\n  color: white;\n  -webkit-transition: color 0.3s ease-out, background-color 0.3s ease-out;\n  transition: color 0.3s ease-out, background-color 0.3s ease-out; }\n\n#matosList .mdl-card > .mdl-card__title .mdl-card__title-text {\n  background-color: rgba(0, 0, 0, 0.6);\n  color: white;\n  width: 100%;\n  padding: 12px 12px; }\n\n.mdl-card > .mdl-card__menu {\n  top: 300px;\n  -webkit-transform: translateY(-50%);\n          transform: translateY(-50%); }\n\n.mdl_card > .mdl-card__supporting-text {\n  height: 300px; }\n\n.materielDispo {\n  color: #3c763d; }\n\n.videoPlayer {\n  margin-top: 20px; }\n\n.videoDetails {\n  margin-top: 1em; }\n", ""]);
 	
 	// exports
 
@@ -52701,7 +52701,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".nav.nav-center {\n  margin: 0;\n  float: none;\n  display: inline-block;\n  left: 0;\n  right: 0; }\n\n.navbar {\n  text-align: center; }\n\n#searchBox input {\n  width: 300px; }\n", ""]);
+	exports.push([module.id, ".nav.nav-center {\n  margin: 0;\n  float: none;\n  display: inline-block;\n  left: 0;\n  right: 0; }\n\n.navbar {\n  text-align: center; }\n\n#searchBox input {\n  width: 500px;\n  border-radius: 2px; }\n", ""]);
 	
 	// exports
 

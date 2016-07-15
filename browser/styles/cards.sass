@@ -5,7 +5,9 @@
   text-align: left
   display: inline-block
   width: 512px
-  margin-right: 10px
+  margin-right: 20px
+  margin-top: 15px
+  vertical-align: middle
 
 .mdl-card > .mdl-card__title
   height: 300px
@@ -22,10 +24,17 @@
   width: 50%
 
 #videosList .mdl-card > .mdl-card__title .mdl-card__title-text
-    background-color: rgba(255, 255, 255, 0.8)
-    color: black
+  background-color: rgba(255, 255, 255, 0.9)
+  color: black
+  padding: 12px 12px
+  transition: color 0.3s ease-in, background-color 0.3s ease-in
 
-.mdl-card > .mdl-card__title .mdl-card__title-text
+#videosList .mdl-card > .mdl-card__title .mdl-card__title-text:hover
+  background-color: rgba(0, 0, 0, 0.9)
+  color: white
+  transition: color 0.3s ease-out, background-color 0.3s ease-out
+
+#matosList .mdl-card > .mdl-card__title .mdl-card__title-text
   background-color: rgba(0, 0, 0, 0.6)
   color: white
   width: 100%

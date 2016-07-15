@@ -90,7 +90,7 @@ class Camera extends React.Component {
             {emprunte && !this.props.showHistorique ? <button className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Rendre</button> : null}
             {/* Réservée */}
             {reserve && !this.props.showHistorique ? <button className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onClick={this.validerReservation}>Valider réservation</button> : null}
-            {reserve && !this.props.showHistorique ? <button className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onClick={this.closeReservation}>Annuler réservation</button> : null}
+            {reserve && !this.props.showHistorique ? <button className="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect" onClick={this.closeReservation}>Annuler réservation</button> : null}
             {/* Ni emprunté ni réservé */}
             {!emprunteOuReserve && !this.props.showHistorique ? <button className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onClick={this.openReservation}>Réserver</button> : null}
             {/* Emprunté dans le passé */}
