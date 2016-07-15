@@ -24,11 +24,12 @@ if (window.location.pathname === '/mediapiston' | window.location.pathname === '
   require('~/browser/styles/cards.sass');
   require('~/browser/styles/search.sass');
 
+  render(<VideoList />, document.getElementById('videosList'));
   // Récupération liste des vidéos
-  $.get('/ajax/videoList', (data) => {
+  /*$.get('/ajax/videoList', (data) => {
     // VideoList React
     render(<VideoList videoList={data} />, document.getElementById('videosList'));
-  });
+  });*/
 
 }
 

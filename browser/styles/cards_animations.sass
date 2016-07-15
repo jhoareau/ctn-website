@@ -1,28 +1,18 @@
 .cardDescription-enter
-  transform: scale3d(0, 1, 1)
-  display: none
-  width: 0px
-  flex-basis: 0px
+  animation: openDescription 0.5s cubic-bezier(0.255, 0.255, 0.53, 1) forwards
 
-.cardDescription-enter.cardDescription-enter-active
-  display: block
-  animation: openDescription 0.5s cubic-bezier(0.470, 0.000, 0.745, 0.715) forwards
-  transform-origin: left
 
-.cardDescription-leave.cardDescription-leave-active
-  animation: openDescription 0.4s cubic-bezier(0.470, 0.000, 0.745, 0.715) reverse forwards
-  transform-origin: left
+.cardDescription-leave
+  animation: openDescription 0.5s cubic-bezier(0.470, 0.000, 0.745, 0.715) reverse forwards
 
 @keyframes openDescription
   0%
-    transform: scale3d(0, 1, 1)
-    display: none
+    transform: scale3d(1, 0, 1)
     opacity: 0
-    width: 0px
-    flex-basis: 0px
+    line-height: 0px
+    height: 0px
   100%
     opacity: 1
-    display: block
     transform: scale3d(1, 1, 1)
-    width: 400px
-    flex-basis: 400px
+    line-height: inherit
+    height: auto

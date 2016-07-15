@@ -9,12 +9,13 @@ class Video extends React.Component {
     let description = this.props.description;
     if (description.length > 150) description = description.substring(0, 147) + "...";
     return (
-      <div className="card">
-        <a href={'/mediapiston/watch/' + this.props._id} className="cardLink"><img className="card-img-top" src={this.props.thumbUrl} alt="Miniature" /></a>
-        <div className="card-block">
-          <h4 className="card-title">{this.props.title}</h4>
-          <p className="card-text">{description}</p>
-          <p className="card-text"><small class="text-muted">Mis en ligne le {this.props.uploadDate} par {this.props.uploader}</small></p>
+      <div className="mdl-card mdl-shadow--2dp">
+        <div className="mdl-card__title" style={{backgroundImage: 'url(' + this.props.thumbUrl + ')'}}>
+          <a href={'/mediapiston/watch/' + this.props._id}><h2 className="mdl-card__title-text">{this.props.title}</h2></a>
+        </div>
+        <div className="mdl-card__supporting-text">
+          {description}<br/>
+          <small class="text-muted">Mis en ligne le {this.props.uploadDate} par {this.props.uploader}</small>
         </div>
       </div>
     );

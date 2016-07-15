@@ -130,11 +130,12 @@
 	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 332);
 	  __webpack_require__(/*! ~/browser/styles/search.sass */ 334);
 	
+	  (0, _reactDom.render)(_react2.default.createElement(_video2.default, null), document.getElementById('videosList'));
 	  // Récupération liste des vidéos
-	  _jquery2.default.get('/ajax/videoList', function (data) {
+	  /*$.get('/ajax/videoList', (data) => {
 	    // VideoList React
-	    (0, _reactDom.render)(_react2.default.createElement(_video2.default, { videoList: data }), document.getElementById('videosList'));
-	  });
+	    render(<VideoList videoList={data} />, document.getElementById('videosList'));
+	  });*/
 	}
 	
 	if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
@@ -36869,36 +36870,32 @@
 	      if (description.length > 150) description = description.substring(0, 147) + "...";
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'card' },
+	        { className: 'mdl-card mdl-shadow--2dp' },
 	        _react2.default.createElement(
-	          'a',
-	          { href: '/mediapiston/watch/' + this.props._id, className: 'cardLink' },
-	          _react2.default.createElement('img', { className: 'card-img-top', src: this.props.thumbUrl, alt: 'Miniature' })
+	          'div',
+	          { className: 'mdl-card__title', style: { backgroundImage: 'url(' + this.props.thumbUrl + ')' } },
+	          _react2.default.createElement(
+	            'a',
+	            { href: '/mediapiston/watch/' + this.props._id },
+	            _react2.default.createElement(
+	              'h2',
+	              { className: 'mdl-card__title-text' },
+	              this.props.title
+	            )
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'card-block' },
+	          { className: 'mdl-card__supporting-text' },
+	          description,
+	          _react2.default.createElement('br', null),
 	          _react2.default.createElement(
-	            'h4',
-	            { className: 'card-title' },
-	            this.props.title
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            { className: 'card-text' },
-	            description
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            { className: 'card-text' },
-	            _react2.default.createElement(
-	              'small',
-	              { 'class': 'text-muted' },
-	              'Mis en ligne le ',
-	              this.props.uploadDate,
-	              ' par ',
-	              this.props.uploader
-	            )
+	            'small',
+	            { 'class': 'text-muted' },
+	            'Mis en ligne le ',
+	            this.props.uploadDate,
+	            ' par ',
+	            this.props.uploader
 	          )
 	        )
 	      );
@@ -51367,20 +51364,57 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Camera = function (_React$Component) {
-	  _inherits(Camera, _React$Component);
+	var Historique = function (_React$Component) {
+	  _inherits(Historique, _React$Component);
+	
+	  function Historique(props) {
+	    _classCallCheck(this, Historique);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Historique).call(this, props));
+	  }
+	
+	  _createClass(Historique, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'p',
+	        null,
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          'Empruntée par ',
+	          this.props.emprunteur,
+	          ' le ',
+	          this.props.date_emprunt,
+	          ' avec ',
+	          this.props.responsable_emprunt,
+	          _react2.default.createElement('br', null),
+	          'Rendu le ',
+	          this.props.date_rendu,
+	          ' avec ',
+	          this.props.reponsable_rendu
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Historique;
+	}(_react2.default.Component);
+	
+	var Camera = function (_React$Component2) {
+	  _inherits(Camera, _React$Component2);
 	
 	  function Camera(props) {
 	    _classCallCheck(this, Camera);
 	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Camera).call(this, props));
+	    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Camera).call(this, props));
 	
-	    _this.switchDescription = _this.switchDescription.bind(_this);
-	    _this.validerReservation = _this.validerReservation.bind(_this);
-	    _this.closeReservation = _this.closeReservation.bind(_this);
+	    _this2.switchDescription = _this2.switchDescription.bind(_this2);
+	    _this2.validerReservation = _this2.validerReservation.bind(_this2);
+	    _this2.closeReservation = _this2.closeReservation.bind(_this2);
 	
-	    _this.state = { description: false };
-	    return _this;
+	    _this2.state = { description: false };
+	    return _this2;
 	  }
 	
 	  _createClass(Camera, [{
@@ -51398,16 +51432,16 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
+	      var _this3 = this;
 	
 	      var cardDescription = null;
 	      if (this.state.description) {
 	        cardDescription = _react2.default.createElement(
 	          'div',
-	          { className: 'card-block' },
+	          { key: 'desc' + this.props._id },
 	          _react2.default.createElement(
 	            'p',
-	            { className: 'card-text' },
+	            null,
 	            this.props.description
 	          )
 	        );
@@ -51420,9 +51454,9 @@
 	      // Pour accéder à l'historique
 	      var emprunt = function emprunt(i) {
 	        return {
-	          nom: _this2.props.historique.reverse()[i].emprunteur,
-	          date: _this2.props.historique.reverse()[i].date_emprunt,
-	          responsable: _this2.props.historique.reverse()[i].responsable_emprunt
+	          nom: _this3.props.historique.reverse()[i].emprunteur,
+	          date: _this3.props.historique.reverse()[i].date_emprunt,
+	          responsable: _this3.props.historique.reverse()[i].responsable_emprunt
 	        };
 	      };
 	
@@ -51438,42 +51472,41 @@
 	            this.props.name
 	          )
 	        ),
-	        _react2.default.createElement(
+	        !this.props.showHistorique ? _react2.default.createElement(
 	          'div',
 	          { className: 'mdl-card__menu' },
 	          _react2.default.createElement(
 	            'button',
-	            { className: 'mdl-button mdl-js-button mdl-button--fab mdl-button--colored' },
+	            { className: 'mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect', onClick: this.switchDescription },
 	            _react2.default.createElement(
 	              'i',
 	              { className: 'material-icons' },
 	              'description'
 	            )
 	          )
-	        ),
+	        ) : null,
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'mdl-card__supporting-text' },
 	          _react2.default.createElement(
 	            'p',
-	            { className: 'card-text' },
+	            null,
 	            'Caution : ',
 	            this.props.caution
 	          ),
-	          emprunte ? _react2.default.createElement(
+	          emprunte && !this.props.showHistorique ? _react2.default.createElement(
 	            'p',
-	            { className: 'card-text' },
+	            null,
 	            'Empruntée par ',
 	            emprunt(index).nom,
 	            ' le ',
 	            emprunt(index).date,
-	            _react2.default.createElement('br', null),
-	            'Responsable : ',
+	            ' avec ',
 	            emprunt(index).responsable
 	          ) : null,
 	          reserve ? _react2.default.createElement(
 	            'p',
-	            { className: 'card-text' },
+	            null,
 	            'Réservée par ',
 	            emprunt(index).nom,
 	            ' le ',
@@ -51481,35 +51514,42 @@
 	          ) : null,
 	          !emprunteOuReserve ? _react2.default.createElement(
 	            'p',
-	            { className: 'card-text materielDispo' },
+	            { className: 'materielDispo' },
 	            'Disponible'
-	          ) : null
+	          ) : null,
+	          _react2.default.createElement(
+	            _reactAddonsCssTransitionGroup2.default,
+	            { transitionEnterTimeout: 600, transitionLeaveTimeout: 600, transitionName: 'cardDescription' },
+	            cardDescription
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'mdl-card__actions mdl-card--border' },
-	          emprunte ? _react2.default.createElement(
+	          emprunte && !this.props.showHistorique ? _react2.default.createElement(
 	            'button',
 	            { className: 'mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect' },
 	            'Rendre'
 	          ) : null,
-	          reserve ? _react2.default.createElement(
+	          reserve && !this.props.showHistorique ? _react2.default.createElement(
 	            'button',
 	            { className: 'mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect', onClick: this.validerReservation },
 	            'Valider réservation'
 	          ) : null,
-	          reserve ? _react2.default.createElement(
+	          reserve && !this.props.showHistorique ? _react2.default.createElement(
 	            'button',
 	            { className: 'mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect', onClick: this.closeReservation },
 	            'Annuler réservation'
 	          ) : null,
-	          !emprunteOuReserve ? _react2.default.createElement(
+	          !emprunteOuReserve && !this.props.showHistorique ? _react2.default.createElement(
 	            'button',
 	            { className: 'mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect', onClick: this.openReservation },
 	            'Réserver'
-	          ) : null
-	        ),
-	        cardDescription
+	          ) : null,
+	          this.props.showHistorique ? this.props.historique.reverse().map(function (histoObject) {
+	            return _react2.default.createElement(Historique, _extends({}, histoObject, { key: JSON.stringify(histoObject) }));
+	          }) : null
+	        )
 	      );
 	    }
 	  }]);
@@ -51524,12 +51564,12 @@
 	  caution: '300€',
 	  disponible: true,
 	  historique: [],
-	  showHistorique: true,
+	  showHistorique: false,
 	  _id: Math.random()
 	};
 	
-	var MatosList = function (_React$Component2) {
-	  _inherits(MatosList, _React$Component2);
+	var MatosList = function (_React$Component3) {
+	  _inherits(MatosList, _React$Component3);
 	
 	  function MatosList(props) {
 	    _classCallCheck(this, MatosList);
@@ -51577,6 +51617,27 @@
 	      valide: true,
 	      responsable_emprunt: 'Akelo'
 	    }],
+	    _id: Math.random()
+	  }, {
+	    name: 'GoPro Hero 3',
+	    description: 'Caméra CTN moins bien',
+	    disponible: false,
+	    historique: [{
+	      emprunteur: 'Antonio de Jesus Montez',
+	      date_emprunt: '25/06/2016',
+	      valide: true,
+	      responsable_emprunt: 'Akelo',
+	      date_rendu: '27/06/2016',
+	      reponsable_rendu: 'Khynder'
+	    }, {
+	      emprunteur: 'Julien Hoareau',
+	      date_emprunt: '28/06/2016',
+	      valide: true,
+	      responsable_emprunt: 'Paypouz',
+	      date_rendu: '10/07/2016',
+	      reponsable_rendu: 'Kaths'
+	    }],
+	    showHistorique: true,
 	    _id: Math.random()
 	  }]
 	};
@@ -52594,7 +52655,7 @@
 	
 	
 	// module
-	exports.push([module.id, "#videosList, #matosList {\n  text-align: center; }\n\n.mdl-card {\n  display: inline-block;\n  width: 512px;\n  margin-right: 10px; }\n\n.mdl-card > .mdl-card__title {\n  height: 300px;\n  background-position: bottom left;\n  background-size: auto 100%;\n  background-repeat: no-repeat;\n  background-color: #46B6AC;\n  padding: 0; }\n\n.mdl-card > .mdl-card__title > .mdl-card__title-text {\n  background-color: rgba(0, 0, 0, 0.6);\n  color: white;\n  width: 100%;\n  padding: 12px 12px; }\n\n.materielDispo {\n  color: #3c763d; }\n\n.videoPlayer {\n  margin-top: 20px; }\n\n.videoDetails {\n  margin-top: 1em; }\n", ""]);
+	exports.push([module.id, "#videosList, #matosList {\n  text-align: center; }\n\n.mdl-card {\n  text-align: left;\n  display: inline-block;\n  width: 512px;\n  margin-right: 10px; }\n\n.mdl-card > .mdl-card__title {\n  height: 300px;\n  background-position: bottom left;\n  background-size: auto 100%;\n  background-repeat: no-repeat;\n  background-color: #46B6AC;\n  padding: 0; }\n\n#videosList .mdl-card > .mdl-card__title {\n  background-size: cover; }\n\n#videosList .mdl-card > .mdl-card__title a {\n  width: 50%; }\n\n#videosList .mdl-card > .mdl-card__title .mdl-card__title-text {\n  background-color: rgba(255, 255, 255, 0.8);\n  color: black; }\n\n.mdl-card > .mdl-card__title .mdl-card__title-text {\n  background-color: rgba(0, 0, 0, 0.6);\n  color: white;\n  width: 100%;\n  padding: 12px 12px; }\n\n.mdl-card > .mdl-card__menu {\n  top: 300px;\n  -webkit-transform: translateY(-50%);\n          transform: translateY(-50%); }\n\n.mdl_card > .mdl-card__supporting-text {\n  height: 300px; }\n\n.materielDispo {\n  color: #3c763d; }\n\n.videoPlayer {\n  margin-top: 20px; }\n\n.videoDetails {\n  margin-top: 1em; }\n", ""]);
 	
 	// exports
 
@@ -52764,7 +52825,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".cardDescription-enter {\n  -webkit-transform: scale3d(0, 1, 1);\n          transform: scale3d(0, 1, 1);\n  display: none;\n  width: 0px;\n  -ms-flex-preferred-size: 0px;\n      flex-basis: 0px; }\n\n.cardDescription-enter.cardDescription-enter-active {\n  display: block;\n  -webkit-animation: openDescription 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) forwards;\n          animation: openDescription 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) forwards;\n  -webkit-transform-origin: left;\n          transform-origin: left; }\n\n.cardDescription-leave.cardDescription-leave-active {\n  -webkit-animation: openDescription 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) reverse forwards;\n          animation: openDescription 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) reverse forwards;\n  -webkit-transform-origin: left;\n          transform-origin: left; }\n\n@-webkit-keyframes openDescription {\n  0% {\n    -webkit-transform: scale3d(0, 1, 1);\n            transform: scale3d(0, 1, 1);\n    display: none;\n    opacity: 0;\n    width: 0px;\n    flex-basis: 0px; }\n  100% {\n    opacity: 1;\n    display: block;\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n    width: 400px;\n    flex-basis: 400px; } }\n\n@keyframes openDescription {\n  0% {\n    -webkit-transform: scale3d(0, 1, 1);\n            transform: scale3d(0, 1, 1);\n    display: none;\n    opacity: 0;\n    width: 0px;\n    -ms-flex-preferred-size: 0px;\n        flex-basis: 0px; }\n  100% {\n    opacity: 1;\n    display: block;\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n    width: 400px;\n    -ms-flex-preferred-size: 400px;\n        flex-basis: 400px; } }\n", ""]);
+	exports.push([module.id, ".cardDescription-enter {\n  -webkit-animation: openDescription 0.5s cubic-bezier(0.255, 0.255, 0.53, 1) forwards;\n          animation: openDescription 0.5s cubic-bezier(0.255, 0.255, 0.53, 1) forwards; }\n\n.cardDescription-leave {\n  -webkit-animation: openDescription 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) reverse forwards;\n          animation: openDescription 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) reverse forwards; }\n\n@-webkit-keyframes openDescription {\n  0% {\n    -webkit-transform: scale3d(1, 0, 1);\n            transform: scale3d(1, 0, 1);\n    opacity: 0;\n    line-height: 0px;\n    height: 0px; }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n    line-height: inherit;\n    height: auto; } }\n\n@keyframes openDescription {\n  0% {\n    -webkit-transform: scale3d(1, 0, 1);\n            transform: scale3d(1, 0, 1);\n    opacity: 0;\n    line-height: 0px;\n    height: 0px; }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n    line-height: inherit;\n    height: auto; } }\n", ""]);
 	
 	// exports
 
