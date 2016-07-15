@@ -31,7 +31,7 @@ module.exports = {
         loaders: [
             { test: /\.jsx?$/, loader: "babel-loader", include: path.resolve(__dirname, "browser/scripts") },
             { test: /(\.less$)/, loaders: ['style', 'css', 'postcss-loader', 'less'] },
-            { test: /(\.css$)/, loaders: ['style', 'postcss-loader', 'css'] },
+            { test: /(\.css$)/, loaders: ['style', 'css', 'postcss-loader'] },
             { test: /\.sass$/, loaders: ["style", "css", "postcss-loader", "sass"] },
             { test: /\.scss$/, loaders: ["style", "css", "postcss-loader", "sass"] },
             { test: /\.(eot|woff|woff2|ttf|svg|png|jpg|mp4|svg)(\?\S*)?$/, loader: 'file?name=[name].[ext]' },

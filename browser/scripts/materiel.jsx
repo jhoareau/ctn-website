@@ -23,11 +23,9 @@ class Camera extends React.Component {
   render() {
     let cardDescription = null;
     if (this.state.description) {
-      cardDescription =  <div className="card" key={"description"+this.props._id}>
-                           <div className="card-block" >
+      cardDescription =    <div className="card-block">
                               <p className="card-text">{this.props.description}</p>
-                           </div>
-                         </div>;
+                           </div>;
     }
 
 
@@ -45,41 +43,46 @@ class Camera extends React.Component {
     };
 
     return (
-      <div className="cardWrapper">
-        <div className="card" data-id={this.props._id}>
-          <img className="card-img-top" src={this.props.thumbUrl} alt="Caméra" />
-          <div className="card-block">
-            <h4 className="card-title">{this.props.name}</h4>
+        <div className="mdl-card mdl-shadow--2dp" data-id={this.props._id}>
+          <div className="mdl-card__title" style={{backgroundImage: 'url(' + this.props.thumbUrl + ')'}}>
+            <h2 className="mdl-card__title-text">{this.props.name}</h2>
+          </div>
+          <div className="mdl-card__menu">
+            <button className="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
+              <i className="material-icons">description</i>
+            </button>
+          </div>
+          <div className="mdl-card__supporting-text">
             <p className="card-text">Caution : {this.props.caution}</p>
             {/* Empruntée dans le présent */}
             {emprunte ? <p className="card-text">Empruntée par {emprunt(index).nom} le {emprunt(index).date}
                                                                <br/>Responsable : {emprunt(index).responsable}</p> : null}
-            {/* Empruntée dans le présent */}
-            {emprunte ? <button className="btn btn-danger" onClick={this.closeReservation}>Rendre matériel</button> : null}
-            {/* Réservée */}
+
+
             {reserve ? <p className="card-text">Réservée par {emprunt(index).nom} le {emprunt(index).date}</p> : null}
-            {reserve ? <button className="btn btn-success" onClick={this.validerReservation}>Valider réservation</button> : null}
-            {reserve ? <button className="btn btn-danger" onClick={this.closeReservation}>Annuler réservation</button> : null}
+
             {/* Emprunté dans le passé */}
             {/*this.props.rendu_le ? <p className="card-text">Rendu le {this.props.rendu_le} avec {this.props.responsable_rendu}</p> : null*/}
             {/* Ni emprunté ni réservé */}
-            {!emprunteOuReserve ? <p className="card-text materielDispo">Disponible !</p> : null}
-            {!emprunteOuReserve ? <button className="btn btn-primary" onClick={this.openReservation}>Réserver</button> : null}
-          </div>
-          <div className="card-block openDescription" onClick={this.switchDescription}>
-            <span className="text-muted link">Plus de détails...</span>
-          </div>
-        </div>
-        <ReactCSSTransitionGroup transitionEnterTimeout={500} transitionLeaveTimeout={300} transitionName="cardDescription" className="card cardHidden">
-          {cardDescription}
-        </ReactCSSTransitionGroup>
+            {!emprunteOuReserve ? <p className="card-text materielDispo">Disponible</p> : null}
 
+          </div>
+          <div className="mdl-card__actions mdl-card--border">
+            {/* Empruntée dans le présent */}
+            {emprunte ? <button className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Rendre</button> : null}
+            {/* Réservée */}
+            {reserve ? <button className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onClick={this.validerReservation}>Valider réservation</button> : null}
+            {reserve ? <button className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onClick={this.closeReservation}>Annuler réservation</button> : null}
+            {/* Ni emprunté ni réservé */}
+            {!emprunteOuReserve ? <button className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onClick={this.openReservation}>Réserver</button> : null}
+          </div>
+          {cardDescription}
       </div>
     );
   }
 }
 Camera.defaultProps = {
-  thumbUrl : '/defaults/gopro_4.jpg',
+  thumbUrl : '/defaults/gopro_4.png',
   name: 'Clara - GoPro Hero 4',
   description: 'Caméra CTN',
   caution: '300€',

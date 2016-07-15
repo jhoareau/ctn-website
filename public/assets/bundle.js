@@ -86,37 +86,49 @@
 	
 	__webpack_require__(/*! font-awesome-webpack */ 194);
 	
-	__webpack_require__(/*! ~/browser/styles/global.sass */ 205);
+	var _material = __webpack_require__(/*! exports?componentHandler&MaterialRipple!material-design-lite/material */ 205);
 	
-	var _header = __webpack_require__(/*! ./header.jsx */ 207);
+	var MaterialComponentHandler = _interopRequireWildcard(_material);
+	
+	__webpack_require__(/*! ~/browser/styles/material-design-lite/material-design-lite.scss */ 206);
+	
+	__webpack_require__(/*! webpack-material-design-icons */ 208);
+	
+	__webpack_require__(/*! ~/browser/styles/global.sass */ 215);
+	
+	var _header = __webpack_require__(/*! ./header.jsx */ 217);
 	
 	var _header2 = _interopRequireDefault(_header);
 	
-	var _video = __webpack_require__(/*! ./video.jsx */ 208);
+	var _video = __webpack_require__(/*! ./video.jsx */ 218);
 	
 	var _video2 = _interopRequireDefault(_video);
 	
-	var _materiel = __webpack_require__(/*! ./materiel.jsx */ 313);
+	var _materiel = __webpack_require__(/*! ./materiel.jsx */ 323);
 	
 	var _materiel2 = _interopRequireDefault(_materiel);
 	
-	var _video_player = __webpack_require__(/*! ./video_player.jsx */ 318);
+	var _video_player = __webpack_require__(/*! ./video_player.jsx */ 331);
 	
 	var _video_player2 = _interopRequireDefault(_video_player);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	/* Components */
-	/* React & libraries & style */
+	// Custom variables needed
 	
 	
 	_jquery2.default.get('/ajax/header', function (data) {
 	  (0, _reactDom.render)(_react2.default.createElement(_header2.default, { links: data }), document.getElementById('reactHeader'));
-	});
+	}); // Google material-design-lite V1 workaround
+	/* React & libraries & style */
+	
 	
 	if (window.location.pathname === '/mediapiston' | window.location.pathname === '/mediapiston/') {
-	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 319);
-	  __webpack_require__(/*! ~/browser/styles/search.sass */ 321);
+	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 332);
+	  __webpack_require__(/*! ~/browser/styles/search.sass */ 334);
 	
 	  // Récupération liste des vidéos
 	  _jquery2.default.get('/ajax/videoList', function (data) {
@@ -126,27 +138,29 @@
 	}
 	
 	if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
-	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 319);
-	  __webpack_require__(/*! ~/browser/styles/search.sass */ 321);
+	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 332);
+	  __webpack_require__(/*! ~/browser/styles/search.sass */ 334);
 	
 	  // Lecteur Vidéo HTML5
-	  var Plyr = __webpack_require__(/*! ~/~/plyr/dist/plyr.js */ 323);
-	  __webpack_require__(/*! ~/~/plyr/src/scss/plyr.scss */ 324);
+	  var Plyr = __webpack_require__(/*! ~/~/plyr/dist/plyr.js */ 336);
+	  __webpack_require__(/*! ~/~/plyr/src/scss/plyr.scss */ 337);
 	
 	  // VideoPlayer React
 	  (0, _reactDom.render)(_react2.default.createElement(_video_player2.default, null), document.getElementById('videoContent'));
 	
 	  // Attacher lecteur à la balise <video>
-	  __webpack_require__(/*! ./videoplayer_setup */ 326)(Plyr);
+	  __webpack_require__(/*! ./videoplayer_setup */ 339)(Plyr);
 	}
 	
 	if (window.location.pathname === '/pret-matos' | window.location.pathname === '/pret-matos/') {
-	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 319);
-	  __webpack_require__(/*! ~/browser/styles/search.sass */ 321);
-	  __webpack_require__(/*! ~/browser/styles/cards_animations.sass */ 328);
+	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 332);
+	  __webpack_require__(/*! ~/browser/styles/search.sass */ 334);
+	  __webpack_require__(/*! ~/browser/styles/cards_animations.sass */ 341);
 	
 	  (0, _reactDom.render)(_react2.default.createElement(_materiel2.default, null), document.getElementById('matosList'));
 	}
+	
+	MaterialComponentHandler.componentHandler.upgradeDom();
 
 /***/ },
 /* 15 */
@@ -32565,6 +32579,4132 @@
 
 /***/ },
 /* 205 */
+/*!***********************************************************************************************!*\
+  !*** ./~/exports-loader?componentHandler&MaterialRipple!./~/material-design-lite/material.js ***!
+  \***********************************************************************************************/
+/***/ function(module, exports) {
+
+	;(function() {
+	"use strict";
+	
+	/**
+	 * @license
+	 * Copyright 2015 Google Inc. All Rights Reserved.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *      http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	
+	/**
+	 * A component handler interface using the revealing module design pattern.
+	 * More details on this design pattern here:
+	 * https://github.com/jasonmayes/mdl-component-design-pattern
+	 *
+	 * @author Jason Mayes.
+	 */
+	/* exported componentHandler */
+	
+	// Pre-defining the componentHandler interface, for closure documentation and
+	// static verification.
+	var componentHandler = {
+	  /**
+	   * Searches existing DOM for elements of our component type and upgrades them
+	   * if they have not already been upgraded.
+	   *
+	   * @param {string=} optJsClass the programatic name of the element class we
+	   * need to create a new instance of.
+	   * @param {string=} optCssClass the name of the CSS class elements of this
+	   * type will have.
+	   */
+	  upgradeDom: function(optJsClass, optCssClass) {},
+	  /**
+	   * Upgrades a specific element rather than all in the DOM.
+	   *
+	   * @param {!Element} element The element we wish to upgrade.
+	   * @param {string=} optJsClass Optional name of the class we want to upgrade
+	   * the element to.
+	   */
+	  upgradeElement: function(element, optJsClass) {},
+	  /**
+	   * Upgrades a specific list of elements rather than all in the DOM.
+	   *
+	   * @param {!Element|!Array<!Element>|!NodeList|!HTMLCollection} elements
+	   * The elements we wish to upgrade.
+	   */
+	  upgradeElements: function(elements) {},
+	  /**
+	   * Upgrades all registered components found in the current DOM. This is
+	   * automatically called on window load.
+	   */
+	  upgradeAllRegistered: function() {},
+	  /**
+	   * Allows user to be alerted to any upgrades that are performed for a given
+	   * component type
+	   *
+	   * @param {string} jsClass The class name of the MDL component we wish
+	   * to hook into for any upgrades performed.
+	   * @param {function(!HTMLElement)} callback The function to call upon an
+	   * upgrade. This function should expect 1 parameter - the HTMLElement which
+	   * got upgraded.
+	   */
+	  registerUpgradedCallback: function(jsClass, callback) {},
+	  /**
+	   * Registers a class for future use and attempts to upgrade existing DOM.
+	   *
+	   * @param {componentHandler.ComponentConfigPublic} config the registration configuration
+	   */
+	  register: function(config) {},
+	  /**
+	   * Downgrade either a given node, an array of nodes, or a NodeList.
+	   *
+	   * @param {!Node|!Array<!Node>|!NodeList} nodes
+	   */
+	  downgradeElements: function(nodes) {}
+	};
+	
+	componentHandler = (function() {
+	  'use strict';
+	
+	  /** @type {!Array<componentHandler.ComponentConfig>} */
+	  var registeredComponents_ = [];
+	
+	  /** @type {!Array<componentHandler.Component>} */
+	  var createdComponents_ = [];
+	
+	  var componentConfigProperty_ = 'mdlComponentConfigInternal_';
+	
+	  /**
+	   * Searches registered components for a class we are interested in using.
+	   * Optionally replaces a match with passed object if specified.
+	   *
+	   * @param {string} name The name of a class we want to use.
+	   * @param {componentHandler.ComponentConfig=} optReplace Optional object to replace match with.
+	   * @return {!Object|boolean}
+	   * @private
+	   */
+	  function findRegisteredClass_(name, optReplace) {
+	    for (var i = 0; i < registeredComponents_.length; i++) {
+	      if (registeredComponents_[i].className === name) {
+	        if (typeof optReplace !== 'undefined') {
+	          registeredComponents_[i] = optReplace;
+	        }
+	        return registeredComponents_[i];
+	      }
+	    }
+	    return false;
+	  }
+	
+	  /**
+	   * Returns an array of the classNames of the upgraded classes on the element.
+	   *
+	   * @param {!Element} element The element to fetch data from.
+	   * @return {!Array<string>}
+	   * @private
+	   */
+	  function getUpgradedListOfElement_(element) {
+	    var dataUpgraded = element.getAttribute('data-upgraded');
+	    // Use `['']` as default value to conform the `,name,name...` style.
+	    return dataUpgraded === null ? [''] : dataUpgraded.split(',');
+	  }
+	
+	  /**
+	   * Returns true if the given element has already been upgraded for the given
+	   * class.
+	   *
+	   * @param {!Element} element The element we want to check.
+	   * @param {string} jsClass The class to check for.
+	   * @returns {boolean}
+	   * @private
+	   */
+	  function isElementUpgraded_(element, jsClass) {
+	    var upgradedList = getUpgradedListOfElement_(element);
+	    return upgradedList.indexOf(jsClass) !== -1;
+	  }
+	
+	  /**
+	   * Searches existing DOM for elements of our component type and upgrades them
+	   * if they have not already been upgraded.
+	   *
+	   * @param {string=} optJsClass the programatic name of the element class we
+	   * need to create a new instance of.
+	   * @param {string=} optCssClass the name of the CSS class elements of this
+	   * type will have.
+	   */
+	  function upgradeDomInternal(optJsClass, optCssClass) {
+	    if (typeof optJsClass === 'undefined' &&
+	        typeof optCssClass === 'undefined') {
+	      for (var i = 0; i < registeredComponents_.length; i++) {
+	        upgradeDomInternal(registeredComponents_[i].className,
+	            registeredComponents_[i].cssClass);
+	      }
+	    } else {
+	      var jsClass = /** @type {string} */ (optJsClass);
+	      if (typeof optCssClass === 'undefined') {
+	        var registeredClass = findRegisteredClass_(jsClass);
+	        if (registeredClass) {
+	          optCssClass = registeredClass.cssClass;
+	        }
+	      }
+	
+	      var elements = document.querySelectorAll('.' + optCssClass);
+	      for (var n = 0; n < elements.length; n++) {
+	        upgradeElementInternal(elements[n], jsClass);
+	      }
+	    }
+	  }
+	
+	  /**
+	   * Upgrades a specific element rather than all in the DOM.
+	   *
+	   * @param {!Element} element The element we wish to upgrade.
+	   * @param {string=} optJsClass Optional name of the class we want to upgrade
+	   * the element to.
+	   */
+	  function upgradeElementInternal(element, optJsClass) {
+	    // Verify argument type.
+	    if (!(typeof element === 'object' && element instanceof Element)) {
+	      throw new Error('Invalid argument provided to upgrade MDL element.');
+	    }
+	    var upgradedList = getUpgradedListOfElement_(element);
+	    var classesToUpgrade = [];
+	    // If jsClass is not provided scan the registered components to find the
+	    // ones matching the element's CSS classList.
+	    if (!optJsClass) {
+	      var classList = element.classList;
+	      registeredComponents_.forEach(function(component) {
+	        // Match CSS & Not to be upgraded & Not upgraded.
+	        if (classList.contains(component.cssClass) &&
+	            classesToUpgrade.indexOf(component) === -1 &&
+	            !isElementUpgraded_(element, component.className)) {
+	          classesToUpgrade.push(component);
+	        }
+	      });
+	    } else if (!isElementUpgraded_(element, optJsClass)) {
+	      classesToUpgrade.push(findRegisteredClass_(optJsClass));
+	    }
+	
+	    // Upgrade the element for each classes.
+	    for (var i = 0, n = classesToUpgrade.length, registeredClass; i < n; i++) {
+	      registeredClass = classesToUpgrade[i];
+	      if (registeredClass) {
+	        // Mark element as upgraded.
+	        upgradedList.push(registeredClass.className);
+	        element.setAttribute('data-upgraded', upgradedList.join(','));
+	        var instance = new registeredClass.classConstructor(element);
+	        instance[componentConfigProperty_] = registeredClass;
+	        createdComponents_.push(instance);
+	        // Call any callbacks the user has registered with this component type.
+	        for (var j = 0, m = registeredClass.callbacks.length; j < m; j++) {
+	          registeredClass.callbacks[j](element);
+	        }
+	
+	        if (registeredClass.widget) {
+	          // Assign per element instance for control over API
+	          element[registeredClass.className] = instance;
+	        }
+	      } else {
+	        throw new Error(
+	          'Unable to find a registered component for the given class.');
+	      }
+	
+	      var ev;
+	      if ('CustomEvent' in window && typeof window.CustomEvent === 'function') {
+	        ev = new Event('mdl-componentupgraded', {
+	          'bubbles': true, 'cancelable': false
+	        });
+	      } else {
+	        ev = document.createEvent('Events');
+	        ev.initEvent('mdl-componentupgraded', true, true);
+	      }
+	      element.dispatchEvent(ev);
+	    }
+	  }
+	
+	  /**
+	   * Upgrades a specific list of elements rather than all in the DOM.
+	   *
+	   * @param {!Element|!Array<!Element>|!NodeList|!HTMLCollection} elements
+	   * The elements we wish to upgrade.
+	   */
+	  function upgradeElementsInternal(elements) {
+	    if (!Array.isArray(elements)) {
+	      if (typeof elements.item === 'function') {
+	        elements = Array.prototype.slice.call(/** @type {Array} */ (elements));
+	      } else {
+	        elements = [elements];
+	      }
+	    }
+	    for (var i = 0, n = elements.length, element; i < n; i++) {
+	      element = elements[i];
+	      if (element instanceof HTMLElement) {
+	        upgradeElementInternal(element);
+	        if (element.children.length > 0) {
+	          upgradeElementsInternal(element.children);
+	        }
+	      }
+	    }
+	  }
+	
+	  /**
+	   * Registers a class for future use and attempts to upgrade existing DOM.
+	   *
+	   * @param {componentHandler.ComponentConfigPublic} config
+	   */
+	  function registerInternal(config) {
+	    // In order to support both Closure-compiled and uncompiled code accessing
+	    // this method, we need to allow for both the dot and array syntax for
+	    // property access. You'll therefore see the `foo.bar || foo['bar']`
+	    // pattern repeated across this method.
+	    var widgetMissing = (typeof config.widget === 'undefined' &&
+	        typeof config['widget'] === 'undefined');
+	    var widget = true;
+	
+	    if (!widgetMissing) {
+	      widget = config.widget || config['widget'];
+	    }
+	
+	    var newConfig = /** @type {componentHandler.ComponentConfig} */ ({
+	      classConstructor: config.constructor || config['constructor'],
+	      className: config.classAsString || config['classAsString'],
+	      cssClass: config.cssClass || config['cssClass'],
+	      widget: widget,
+	      callbacks: []
+	    });
+	
+	    registeredComponents_.forEach(function(item) {
+	      if (item.cssClass === newConfig.cssClass) {
+	        throw new Error('The provided cssClass has already been registered: ' + item.cssClass);
+	      }
+	      if (item.className === newConfig.className) {
+	        throw new Error('The provided className has already been registered');
+	      }
+	    });
+	
+	    if (config.constructor.prototype
+	        .hasOwnProperty(componentConfigProperty_)) {
+	      throw new Error(
+	          'MDL component classes must not have ' + componentConfigProperty_ +
+	          ' defined as a property.');
+	    }
+	
+	    var found = findRegisteredClass_(config.classAsString, newConfig);
+	
+	    if (!found) {
+	      registeredComponents_.push(newConfig);
+	    }
+	  }
+	
+	  /**
+	   * Allows user to be alerted to any upgrades that are performed for a given
+	   * component type
+	   *
+	   * @param {string} jsClass The class name of the MDL component we wish
+	   * to hook into for any upgrades performed.
+	   * @param {function(!HTMLElement)} callback The function to call upon an
+	   * upgrade. This function should expect 1 parameter - the HTMLElement which
+	   * got upgraded.
+	   */
+	  function registerUpgradedCallbackInternal(jsClass, callback) {
+	    var regClass = findRegisteredClass_(jsClass);
+	    if (regClass) {
+	      regClass.callbacks.push(callback);
+	    }
+	  }
+	
+	  /**
+	   * Upgrades all registered components found in the current DOM. This is
+	   * automatically called on window load.
+	   */
+	  function upgradeAllRegisteredInternal() {
+	    for (var n = 0; n < registeredComponents_.length; n++) {
+	      upgradeDomInternal(registeredComponents_[n].className);
+	    }
+	  }
+	
+	  /**
+	   * Check the component for the downgrade method.
+	   * Execute if found.
+	   * Remove component from createdComponents list.
+	   *
+	   * @param {?componentHandler.Component} component
+	   */
+	  function deconstructComponentInternal(component) {
+	    if (component) {
+	      var componentIndex = createdComponents_.indexOf(component);
+	      createdComponents_.splice(componentIndex, 1);
+	
+	      var upgrades = component.element_.getAttribute('data-upgraded').split(',');
+	      var componentPlace = upgrades.indexOf(component[componentConfigProperty_].classAsString);
+	      upgrades.splice(componentPlace, 1);
+	      component.element_.setAttribute('data-upgraded', upgrades.join(','));
+	
+	      var ev;
+	      if ('CustomEvent' in window && typeof window.CustomEvent === 'function') {
+	        ev = new Event('mdl-componentdowngraded', {
+	          'bubbles': true, 'cancelable': false
+	        });
+	      } else {
+	        ev = document.createEvent('Events');
+	        ev.initEvent('mdl-componentdowngraded', true, true);
+	      }
+	    }
+	  }
+	
+	  /**
+	   * Downgrade either a given node, an array of nodes, or a NodeList.
+	   *
+	   * @param {!Node|!Array<!Node>|!NodeList} nodes
+	   */
+	  function downgradeNodesInternal(nodes) {
+	    /**
+	     * Auxiliary function to downgrade a single node.
+	     * @param  {!Node} node the node to be downgraded
+	     */
+	    var downgradeNode = function(node) {
+	      createdComponents_.filter(function(item) {
+	        return item.element_ === node;
+	      }).forEach(deconstructComponentInternal);
+	    };
+	    if (nodes instanceof Array || nodes instanceof NodeList) {
+	      for (var n = 0; n < nodes.length; n++) {
+	        downgradeNode(nodes[n]);
+	      }
+	    } else if (nodes instanceof Node) {
+	      downgradeNode(nodes);
+	    } else {
+	      throw new Error('Invalid argument provided to downgrade MDL nodes.');
+	    }
+	  }
+	
+	  // Now return the functions that should be made public with their publicly
+	  // facing names...
+	  return {
+	    upgradeDom: upgradeDomInternal,
+	    upgradeElement: upgradeElementInternal,
+	    upgradeElements: upgradeElementsInternal,
+	    upgradeAllRegistered: upgradeAllRegisteredInternal,
+	    registerUpgradedCallback: registerUpgradedCallbackInternal,
+	    register: registerInternal,
+	    downgradeElements: downgradeNodesInternal
+	  };
+	})();
+	
+	/**
+	 * Describes the type of a registered component type managed by
+	 * componentHandler. Provided for benefit of the Closure compiler.
+	 *
+	 * @typedef {{
+	 *   constructor: Function,
+	 *   classAsString: string,
+	 *   cssClass: string,
+	 *   widget: (string|boolean|undefined)
+	 * }}
+	 */
+	componentHandler.ComponentConfigPublic;  // jshint ignore:line
+	
+	/**
+	 * Describes the type of a registered component type managed by
+	 * componentHandler. Provided for benefit of the Closure compiler.
+	 *
+	 * @typedef {{
+	 *   constructor: !Function,
+	 *   className: string,
+	 *   cssClass: string,
+	 *   widget: (string|boolean),
+	 *   callbacks: !Array<function(!HTMLElement)>
+	 * }}
+	 */
+	componentHandler.ComponentConfig;  // jshint ignore:line
+	
+	/**
+	 * Created component (i.e., upgraded element) type as managed by
+	 * componentHandler. Provided for benefit of the Closure compiler.
+	 *
+	 * @typedef {{
+	 *   element_: !HTMLElement,
+	 *   className: string,
+	 *   classAsString: string,
+	 *   cssClass: string,
+	 *   widget: string
+	 * }}
+	 */
+	componentHandler.Component;  // jshint ignore:line
+	
+	// Export all symbols, for the benefit of Closure compiler.
+	// No effect on uncompiled code.
+	componentHandler['upgradeDom'] = componentHandler.upgradeDom;
+	componentHandler['upgradeElement'] = componentHandler.upgradeElement;
+	componentHandler['upgradeElements'] = componentHandler.upgradeElements;
+	componentHandler['upgradeAllRegistered'] =
+	    componentHandler.upgradeAllRegistered;
+	componentHandler['registerUpgradedCallback'] =
+	    componentHandler.registerUpgradedCallback;
+	componentHandler['register'] = componentHandler.register;
+	componentHandler['downgradeElements'] = componentHandler.downgradeElements;
+	window.componentHandler = componentHandler;
+	window['componentHandler'] = componentHandler;
+	
+	window.addEventListener('load', function() {
+	  'use strict';
+	
+	  /**
+	   * Performs a "Cutting the mustard" test. If the browser supports the features
+	   * tested, adds a mdl-js class to the <html> element. It then upgrades all MDL
+	   * components requiring JavaScript.
+	   */
+	  if ('classList' in document.createElement('div') &&
+	      'querySelector' in document &&
+	      'addEventListener' in window && Array.prototype.forEach) {
+	    document.documentElement.classList.add('mdl-js');
+	    componentHandler.upgradeAllRegistered();
+	  } else {
+	    /**
+	     * Dummy function to avoid JS errors.
+	     */
+	    componentHandler.upgradeElement = function() {};
+	    /**
+	     * Dummy function to avoid JS errors.
+	     */
+	    componentHandler.register = function() {};
+	  }
+	});
+	
+	// Source: https://github.com/darius/requestAnimationFrame/blob/master/requestAnimationFrame.js
+	// Adapted from https://gist.github.com/paulirish/1579671 which derived from
+	// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+	// http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
+	// requestAnimationFrame polyfill by Erik Möller.
+	// Fixes from Paul Irish, Tino Zijdel, Andrew Mao, Klemen Slavič, Darius Bacon
+	// MIT license
+	if (!Date.now) {
+	    /**
+	   * Date.now polyfill.
+	   * @return {number} the current Date
+	   */
+	    Date.now = function () {
+	        return new Date().getTime();
+	    };
+	    Date['now'] = Date.now;
+	}
+	var vendors = [
+	    'webkit',
+	    'moz'
+	];
+	for (var i = 0; i < vendors.length && !window.requestAnimationFrame; ++i) {
+	    var vp = vendors[i];
+	    window.requestAnimationFrame = window[vp + 'RequestAnimationFrame'];
+	    window.cancelAnimationFrame = window[vp + 'CancelAnimationFrame'] || window[vp + 'CancelRequestAnimationFrame'];
+	    window['requestAnimationFrame'] = window.requestAnimationFrame;
+	    window['cancelAnimationFrame'] = window.cancelAnimationFrame;
+	}
+	if (/iP(ad|hone|od).*OS 6/.test(window.navigator.userAgent) || !window.requestAnimationFrame || !window.cancelAnimationFrame) {
+	    var lastTime = 0;
+	    /**
+	   * requestAnimationFrame polyfill.
+	   * @param  {!Function} callback the callback function.
+	   */
+	    window.requestAnimationFrame = function (callback) {
+	        var now = Date.now();
+	        var nextTime = Math.max(lastTime + 16, now);
+	        return setTimeout(function () {
+	            callback(lastTime = nextTime);
+	        }, nextTime - now);
+	    };
+	    window.cancelAnimationFrame = clearTimeout;
+	    window['requestAnimationFrame'] = window.requestAnimationFrame;
+	    window['cancelAnimationFrame'] = window.cancelAnimationFrame;
+	}
+	/**
+	 * @license
+	 * Copyright 2015 Google Inc. All Rights Reserved.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *      http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	   * Class constructor for Button MDL component.
+	   * Implements MDL component design pattern defined at:
+	   * https://github.com/jasonmayes/mdl-component-design-pattern
+	   *
+	   * @param {HTMLElement} element The element that will be upgraded.
+	   */
+	var MaterialButton = function MaterialButton(element) {
+	    this.element_ = element;
+	    // Initialize instance.
+	    this.init();
+	};
+	window['MaterialButton'] = MaterialButton;
+	/**
+	   * Store constants in one place so they can be updated easily.
+	   *
+	   * @enum {string | number}
+	   * @private
+	   */
+	MaterialButton.prototype.Constant_ = {};
+	/**
+	   * Store strings for class names defined by this component that are used in
+	   * JavaScript. This allows us to simply change it in one place should we
+	   * decide to modify at a later date.
+	   *
+	   * @enum {string}
+	   * @private
+	   */
+	MaterialButton.prototype.CssClasses_ = {
+	    RIPPLE_EFFECT: 'mdl-js-ripple-effect',
+	    RIPPLE_CONTAINER: 'mdl-button__ripple-container',
+	    RIPPLE: 'mdl-ripple'
+	};
+	/**
+	   * Handle blur of element.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialButton.prototype.blurHandler_ = function (event) {
+	    if (event) {
+	        this.element_.blur();
+	    }
+	};
+	// Public methods.
+	/**
+	   * Disable button.
+	   *
+	   * @public
+	   */
+	MaterialButton.prototype.disable = function () {
+	    this.element_.disabled = true;
+	};
+	MaterialButton.prototype['disable'] = MaterialButton.prototype.disable;
+	/**
+	   * Enable button.
+	   *
+	   * @public
+	   */
+	MaterialButton.prototype.enable = function () {
+	    this.element_.disabled = false;
+	};
+	MaterialButton.prototype['enable'] = MaterialButton.prototype.enable;
+	/**
+	   * Initialize element.
+	   */
+	MaterialButton.prototype.init = function () {
+	    if (this.element_) {
+	        if (this.element_.classList.contains(this.CssClasses_.RIPPLE_EFFECT)) {
+	            var rippleContainer = document.createElement('span');
+	            rippleContainer.classList.add(this.CssClasses_.RIPPLE_CONTAINER);
+	            this.rippleElement_ = document.createElement('span');
+	            this.rippleElement_.classList.add(this.CssClasses_.RIPPLE);
+	            rippleContainer.appendChild(this.rippleElement_);
+	            this.boundRippleBlurHandler = this.blurHandler_.bind(this);
+	            this.rippleElement_.addEventListener('mouseup', this.boundRippleBlurHandler);
+	            this.element_.appendChild(rippleContainer);
+	        }
+	        this.boundButtonBlurHandler = this.blurHandler_.bind(this);
+	        this.element_.addEventListener('mouseup', this.boundButtonBlurHandler);
+	        this.element_.addEventListener('mouseleave', this.boundButtonBlurHandler);
+	    }
+	};
+	// The component registers itself. It can assume componentHandler is available
+	// in the global scope.
+	componentHandler.register({
+	    constructor: MaterialButton,
+	    classAsString: 'MaterialButton',
+	    cssClass: 'mdl-js-button',
+	    widget: true
+	});
+	/**
+	 * @license
+	 * Copyright 2015 Google Inc. All Rights Reserved.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *      http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	   * Class constructor for Checkbox MDL component.
+	   * Implements MDL component design pattern defined at:
+	   * https://github.com/jasonmayes/mdl-component-design-pattern
+	   *
+	   * @constructor
+	   * @param {HTMLElement} element The element that will be upgraded.
+	   */
+	var MaterialCheckbox = function MaterialCheckbox(element) {
+	    this.element_ = element;
+	    // Initialize instance.
+	    this.init();
+	};
+	window['MaterialCheckbox'] = MaterialCheckbox;
+	/**
+	   * Store constants in one place so they can be updated easily.
+	   *
+	   * @enum {string | number}
+	   * @private
+	   */
+	MaterialCheckbox.prototype.Constant_ = { TINY_TIMEOUT: 0.001 };
+	/**
+	   * Store strings for class names defined by this component that are used in
+	   * JavaScript. This allows us to simply change it in one place should we
+	   * decide to modify at a later date.
+	   *
+	   * @enum {string}
+	   * @private
+	   */
+	MaterialCheckbox.prototype.CssClasses_ = {
+	    INPUT: 'mdl-checkbox__input',
+	    BOX_OUTLINE: 'mdl-checkbox__box-outline',
+	    FOCUS_HELPER: 'mdl-checkbox__focus-helper',
+	    TICK_OUTLINE: 'mdl-checkbox__tick-outline',
+	    RIPPLE_EFFECT: 'mdl-js-ripple-effect',
+	    RIPPLE_IGNORE_EVENTS: 'mdl-js-ripple-effect--ignore-events',
+	    RIPPLE_CONTAINER: 'mdl-checkbox__ripple-container',
+	    RIPPLE_CENTER: 'mdl-ripple--center',
+	    RIPPLE: 'mdl-ripple',
+	    IS_FOCUSED: 'is-focused',
+	    IS_DISABLED: 'is-disabled',
+	    IS_CHECKED: 'is-checked',
+	    IS_UPGRADED: 'is-upgraded'
+	};
+	/**
+	   * Handle change of state.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialCheckbox.prototype.onChange_ = function (event) {
+	    this.updateClasses_();
+	};
+	/**
+	   * Handle focus of element.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialCheckbox.prototype.onFocus_ = function (event) {
+	    this.element_.classList.add(this.CssClasses_.IS_FOCUSED);
+	};
+	/**
+	   * Handle lost focus of element.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialCheckbox.prototype.onBlur_ = function (event) {
+	    this.element_.classList.remove(this.CssClasses_.IS_FOCUSED);
+	};
+	/**
+	   * Handle mouseup.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialCheckbox.prototype.onMouseUp_ = function (event) {
+	    this.blur_();
+	};
+	/**
+	   * Handle class updates.
+	   *
+	   * @private
+	   */
+	MaterialCheckbox.prototype.updateClasses_ = function () {
+	    this.checkDisabled();
+	    this.checkToggleState();
+	};
+	/**
+	   * Add blur.
+	   *
+	   * @private
+	   */
+	MaterialCheckbox.prototype.blur_ = function () {
+	    // TODO: figure out why there's a focus event being fired after our blur,
+	    // so that we can avoid this hack.
+	    window.setTimeout(function () {
+	        this.inputElement_.blur();
+	    }.bind(this), this.Constant_.TINY_TIMEOUT);
+	};
+	// Public methods.
+	/**
+	   * Check the inputs toggle state and update display.
+	   *
+	   * @public
+	   */
+	MaterialCheckbox.prototype.checkToggleState = function () {
+	    if (this.inputElement_.checked) {
+	        this.element_.classList.add(this.CssClasses_.IS_CHECKED);
+	    } else {
+	        this.element_.classList.remove(this.CssClasses_.IS_CHECKED);
+	    }
+	};
+	MaterialCheckbox.prototype['checkToggleState'] = MaterialCheckbox.prototype.checkToggleState;
+	/**
+	   * Check the inputs disabled state and update display.
+	   *
+	   * @public
+	   */
+	MaterialCheckbox.prototype.checkDisabled = function () {
+	    if (this.inputElement_.disabled) {
+	        this.element_.classList.add(this.CssClasses_.IS_DISABLED);
+	    } else {
+	        this.element_.classList.remove(this.CssClasses_.IS_DISABLED);
+	    }
+	};
+	MaterialCheckbox.prototype['checkDisabled'] = MaterialCheckbox.prototype.checkDisabled;
+	/**
+	   * Disable checkbox.
+	   *
+	   * @public
+	   */
+	MaterialCheckbox.prototype.disable = function () {
+	    this.inputElement_.disabled = true;
+	    this.updateClasses_();
+	};
+	MaterialCheckbox.prototype['disable'] = MaterialCheckbox.prototype.disable;
+	/**
+	   * Enable checkbox.
+	   *
+	   * @public
+	   */
+	MaterialCheckbox.prototype.enable = function () {
+	    this.inputElement_.disabled = false;
+	    this.updateClasses_();
+	};
+	MaterialCheckbox.prototype['enable'] = MaterialCheckbox.prototype.enable;
+	/**
+	   * Check checkbox.
+	   *
+	   * @public
+	   */
+	MaterialCheckbox.prototype.check = function () {
+	    this.inputElement_.checked = true;
+	    this.updateClasses_();
+	};
+	MaterialCheckbox.prototype['check'] = MaterialCheckbox.prototype.check;
+	/**
+	   * Uncheck checkbox.
+	   *
+	   * @public
+	   */
+	MaterialCheckbox.prototype.uncheck = function () {
+	    this.inputElement_.checked = false;
+	    this.updateClasses_();
+	};
+	MaterialCheckbox.prototype['uncheck'] = MaterialCheckbox.prototype.uncheck;
+	/**
+	   * Initialize element.
+	   */
+	MaterialCheckbox.prototype.init = function () {
+	    if (this.element_) {
+	        this.inputElement_ = this.element_.querySelector('.' + this.CssClasses_.INPUT);
+	        var boxOutline = document.createElement('span');
+	        boxOutline.classList.add(this.CssClasses_.BOX_OUTLINE);
+	        var tickContainer = document.createElement('span');
+	        tickContainer.classList.add(this.CssClasses_.FOCUS_HELPER);
+	        var tickOutline = document.createElement('span');
+	        tickOutline.classList.add(this.CssClasses_.TICK_OUTLINE);
+	        boxOutline.appendChild(tickOutline);
+	        this.element_.appendChild(tickContainer);
+	        this.element_.appendChild(boxOutline);
+	        if (this.element_.classList.contains(this.CssClasses_.RIPPLE_EFFECT)) {
+	            this.element_.classList.add(this.CssClasses_.RIPPLE_IGNORE_EVENTS);
+	            this.rippleContainerElement_ = document.createElement('span');
+	            this.rippleContainerElement_.classList.add(this.CssClasses_.RIPPLE_CONTAINER);
+	            this.rippleContainerElement_.classList.add(this.CssClasses_.RIPPLE_EFFECT);
+	            this.rippleContainerElement_.classList.add(this.CssClasses_.RIPPLE_CENTER);
+	            this.boundRippleMouseUp = this.onMouseUp_.bind(this);
+	            this.rippleContainerElement_.addEventListener('mouseup', this.boundRippleMouseUp);
+	            var ripple = document.createElement('span');
+	            ripple.classList.add(this.CssClasses_.RIPPLE);
+	            this.rippleContainerElement_.appendChild(ripple);
+	            this.element_.appendChild(this.rippleContainerElement_);
+	        }
+	        this.boundInputOnChange = this.onChange_.bind(this);
+	        this.boundInputOnFocus = this.onFocus_.bind(this);
+	        this.boundInputOnBlur = this.onBlur_.bind(this);
+	        this.boundElementMouseUp = this.onMouseUp_.bind(this);
+	        this.inputElement_.addEventListener('change', this.boundInputOnChange);
+	        this.inputElement_.addEventListener('focus', this.boundInputOnFocus);
+	        this.inputElement_.addEventListener('blur', this.boundInputOnBlur);
+	        this.element_.addEventListener('mouseup', this.boundElementMouseUp);
+	        this.updateClasses_();
+	        this.element_.classList.add(this.CssClasses_.IS_UPGRADED);
+	    }
+	};
+	// The component registers itself. It can assume componentHandler is available
+	// in the global scope.
+	componentHandler.register({
+	    constructor: MaterialCheckbox,
+	    classAsString: 'MaterialCheckbox',
+	    cssClass: 'mdl-js-checkbox',
+	    widget: true
+	});
+	/**
+	 * @license
+	 * Copyright 2015 Google Inc. All Rights Reserved.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *      http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	   * Class constructor for icon toggle MDL component.
+	   * Implements MDL component design pattern defined at:
+	   * https://github.com/jasonmayes/mdl-component-design-pattern
+	   *
+	   * @constructor
+	   * @param {HTMLElement} element The element that will be upgraded.
+	   */
+	var MaterialIconToggle = function MaterialIconToggle(element) {
+	    this.element_ = element;
+	    // Initialize instance.
+	    this.init();
+	};
+	window['MaterialIconToggle'] = MaterialIconToggle;
+	/**
+	   * Store constants in one place so they can be updated easily.
+	   *
+	   * @enum {string | number}
+	   * @private
+	   */
+	MaterialIconToggle.prototype.Constant_ = { TINY_TIMEOUT: 0.001 };
+	/**
+	   * Store strings for class names defined by this component that are used in
+	   * JavaScript. This allows us to simply change it in one place should we
+	   * decide to modify at a later date.
+	   *
+	   * @enum {string}
+	   * @private
+	   */
+	MaterialIconToggle.prototype.CssClasses_ = {
+	    INPUT: 'mdl-icon-toggle__input',
+	    JS_RIPPLE_EFFECT: 'mdl-js-ripple-effect',
+	    RIPPLE_IGNORE_EVENTS: 'mdl-js-ripple-effect--ignore-events',
+	    RIPPLE_CONTAINER: 'mdl-icon-toggle__ripple-container',
+	    RIPPLE_CENTER: 'mdl-ripple--center',
+	    RIPPLE: 'mdl-ripple',
+	    IS_FOCUSED: 'is-focused',
+	    IS_DISABLED: 'is-disabled',
+	    IS_CHECKED: 'is-checked'
+	};
+	/**
+	   * Handle change of state.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialIconToggle.prototype.onChange_ = function (event) {
+	    this.updateClasses_();
+	};
+	/**
+	   * Handle focus of element.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialIconToggle.prototype.onFocus_ = function (event) {
+	    this.element_.classList.add(this.CssClasses_.IS_FOCUSED);
+	};
+	/**
+	   * Handle lost focus of element.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialIconToggle.prototype.onBlur_ = function (event) {
+	    this.element_.classList.remove(this.CssClasses_.IS_FOCUSED);
+	};
+	/**
+	   * Handle mouseup.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialIconToggle.prototype.onMouseUp_ = function (event) {
+	    this.blur_();
+	};
+	/**
+	   * Handle class updates.
+	   *
+	   * @private
+	   */
+	MaterialIconToggle.prototype.updateClasses_ = function () {
+	    this.checkDisabled();
+	    this.checkToggleState();
+	};
+	/**
+	   * Add blur.
+	   *
+	   * @private
+	   */
+	MaterialIconToggle.prototype.blur_ = function () {
+	    // TODO: figure out why there's a focus event being fired after our blur,
+	    // so that we can avoid this hack.
+	    window.setTimeout(function () {
+	        this.inputElement_.blur();
+	    }.bind(this), this.Constant_.TINY_TIMEOUT);
+	};
+	// Public methods.
+	/**
+	   * Check the inputs toggle state and update display.
+	   *
+	   * @public
+	   */
+	MaterialIconToggle.prototype.checkToggleState = function () {
+	    if (this.inputElement_.checked) {
+	        this.element_.classList.add(this.CssClasses_.IS_CHECKED);
+	    } else {
+	        this.element_.classList.remove(this.CssClasses_.IS_CHECKED);
+	    }
+	};
+	MaterialIconToggle.prototype['checkToggleState'] = MaterialIconToggle.prototype.checkToggleState;
+	/**
+	   * Check the inputs disabled state and update display.
+	   *
+	   * @public
+	   */
+	MaterialIconToggle.prototype.checkDisabled = function () {
+	    if (this.inputElement_.disabled) {
+	        this.element_.classList.add(this.CssClasses_.IS_DISABLED);
+	    } else {
+	        this.element_.classList.remove(this.CssClasses_.IS_DISABLED);
+	    }
+	};
+	MaterialIconToggle.prototype['checkDisabled'] = MaterialIconToggle.prototype.checkDisabled;
+	/**
+	   * Disable icon toggle.
+	   *
+	   * @public
+	   */
+	MaterialIconToggle.prototype.disable = function () {
+	    this.inputElement_.disabled = true;
+	    this.updateClasses_();
+	};
+	MaterialIconToggle.prototype['disable'] = MaterialIconToggle.prototype.disable;
+	/**
+	   * Enable icon toggle.
+	   *
+	   * @public
+	   */
+	MaterialIconToggle.prototype.enable = function () {
+	    this.inputElement_.disabled = false;
+	    this.updateClasses_();
+	};
+	MaterialIconToggle.prototype['enable'] = MaterialIconToggle.prototype.enable;
+	/**
+	   * Check icon toggle.
+	   *
+	   * @public
+	   */
+	MaterialIconToggle.prototype.check = function () {
+	    this.inputElement_.checked = true;
+	    this.updateClasses_();
+	};
+	MaterialIconToggle.prototype['check'] = MaterialIconToggle.prototype.check;
+	/**
+	   * Uncheck icon toggle.
+	   *
+	   * @public
+	   */
+	MaterialIconToggle.prototype.uncheck = function () {
+	    this.inputElement_.checked = false;
+	    this.updateClasses_();
+	};
+	MaterialIconToggle.prototype['uncheck'] = MaterialIconToggle.prototype.uncheck;
+	/**
+	   * Initialize element.
+	   */
+	MaterialIconToggle.prototype.init = function () {
+	    if (this.element_) {
+	        this.inputElement_ = this.element_.querySelector('.' + this.CssClasses_.INPUT);
+	        if (this.element_.classList.contains(this.CssClasses_.JS_RIPPLE_EFFECT)) {
+	            this.element_.classList.add(this.CssClasses_.RIPPLE_IGNORE_EVENTS);
+	            this.rippleContainerElement_ = document.createElement('span');
+	            this.rippleContainerElement_.classList.add(this.CssClasses_.RIPPLE_CONTAINER);
+	            this.rippleContainerElement_.classList.add(this.CssClasses_.JS_RIPPLE_EFFECT);
+	            this.rippleContainerElement_.classList.add(this.CssClasses_.RIPPLE_CENTER);
+	            this.boundRippleMouseUp = this.onMouseUp_.bind(this);
+	            this.rippleContainerElement_.addEventListener('mouseup', this.boundRippleMouseUp);
+	            var ripple = document.createElement('span');
+	            ripple.classList.add(this.CssClasses_.RIPPLE);
+	            this.rippleContainerElement_.appendChild(ripple);
+	            this.element_.appendChild(this.rippleContainerElement_);
+	        }
+	        this.boundInputOnChange = this.onChange_.bind(this);
+	        this.boundInputOnFocus = this.onFocus_.bind(this);
+	        this.boundInputOnBlur = this.onBlur_.bind(this);
+	        this.boundElementOnMouseUp = this.onMouseUp_.bind(this);
+	        this.inputElement_.addEventListener('change', this.boundInputOnChange);
+	        this.inputElement_.addEventListener('focus', this.boundInputOnFocus);
+	        this.inputElement_.addEventListener('blur', this.boundInputOnBlur);
+	        this.element_.addEventListener('mouseup', this.boundElementOnMouseUp);
+	        this.updateClasses_();
+	        this.element_.classList.add('is-upgraded');
+	    }
+	};
+	// The component registers itself. It can assume componentHandler is available
+	// in the global scope.
+	componentHandler.register({
+	    constructor: MaterialIconToggle,
+	    classAsString: 'MaterialIconToggle',
+	    cssClass: 'mdl-js-icon-toggle',
+	    widget: true
+	});
+	/**
+	 * @license
+	 * Copyright 2015 Google Inc. All Rights Reserved.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *      http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	   * Class constructor for dropdown MDL component.
+	   * Implements MDL component design pattern defined at:
+	   * https://github.com/jasonmayes/mdl-component-design-pattern
+	   *
+	   * @constructor
+	   * @param {HTMLElement} element The element that will be upgraded.
+	   */
+	var MaterialMenu = function MaterialMenu(element) {
+	    this.element_ = element;
+	    // Initialize instance.
+	    this.init();
+	};
+	window['MaterialMenu'] = MaterialMenu;
+	/**
+	   * Store constants in one place so they can be updated easily.
+	   *
+	   * @enum {string | number}
+	   * @private
+	   */
+	MaterialMenu.prototype.Constant_ = {
+	    // Total duration of the menu animation.
+	    TRANSITION_DURATION_SECONDS: 0.3,
+	    // The fraction of the total duration we want to use for menu item animations.
+	    TRANSITION_DURATION_FRACTION: 0.8,
+	    // How long the menu stays open after choosing an option (so the user can see
+	    // the ripple).
+	    CLOSE_TIMEOUT: 150
+	};
+	/**
+	   * Keycodes, for code readability.
+	   *
+	   * @enum {number}
+	   * @private
+	   */
+	MaterialMenu.prototype.Keycodes_ = {
+	    ENTER: 13,
+	    ESCAPE: 27,
+	    SPACE: 32,
+	    UP_ARROW: 38,
+	    DOWN_ARROW: 40
+	};
+	/**
+	   * Store strings for class names defined by this component that are used in
+	   * JavaScript. This allows us to simply change it in one place should we
+	   * decide to modify at a later date.
+	   *
+	   * @enum {string}
+	   * @private
+	   */
+	MaterialMenu.prototype.CssClasses_ = {
+	    CONTAINER: 'mdl-menu__container',
+	    OUTLINE: 'mdl-menu__outline',
+	    ITEM: 'mdl-menu__item',
+	    ITEM_RIPPLE_CONTAINER: 'mdl-menu__item-ripple-container',
+	    RIPPLE_EFFECT: 'mdl-js-ripple-effect',
+	    RIPPLE_IGNORE_EVENTS: 'mdl-js-ripple-effect--ignore-events',
+	    RIPPLE: 'mdl-ripple',
+	    // Statuses
+	    IS_UPGRADED: 'is-upgraded',
+	    IS_VISIBLE: 'is-visible',
+	    IS_ANIMATING: 'is-animating',
+	    // Alignment options
+	    BOTTOM_LEFT: 'mdl-menu--bottom-left',
+	    // This is the default.
+	    BOTTOM_RIGHT: 'mdl-menu--bottom-right',
+	    TOP_LEFT: 'mdl-menu--top-left',
+	    TOP_RIGHT: 'mdl-menu--top-right',
+	    UNALIGNED: 'mdl-menu--unaligned'
+	};
+	/**
+	   * Initialize element.
+	   */
+	MaterialMenu.prototype.init = function () {
+	    if (this.element_) {
+	        // Create container for the menu.
+	        var container = document.createElement('div');
+	        container.classList.add(this.CssClasses_.CONTAINER);
+	        this.element_.parentElement.insertBefore(container, this.element_);
+	        this.element_.parentElement.removeChild(this.element_);
+	        container.appendChild(this.element_);
+	        this.container_ = container;
+	        // Create outline for the menu (shadow and background).
+	        var outline = document.createElement('div');
+	        outline.classList.add(this.CssClasses_.OUTLINE);
+	        this.outline_ = outline;
+	        container.insertBefore(outline, this.element_);
+	        // Find the "for" element and bind events to it.
+	        var forElId = this.element_.getAttribute('for') || this.element_.getAttribute('data-mdl-for');
+	        var forEl = null;
+	        if (forElId) {
+	            forEl = document.getElementById(forElId);
+	            if (forEl) {
+	                this.forElement_ = forEl;
+	                forEl.addEventListener('click', this.handleForClick_.bind(this));
+	                forEl.addEventListener('keydown', this.handleForKeyboardEvent_.bind(this));
+	            }
+	        }
+	        var items = this.element_.querySelectorAll('.' + this.CssClasses_.ITEM);
+	        this.boundItemKeydown_ = this.handleItemKeyboardEvent_.bind(this);
+	        this.boundItemClick_ = this.handleItemClick_.bind(this);
+	        for (var i = 0; i < items.length; i++) {
+	            // Add a listener to each menu item.
+	            items[i].addEventListener('click', this.boundItemClick_);
+	            // Add a tab index to each menu item.
+	            items[i].tabIndex = '-1';
+	            // Add a keyboard listener to each menu item.
+	            items[i].addEventListener('keydown', this.boundItemKeydown_);
+	        }
+	        // Add ripple classes to each item, if the user has enabled ripples.
+	        if (this.element_.classList.contains(this.CssClasses_.RIPPLE_EFFECT)) {
+	            this.element_.classList.add(this.CssClasses_.RIPPLE_IGNORE_EVENTS);
+	            for (i = 0; i < items.length; i++) {
+	                var item = items[i];
+	                var rippleContainer = document.createElement('span');
+	                rippleContainer.classList.add(this.CssClasses_.ITEM_RIPPLE_CONTAINER);
+	                var ripple = document.createElement('span');
+	                ripple.classList.add(this.CssClasses_.RIPPLE);
+	                rippleContainer.appendChild(ripple);
+	                item.appendChild(rippleContainer);
+	                item.classList.add(this.CssClasses_.RIPPLE_EFFECT);
+	            }
+	        }
+	        // Copy alignment classes to the container, so the outline can use them.
+	        if (this.element_.classList.contains(this.CssClasses_.BOTTOM_LEFT)) {
+	            this.outline_.classList.add(this.CssClasses_.BOTTOM_LEFT);
+	        }
+	        if (this.element_.classList.contains(this.CssClasses_.BOTTOM_RIGHT)) {
+	            this.outline_.classList.add(this.CssClasses_.BOTTOM_RIGHT);
+	        }
+	        if (this.element_.classList.contains(this.CssClasses_.TOP_LEFT)) {
+	            this.outline_.classList.add(this.CssClasses_.TOP_LEFT);
+	        }
+	        if (this.element_.classList.contains(this.CssClasses_.TOP_RIGHT)) {
+	            this.outline_.classList.add(this.CssClasses_.TOP_RIGHT);
+	        }
+	        if (this.element_.classList.contains(this.CssClasses_.UNALIGNED)) {
+	            this.outline_.classList.add(this.CssClasses_.UNALIGNED);
+	        }
+	        container.classList.add(this.CssClasses_.IS_UPGRADED);
+	    }
+	};
+	/**
+	   * Handles a click on the "for" element, by positioning the menu and then
+	   * toggling it.
+	   *
+	   * @param {Event} evt The event that fired.
+	   * @private
+	   */
+	MaterialMenu.prototype.handleForClick_ = function (evt) {
+	    if (this.element_ && this.forElement_) {
+	        var rect = this.forElement_.getBoundingClientRect();
+	        var forRect = this.forElement_.parentElement.getBoundingClientRect();
+	        if (this.element_.classList.contains(this.CssClasses_.UNALIGNED)) {
+	        } else if (this.element_.classList.contains(this.CssClasses_.BOTTOM_RIGHT)) {
+	            // Position below the "for" element, aligned to its right.
+	            this.container_.style.right = forRect.right - rect.right + 'px';
+	            this.container_.style.top = this.forElement_.offsetTop + this.forElement_.offsetHeight + 'px';
+	        } else if (this.element_.classList.contains(this.CssClasses_.TOP_LEFT)) {
+	            // Position above the "for" element, aligned to its left.
+	            this.container_.style.left = this.forElement_.offsetLeft + 'px';
+	            this.container_.style.bottom = forRect.bottom - rect.top + 'px';
+	        } else if (this.element_.classList.contains(this.CssClasses_.TOP_RIGHT)) {
+	            // Position above the "for" element, aligned to its right.
+	            this.container_.style.right = forRect.right - rect.right + 'px';
+	            this.container_.style.bottom = forRect.bottom - rect.top + 'px';
+	        } else {
+	            // Default: position below the "for" element, aligned to its left.
+	            this.container_.style.left = this.forElement_.offsetLeft + 'px';
+	            this.container_.style.top = this.forElement_.offsetTop + this.forElement_.offsetHeight + 'px';
+	        }
+	    }
+	    this.toggle(evt);
+	};
+	/**
+	   * Handles a keyboard event on the "for" element.
+	   *
+	   * @param {Event} evt The event that fired.
+	   * @private
+	   */
+	MaterialMenu.prototype.handleForKeyboardEvent_ = function (evt) {
+	    if (this.element_ && this.container_ && this.forElement_) {
+	        var items = this.element_.querySelectorAll('.' + this.CssClasses_.ITEM + ':not([disabled])');
+	        if (items && items.length > 0 && this.container_.classList.contains(this.CssClasses_.IS_VISIBLE)) {
+	            if (evt.keyCode === this.Keycodes_.UP_ARROW) {
+	                evt.preventDefault();
+	                items[items.length - 1].focus();
+	            } else if (evt.keyCode === this.Keycodes_.DOWN_ARROW) {
+	                evt.preventDefault();
+	                items[0].focus();
+	            }
+	        }
+	    }
+	};
+	/**
+	   * Handles a keyboard event on an item.
+	   *
+	   * @param {Event} evt The event that fired.
+	   * @private
+	   */
+	MaterialMenu.prototype.handleItemKeyboardEvent_ = function (evt) {
+	    if (this.element_ && this.container_) {
+	        var items = this.element_.querySelectorAll('.' + this.CssClasses_.ITEM + ':not([disabled])');
+	        if (items && items.length > 0 && this.container_.classList.contains(this.CssClasses_.IS_VISIBLE)) {
+	            var currentIndex = Array.prototype.slice.call(items).indexOf(evt.target);
+	            if (evt.keyCode === this.Keycodes_.UP_ARROW) {
+	                evt.preventDefault();
+	                if (currentIndex > 0) {
+	                    items[currentIndex - 1].focus();
+	                } else {
+	                    items[items.length - 1].focus();
+	                }
+	            } else if (evt.keyCode === this.Keycodes_.DOWN_ARROW) {
+	                evt.preventDefault();
+	                if (items.length > currentIndex + 1) {
+	                    items[currentIndex + 1].focus();
+	                } else {
+	                    items[0].focus();
+	                }
+	            } else if (evt.keyCode === this.Keycodes_.SPACE || evt.keyCode === this.Keycodes_.ENTER) {
+	                evt.preventDefault();
+	                // Send mousedown and mouseup to trigger ripple.
+	                var e = new MouseEvent('mousedown');
+	                evt.target.dispatchEvent(e);
+	                e = new MouseEvent('mouseup');
+	                evt.target.dispatchEvent(e);
+	                // Send click.
+	                evt.target.click();
+	            } else if (evt.keyCode === this.Keycodes_.ESCAPE) {
+	                evt.preventDefault();
+	                this.hide();
+	            }
+	        }
+	    }
+	};
+	/**
+	   * Handles a click event on an item.
+	   *
+	   * @param {Event} evt The event that fired.
+	   * @private
+	   */
+	MaterialMenu.prototype.handleItemClick_ = function (evt) {
+	    if (evt.target.hasAttribute('disabled')) {
+	        evt.stopPropagation();
+	    } else {
+	        // Wait some time before closing menu, so the user can see the ripple.
+	        this.closing_ = true;
+	        window.setTimeout(function (evt) {
+	            this.hide();
+	            this.closing_ = false;
+	        }.bind(this), this.Constant_.CLOSE_TIMEOUT);
+	    }
+	};
+	/**
+	   * Calculates the initial clip (for opening the menu) or final clip (for closing
+	   * it), and applies it. This allows us to animate from or to the correct point,
+	   * that is, the point it's aligned to in the "for" element.
+	   *
+	   * @param {number} height Height of the clip rectangle
+	   * @param {number} width Width of the clip rectangle
+	   * @private
+	   */
+	MaterialMenu.prototype.applyClip_ = function (height, width) {
+	    if (this.element_.classList.contains(this.CssClasses_.UNALIGNED)) {
+	        // Do not clip.
+	        this.element_.style.clip = '';
+	    } else if (this.element_.classList.contains(this.CssClasses_.BOTTOM_RIGHT)) {
+	        // Clip to the top right corner of the menu.
+	        this.element_.style.clip = 'rect(0 ' + width + 'px ' + '0 ' + width + 'px)';
+	    } else if (this.element_.classList.contains(this.CssClasses_.TOP_LEFT)) {
+	        // Clip to the bottom left corner of the menu.
+	        this.element_.style.clip = 'rect(' + height + 'px 0 ' + height + 'px 0)';
+	    } else if (this.element_.classList.contains(this.CssClasses_.TOP_RIGHT)) {
+	        // Clip to the bottom right corner of the menu.
+	        this.element_.style.clip = 'rect(' + height + 'px ' + width + 'px ' + height + 'px ' + width + 'px)';
+	    } else {
+	        // Default: do not clip (same as clipping to the top left corner).
+	        this.element_.style.clip = '';
+	    }
+	};
+	/**
+	   * Cleanup function to remove animation listeners.
+	   *
+	   * @param {Event} evt
+	   * @private
+	   */
+	MaterialMenu.prototype.removeAnimationEndListener_ = function (evt) {
+	    evt.target.classList.remove(MaterialMenu.prototype.CssClasses_.IS_ANIMATING);
+	};
+	/**
+	   * Adds an event listener to clean up after the animation ends.
+	   *
+	   * @private
+	   */
+	MaterialMenu.prototype.addAnimationEndListener_ = function () {
+	    this.element_.addEventListener('transitionend', this.removeAnimationEndListener_);
+	    this.element_.addEventListener('webkitTransitionEnd', this.removeAnimationEndListener_);
+	};
+	/**
+	   * Displays the menu.
+	   *
+	   * @public
+	   */
+	MaterialMenu.prototype.show = function (evt) {
+	    if (this.element_ && this.container_ && this.outline_) {
+	        // Measure the inner element.
+	        var height = this.element_.getBoundingClientRect().height;
+	        var width = this.element_.getBoundingClientRect().width;
+	        // Apply the inner element's size to the container and outline.
+	        this.container_.style.width = width + 'px';
+	        this.container_.style.height = height + 'px';
+	        this.outline_.style.width = width + 'px';
+	        this.outline_.style.height = height + 'px';
+	        var transitionDuration = this.Constant_.TRANSITION_DURATION_SECONDS * this.Constant_.TRANSITION_DURATION_FRACTION;
+	        // Calculate transition delays for individual menu items, so that they fade
+	        // in one at a time.
+	        var items = this.element_.querySelectorAll('.' + this.CssClasses_.ITEM);
+	        for (var i = 0; i < items.length; i++) {
+	            var itemDelay = null;
+	            if (this.element_.classList.contains(this.CssClasses_.TOP_LEFT) || this.element_.classList.contains(this.CssClasses_.TOP_RIGHT)) {
+	                itemDelay = (height - items[i].offsetTop - items[i].offsetHeight) / height * transitionDuration + 's';
+	            } else {
+	                itemDelay = items[i].offsetTop / height * transitionDuration + 's';
+	            }
+	            items[i].style.transitionDelay = itemDelay;
+	        }
+	        // Apply the initial clip to the text before we start animating.
+	        this.applyClip_(height, width);
+	        // Wait for the next frame, turn on animation, and apply the final clip.
+	        // Also make it visible. This triggers the transitions.
+	        window.requestAnimationFrame(function () {
+	            this.element_.classList.add(this.CssClasses_.IS_ANIMATING);
+	            this.element_.style.clip = 'rect(0 ' + width + 'px ' + height + 'px 0)';
+	            this.container_.classList.add(this.CssClasses_.IS_VISIBLE);
+	        }.bind(this));
+	        // Clean up after the animation is complete.
+	        this.addAnimationEndListener_();
+	        // Add a click listener to the document, to close the menu.
+	        var callback = function (e) {
+	            // Check to see if the document is processing the same event that
+	            // displayed the menu in the first place. If so, do nothing.
+	            // Also check to see if the menu is in the process of closing itself, and
+	            // do nothing in that case.
+	            // Also check if the clicked element is a menu item
+	            // if so, do nothing.
+	            if (e !== evt && !this.closing_ && e.target.parentNode !== this.element_) {
+	                document.removeEventListener('click', callback);
+	                this.hide();
+	            }
+	        }.bind(this);
+	        document.addEventListener('click', callback);
+	    }
+	};
+	MaterialMenu.prototype['show'] = MaterialMenu.prototype.show;
+	/**
+	   * Hides the menu.
+	   *
+	   * @public
+	   */
+	MaterialMenu.prototype.hide = function () {
+	    if (this.element_ && this.container_ && this.outline_) {
+	        var items = this.element_.querySelectorAll('.' + this.CssClasses_.ITEM);
+	        // Remove all transition delays; menu items fade out concurrently.
+	        for (var i = 0; i < items.length; i++) {
+	            items[i].style.removeProperty('transition-delay');
+	        }
+	        // Measure the inner element.
+	        var rect = this.element_.getBoundingClientRect();
+	        var height = rect.height;
+	        var width = rect.width;
+	        // Turn on animation, and apply the final clip. Also make invisible.
+	        // This triggers the transitions.
+	        this.element_.classList.add(this.CssClasses_.IS_ANIMATING);
+	        this.applyClip_(height, width);
+	        this.container_.classList.remove(this.CssClasses_.IS_VISIBLE);
+	        // Clean up after the animation is complete.
+	        this.addAnimationEndListener_();
+	    }
+	};
+	MaterialMenu.prototype['hide'] = MaterialMenu.prototype.hide;
+	/**
+	   * Displays or hides the menu, depending on current state.
+	   *
+	   * @public
+	   */
+	MaterialMenu.prototype.toggle = function (evt) {
+	    if (this.container_.classList.contains(this.CssClasses_.IS_VISIBLE)) {
+	        this.hide();
+	    } else {
+	        this.show(evt);
+	    }
+	};
+	MaterialMenu.prototype['toggle'] = MaterialMenu.prototype.toggle;
+	// The component registers itself. It can assume componentHandler is available
+	// in the global scope.
+	componentHandler.register({
+	    constructor: MaterialMenu,
+	    classAsString: 'MaterialMenu',
+	    cssClass: 'mdl-js-menu',
+	    widget: true
+	});
+	/**
+	 * @license
+	 * Copyright 2015 Google Inc. All Rights Reserved.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *      http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	   * Class constructor for Progress MDL component.
+	   * Implements MDL component design pattern defined at:
+	   * https://github.com/jasonmayes/mdl-component-design-pattern
+	   *
+	   * @constructor
+	   * @param {HTMLElement} element The element that will be upgraded.
+	   */
+	var MaterialProgress = function MaterialProgress(element) {
+	    this.element_ = element;
+	    // Initialize instance.
+	    this.init();
+	};
+	window['MaterialProgress'] = MaterialProgress;
+	/**
+	   * Store constants in one place so they can be updated easily.
+	   *
+	   * @enum {string | number}
+	   * @private
+	   */
+	MaterialProgress.prototype.Constant_ = {};
+	/**
+	   * Store strings for class names defined by this component that are used in
+	   * JavaScript. This allows us to simply change it in one place should we
+	   * decide to modify at a later date.
+	   *
+	   * @enum {string}
+	   * @private
+	   */
+	MaterialProgress.prototype.CssClasses_ = { INDETERMINATE_CLASS: 'mdl-progress__indeterminate' };
+	/**
+	   * Set the current progress of the progressbar.
+	   *
+	   * @param {number} p Percentage of the progress (0-100)
+	   * @public
+	   */
+	MaterialProgress.prototype.setProgress = function (p) {
+	    if (this.element_.classList.contains(this.CssClasses_.INDETERMINATE_CLASS)) {
+	        return;
+	    }
+	    this.progressbar_.style.width = p + '%';
+	};
+	MaterialProgress.prototype['setProgress'] = MaterialProgress.prototype.setProgress;
+	/**
+	   * Set the current progress of the buffer.
+	   *
+	   * @param {number} p Percentage of the buffer (0-100)
+	   * @public
+	   */
+	MaterialProgress.prototype.setBuffer = function (p) {
+	    this.bufferbar_.style.width = p + '%';
+	    this.auxbar_.style.width = 100 - p + '%';
+	};
+	MaterialProgress.prototype['setBuffer'] = MaterialProgress.prototype.setBuffer;
+	/**
+	   * Initialize element.
+	   */
+	MaterialProgress.prototype.init = function () {
+	    if (this.element_) {
+	        var el = document.createElement('div');
+	        el.className = 'progressbar bar bar1';
+	        this.element_.appendChild(el);
+	        this.progressbar_ = el;
+	        el = document.createElement('div');
+	        el.className = 'bufferbar bar bar2';
+	        this.element_.appendChild(el);
+	        this.bufferbar_ = el;
+	        el = document.createElement('div');
+	        el.className = 'auxbar bar bar3';
+	        this.element_.appendChild(el);
+	        this.auxbar_ = el;
+	        this.progressbar_.style.width = '0%';
+	        this.bufferbar_.style.width = '100%';
+	        this.auxbar_.style.width = '0%';
+	        this.element_.classList.add('is-upgraded');
+	    }
+	};
+	// The component registers itself. It can assume componentHandler is available
+	// in the global scope.
+	componentHandler.register({
+	    constructor: MaterialProgress,
+	    classAsString: 'MaterialProgress',
+	    cssClass: 'mdl-js-progress',
+	    widget: true
+	});
+	/**
+	 * @license
+	 * Copyright 2015 Google Inc. All Rights Reserved.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *      http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	   * Class constructor for Radio MDL component.
+	   * Implements MDL component design pattern defined at:
+	   * https://github.com/jasonmayes/mdl-component-design-pattern
+	   *
+	   * @constructor
+	   * @param {HTMLElement} element The element that will be upgraded.
+	   */
+	var MaterialRadio = function MaterialRadio(element) {
+	    this.element_ = element;
+	    // Initialize instance.
+	    this.init();
+	};
+	window['MaterialRadio'] = MaterialRadio;
+	/**
+	   * Store constants in one place so they can be updated easily.
+	   *
+	   * @enum {string | number}
+	   * @private
+	   */
+	MaterialRadio.prototype.Constant_ = { TINY_TIMEOUT: 0.001 };
+	/**
+	   * Store strings for class names defined by this component that are used in
+	   * JavaScript. This allows us to simply change it in one place should we
+	   * decide to modify at a later date.
+	   *
+	   * @enum {string}
+	   * @private
+	   */
+	MaterialRadio.prototype.CssClasses_ = {
+	    IS_FOCUSED: 'is-focused',
+	    IS_DISABLED: 'is-disabled',
+	    IS_CHECKED: 'is-checked',
+	    IS_UPGRADED: 'is-upgraded',
+	    JS_RADIO: 'mdl-js-radio',
+	    RADIO_BTN: 'mdl-radio__button',
+	    RADIO_OUTER_CIRCLE: 'mdl-radio__outer-circle',
+	    RADIO_INNER_CIRCLE: 'mdl-radio__inner-circle',
+	    RIPPLE_EFFECT: 'mdl-js-ripple-effect',
+	    RIPPLE_IGNORE_EVENTS: 'mdl-js-ripple-effect--ignore-events',
+	    RIPPLE_CONTAINER: 'mdl-radio__ripple-container',
+	    RIPPLE_CENTER: 'mdl-ripple--center',
+	    RIPPLE: 'mdl-ripple'
+	};
+	/**
+	   * Handle change of state.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialRadio.prototype.onChange_ = function (event) {
+	    // Since other radio buttons don't get change events, we need to look for
+	    // them to update their classes.
+	    var radios = document.getElementsByClassName(this.CssClasses_.JS_RADIO);
+	    for (var i = 0; i < radios.length; i++) {
+	        var button = radios[i].querySelector('.' + this.CssClasses_.RADIO_BTN);
+	        // Different name == different group, so no point updating those.
+	        if (button.getAttribute('name') === this.btnElement_.getAttribute('name')) {
+	            radios[i]['MaterialRadio'].updateClasses_();
+	        }
+	    }
+	};
+	/**
+	   * Handle focus.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialRadio.prototype.onFocus_ = function (event) {
+	    this.element_.classList.add(this.CssClasses_.IS_FOCUSED);
+	};
+	/**
+	   * Handle lost focus.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialRadio.prototype.onBlur_ = function (event) {
+	    this.element_.classList.remove(this.CssClasses_.IS_FOCUSED);
+	};
+	/**
+	   * Handle mouseup.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialRadio.prototype.onMouseup_ = function (event) {
+	    this.blur_();
+	};
+	/**
+	   * Update classes.
+	   *
+	   * @private
+	   */
+	MaterialRadio.prototype.updateClasses_ = function () {
+	    this.checkDisabled();
+	    this.checkToggleState();
+	};
+	/**
+	   * Add blur.
+	   *
+	   * @private
+	   */
+	MaterialRadio.prototype.blur_ = function () {
+	    // TODO: figure out why there's a focus event being fired after our blur,
+	    // so that we can avoid this hack.
+	    window.setTimeout(function () {
+	        this.btnElement_.blur();
+	    }.bind(this), this.Constant_.TINY_TIMEOUT);
+	};
+	// Public methods.
+	/**
+	   * Check the components disabled state.
+	   *
+	   * @public
+	   */
+	MaterialRadio.prototype.checkDisabled = function () {
+	    if (this.btnElement_.disabled) {
+	        this.element_.classList.add(this.CssClasses_.IS_DISABLED);
+	    } else {
+	        this.element_.classList.remove(this.CssClasses_.IS_DISABLED);
+	    }
+	};
+	MaterialRadio.prototype['checkDisabled'] = MaterialRadio.prototype.checkDisabled;
+	/**
+	   * Check the components toggled state.
+	   *
+	   * @public
+	   */
+	MaterialRadio.prototype.checkToggleState = function () {
+	    if (this.btnElement_.checked) {
+	        this.element_.classList.add(this.CssClasses_.IS_CHECKED);
+	    } else {
+	        this.element_.classList.remove(this.CssClasses_.IS_CHECKED);
+	    }
+	};
+	MaterialRadio.prototype['checkToggleState'] = MaterialRadio.prototype.checkToggleState;
+	/**
+	   * Disable radio.
+	   *
+	   * @public
+	   */
+	MaterialRadio.prototype.disable = function () {
+	    this.btnElement_.disabled = true;
+	    this.updateClasses_();
+	};
+	MaterialRadio.prototype['disable'] = MaterialRadio.prototype.disable;
+	/**
+	   * Enable radio.
+	   *
+	   * @public
+	   */
+	MaterialRadio.prototype.enable = function () {
+	    this.btnElement_.disabled = false;
+	    this.updateClasses_();
+	};
+	MaterialRadio.prototype['enable'] = MaterialRadio.prototype.enable;
+	/**
+	   * Check radio.
+	   *
+	   * @public
+	   */
+	MaterialRadio.prototype.check = function () {
+	    this.btnElement_.checked = true;
+	    this.updateClasses_();
+	};
+	MaterialRadio.prototype['check'] = MaterialRadio.prototype.check;
+	/**
+	   * Uncheck radio.
+	   *
+	   * @public
+	   */
+	MaterialRadio.prototype.uncheck = function () {
+	    this.btnElement_.checked = false;
+	    this.updateClasses_();
+	};
+	MaterialRadio.prototype['uncheck'] = MaterialRadio.prototype.uncheck;
+	/**
+	   * Initialize element.
+	   */
+	MaterialRadio.prototype.init = function () {
+	    if (this.element_) {
+	        this.btnElement_ = this.element_.querySelector('.' + this.CssClasses_.RADIO_BTN);
+	        this.boundChangeHandler_ = this.onChange_.bind(this);
+	        this.boundFocusHandler_ = this.onChange_.bind(this);
+	        this.boundBlurHandler_ = this.onBlur_.bind(this);
+	        this.boundMouseUpHandler_ = this.onMouseup_.bind(this);
+	        var outerCircle = document.createElement('span');
+	        outerCircle.classList.add(this.CssClasses_.RADIO_OUTER_CIRCLE);
+	        var innerCircle = document.createElement('span');
+	        innerCircle.classList.add(this.CssClasses_.RADIO_INNER_CIRCLE);
+	        this.element_.appendChild(outerCircle);
+	        this.element_.appendChild(innerCircle);
+	        var rippleContainer;
+	        if (this.element_.classList.contains(this.CssClasses_.RIPPLE_EFFECT)) {
+	            this.element_.classList.add(this.CssClasses_.RIPPLE_IGNORE_EVENTS);
+	            rippleContainer = document.createElement('span');
+	            rippleContainer.classList.add(this.CssClasses_.RIPPLE_CONTAINER);
+	            rippleContainer.classList.add(this.CssClasses_.RIPPLE_EFFECT);
+	            rippleContainer.classList.add(this.CssClasses_.RIPPLE_CENTER);
+	            rippleContainer.addEventListener('mouseup', this.boundMouseUpHandler_);
+	            var ripple = document.createElement('span');
+	            ripple.classList.add(this.CssClasses_.RIPPLE);
+	            rippleContainer.appendChild(ripple);
+	            this.element_.appendChild(rippleContainer);
+	        }
+	        this.btnElement_.addEventListener('change', this.boundChangeHandler_);
+	        this.btnElement_.addEventListener('focus', this.boundFocusHandler_);
+	        this.btnElement_.addEventListener('blur', this.boundBlurHandler_);
+	        this.element_.addEventListener('mouseup', this.boundMouseUpHandler_);
+	        this.updateClasses_();
+	        this.element_.classList.add(this.CssClasses_.IS_UPGRADED);
+	    }
+	};
+	// The component registers itself. It can assume componentHandler is available
+	// in the global scope.
+	componentHandler.register({
+	    constructor: MaterialRadio,
+	    classAsString: 'MaterialRadio',
+	    cssClass: 'mdl-js-radio',
+	    widget: true
+	});
+	/**
+	 * @license
+	 * Copyright 2015 Google Inc. All Rights Reserved.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *      http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	   * Class constructor for Slider MDL component.
+	   * Implements MDL component design pattern defined at:
+	   * https://github.com/jasonmayes/mdl-component-design-pattern
+	   *
+	   * @constructor
+	   * @param {HTMLElement} element The element that will be upgraded.
+	   */
+	var MaterialSlider = function MaterialSlider(element) {
+	    this.element_ = element;
+	    // Browser feature detection.
+	    this.isIE_ = window.navigator.msPointerEnabled;
+	    // Initialize instance.
+	    this.init();
+	};
+	window['MaterialSlider'] = MaterialSlider;
+	/**
+	   * Store constants in one place so they can be updated easily.
+	   *
+	   * @enum {string | number}
+	   * @private
+	   */
+	MaterialSlider.prototype.Constant_ = {};
+	/**
+	   * Store strings for class names defined by this component that are used in
+	   * JavaScript. This allows us to simply change it in one place should we
+	   * decide to modify at a later date.
+	   *
+	   * @enum {string}
+	   * @private
+	   */
+	MaterialSlider.prototype.CssClasses_ = {
+	    IE_CONTAINER: 'mdl-slider__ie-container',
+	    SLIDER_CONTAINER: 'mdl-slider__container',
+	    BACKGROUND_FLEX: 'mdl-slider__background-flex',
+	    BACKGROUND_LOWER: 'mdl-slider__background-lower',
+	    BACKGROUND_UPPER: 'mdl-slider__background-upper',
+	    IS_LOWEST_VALUE: 'is-lowest-value',
+	    IS_UPGRADED: 'is-upgraded'
+	};
+	/**
+	   * Handle input on element.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialSlider.prototype.onInput_ = function (event) {
+	    this.updateValueStyles_();
+	};
+	/**
+	   * Handle change on element.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialSlider.prototype.onChange_ = function (event) {
+	    this.updateValueStyles_();
+	};
+	/**
+	   * Handle mouseup on element.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialSlider.prototype.onMouseUp_ = function (event) {
+	    event.target.blur();
+	};
+	/**
+	   * Handle mousedown on container element.
+	   * This handler is purpose is to not require the use to click
+	   * exactly on the 2px slider element, as FireFox seems to be very
+	   * strict about this.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   * @suppress {missingProperties}
+	   */
+	MaterialSlider.prototype.onContainerMouseDown_ = function (event) {
+	    // If this click is not on the parent element (but rather some child)
+	    // ignore. It may still bubble up.
+	    if (event.target !== this.element_.parentElement) {
+	        return;
+	    }
+	    // Discard the original event and create a new event that
+	    // is on the slider element.
+	    event.preventDefault();
+	    var newEvent = new MouseEvent('mousedown', {
+	        target: event.target,
+	        buttons: event.buttons,
+	        clientX: event.clientX,
+	        clientY: this.element_.getBoundingClientRect().y
+	    });
+	    this.element_.dispatchEvent(newEvent);
+	};
+	/**
+	   * Handle updating of values.
+	   *
+	   * @private
+	   */
+	MaterialSlider.prototype.updateValueStyles_ = function () {
+	    // Calculate and apply percentages to div structure behind slider.
+	    var fraction = (this.element_.value - this.element_.min) / (this.element_.max - this.element_.min);
+	    if (fraction === 0) {
+	        this.element_.classList.add(this.CssClasses_.IS_LOWEST_VALUE);
+	    } else {
+	        this.element_.classList.remove(this.CssClasses_.IS_LOWEST_VALUE);
+	    }
+	    if (!this.isIE_) {
+	        this.backgroundLower_.style.flex = fraction;
+	        this.backgroundLower_.style.webkitFlex = fraction;
+	        this.backgroundUpper_.style.flex = 1 - fraction;
+	        this.backgroundUpper_.style.webkitFlex = 1 - fraction;
+	    }
+	};
+	// Public methods.
+	/**
+	   * Disable slider.
+	   *
+	   * @public
+	   */
+	MaterialSlider.prototype.disable = function () {
+	    this.element_.disabled = true;
+	};
+	MaterialSlider.prototype['disable'] = MaterialSlider.prototype.disable;
+	/**
+	   * Enable slider.
+	   *
+	   * @public
+	   */
+	MaterialSlider.prototype.enable = function () {
+	    this.element_.disabled = false;
+	};
+	MaterialSlider.prototype['enable'] = MaterialSlider.prototype.enable;
+	/**
+	   * Update slider value.
+	   *
+	   * @param {number} value The value to which to set the control (optional).
+	   * @public
+	   */
+	MaterialSlider.prototype.change = function (value) {
+	    if (typeof value !== 'undefined') {
+	        this.element_.value = value;
+	    }
+	    this.updateValueStyles_();
+	};
+	MaterialSlider.prototype['change'] = MaterialSlider.prototype.change;
+	/**
+	   * Initialize element.
+	   */
+	MaterialSlider.prototype.init = function () {
+	    if (this.element_) {
+	        if (this.isIE_) {
+	            // Since we need to specify a very large height in IE due to
+	            // implementation limitations, we add a parent here that trims it down to
+	            // a reasonable size.
+	            var containerIE = document.createElement('div');
+	            containerIE.classList.add(this.CssClasses_.IE_CONTAINER);
+	            this.element_.parentElement.insertBefore(containerIE, this.element_);
+	            this.element_.parentElement.removeChild(this.element_);
+	            containerIE.appendChild(this.element_);
+	        } else {
+	            // For non-IE browsers, we need a div structure that sits behind the
+	            // slider and allows us to style the left and right sides of it with
+	            // different colors.
+	            var container = document.createElement('div');
+	            container.classList.add(this.CssClasses_.SLIDER_CONTAINER);
+	            this.element_.parentElement.insertBefore(container, this.element_);
+	            this.element_.parentElement.removeChild(this.element_);
+	            container.appendChild(this.element_);
+	            var backgroundFlex = document.createElement('div');
+	            backgroundFlex.classList.add(this.CssClasses_.BACKGROUND_FLEX);
+	            container.appendChild(backgroundFlex);
+	            this.backgroundLower_ = document.createElement('div');
+	            this.backgroundLower_.classList.add(this.CssClasses_.BACKGROUND_LOWER);
+	            backgroundFlex.appendChild(this.backgroundLower_);
+	            this.backgroundUpper_ = document.createElement('div');
+	            this.backgroundUpper_.classList.add(this.CssClasses_.BACKGROUND_UPPER);
+	            backgroundFlex.appendChild(this.backgroundUpper_);
+	        }
+	        this.boundInputHandler = this.onInput_.bind(this);
+	        this.boundChangeHandler = this.onChange_.bind(this);
+	        this.boundMouseUpHandler = this.onMouseUp_.bind(this);
+	        this.boundContainerMouseDownHandler = this.onContainerMouseDown_.bind(this);
+	        this.element_.addEventListener('input', this.boundInputHandler);
+	        this.element_.addEventListener('change', this.boundChangeHandler);
+	        this.element_.addEventListener('mouseup', this.boundMouseUpHandler);
+	        this.element_.parentElement.addEventListener('mousedown', this.boundContainerMouseDownHandler);
+	        this.updateValueStyles_();
+	        this.element_.classList.add(this.CssClasses_.IS_UPGRADED);
+	    }
+	};
+	// The component registers itself. It can assume componentHandler is available
+	// in the global scope.
+	componentHandler.register({
+	    constructor: MaterialSlider,
+	    classAsString: 'MaterialSlider',
+	    cssClass: 'mdl-js-slider',
+	    widget: true
+	});
+	/**
+	 * Copyright 2015 Google Inc. All Rights Reserved.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *      http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	   * Class constructor for Snackbar MDL component.
+	   * Implements MDL component design pattern defined at:
+	   * https://github.com/jasonmayes/mdl-component-design-pattern
+	   *
+	   * @constructor
+	   * @param {HTMLElement} element The element that will be upgraded.
+	   */
+	var MaterialSnackbar = function MaterialSnackbar(element) {
+	    this.element_ = element;
+	    this.textElement_ = this.element_.querySelector('.' + this.cssClasses_.MESSAGE);
+	    this.actionElement_ = this.element_.querySelector('.' + this.cssClasses_.ACTION);
+	    if (!this.textElement_) {
+	        throw new Error('There must be a message element for a snackbar.');
+	    }
+	    if (!this.actionElement_) {
+	        throw new Error('There must be an action element for a snackbar.');
+	    }
+	    this.active = false;
+	    this.actionHandler_ = undefined;
+	    this.message_ = undefined;
+	    this.actionText_ = undefined;
+	    this.queuedNotifications_ = [];
+	    this.setActionHidden_(true);
+	};
+	window['MaterialSnackbar'] = MaterialSnackbar;
+	/**
+	   * Store constants in one place so they can be updated easily.
+	   *
+	   * @enum {string | number}
+	   * @private
+	   */
+	MaterialSnackbar.prototype.Constant_ = {
+	    // The duration of the snackbar show/hide animation, in ms.
+	    ANIMATION_LENGTH: 250
+	};
+	/**
+	   * Store strings for class names defined by this component that are used in
+	   * JavaScript. This allows us to simply change it in one place should we
+	   * decide to modify at a later date.
+	   *
+	   * @enum {string}
+	   * @private
+	   */
+	MaterialSnackbar.prototype.cssClasses_ = {
+	    SNACKBAR: 'mdl-snackbar',
+	    MESSAGE: 'mdl-snackbar__text',
+	    ACTION: 'mdl-snackbar__action',
+	    ACTIVE: 'mdl-snackbar--active'
+	};
+	/**
+	   * Display the snackbar.
+	   *
+	   * @private
+	   */
+	MaterialSnackbar.prototype.displaySnackbar_ = function () {
+	    this.element_.setAttribute('aria-hidden', 'true');
+	    if (this.actionHandler_) {
+	        this.actionElement_.textContent = this.actionText_;
+	        this.actionElement_.addEventListener('click', this.actionHandler_);
+	        this.setActionHidden_(false);
+	    }
+	    this.textElement_.textContent = this.message_;
+	    this.element_.classList.add(this.cssClasses_.ACTIVE);
+	    this.element_.setAttribute('aria-hidden', 'false');
+	    setTimeout(this.cleanup_.bind(this), this.timeout_);
+	};
+	/**
+	   * Show the snackbar.
+	   *
+	   * @param {Object} data The data for the notification.
+	   * @public
+	   */
+	MaterialSnackbar.prototype.showSnackbar = function (data) {
+	    if (data === undefined) {
+	        throw new Error('Please provide a data object with at least a message to display.');
+	    }
+	    if (data['message'] === undefined) {
+	        throw new Error('Please provide a message to be displayed.');
+	    }
+	    if (data['actionHandler'] && !data['actionText']) {
+	        throw new Error('Please provide action text with the handler.');
+	    }
+	    if (this.active) {
+	        this.queuedNotifications_.push(data);
+	    } else {
+	        this.active = true;
+	        this.message_ = data['message'];
+	        if (data['timeout']) {
+	            this.timeout_ = data['timeout'];
+	        } else {
+	            this.timeout_ = 2750;
+	        }
+	        if (data['actionHandler']) {
+	            this.actionHandler_ = data['actionHandler'];
+	        }
+	        if (data['actionText']) {
+	            this.actionText_ = data['actionText'];
+	        }
+	        this.displaySnackbar_();
+	    }
+	};
+	MaterialSnackbar.prototype['showSnackbar'] = MaterialSnackbar.prototype.showSnackbar;
+	/**
+	   * Check if the queue has items within it.
+	   * If it does, display the next entry.
+	   *
+	   * @private
+	   */
+	MaterialSnackbar.prototype.checkQueue_ = function () {
+	    if (this.queuedNotifications_.length > 0) {
+	        this.showSnackbar(this.queuedNotifications_.shift());
+	    }
+	};
+	/**
+	   * Cleanup the snackbar event listeners and accessiblity attributes.
+	   *
+	   * @private
+	   */
+	MaterialSnackbar.prototype.cleanup_ = function () {
+	    this.element_.classList.remove(this.cssClasses_.ACTIVE);
+	    setTimeout(function () {
+	        this.element_.setAttribute('aria-hidden', 'true');
+	        this.textElement_.textContent = '';
+	        if (!Boolean(this.actionElement_.getAttribute('aria-hidden'))) {
+	            this.setActionHidden_(true);
+	            this.actionElement_.textContent = '';
+	            this.actionElement_.removeEventListener('click', this.actionHandler_);
+	        }
+	        this.actionHandler_ = undefined;
+	        this.message_ = undefined;
+	        this.actionText_ = undefined;
+	        this.active = false;
+	        this.checkQueue_();
+	    }.bind(this), this.Constant_.ANIMATION_LENGTH);
+	};
+	/**
+	   * Set the action handler hidden state.
+	   *
+	   * @param {boolean} value
+	   * @private
+	   */
+	MaterialSnackbar.prototype.setActionHidden_ = function (value) {
+	    if (value) {
+	        this.actionElement_.setAttribute('aria-hidden', 'true');
+	    } else {
+	        this.actionElement_.removeAttribute('aria-hidden');
+	    }
+	};
+	// The component registers itself. It can assume componentHandler is available
+	// in the global scope.
+	componentHandler.register({
+	    constructor: MaterialSnackbar,
+	    classAsString: 'MaterialSnackbar',
+	    cssClass: 'mdl-js-snackbar',
+	    widget: true
+	});
+	/**
+	 * @license
+	 * Copyright 2015 Google Inc. All Rights Reserved.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *      http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	   * Class constructor for Spinner MDL component.
+	   * Implements MDL component design pattern defined at:
+	   * https://github.com/jasonmayes/mdl-component-design-pattern
+	   *
+	   * @param {HTMLElement} element The element that will be upgraded.
+	   * @constructor
+	   */
+	var MaterialSpinner = function MaterialSpinner(element) {
+	    this.element_ = element;
+	    // Initialize instance.
+	    this.init();
+	};
+	window['MaterialSpinner'] = MaterialSpinner;
+	/**
+	   * Store constants in one place so they can be updated easily.
+	   *
+	   * @enum {string | number}
+	   * @private
+	   */
+	MaterialSpinner.prototype.Constant_ = { MDL_SPINNER_LAYER_COUNT: 4 };
+	/**
+	   * Store strings for class names defined by this component that are used in
+	   * JavaScript. This allows us to simply change it in one place should we
+	   * decide to modify at a later date.
+	   *
+	   * @enum {string}
+	   * @private
+	   */
+	MaterialSpinner.prototype.CssClasses_ = {
+	    MDL_SPINNER_LAYER: 'mdl-spinner__layer',
+	    MDL_SPINNER_CIRCLE_CLIPPER: 'mdl-spinner__circle-clipper',
+	    MDL_SPINNER_CIRCLE: 'mdl-spinner__circle',
+	    MDL_SPINNER_GAP_PATCH: 'mdl-spinner__gap-patch',
+	    MDL_SPINNER_LEFT: 'mdl-spinner__left',
+	    MDL_SPINNER_RIGHT: 'mdl-spinner__right'
+	};
+	/**
+	   * Auxiliary method to create a spinner layer.
+	   *
+	   * @param {number} index Index of the layer to be created.
+	   * @public
+	   */
+	MaterialSpinner.prototype.createLayer = function (index) {
+	    var layer = document.createElement('div');
+	    layer.classList.add(this.CssClasses_.MDL_SPINNER_LAYER);
+	    layer.classList.add(this.CssClasses_.MDL_SPINNER_LAYER + '-' + index);
+	    var leftClipper = document.createElement('div');
+	    leftClipper.classList.add(this.CssClasses_.MDL_SPINNER_CIRCLE_CLIPPER);
+	    leftClipper.classList.add(this.CssClasses_.MDL_SPINNER_LEFT);
+	    var gapPatch = document.createElement('div');
+	    gapPatch.classList.add(this.CssClasses_.MDL_SPINNER_GAP_PATCH);
+	    var rightClipper = document.createElement('div');
+	    rightClipper.classList.add(this.CssClasses_.MDL_SPINNER_CIRCLE_CLIPPER);
+	    rightClipper.classList.add(this.CssClasses_.MDL_SPINNER_RIGHT);
+	    var circleOwners = [
+	        leftClipper,
+	        gapPatch,
+	        rightClipper
+	    ];
+	    for (var i = 0; i < circleOwners.length; i++) {
+	        var circle = document.createElement('div');
+	        circle.classList.add(this.CssClasses_.MDL_SPINNER_CIRCLE);
+	        circleOwners[i].appendChild(circle);
+	    }
+	    layer.appendChild(leftClipper);
+	    layer.appendChild(gapPatch);
+	    layer.appendChild(rightClipper);
+	    this.element_.appendChild(layer);
+	};
+	MaterialSpinner.prototype['createLayer'] = MaterialSpinner.prototype.createLayer;
+	/**
+	   * Stops the spinner animation.
+	   * Public method for users who need to stop the spinner for any reason.
+	   *
+	   * @public
+	   */
+	MaterialSpinner.prototype.stop = function () {
+	    this.element_.classList.remove('is-active');
+	};
+	MaterialSpinner.prototype['stop'] = MaterialSpinner.prototype.stop;
+	/**
+	   * Starts the spinner animation.
+	   * Public method for users who need to manually start the spinner for any reason
+	   * (instead of just adding the 'is-active' class to their markup).
+	   *
+	   * @public
+	   */
+	MaterialSpinner.prototype.start = function () {
+	    this.element_.classList.add('is-active');
+	};
+	MaterialSpinner.prototype['start'] = MaterialSpinner.prototype.start;
+	/**
+	   * Initialize element.
+	   */
+	MaterialSpinner.prototype.init = function () {
+	    if (this.element_) {
+	        for (var i = 1; i <= this.Constant_.MDL_SPINNER_LAYER_COUNT; i++) {
+	            this.createLayer(i);
+	        }
+	        this.element_.classList.add('is-upgraded');
+	    }
+	};
+	// The component registers itself. It can assume componentHandler is available
+	// in the global scope.
+	componentHandler.register({
+	    constructor: MaterialSpinner,
+	    classAsString: 'MaterialSpinner',
+	    cssClass: 'mdl-js-spinner',
+	    widget: true
+	});
+	/**
+	 * @license
+	 * Copyright 2015 Google Inc. All Rights Reserved.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *      http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	   * Class constructor for Checkbox MDL component.
+	   * Implements MDL component design pattern defined at:
+	   * https://github.com/jasonmayes/mdl-component-design-pattern
+	   *
+	   * @constructor
+	   * @param {HTMLElement} element The element that will be upgraded.
+	   */
+	var MaterialSwitch = function MaterialSwitch(element) {
+	    this.element_ = element;
+	    // Initialize instance.
+	    this.init();
+	};
+	window['MaterialSwitch'] = MaterialSwitch;
+	/**
+	   * Store constants in one place so they can be updated easily.
+	   *
+	   * @enum {string | number}
+	   * @private
+	   */
+	MaterialSwitch.prototype.Constant_ = { TINY_TIMEOUT: 0.001 };
+	/**
+	   * Store strings for class names defined by this component that are used in
+	   * JavaScript. This allows us to simply change it in one place should we
+	   * decide to modify at a later date.
+	   *
+	   * @enum {string}
+	   * @private
+	   */
+	MaterialSwitch.prototype.CssClasses_ = {
+	    INPUT: 'mdl-switch__input',
+	    TRACK: 'mdl-switch__track',
+	    THUMB: 'mdl-switch__thumb',
+	    FOCUS_HELPER: 'mdl-switch__focus-helper',
+	    RIPPLE_EFFECT: 'mdl-js-ripple-effect',
+	    RIPPLE_IGNORE_EVENTS: 'mdl-js-ripple-effect--ignore-events',
+	    RIPPLE_CONTAINER: 'mdl-switch__ripple-container',
+	    RIPPLE_CENTER: 'mdl-ripple--center',
+	    RIPPLE: 'mdl-ripple',
+	    IS_FOCUSED: 'is-focused',
+	    IS_DISABLED: 'is-disabled',
+	    IS_CHECKED: 'is-checked'
+	};
+	/**
+	   * Handle change of state.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialSwitch.prototype.onChange_ = function (event) {
+	    this.updateClasses_();
+	};
+	/**
+	   * Handle focus of element.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialSwitch.prototype.onFocus_ = function (event) {
+	    this.element_.classList.add(this.CssClasses_.IS_FOCUSED);
+	};
+	/**
+	   * Handle lost focus of element.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialSwitch.prototype.onBlur_ = function (event) {
+	    this.element_.classList.remove(this.CssClasses_.IS_FOCUSED);
+	};
+	/**
+	   * Handle mouseup.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialSwitch.prototype.onMouseUp_ = function (event) {
+	    this.blur_();
+	};
+	/**
+	   * Handle class updates.
+	   *
+	   * @private
+	   */
+	MaterialSwitch.prototype.updateClasses_ = function () {
+	    this.checkDisabled();
+	    this.checkToggleState();
+	};
+	/**
+	   * Add blur.
+	   *
+	   * @private
+	   */
+	MaterialSwitch.prototype.blur_ = function () {
+	    // TODO: figure out why there's a focus event being fired after our blur,
+	    // so that we can avoid this hack.
+	    window.setTimeout(function () {
+	        this.inputElement_.blur();
+	    }.bind(this), this.Constant_.TINY_TIMEOUT);
+	};
+	// Public methods.
+	/**
+	   * Check the components disabled state.
+	   *
+	   * @public
+	   */
+	MaterialSwitch.prototype.checkDisabled = function () {
+	    if (this.inputElement_.disabled) {
+	        this.element_.classList.add(this.CssClasses_.IS_DISABLED);
+	    } else {
+	        this.element_.classList.remove(this.CssClasses_.IS_DISABLED);
+	    }
+	};
+	MaterialSwitch.prototype['checkDisabled'] = MaterialSwitch.prototype.checkDisabled;
+	/**
+	   * Check the components toggled state.
+	   *
+	   * @public
+	   */
+	MaterialSwitch.prototype.checkToggleState = function () {
+	    if (this.inputElement_.checked) {
+	        this.element_.classList.add(this.CssClasses_.IS_CHECKED);
+	    } else {
+	        this.element_.classList.remove(this.CssClasses_.IS_CHECKED);
+	    }
+	};
+	MaterialSwitch.prototype['checkToggleState'] = MaterialSwitch.prototype.checkToggleState;
+	/**
+	   * Disable switch.
+	   *
+	   * @public
+	   */
+	MaterialSwitch.prototype.disable = function () {
+	    this.inputElement_.disabled = true;
+	    this.updateClasses_();
+	};
+	MaterialSwitch.prototype['disable'] = MaterialSwitch.prototype.disable;
+	/**
+	   * Enable switch.
+	   *
+	   * @public
+	   */
+	MaterialSwitch.prototype.enable = function () {
+	    this.inputElement_.disabled = false;
+	    this.updateClasses_();
+	};
+	MaterialSwitch.prototype['enable'] = MaterialSwitch.prototype.enable;
+	/**
+	   * Activate switch.
+	   *
+	   * @public
+	   */
+	MaterialSwitch.prototype.on = function () {
+	    this.inputElement_.checked = true;
+	    this.updateClasses_();
+	};
+	MaterialSwitch.prototype['on'] = MaterialSwitch.prototype.on;
+	/**
+	   * Deactivate switch.
+	   *
+	   * @public
+	   */
+	MaterialSwitch.prototype.off = function () {
+	    this.inputElement_.checked = false;
+	    this.updateClasses_();
+	};
+	MaterialSwitch.prototype['off'] = MaterialSwitch.prototype.off;
+	/**
+	   * Initialize element.
+	   */
+	MaterialSwitch.prototype.init = function () {
+	    if (this.element_) {
+	        this.inputElement_ = this.element_.querySelector('.' + this.CssClasses_.INPUT);
+	        var track = document.createElement('div');
+	        track.classList.add(this.CssClasses_.TRACK);
+	        var thumb = document.createElement('div');
+	        thumb.classList.add(this.CssClasses_.THUMB);
+	        var focusHelper = document.createElement('span');
+	        focusHelper.classList.add(this.CssClasses_.FOCUS_HELPER);
+	        thumb.appendChild(focusHelper);
+	        this.element_.appendChild(track);
+	        this.element_.appendChild(thumb);
+	        this.boundMouseUpHandler = this.onMouseUp_.bind(this);
+	        if (this.element_.classList.contains(this.CssClasses_.RIPPLE_EFFECT)) {
+	            this.element_.classList.add(this.CssClasses_.RIPPLE_IGNORE_EVENTS);
+	            this.rippleContainerElement_ = document.createElement('span');
+	            this.rippleContainerElement_.classList.add(this.CssClasses_.RIPPLE_CONTAINER);
+	            this.rippleContainerElement_.classList.add(this.CssClasses_.RIPPLE_EFFECT);
+	            this.rippleContainerElement_.classList.add(this.CssClasses_.RIPPLE_CENTER);
+	            this.rippleContainerElement_.addEventListener('mouseup', this.boundMouseUpHandler);
+	            var ripple = document.createElement('span');
+	            ripple.classList.add(this.CssClasses_.RIPPLE);
+	            this.rippleContainerElement_.appendChild(ripple);
+	            this.element_.appendChild(this.rippleContainerElement_);
+	        }
+	        this.boundChangeHandler = this.onChange_.bind(this);
+	        this.boundFocusHandler = this.onFocus_.bind(this);
+	        this.boundBlurHandler = this.onBlur_.bind(this);
+	        this.inputElement_.addEventListener('change', this.boundChangeHandler);
+	        this.inputElement_.addEventListener('focus', this.boundFocusHandler);
+	        this.inputElement_.addEventListener('blur', this.boundBlurHandler);
+	        this.element_.addEventListener('mouseup', this.boundMouseUpHandler);
+	        this.updateClasses_();
+	        this.element_.classList.add('is-upgraded');
+	    }
+	};
+	// The component registers itself. It can assume componentHandler is available
+	// in the global scope.
+	componentHandler.register({
+	    constructor: MaterialSwitch,
+	    classAsString: 'MaterialSwitch',
+	    cssClass: 'mdl-js-switch',
+	    widget: true
+	});
+	/**
+	 * @license
+	 * Copyright 2015 Google Inc. All Rights Reserved.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *      http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	   * Class constructor for Tabs MDL component.
+	   * Implements MDL component design pattern defined at:
+	   * https://github.com/jasonmayes/mdl-component-design-pattern
+	   *
+	   * @constructor
+	   * @param {Element} element The element that will be upgraded.
+	   */
+	var MaterialTabs = function MaterialTabs(element) {
+	    // Stores the HTML element.
+	    this.element_ = element;
+	    // Initialize instance.
+	    this.init();
+	};
+	window['MaterialTabs'] = MaterialTabs;
+	/**
+	   * Store constants in one place so they can be updated easily.
+	   *
+	   * @enum {string}
+	   * @private
+	   */
+	MaterialTabs.prototype.Constant_ = {};
+	/**
+	   * Store strings for class names defined by this component that are used in
+	   * JavaScript. This allows us to simply change it in one place should we
+	   * decide to modify at a later date.
+	   *
+	   * @enum {string}
+	   * @private
+	   */
+	MaterialTabs.prototype.CssClasses_ = {
+	    TAB_CLASS: 'mdl-tabs__tab',
+	    PANEL_CLASS: 'mdl-tabs__panel',
+	    ACTIVE_CLASS: 'is-active',
+	    UPGRADED_CLASS: 'is-upgraded',
+	    MDL_JS_RIPPLE_EFFECT: 'mdl-js-ripple-effect',
+	    MDL_RIPPLE_CONTAINER: 'mdl-tabs__ripple-container',
+	    MDL_RIPPLE: 'mdl-ripple',
+	    MDL_JS_RIPPLE_EFFECT_IGNORE_EVENTS: 'mdl-js-ripple-effect--ignore-events'
+	};
+	/**
+	   * Handle clicks to a tabs component
+	   *
+	   * @private
+	   */
+	MaterialTabs.prototype.initTabs_ = function () {
+	    if (this.element_.classList.contains(this.CssClasses_.MDL_JS_RIPPLE_EFFECT)) {
+	        this.element_.classList.add(this.CssClasses_.MDL_JS_RIPPLE_EFFECT_IGNORE_EVENTS);
+	    }
+	    // Select element tabs, document panels
+	    this.tabs_ = this.element_.querySelectorAll('.' + this.CssClasses_.TAB_CLASS);
+	    this.panels_ = this.element_.querySelectorAll('.' + this.CssClasses_.PANEL_CLASS);
+	    // Create new tabs for each tab element
+	    for (var i = 0; i < this.tabs_.length; i++) {
+	        new MaterialTab(this.tabs_[i], this);
+	    }
+	    this.element_.classList.add(this.CssClasses_.UPGRADED_CLASS);
+	};
+	/**
+	   * Reset tab state, dropping active classes
+	   *
+	   * @private
+	   */
+	MaterialTabs.prototype.resetTabState_ = function () {
+	    for (var k = 0; k < this.tabs_.length; k++) {
+	        this.tabs_[k].classList.remove(this.CssClasses_.ACTIVE_CLASS);
+	    }
+	};
+	/**
+	   * Reset panel state, droping active classes
+	   *
+	   * @private
+	   */
+	MaterialTabs.prototype.resetPanelState_ = function () {
+	    for (var j = 0; j < this.panels_.length; j++) {
+	        this.panels_[j].classList.remove(this.CssClasses_.ACTIVE_CLASS);
+	    }
+	};
+	/**
+	   * Initialize element.
+	   */
+	MaterialTabs.prototype.init = function () {
+	    if (this.element_) {
+	        this.initTabs_();
+	    }
+	};
+	/**
+	   * Constructor for an individual tab.
+	   *
+	   * @constructor
+	   * @param {Element} tab The HTML element for the tab.
+	   * @param {MaterialTabs} ctx The MaterialTabs object that owns the tab.
+	   */
+	function MaterialTab(tab, ctx) {
+	    if (tab) {
+	        if (ctx.element_.classList.contains(ctx.CssClasses_.MDL_JS_RIPPLE_EFFECT)) {
+	            var rippleContainer = document.createElement('span');
+	            rippleContainer.classList.add(ctx.CssClasses_.MDL_RIPPLE_CONTAINER);
+	            rippleContainer.classList.add(ctx.CssClasses_.MDL_JS_RIPPLE_EFFECT);
+	            var ripple = document.createElement('span');
+	            ripple.classList.add(ctx.CssClasses_.MDL_RIPPLE);
+	            rippleContainer.appendChild(ripple);
+	            tab.appendChild(rippleContainer);
+	        }
+	        tab.addEventListener('click', function (e) {
+	            e.preventDefault();
+	            var href = tab.href.split('#')[1];
+	            var panel = ctx.element_.querySelector('#' + href);
+	            ctx.resetTabState_();
+	            ctx.resetPanelState_();
+	            tab.classList.add(ctx.CssClasses_.ACTIVE_CLASS);
+	            panel.classList.add(ctx.CssClasses_.ACTIVE_CLASS);
+	        });
+	    }
+	}
+	// The component registers itself. It can assume componentHandler is available
+	// in the global scope.
+	componentHandler.register({
+	    constructor: MaterialTabs,
+	    classAsString: 'MaterialTabs',
+	    cssClass: 'mdl-js-tabs'
+	});
+	/**
+	 * @license
+	 * Copyright 2015 Google Inc. All Rights Reserved.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *      http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	   * Class constructor for Textfield MDL component.
+	   * Implements MDL component design pattern defined at:
+	   * https://github.com/jasonmayes/mdl-component-design-pattern
+	   *
+	   * @constructor
+	   * @param {HTMLElement} element The element that will be upgraded.
+	   */
+	var MaterialTextfield = function MaterialTextfield(element) {
+	    this.element_ = element;
+	    this.maxRows = this.Constant_.NO_MAX_ROWS;
+	    // Initialize instance.
+	    this.init();
+	};
+	window['MaterialTextfield'] = MaterialTextfield;
+	/**
+	   * Store constants in one place so they can be updated easily.
+	   *
+	   * @enum {string | number}
+	   * @private
+	   */
+	MaterialTextfield.prototype.Constant_ = {
+	    NO_MAX_ROWS: -1,
+	    MAX_ROWS_ATTRIBUTE: 'maxrows'
+	};
+	/**
+	   * Store strings for class names defined by this component that are used in
+	   * JavaScript. This allows us to simply change it in one place should we
+	   * decide to modify at a later date.
+	   *
+	   * @enum {string}
+	   * @private
+	   */
+	MaterialTextfield.prototype.CssClasses_ = {
+	    LABEL: 'mdl-textfield__label',
+	    INPUT: 'mdl-textfield__input',
+	    IS_DIRTY: 'is-dirty',
+	    IS_FOCUSED: 'is-focused',
+	    IS_DISABLED: 'is-disabled',
+	    IS_INVALID: 'is-invalid',
+	    IS_UPGRADED: 'is-upgraded',
+	    HAS_PLACEHOLDER: 'has-placeholder'
+	};
+	/**
+	   * Handle input being entered.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialTextfield.prototype.onKeyDown_ = function (event) {
+	    var currentRowCount = event.target.value.split('\n').length;
+	    if (event.keyCode === 13) {
+	        if (currentRowCount >= this.maxRows) {
+	            event.preventDefault();
+	        }
+	    }
+	};
+	/**
+	   * Handle focus.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialTextfield.prototype.onFocus_ = function (event) {
+	    this.element_.classList.add(this.CssClasses_.IS_FOCUSED);
+	};
+	/**
+	   * Handle lost focus.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialTextfield.prototype.onBlur_ = function (event) {
+	    this.element_.classList.remove(this.CssClasses_.IS_FOCUSED);
+	};
+	/**
+	   * Handle reset event from out side.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialTextfield.prototype.onReset_ = function (event) {
+	    this.updateClasses_();
+	};
+	/**
+	   * Handle class updates.
+	   *
+	   * @private
+	   */
+	MaterialTextfield.prototype.updateClasses_ = function () {
+	    this.checkDisabled();
+	    this.checkValidity();
+	    this.checkDirty();
+	    this.checkFocus();
+	};
+	// Public methods.
+	/**
+	   * Check the disabled state and update field accordingly.
+	   *
+	   * @public
+	   */
+	MaterialTextfield.prototype.checkDisabled = function () {
+	    if (this.input_.disabled) {
+	        this.element_.classList.add(this.CssClasses_.IS_DISABLED);
+	    } else {
+	        this.element_.classList.remove(this.CssClasses_.IS_DISABLED);
+	    }
+	};
+	MaterialTextfield.prototype['checkDisabled'] = MaterialTextfield.prototype.checkDisabled;
+	/**
+	  * Check the focus state and update field accordingly.
+	  *
+	  * @public
+	  */
+	MaterialTextfield.prototype.checkFocus = function () {
+	    if (Boolean(this.element_.querySelector(':focus'))) {
+	        this.element_.classList.add(this.CssClasses_.IS_FOCUSED);
+	    } else {
+	        this.element_.classList.remove(this.CssClasses_.IS_FOCUSED);
+	    }
+	};
+	MaterialTextfield.prototype['checkFocus'] = MaterialTextfield.prototype.checkFocus;
+	/**
+	   * Check the validity state and update field accordingly.
+	   *
+	   * @public
+	   */
+	MaterialTextfield.prototype.checkValidity = function () {
+	    if (this.input_.validity) {
+	        if (this.input_.validity.valid) {
+	            this.element_.classList.remove(this.CssClasses_.IS_INVALID);
+	        } else {
+	            this.element_.classList.add(this.CssClasses_.IS_INVALID);
+	        }
+	    }
+	};
+	MaterialTextfield.prototype['checkValidity'] = MaterialTextfield.prototype.checkValidity;
+	/**
+	   * Check the dirty state and update field accordingly.
+	   *
+	   * @public
+	   */
+	MaterialTextfield.prototype.checkDirty = function () {
+	    if (this.input_.value && this.input_.value.length > 0) {
+	        this.element_.classList.add(this.CssClasses_.IS_DIRTY);
+	    } else {
+	        this.element_.classList.remove(this.CssClasses_.IS_DIRTY);
+	    }
+	};
+	MaterialTextfield.prototype['checkDirty'] = MaterialTextfield.prototype.checkDirty;
+	/**
+	   * Disable text field.
+	   *
+	   * @public
+	   */
+	MaterialTextfield.prototype.disable = function () {
+	    this.input_.disabled = true;
+	    this.updateClasses_();
+	};
+	MaterialTextfield.prototype['disable'] = MaterialTextfield.prototype.disable;
+	/**
+	   * Enable text field.
+	   *
+	   * @public
+	   */
+	MaterialTextfield.prototype.enable = function () {
+	    this.input_.disabled = false;
+	    this.updateClasses_();
+	};
+	MaterialTextfield.prototype['enable'] = MaterialTextfield.prototype.enable;
+	/**
+	   * Update text field value.
+	   *
+	   * @param {string} value The value to which to set the control (optional).
+	   * @public
+	   */
+	MaterialTextfield.prototype.change = function (value) {
+	    this.input_.value = value || '';
+	    this.updateClasses_();
+	};
+	MaterialTextfield.prototype['change'] = MaterialTextfield.prototype.change;
+	/**
+	   * Initialize element.
+	   */
+	MaterialTextfield.prototype.init = function () {
+	    if (this.element_) {
+	        this.label_ = this.element_.querySelector('.' + this.CssClasses_.LABEL);
+	        this.input_ = this.element_.querySelector('.' + this.CssClasses_.INPUT);
+	        if (this.input_) {
+	            if (this.input_.hasAttribute(this.Constant_.MAX_ROWS_ATTRIBUTE)) {
+	                this.maxRows = parseInt(this.input_.getAttribute(this.Constant_.MAX_ROWS_ATTRIBUTE), 10);
+	                if (isNaN(this.maxRows)) {
+	                    this.maxRows = this.Constant_.NO_MAX_ROWS;
+	                }
+	            }
+	            if (this.input_.hasAttribute('placeholder')) {
+	                this.element_.classList.add(this.CssClasses_.HAS_PLACEHOLDER);
+	            }
+	            this.boundUpdateClassesHandler = this.updateClasses_.bind(this);
+	            this.boundFocusHandler = this.onFocus_.bind(this);
+	            this.boundBlurHandler = this.onBlur_.bind(this);
+	            this.boundResetHandler = this.onReset_.bind(this);
+	            this.input_.addEventListener('input', this.boundUpdateClassesHandler);
+	            this.input_.addEventListener('focus', this.boundFocusHandler);
+	            this.input_.addEventListener('blur', this.boundBlurHandler);
+	            this.input_.addEventListener('reset', this.boundResetHandler);
+	            if (this.maxRows !== this.Constant_.NO_MAX_ROWS) {
+	                // TODO: This should handle pasting multi line text.
+	                // Currently doesn't.
+	                this.boundKeyDownHandler = this.onKeyDown_.bind(this);
+	                this.input_.addEventListener('keydown', this.boundKeyDownHandler);
+	            }
+	            var invalid = this.element_.classList.contains(this.CssClasses_.IS_INVALID);
+	            this.updateClasses_();
+	            this.element_.classList.add(this.CssClasses_.IS_UPGRADED);
+	            if (invalid) {
+	                this.element_.classList.add(this.CssClasses_.IS_INVALID);
+	            }
+	            if (this.input_.hasAttribute('autofocus')) {
+	                this.element_.focus();
+	                this.checkFocus();
+	            }
+	        }
+	    }
+	};
+	// The component registers itself. It can assume componentHandler is available
+	// in the global scope.
+	componentHandler.register({
+	    constructor: MaterialTextfield,
+	    classAsString: 'MaterialTextfield',
+	    cssClass: 'mdl-js-textfield',
+	    widget: true
+	});
+	/**
+	 * @license
+	 * Copyright 2015 Google Inc. All Rights Reserved.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *      http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	   * Class constructor for Tooltip MDL component.
+	   * Implements MDL component design pattern defined at:
+	   * https://github.com/jasonmayes/mdl-component-design-pattern
+	   *
+	   * @constructor
+	   * @param {HTMLElement} element The element that will be upgraded.
+	   */
+	var MaterialTooltip = function MaterialTooltip(element) {
+	    this.element_ = element;
+	    // Initialize instance.
+	    this.init();
+	};
+	window['MaterialTooltip'] = MaterialTooltip;
+	/**
+	   * Store constants in one place so they can be updated easily.
+	   *
+	   * @enum {string | number}
+	   * @private
+	   */
+	MaterialTooltip.prototype.Constant_ = {};
+	/**
+	   * Store strings for class names defined by this component that are used in
+	   * JavaScript. This allows us to simply change it in one place should we
+	   * decide to modify at a later date.
+	   *
+	   * @enum {string}
+	   * @private
+	   */
+	MaterialTooltip.prototype.CssClasses_ = {
+	    IS_ACTIVE: 'is-active',
+	    BOTTOM: 'mdl-tooltip--bottom',
+	    LEFT: 'mdl-tooltip--left',
+	    RIGHT: 'mdl-tooltip--right',
+	    TOP: 'mdl-tooltip--top'
+	};
+	/**
+	   * Handle mouseenter for tooltip.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialTooltip.prototype.handleMouseEnter_ = function (event) {
+	    var props = event.target.getBoundingClientRect();
+	    var left = props.left + props.width / 2;
+	    var top = props.top + props.height / 2;
+	    var marginLeft = -1 * (this.element_.offsetWidth / 2);
+	    var marginTop = -1 * (this.element_.offsetHeight / 2);
+	    if (this.element_.classList.contains(this.CssClasses_.LEFT) || this.element_.classList.contains(this.CssClasses_.RIGHT)) {
+	        left = props.width / 2;
+	        if (top + marginTop < 0) {
+	            this.element_.style.top = 0;
+	            this.element_.style.marginTop = 0;
+	        } else {
+	            this.element_.style.top = top + 'px';
+	            this.element_.style.marginTop = marginTop + 'px';
+	        }
+	    } else {
+	        if (left + marginLeft < 0) {
+	            this.element_.style.left = 0;
+	            this.element_.style.marginLeft = 0;
+	        } else {
+	            this.element_.style.left = left + 'px';
+	            this.element_.style.marginLeft = marginLeft + 'px';
+	        }
+	    }
+	    if (this.element_.classList.contains(this.CssClasses_.TOP)) {
+	        this.element_.style.top = props.top - this.element_.offsetHeight - 10 + 'px';
+	    } else if (this.element_.classList.contains(this.CssClasses_.RIGHT)) {
+	        this.element_.style.left = props.left + props.width + 10 + 'px';
+	    } else if (this.element_.classList.contains(this.CssClasses_.LEFT)) {
+	        this.element_.style.left = props.left - this.element_.offsetWidth - 10 + 'px';
+	    } else {
+	        this.element_.style.top = props.top + props.height + 10 + 'px';
+	    }
+	    this.element_.classList.add(this.CssClasses_.IS_ACTIVE);
+	};
+	/**
+	   * Handle mouseleave for tooltip.
+	   *
+	   * @private
+	   */
+	MaterialTooltip.prototype.handleMouseLeave_ = function () {
+	    this.element_.classList.remove(this.CssClasses_.IS_ACTIVE);
+	};
+	/**
+	   * Initialize element.
+	   */
+	MaterialTooltip.prototype.init = function () {
+	    if (this.element_) {
+	        var forElId = this.element_.getAttribute('for');
+	        if (forElId) {
+	            this.forElement_ = document.getElementById(forElId);
+	        }
+	        if (this.forElement_) {
+	            // It's left here because it prevents accidental text selection on Android
+	            if (!this.forElement_.hasAttribute('tabindex')) {
+	                this.forElement_.setAttribute('tabindex', '0');
+	            }
+	            this.boundMouseEnterHandler = this.handleMouseEnter_.bind(this);
+	            this.boundMouseLeaveHandler = this.handleMouseLeave_.bind(this);
+	            this.forElement_.addEventListener('mouseenter', this.boundMouseEnterHandler, false);
+	            this.forElement_.addEventListener('touchend', this.boundMouseEnterHandler, false);
+	            this.forElement_.addEventListener('mouseleave', this.boundMouseLeaveHandler, false);
+	            window.addEventListener('touchstart', this.boundMouseLeaveHandler);
+	        }
+	    }
+	};
+	// The component registers itself. It can assume componentHandler is available
+	// in the global scope.
+	componentHandler.register({
+	    constructor: MaterialTooltip,
+	    classAsString: 'MaterialTooltip',
+	    cssClass: 'mdl-tooltip'
+	});
+	/**
+	 * @license
+	 * Copyright 2015 Google Inc. All Rights Reserved.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *      http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	   * Class constructor for Layout MDL component.
+	   * Implements MDL component design pattern defined at:
+	   * https://github.com/jasonmayes/mdl-component-design-pattern
+	   *
+	   * @constructor
+	   * @param {HTMLElement} element The element that will be upgraded.
+	   */
+	var MaterialLayout = function MaterialLayout(element) {
+	    this.element_ = element;
+	    // Initialize instance.
+	    this.init();
+	};
+	window['MaterialLayout'] = MaterialLayout;
+	/**
+	   * Store constants in one place so they can be updated easily.
+	   *
+	   * @enum {string | number}
+	   * @private
+	   */
+	MaterialLayout.prototype.Constant_ = {
+	    MAX_WIDTH: '(max-width: 1024px)',
+	    TAB_SCROLL_PIXELS: 100,
+	    RESIZE_TIMEOUT: 100,
+	    MENU_ICON: '&#xE5D2;',
+	    CHEVRON_LEFT: 'chevron_left',
+	    CHEVRON_RIGHT: 'chevron_right'
+	};
+	/**
+	   * Keycodes, for code readability.
+	   *
+	   * @enum {number}
+	   * @private
+	   */
+	MaterialLayout.prototype.Keycodes_ = {
+	    ENTER: 13,
+	    ESCAPE: 27,
+	    SPACE: 32
+	};
+	/**
+	   * Modes.
+	   *
+	   * @enum {number}
+	   * @private
+	   */
+	MaterialLayout.prototype.Mode_ = {
+	    STANDARD: 0,
+	    SEAMED: 1,
+	    WATERFALL: 2,
+	    SCROLL: 3
+	};
+	/**
+	   * Store strings for class names defined by this component that are used in
+	   * JavaScript. This allows us to simply change it in one place should we
+	   * decide to modify at a later date.
+	   *
+	   * @enum {string}
+	   * @private
+	   */
+	MaterialLayout.prototype.CssClasses_ = {
+	    CONTAINER: 'mdl-layout__container',
+	    HEADER: 'mdl-layout__header',
+	    DRAWER: 'mdl-layout__drawer',
+	    CONTENT: 'mdl-layout__content',
+	    DRAWER_BTN: 'mdl-layout__drawer-button',
+	    ICON: 'material-icons',
+	    JS_RIPPLE_EFFECT: 'mdl-js-ripple-effect',
+	    RIPPLE_CONTAINER: 'mdl-layout__tab-ripple-container',
+	    RIPPLE: 'mdl-ripple',
+	    RIPPLE_IGNORE_EVENTS: 'mdl-js-ripple-effect--ignore-events',
+	    HEADER_SEAMED: 'mdl-layout__header--seamed',
+	    HEADER_WATERFALL: 'mdl-layout__header--waterfall',
+	    HEADER_SCROLL: 'mdl-layout__header--scroll',
+	    FIXED_HEADER: 'mdl-layout--fixed-header',
+	    OBFUSCATOR: 'mdl-layout__obfuscator',
+	    TAB_BAR: 'mdl-layout__tab-bar',
+	    TAB_CONTAINER: 'mdl-layout__tab-bar-container',
+	    TAB: 'mdl-layout__tab',
+	    TAB_BAR_BUTTON: 'mdl-layout__tab-bar-button',
+	    TAB_BAR_LEFT_BUTTON: 'mdl-layout__tab-bar-left-button',
+	    TAB_BAR_RIGHT_BUTTON: 'mdl-layout__tab-bar-right-button',
+	    PANEL: 'mdl-layout__tab-panel',
+	    HAS_DRAWER: 'has-drawer',
+	    HAS_TABS: 'has-tabs',
+	    HAS_SCROLLING_HEADER: 'has-scrolling-header',
+	    CASTING_SHADOW: 'is-casting-shadow',
+	    IS_COMPACT: 'is-compact',
+	    IS_SMALL_SCREEN: 'is-small-screen',
+	    IS_DRAWER_OPEN: 'is-visible',
+	    IS_ACTIVE: 'is-active',
+	    IS_UPGRADED: 'is-upgraded',
+	    IS_ANIMATING: 'is-animating',
+	    ON_LARGE_SCREEN: 'mdl-layout--large-screen-only',
+	    ON_SMALL_SCREEN: 'mdl-layout--small-screen-only'
+	};
+	/**
+	   * Handles scrolling on the content.
+	   *
+	   * @private
+	   */
+	MaterialLayout.prototype.contentScrollHandler_ = function () {
+	    if (this.header_.classList.contains(this.CssClasses_.IS_ANIMATING)) {
+	        return;
+	    }
+	    var headerVisible = !this.element_.classList.contains(this.CssClasses_.IS_SMALL_SCREEN) || this.element_.classList.contains(this.CssClasses_.FIXED_HEADER);
+	    if (this.content_.scrollTop > 0 && !this.header_.classList.contains(this.CssClasses_.IS_COMPACT)) {
+	        this.header_.classList.add(this.CssClasses_.CASTING_SHADOW);
+	        this.header_.classList.add(this.CssClasses_.IS_COMPACT);
+	        if (headerVisible) {
+	            this.header_.classList.add(this.CssClasses_.IS_ANIMATING);
+	        }
+	    } else if (this.content_.scrollTop <= 0 && this.header_.classList.contains(this.CssClasses_.IS_COMPACT)) {
+	        this.header_.classList.remove(this.CssClasses_.CASTING_SHADOW);
+	        this.header_.classList.remove(this.CssClasses_.IS_COMPACT);
+	        if (headerVisible) {
+	            this.header_.classList.add(this.CssClasses_.IS_ANIMATING);
+	        }
+	    }
+	};
+	/**
+	   * Handles a keyboard event on the drawer.
+	   *
+	   * @param {Event} evt The event that fired.
+	   * @private
+	   */
+	MaterialLayout.prototype.keyboardEventHandler_ = function (evt) {
+	    // Only react when the drawer is open.
+	    if (evt.keyCode === this.Keycodes_.ESCAPE && this.drawer_.classList.contains(this.CssClasses_.IS_DRAWER_OPEN)) {
+	        this.toggleDrawer();
+	    }
+	};
+	/**
+	   * Handles changes in screen size.
+	   *
+	   * @private
+	   */
+	MaterialLayout.prototype.screenSizeHandler_ = function () {
+	    if (this.screenSizeMediaQuery_.matches) {
+	        this.element_.classList.add(this.CssClasses_.IS_SMALL_SCREEN);
+	    } else {
+	        this.element_.classList.remove(this.CssClasses_.IS_SMALL_SCREEN);
+	        // Collapse drawer (if any) when moving to a large screen size.
+	        if (this.drawer_) {
+	            this.drawer_.classList.remove(this.CssClasses_.IS_DRAWER_OPEN);
+	            this.obfuscator_.classList.remove(this.CssClasses_.IS_DRAWER_OPEN);
+	        }
+	    }
+	};
+	/**
+	   * Handles events of drawer button.
+	   *
+	   * @param {Event} evt The event that fired.
+	   * @private
+	   */
+	MaterialLayout.prototype.drawerToggleHandler_ = function (evt) {
+	    if (evt && evt.type === 'keydown') {
+	        if (evt.keyCode === this.Keycodes_.SPACE || evt.keyCode === this.Keycodes_.ENTER) {
+	            // prevent scrolling in drawer nav
+	            evt.preventDefault();
+	        } else {
+	            // prevent other keys
+	            return;
+	        }
+	    }
+	    this.toggleDrawer();
+	};
+	/**
+	   * Handles (un)setting the `is-animating` class
+	   *
+	   * @private
+	   */
+	MaterialLayout.prototype.headerTransitionEndHandler_ = function () {
+	    this.header_.classList.remove(this.CssClasses_.IS_ANIMATING);
+	};
+	/**
+	   * Handles expanding the header on click
+	   *
+	   * @private
+	   */
+	MaterialLayout.prototype.headerClickHandler_ = function () {
+	    if (this.header_.classList.contains(this.CssClasses_.IS_COMPACT)) {
+	        this.header_.classList.remove(this.CssClasses_.IS_COMPACT);
+	        this.header_.classList.add(this.CssClasses_.IS_ANIMATING);
+	    }
+	};
+	/**
+	   * Reset tab state, dropping active classes
+	   *
+	   * @private
+	   */
+	MaterialLayout.prototype.resetTabState_ = function (tabBar) {
+	    for (var k = 0; k < tabBar.length; k++) {
+	        tabBar[k].classList.remove(this.CssClasses_.IS_ACTIVE);
+	    }
+	};
+	/**
+	   * Reset panel state, droping active classes
+	   *
+	   * @private
+	   */
+	MaterialLayout.prototype.resetPanelState_ = function (panels) {
+	    for (var j = 0; j < panels.length; j++) {
+	        panels[j].classList.remove(this.CssClasses_.IS_ACTIVE);
+	    }
+	};
+	/**
+	  * Toggle drawer state
+	  *
+	  * @public
+	  */
+	MaterialLayout.prototype.toggleDrawer = function () {
+	    var drawerButton = this.element_.querySelector('.' + this.CssClasses_.DRAWER_BTN);
+	    this.drawer_.classList.toggle(this.CssClasses_.IS_DRAWER_OPEN);
+	    this.obfuscator_.classList.toggle(this.CssClasses_.IS_DRAWER_OPEN);
+	    // Set accessibility properties.
+	    if (this.drawer_.classList.contains(this.CssClasses_.IS_DRAWER_OPEN)) {
+	        this.drawer_.setAttribute('aria-hidden', 'false');
+	        drawerButton.setAttribute('aria-expanded', 'true');
+	    } else {
+	        this.drawer_.setAttribute('aria-hidden', 'true');
+	        drawerButton.setAttribute('aria-expanded', 'false');
+	    }
+	};
+	MaterialLayout.prototype['toggleDrawer'] = MaterialLayout.prototype.toggleDrawer;
+	/**
+	   * Initialize element.
+	   */
+	MaterialLayout.prototype.init = function () {
+	    if (this.element_) {
+	        var container = document.createElement('div');
+	        container.classList.add(this.CssClasses_.CONTAINER);
+	        var focusedElement = this.element_.querySelector(':focus');
+	        this.element_.parentElement.insertBefore(container, this.element_);
+	        this.element_.parentElement.removeChild(this.element_);
+	        container.appendChild(this.element_);
+	        if (focusedElement) {
+	            focusedElement.focus();
+	        }
+	        var directChildren = this.element_.childNodes;
+	        var numChildren = directChildren.length;
+	        for (var c = 0; c < numChildren; c++) {
+	            var child = directChildren[c];
+	            if (child.classList && child.classList.contains(this.CssClasses_.HEADER)) {
+	                this.header_ = child;
+	            }
+	            if (child.classList && child.classList.contains(this.CssClasses_.DRAWER)) {
+	                this.drawer_ = child;
+	            }
+	            if (child.classList && child.classList.contains(this.CssClasses_.CONTENT)) {
+	                this.content_ = child;
+	            }
+	        }
+	        window.addEventListener('pageshow', function (e) {
+	            if (e.persisted) {
+	                // when page is loaded from back/forward cache
+	                // trigger repaint to let layout scroll in safari
+	                this.element_.style.overflowY = 'hidden';
+	                requestAnimationFrame(function () {
+	                    this.element_.style.overflowY = '';
+	                }.bind(this));
+	            }
+	        }.bind(this), false);
+	        if (this.header_) {
+	            this.tabBar_ = this.header_.querySelector('.' + this.CssClasses_.TAB_BAR);
+	        }
+	        var mode = this.Mode_.STANDARD;
+	        if (this.header_) {
+	            if (this.header_.classList.contains(this.CssClasses_.HEADER_SEAMED)) {
+	                mode = this.Mode_.SEAMED;
+	            } else if (this.header_.classList.contains(this.CssClasses_.HEADER_WATERFALL)) {
+	                mode = this.Mode_.WATERFALL;
+	                this.header_.addEventListener('transitionend', this.headerTransitionEndHandler_.bind(this));
+	                this.header_.addEventListener('click', this.headerClickHandler_.bind(this));
+	            } else if (this.header_.classList.contains(this.CssClasses_.HEADER_SCROLL)) {
+	                mode = this.Mode_.SCROLL;
+	                container.classList.add(this.CssClasses_.HAS_SCROLLING_HEADER);
+	            }
+	            if (mode === this.Mode_.STANDARD) {
+	                this.header_.classList.add(this.CssClasses_.CASTING_SHADOW);
+	                if (this.tabBar_) {
+	                    this.tabBar_.classList.add(this.CssClasses_.CASTING_SHADOW);
+	                }
+	            } else if (mode === this.Mode_.SEAMED || mode === this.Mode_.SCROLL) {
+	                this.header_.classList.remove(this.CssClasses_.CASTING_SHADOW);
+	                if (this.tabBar_) {
+	                    this.tabBar_.classList.remove(this.CssClasses_.CASTING_SHADOW);
+	                }
+	            } else if (mode === this.Mode_.WATERFALL) {
+	                // Add and remove shadows depending on scroll position.
+	                // Also add/remove auxiliary class for styling of the compact version of
+	                // the header.
+	                this.content_.addEventListener('scroll', this.contentScrollHandler_.bind(this));
+	                this.contentScrollHandler_();
+	            }
+	        }
+	        // Add drawer toggling button to our layout, if we have an openable drawer.
+	        if (this.drawer_) {
+	            var drawerButton = this.element_.querySelector('.' + this.CssClasses_.DRAWER_BTN);
+	            if (!drawerButton) {
+	                drawerButton = document.createElement('div');
+	                drawerButton.setAttribute('aria-expanded', 'false');
+	                drawerButton.setAttribute('role', 'button');
+	                drawerButton.setAttribute('tabindex', '0');
+	                drawerButton.classList.add(this.CssClasses_.DRAWER_BTN);
+	                var drawerButtonIcon = document.createElement('i');
+	                drawerButtonIcon.classList.add(this.CssClasses_.ICON);
+	                drawerButtonIcon.innerHTML = this.Constant_.MENU_ICON;
+	                drawerButton.appendChild(drawerButtonIcon);
+	            }
+	            if (this.drawer_.classList.contains(this.CssClasses_.ON_LARGE_SCREEN)) {
+	                //If drawer has ON_LARGE_SCREEN class then add it to the drawer toggle button as well.
+	                drawerButton.classList.add(this.CssClasses_.ON_LARGE_SCREEN);
+	            } else if (this.drawer_.classList.contains(this.CssClasses_.ON_SMALL_SCREEN)) {
+	                //If drawer has ON_SMALL_SCREEN class then add it to the drawer toggle button as well.
+	                drawerButton.classList.add(this.CssClasses_.ON_SMALL_SCREEN);
+	            }
+	            drawerButton.addEventListener('click', this.drawerToggleHandler_.bind(this));
+	            drawerButton.addEventListener('keydown', this.drawerToggleHandler_.bind(this));
+	            // Add a class if the layout has a drawer, for altering the left padding.
+	            // Adds the HAS_DRAWER to the elements since this.header_ may or may
+	            // not be present.
+	            this.element_.classList.add(this.CssClasses_.HAS_DRAWER);
+	            // If we have a fixed header, add the button to the header rather than
+	            // the layout.
+	            if (this.element_.classList.contains(this.CssClasses_.FIXED_HEADER)) {
+	                this.header_.insertBefore(drawerButton, this.header_.firstChild);
+	            } else {
+	                this.element_.insertBefore(drawerButton, this.content_);
+	            }
+	            var obfuscator = document.createElement('div');
+	            obfuscator.classList.add(this.CssClasses_.OBFUSCATOR);
+	            this.element_.appendChild(obfuscator);
+	            obfuscator.addEventListener('click', this.drawerToggleHandler_.bind(this));
+	            this.obfuscator_ = obfuscator;
+	            this.drawer_.addEventListener('keydown', this.keyboardEventHandler_.bind(this));
+	            this.drawer_.setAttribute('aria-hidden', 'true');
+	        }
+	        // Keep an eye on screen size, and add/remove auxiliary class for styling
+	        // of small screens.
+	        this.screenSizeMediaQuery_ = window.matchMedia(this.Constant_.MAX_WIDTH);
+	        this.screenSizeMediaQuery_.addListener(this.screenSizeHandler_.bind(this));
+	        this.screenSizeHandler_();
+	        // Initialize tabs, if any.
+	        if (this.header_ && this.tabBar_) {
+	            this.element_.classList.add(this.CssClasses_.HAS_TABS);
+	            var tabContainer = document.createElement('div');
+	            tabContainer.classList.add(this.CssClasses_.TAB_CONTAINER);
+	            this.header_.insertBefore(tabContainer, this.tabBar_);
+	            this.header_.removeChild(this.tabBar_);
+	            var leftButton = document.createElement('div');
+	            leftButton.classList.add(this.CssClasses_.TAB_BAR_BUTTON);
+	            leftButton.classList.add(this.CssClasses_.TAB_BAR_LEFT_BUTTON);
+	            var leftButtonIcon = document.createElement('i');
+	            leftButtonIcon.classList.add(this.CssClasses_.ICON);
+	            leftButtonIcon.textContent = this.Constant_.CHEVRON_LEFT;
+	            leftButton.appendChild(leftButtonIcon);
+	            leftButton.addEventListener('click', function () {
+	                this.tabBar_.scrollLeft -= this.Constant_.TAB_SCROLL_PIXELS;
+	            }.bind(this));
+	            var rightButton = document.createElement('div');
+	            rightButton.classList.add(this.CssClasses_.TAB_BAR_BUTTON);
+	            rightButton.classList.add(this.CssClasses_.TAB_BAR_RIGHT_BUTTON);
+	            var rightButtonIcon = document.createElement('i');
+	            rightButtonIcon.classList.add(this.CssClasses_.ICON);
+	            rightButtonIcon.textContent = this.Constant_.CHEVRON_RIGHT;
+	            rightButton.appendChild(rightButtonIcon);
+	            rightButton.addEventListener('click', function () {
+	                this.tabBar_.scrollLeft += this.Constant_.TAB_SCROLL_PIXELS;
+	            }.bind(this));
+	            tabContainer.appendChild(leftButton);
+	            tabContainer.appendChild(this.tabBar_);
+	            tabContainer.appendChild(rightButton);
+	            // Add and remove tab buttons depending on scroll position and total
+	            // window size.
+	            var tabUpdateHandler = function () {
+	                if (this.tabBar_.scrollLeft > 0) {
+	                    leftButton.classList.add(this.CssClasses_.IS_ACTIVE);
+	                } else {
+	                    leftButton.classList.remove(this.CssClasses_.IS_ACTIVE);
+	                }
+	                if (this.tabBar_.scrollLeft < this.tabBar_.scrollWidth - this.tabBar_.offsetWidth) {
+	                    rightButton.classList.add(this.CssClasses_.IS_ACTIVE);
+	                } else {
+	                    rightButton.classList.remove(this.CssClasses_.IS_ACTIVE);
+	                }
+	            }.bind(this);
+	            this.tabBar_.addEventListener('scroll', tabUpdateHandler);
+	            tabUpdateHandler();
+	            // Update tabs when the window resizes.
+	            var windowResizeHandler = function () {
+	                // Use timeouts to make sure it doesn't happen too often.
+	                if (this.resizeTimeoutId_) {
+	                    clearTimeout(this.resizeTimeoutId_);
+	                }
+	                this.resizeTimeoutId_ = setTimeout(function () {
+	                    tabUpdateHandler();
+	                    this.resizeTimeoutId_ = null;
+	                }.bind(this), this.Constant_.RESIZE_TIMEOUT);
+	            }.bind(this);
+	            window.addEventListener('resize', windowResizeHandler);
+	            if (this.tabBar_.classList.contains(this.CssClasses_.JS_RIPPLE_EFFECT)) {
+	                this.tabBar_.classList.add(this.CssClasses_.RIPPLE_IGNORE_EVENTS);
+	            }
+	            // Select element tabs, document panels
+	            var tabs = this.tabBar_.querySelectorAll('.' + this.CssClasses_.TAB);
+	            var panels = this.content_.querySelectorAll('.' + this.CssClasses_.PANEL);
+	            // Create new tabs for each tab element
+	            for (var i = 0; i < tabs.length; i++) {
+	                new MaterialLayoutTab(tabs[i], tabs, panels, this);
+	            }
+	        }
+	        this.element_.classList.add(this.CssClasses_.IS_UPGRADED);
+	    }
+	};
+	/**
+	   * Constructor for an individual tab.
+	   *
+	   * @constructor
+	   * @param {HTMLElement} tab The HTML element for the tab.
+	   * @param {!Array<HTMLElement>} tabs Array with HTML elements for all tabs.
+	   * @param {!Array<HTMLElement>} panels Array with HTML elements for all panels.
+	   * @param {MaterialLayout} layout The MaterialLayout object that owns the tab.
+	   */
+	function MaterialLayoutTab(tab, tabs, panels, layout) {
+	    /**
+	     * Auxiliary method to programmatically select a tab in the UI.
+	     */
+	    function selectTab() {
+	        var href = tab.href.split('#')[1];
+	        var panel = layout.content_.querySelector('#' + href);
+	        layout.resetTabState_(tabs);
+	        layout.resetPanelState_(panels);
+	        tab.classList.add(layout.CssClasses_.IS_ACTIVE);
+	        panel.classList.add(layout.CssClasses_.IS_ACTIVE);
+	    }
+	    if (layout.tabBar_.classList.contains(layout.CssClasses_.JS_RIPPLE_EFFECT)) {
+	        var rippleContainer = document.createElement('span');
+	        rippleContainer.classList.add(layout.CssClasses_.RIPPLE_CONTAINER);
+	        rippleContainer.classList.add(layout.CssClasses_.JS_RIPPLE_EFFECT);
+	        var ripple = document.createElement('span');
+	        ripple.classList.add(layout.CssClasses_.RIPPLE);
+	        rippleContainer.appendChild(ripple);
+	        tab.appendChild(rippleContainer);
+	    }
+	    tab.addEventListener('click', function (e) {
+	        if (tab.getAttribute('href').charAt(0) === '#') {
+	            e.preventDefault();
+	            selectTab();
+	        }
+	    });
+	    tab.show = selectTab;
+	}
+	window['MaterialLayoutTab'] = MaterialLayoutTab;
+	// The component registers itself. It can assume componentHandler is available
+	// in the global scope.
+	componentHandler.register({
+	    constructor: MaterialLayout,
+	    classAsString: 'MaterialLayout',
+	    cssClass: 'mdl-js-layout'
+	});
+	/**
+	 * @license
+	 * Copyright 2015 Google Inc. All Rights Reserved.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *      http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	   * Class constructor for Data Table Card MDL component.
+	   * Implements MDL component design pattern defined at:
+	   * https://github.com/jasonmayes/mdl-component-design-pattern
+	   *
+	   * @constructor
+	   * @param {Element} element The element that will be upgraded.
+	   */
+	var MaterialDataTable = function MaterialDataTable(element) {
+	    this.element_ = element;
+	    // Initialize instance.
+	    this.init();
+	};
+	window['MaterialDataTable'] = MaterialDataTable;
+	/**
+	   * Store constants in one place so they can be updated easily.
+	   *
+	   * @enum {string | number}
+	   * @private
+	   */
+	MaterialDataTable.prototype.Constant_ = {};
+	/**
+	   * Store strings for class names defined by this component that are used in
+	   * JavaScript. This allows us to simply change it in one place should we
+	   * decide to modify at a later date.
+	   *
+	   * @enum {string}
+	   * @private
+	   */
+	MaterialDataTable.prototype.CssClasses_ = {
+	    DATA_TABLE: 'mdl-data-table',
+	    SELECTABLE: 'mdl-data-table--selectable',
+	    SELECT_ELEMENT: 'mdl-data-table__select',
+	    IS_SELECTED: 'is-selected',
+	    IS_UPGRADED: 'is-upgraded'
+	};
+	/**
+	   * Generates and returns a function that toggles the selection state of a
+	   * single row (or multiple rows).
+	   *
+	   * @param {Element} checkbox Checkbox that toggles the selection state.
+	   * @param {Element} row Row to toggle when checkbox changes.
+	   * @param {(Array<Object>|NodeList)=} opt_rows Rows to toggle when checkbox changes.
+	   * @private
+	   */
+	MaterialDataTable.prototype.selectRow_ = function (checkbox, row, opt_rows) {
+	    if (row) {
+	        return function () {
+	            if (checkbox.checked) {
+	                row.classList.add(this.CssClasses_.IS_SELECTED);
+	            } else {
+	                row.classList.remove(this.CssClasses_.IS_SELECTED);
+	            }
+	        }.bind(this);
+	    }
+	    if (opt_rows) {
+	        return function () {
+	            var i;
+	            var el;
+	            if (checkbox.checked) {
+	                for (i = 0; i < opt_rows.length; i++) {
+	                    el = opt_rows[i].querySelector('td').querySelector('.mdl-checkbox');
+	                    el['MaterialCheckbox'].check();
+	                    opt_rows[i].classList.add(this.CssClasses_.IS_SELECTED);
+	                }
+	            } else {
+	                for (i = 0; i < opt_rows.length; i++) {
+	                    el = opt_rows[i].querySelector('td').querySelector('.mdl-checkbox');
+	                    el['MaterialCheckbox'].uncheck();
+	                    opt_rows[i].classList.remove(this.CssClasses_.IS_SELECTED);
+	                }
+	            }
+	        }.bind(this);
+	    }
+	};
+	/**
+	   * Creates a checkbox for a single or or multiple rows and hooks up the
+	   * event handling.
+	   *
+	   * @param {Element} row Row to toggle when checkbox changes.
+	   * @param {(Array<Object>|NodeList)=} opt_rows Rows to toggle when checkbox changes.
+	   * @private
+	   */
+	MaterialDataTable.prototype.createCheckbox_ = function (row, opt_rows) {
+	    var label = document.createElement('label');
+	    var labelClasses = [
+	        'mdl-checkbox',
+	        'mdl-js-checkbox',
+	        'mdl-js-ripple-effect',
+	        this.CssClasses_.SELECT_ELEMENT
+	    ];
+	    label.className = labelClasses.join(' ');
+	    var checkbox = document.createElement('input');
+	    checkbox.type = 'checkbox';
+	    checkbox.classList.add('mdl-checkbox__input');
+	    if (row) {
+	        checkbox.checked = row.classList.contains(this.CssClasses_.IS_SELECTED);
+	        checkbox.addEventListener('change', this.selectRow_(checkbox, row));
+	    } else if (opt_rows) {
+	        checkbox.addEventListener('change', this.selectRow_(checkbox, null, opt_rows));
+	    }
+	    label.appendChild(checkbox);
+	    componentHandler.upgradeElement(label, 'MaterialCheckbox');
+	    return label;
+	};
+	/**
+	   * Initialize element.
+	   */
+	MaterialDataTable.prototype.init = function () {
+	    if (this.element_) {
+	        var firstHeader = this.element_.querySelector('th');
+	        var bodyRows = Array.prototype.slice.call(this.element_.querySelectorAll('tbody tr'));
+	        var footRows = Array.prototype.slice.call(this.element_.querySelectorAll('tfoot tr'));
+	        var rows = bodyRows.concat(footRows);
+	        if (this.element_.classList.contains(this.CssClasses_.SELECTABLE)) {
+	            var th = document.createElement('th');
+	            var headerCheckbox = this.createCheckbox_(null, rows);
+	            th.appendChild(headerCheckbox);
+	            firstHeader.parentElement.insertBefore(th, firstHeader);
+	            for (var i = 0; i < rows.length; i++) {
+	                var firstCell = rows[i].querySelector('td');
+	                if (firstCell) {
+	                    var td = document.createElement('td');
+	                    if (rows[i].parentNode.nodeName.toUpperCase() === 'TBODY') {
+	                        var rowCheckbox = this.createCheckbox_(rows[i]);
+	                        td.appendChild(rowCheckbox);
+	                    }
+	                    rows[i].insertBefore(td, firstCell);
+	                }
+	            }
+	            this.element_.classList.add(this.CssClasses_.IS_UPGRADED);
+	        }
+	    }
+	};
+	// The component registers itself. It can assume componentHandler is available
+	// in the global scope.
+	componentHandler.register({
+	    constructor: MaterialDataTable,
+	    classAsString: 'MaterialDataTable',
+	    cssClass: 'mdl-js-data-table'
+	});
+	/**
+	 * @license
+	 * Copyright 2015 Google Inc. All Rights Reserved.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *      http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	/**
+	   * Class constructor for Ripple MDL component.
+	   * Implements MDL component design pattern defined at:
+	   * https://github.com/jasonmayes/mdl-component-design-pattern
+	   *
+	   * @constructor
+	   * @param {HTMLElement} element The element that will be upgraded.
+	   */
+	var MaterialRipple = function MaterialRipple(element) {
+	    this.element_ = element;
+	    // Initialize instance.
+	    this.init();
+	};
+	window['MaterialRipple'] = MaterialRipple;
+	/**
+	   * Store constants in one place so they can be updated easily.
+	   *
+	   * @enum {string | number}
+	   * @private
+	   */
+	MaterialRipple.prototype.Constant_ = {
+	    INITIAL_SCALE: 'scale(0.0001, 0.0001)',
+	    INITIAL_SIZE: '1px',
+	    INITIAL_OPACITY: '0.4',
+	    FINAL_OPACITY: '0',
+	    FINAL_SCALE: ''
+	};
+	/**
+	   * Store strings for class names defined by this component that are used in
+	   * JavaScript. This allows us to simply change it in one place should we
+	   * decide to modify at a later date.
+	   *
+	   * @enum {string}
+	   * @private
+	   */
+	MaterialRipple.prototype.CssClasses_ = {
+	    RIPPLE_CENTER: 'mdl-ripple--center',
+	    RIPPLE_EFFECT_IGNORE_EVENTS: 'mdl-js-ripple-effect--ignore-events',
+	    RIPPLE: 'mdl-ripple',
+	    IS_ANIMATING: 'is-animating',
+	    IS_VISIBLE: 'is-visible'
+	};
+	/**
+	   * Handle mouse / finger down on element.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialRipple.prototype.downHandler_ = function (event) {
+	    if (!this.rippleElement_.style.width && !this.rippleElement_.style.height) {
+	        var rect = this.element_.getBoundingClientRect();
+	        this.boundHeight = rect.height;
+	        this.boundWidth = rect.width;
+	        this.rippleSize_ = Math.sqrt(rect.width * rect.width + rect.height * rect.height) * 2 + 2;
+	        this.rippleElement_.style.width = this.rippleSize_ + 'px';
+	        this.rippleElement_.style.height = this.rippleSize_ + 'px';
+	    }
+	    this.rippleElement_.classList.add(this.CssClasses_.IS_VISIBLE);
+	    if (event.type === 'mousedown' && this.ignoringMouseDown_) {
+	        this.ignoringMouseDown_ = false;
+	    } else {
+	        if (event.type === 'touchstart') {
+	            this.ignoringMouseDown_ = true;
+	        }
+	        var frameCount = this.getFrameCount();
+	        if (frameCount > 0) {
+	            return;
+	        }
+	        this.setFrameCount(1);
+	        var bound = event.currentTarget.getBoundingClientRect();
+	        var x;
+	        var y;
+	        // Check if we are handling a keyboard click.
+	        if (event.clientX === 0 && event.clientY === 0) {
+	            x = Math.round(bound.width / 2);
+	            y = Math.round(bound.height / 2);
+	        } else {
+	            var clientX = event.clientX ? event.clientX : event.touches[0].clientX;
+	            var clientY = event.clientY ? event.clientY : event.touches[0].clientY;
+	            x = Math.round(clientX - bound.left);
+	            y = Math.round(clientY - bound.top);
+	        }
+	        this.setRippleXY(x, y);
+	        this.setRippleStyles(true);
+	        window.requestAnimationFrame(this.animFrameHandler.bind(this));
+	    }
+	};
+	/**
+	   * Handle mouse / finger up on element.
+	   *
+	   * @param {Event} event The event that fired.
+	   * @private
+	   */
+	MaterialRipple.prototype.upHandler_ = function (event) {
+	    // Don't fire for the artificial "mouseup" generated by a double-click.
+	    if (event && event.detail !== 2) {
+	        // Allow a repaint to occur before removing this class, so the animation
+	        // shows for tap events, which seem to trigger a mouseup too soon after
+	        // mousedown.
+	        window.setTimeout(function () {
+	            this.rippleElement_.classList.remove(this.CssClasses_.IS_VISIBLE);
+	        }.bind(this), 0);
+	    }
+	};
+	/**
+	   * Initialize element.
+	   */
+	MaterialRipple.prototype.init = function () {
+	    if (this.element_) {
+	        var recentering = this.element_.classList.contains(this.CssClasses_.RIPPLE_CENTER);
+	        if (!this.element_.classList.contains(this.CssClasses_.RIPPLE_EFFECT_IGNORE_EVENTS)) {
+	            this.rippleElement_ = this.element_.querySelector('.' + this.CssClasses_.RIPPLE);
+	            this.frameCount_ = 0;
+	            this.rippleSize_ = 0;
+	            this.x_ = 0;
+	            this.y_ = 0;
+	            // Touch start produces a compat mouse down event, which would cause a
+	            // second ripples. To avoid that, we use this property to ignore the first
+	            // mouse down after a touch start.
+	            this.ignoringMouseDown_ = false;
+	            this.boundDownHandler = this.downHandler_.bind(this);
+	            this.element_.addEventListener('mousedown', this.boundDownHandler);
+	            this.element_.addEventListener('touchstart', this.boundDownHandler);
+	            this.boundUpHandler = this.upHandler_.bind(this);
+	            this.element_.addEventListener('mouseup', this.boundUpHandler);
+	            this.element_.addEventListener('mouseleave', this.boundUpHandler);
+	            this.element_.addEventListener('touchend', this.boundUpHandler);
+	            this.element_.addEventListener('blur', this.boundUpHandler);
+	            /**
+	         * Getter for frameCount_.
+	         * @return {number} the frame count.
+	         */
+	            this.getFrameCount = function () {
+	                return this.frameCount_;
+	            };
+	            /**
+	         * Setter for frameCount_.
+	         * @param {number} fC the frame count.
+	         */
+	            this.setFrameCount = function (fC) {
+	                this.frameCount_ = fC;
+	            };
+	            /**
+	         * Getter for rippleElement_.
+	         * @return {Element} the ripple element.
+	         */
+	            this.getRippleElement = function () {
+	                return this.rippleElement_;
+	            };
+	            /**
+	         * Sets the ripple X and Y coordinates.
+	         * @param  {number} newX the new X coordinate
+	         * @param  {number} newY the new Y coordinate
+	         */
+	            this.setRippleXY = function (newX, newY) {
+	                this.x_ = newX;
+	                this.y_ = newY;
+	            };
+	            /**
+	         * Sets the ripple styles.
+	         * @param  {boolean} start whether or not this is the start frame.
+	         */
+	            this.setRippleStyles = function (start) {
+	                if (this.rippleElement_ !== null) {
+	                    var transformString;
+	                    var scale;
+	                    var size;
+	                    var offset = 'translate(' + this.x_ + 'px, ' + this.y_ + 'px)';
+	                    if (start) {
+	                        scale = this.Constant_.INITIAL_SCALE;
+	                        size = this.Constant_.INITIAL_SIZE;
+	                    } else {
+	                        scale = this.Constant_.FINAL_SCALE;
+	                        size = this.rippleSize_ + 'px';
+	                        if (recentering) {
+	                            offset = 'translate(' + this.boundWidth / 2 + 'px, ' + this.boundHeight / 2 + 'px)';
+	                        }
+	                    }
+	                    transformString = 'translate(-50%, -50%) ' + offset + scale;
+	                    this.rippleElement_.style.webkitTransform = transformString;
+	                    this.rippleElement_.style.msTransform = transformString;
+	                    this.rippleElement_.style.transform = transformString;
+	                    if (start) {
+	                        this.rippleElement_.classList.remove(this.CssClasses_.IS_ANIMATING);
+	                    } else {
+	                        this.rippleElement_.classList.add(this.CssClasses_.IS_ANIMATING);
+	                    }
+	                }
+	            };
+	            /**
+	         * Handles an animation frame.
+	         */
+	            this.animFrameHandler = function () {
+	                if (this.frameCount_-- > 0) {
+	                    window.requestAnimationFrame(this.animFrameHandler.bind(this));
+	                } else {
+	                    this.setRippleStyles(false);
+	                }
+	            };
+	        }
+	    }
+	};
+	// The component registers itself. It can assume componentHandler is available
+	// in the global scope.
+	componentHandler.register({
+	    constructor: MaterialRipple,
+	    classAsString: 'MaterialRipple',
+	    cssClass: 'mdl-js-ripple-effect',
+	    widget: false
+	});
+	}());
+	
+	
+	/*** EXPORTS FROM exports-loader ***/
+	exports["componentHandler"] = (componentHandler);
+	exports["MaterialRipple"] = (MaterialRipple);
+
+/***/ },
+/* 206 */
+/*!***********************************************************************!*\
+  !*** ./browser/styles/material-design-lite/material-design-lite.scss ***!
+  \***********************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../../~/css-loader!./../../../~/postcss-loader!./../../../~/sass-loader!./material-design-lite.scss */ 207);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../../~/style-loader/addStyles.js */ 192)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/postcss-loader/index.js!./../../../node_modules/sass-loader/index.js!./material-design-lite.scss", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/postcss-loader/index.js!./../../../node_modules/sass-loader/index.js!./material-design-lite.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 207 */
+/*!*************************************************************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/material-design-lite/material-design-lite.scss ***!
+  \*************************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../../~/css-loader/lib/css-base.js */ 191)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* Material Design Lite */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* Typography */\n/* Shadows */\n/* Animations */\n/* Dialog */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n/*\n * What follows is the result of much research on cross-browser styling.\n * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,\n * Kroc Camen, and the H5BP dev community and team.\n */\n/* ==========================================================================\n   Base styles: opinionated defaults\n   ========================================================================== */\nhtml {\n  color: rgba(0,0,0, 0.87);\n  font-size: 1em;\n  line-height: 1.4; }\n\n/*\n * Remove text-shadow in selection highlight:\n * https://twitter.com/miketaylr/status/12228805301\n *\n * These selection rule sets have to be separate.\n * Customize the background color to match your design.\n */\n::-moz-selection {\n  background: #b3d4fc;\n  text-shadow: none; }\n::selection {\n  background: #b3d4fc;\n  text-shadow: none; }\n\n/*\n * A better looking default horizontal rule\n */\nhr {\n  display: block;\n  height: 1px;\n  border: 0;\n  border-top: 1px solid #ccc;\n  margin: 1em 0;\n  padding: 0; }\n\n/*\n * Remove the gap between audio, canvas, iframes,\n * images, videos and the bottom of their containers:\n * https://github.com/h5bp/html5-boilerplate/issues/440\n */\naudio,\ncanvas,\niframe,\nimg,\nsvg,\nvideo {\n  vertical-align: middle; }\n\n/*\n * Remove default fieldset styles.\n */\nfieldset {\n  border: 0;\n  margin: 0;\n  padding: 0; }\n\n/*\n * Allow only vertical resizing of textareas.\n */\ntextarea {\n  resize: vertical; }\n\n/* ==========================================================================\n   Browser Upgrade Prompt\n   ========================================================================== */\n.browserupgrade {\n  margin: 0.2em 0;\n  background: #ccc;\n  color: #000;\n  padding: 0.2em 0; }\n\n/* ==========================================================================\n   Author's custom styles\n   ========================================================================== */\n/* ==========================================================================\n   Helper classes\n   ========================================================================== */\n/*\n * Hide visually and from screen readers:\n */\n.hidden {\n  display: none !important; }\n\n/*\n * Hide only visually, but have it available for screen readers:\n * http://snook.ca/archives/html_and_css/hiding-content-for-accessibility\n */\n.visuallyhidden {\n  border: 0;\n  clip: rect(0 0 0 0);\n  height: 1px;\n  margin: -1px;\n  overflow: hidden;\n  padding: 0;\n  position: absolute;\n  width: 1px; }\n\n/*\n * Extends the .visuallyhidden class to allow the element\n * to be focusable when navigated to via the keyboard:\n * https://www.drupal.org/node/897638\n */\n.visuallyhidden.focusable:active,\n.visuallyhidden.focusable:focus {\n  clip: auto;\n  height: auto;\n  margin: 0;\n  overflow: visible;\n  position: static;\n  width: auto; }\n\n/*\n * Hide visually and from screen readers, but maintain layout\n */\n.invisible {\n  visibility: hidden; }\n\n/*\n * Clearfix: contain floats\n *\n * For modern browsers\n * 1. The space content is one way to avoid an Opera bug when the\n *    `contenteditable` attribute is included anywhere else in the document.\n *    Otherwise it causes space to appear at the top and bottom of elements\n *    that receive the `clearfix` class.\n * 2. The use of `table` rather than `block` is only necessary if using\n *    `:before` to contain the top-margins of child elements.\n */\n.clearfix:before,\n.clearfix:after {\n  content: \" \";\n  /* 1 */\n  display: table;\n  /* 2 */ }\n\n.clearfix:after {\n  clear: both; }\n\n/* ==========================================================================\n   EXAMPLE Media Queries for Responsive Design.\n   These examples override the primary ('mobile first') styles.\n   Modify as content requires.\n   ========================================================================== */\n@media only screen and (min-width: 35em) {\n  /* Style adjustments for viewports that meet the condition */ }\n\n@media print, (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx), (min-resolution: 120dpi) {\n  /* Style adjustments for high resolution devices */ }\n\n/* ==========================================================================\n   Print styles.\n   Inlined to avoid the additional HTTP request:\n   http://www.phpied.com/delay-loading-your-print-css/\n   ========================================================================== */\n@media print {\n  *,\n  *:before,\n  *:after,\n  *:first-letter {\n    background: transparent !important;\n    color: #000 !important;\n    /* Black prints faster: http://www.sanbeiji.com/archives/953 */\n    box-shadow: none !important; }\n  a,\n  a:visited {\n    text-decoration: underline; }\n  a[href]:after {\n    content: \" (\" attr(href) \")\"; }\n  abbr[title]:after {\n    content: \" (\" attr(title) \")\"; }\n  /*\n     * Don't show links that are fragment identifiers,\n     * or use the `javascript:` pseudo protocol\n     */\n  a[href^=\"#\"]:after,\n  a[href^=\"javascript:\"]:after {\n    content: \"\"; }\n  pre,\n  blockquote {\n    border: 1px solid #999;\n    page-break-inside: avoid; }\n  /*\n     * Printing Tables:\n     * http://css-discuss.incutio.com/wiki/Printing_Tables\n     */\n  thead {\n    display: table-header-group; }\n  tr,\n  img {\n    page-break-inside: avoid; }\n  img {\n    max-width: 100% !important; }\n  p,\n  h2,\n  h3 {\n    orphans: 3;\n    widows: 3; }\n  h2,\n  h3 {\n    page-break-after: avoid; } }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* Remove the unwanted box around FAB buttons */\n/* More info: http://goo.gl/IPwKi */\na, .mdl-accordion, .mdl-button, .mdl-card, .mdl-checkbox, .mdl-dropdown-menu,\n.mdl-icon-toggle, .mdl-item, .mdl-radio, .mdl-slider, .mdl-switch, .mdl-tabs__tab {\n  -webkit-tap-highlight-color: transparent;\n  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }\n\n/*\n * Make html take up the entire screen\n * Then set touch-action to avoid touch delay on mobile IE\n */\nhtml {\n  width: 100%;\n  height: 100%;\n  -ms-touch-action: manipulation;\n  touch-action: manipulation; }\n\n/*\n* Make body take up the entire screen\n* Remove body margin so layout containers don't cause extra overflow.\n*/\nbody {\n  width: 100%;\n  min-height: 100%;\n  margin: 0; }\n\n/*\n * Main display reset for IE support.\n * Source: http://weblog.west-wind.com/posts/2015/Jan/12/main-HTML5-Tag-not-working-in-Internet-Explorer-91011\n */\nmain {\n  display: block; }\n\n/*\n* Apply no display to elements with the hidden attribute.\n* IE 9 and 10 support.\n*/\n*[hidden] {\n  display: none !important; }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* Typography */\n/* Shadows */\n/* Animations */\n/* Dialog */\n/**\n * Class Name Styles\n */\n.mdl-typography--display-4 {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 112px;\n  font-weight: 300;\n  line-height: 1;\n  letter-spacing: -0.04em; }\n\n.mdl-typography--display-4-color-contrast {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 112px;\n  font-weight: 300;\n  line-height: 1;\n  letter-spacing: -0.04em;\n  opacity: 0.54; }\n\n.mdl-typography--display-3 {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 56px;\n  font-weight: 400;\n  line-height: 1.35;\n  letter-spacing: -0.02em; }\n\n.mdl-typography--display-3-color-contrast {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 56px;\n  font-weight: 400;\n  line-height: 1.35;\n  letter-spacing: -0.02em;\n  opacity: 0.54; }\n\n.mdl-typography--display-2 {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 45px;\n  font-weight: 400;\n  line-height: 48px; }\n\n.mdl-typography--display-2-color-contrast {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 45px;\n  font-weight: 400;\n  line-height: 48px;\n  opacity: 0.54; }\n\n.mdl-typography--display-1 {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 34px;\n  font-weight: 400;\n  line-height: 40px; }\n\n.mdl-typography--display-1-color-contrast {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 34px;\n  font-weight: 400;\n  line-height: 40px;\n  opacity: 0.54; }\n\n.mdl-typography--headline {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 24px;\n  font-weight: 400;\n  line-height: 32px;\n  -moz-osx-font-smoothing: grayscale; }\n\n.mdl-typography--headline-color-contrast {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 24px;\n  font-weight: 400;\n  line-height: 32px;\n  -moz-osx-font-smoothing: grayscale;\n  opacity: 0.87; }\n\n.mdl-typography--title {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 20px;\n  font-weight: 500;\n  line-height: 1;\n  letter-spacing: 0.02em; }\n\n.mdl-typography--title-color-contrast {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 20px;\n  font-weight: 500;\n  line-height: 1;\n  letter-spacing: 0.02em;\n  opacity: 0.87; }\n\n.mdl-typography--subhead {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 24px;\n  letter-spacing: 0.04em; }\n\n.mdl-typography--subhead-color-contrast {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 24px;\n  letter-spacing: 0.04em;\n  opacity: 0.87; }\n\n.mdl-typography--body-2 {\n  font-size: 14px;\n  font-weight: bold;\n  line-height: 24px;\n  letter-spacing: 0; }\n\n.mdl-typography--body-2-color-contrast {\n  font-size: 14px;\n  font-weight: bold;\n  line-height: 24px;\n  letter-spacing: 0;\n  opacity: 0.87; }\n\n.mdl-typography--body-1 {\n  font-size: 14px;\n  font-weight: 400;\n  line-height: 24px;\n  letter-spacing: 0; }\n\n.mdl-typography--body-1-color-contrast {\n  font-size: 14px;\n  font-weight: 400;\n  line-height: 24px;\n  letter-spacing: 0;\n  opacity: 0.87; }\n\n.mdl-typography--body-2-force-preferred-font {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 14px;\n  font-weight: 500;\n  line-height: 24px;\n  letter-spacing: 0; }\n\n.mdl-typography--body-2-force-preferred-font-color-contrast {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 14px;\n  font-weight: 500;\n  line-height: 24px;\n  letter-spacing: 0;\n  opacity: 0.87; }\n\n.mdl-typography--body-1-force-preferred-font {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 14px;\n  font-weight: 400;\n  line-height: 24px;\n  letter-spacing: 0; }\n\n.mdl-typography--body-1-force-preferred-font-color-contrast {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 14px;\n  font-weight: 400;\n  line-height: 24px;\n  letter-spacing: 0;\n  opacity: 0.87; }\n\n.mdl-typography--caption {\n  font-size: 12px;\n  font-weight: 400;\n  line-height: 1;\n  letter-spacing: 0; }\n\n.mdl-typography--caption-force-preferred-font {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 12px;\n  font-weight: 400;\n  line-height: 1;\n  letter-spacing: 0; }\n\n.mdl-typography--caption-color-contrast {\n  font-size: 12px;\n  font-weight: 400;\n  line-height: 1;\n  letter-spacing: 0;\n  opacity: 0.54; }\n\n.mdl-typography--caption-force-preferred-font-color-contrast {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 12px;\n  font-weight: 400;\n  line-height: 1;\n  letter-spacing: 0;\n  opacity: 0.54; }\n\n.mdl-typography--menu {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 14px;\n  font-weight: 500;\n  line-height: 1;\n  letter-spacing: 0; }\n\n.mdl-typography--menu-color-contrast {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 14px;\n  font-weight: 500;\n  line-height: 1;\n  letter-spacing: 0;\n  opacity: 0.87; }\n\n.mdl-typography--button {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 14px;\n  font-weight: 500;\n  text-transform: uppercase;\n  line-height: 1;\n  letter-spacing: 0; }\n\n.mdl-typography--button-color-contrast {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 14px;\n  font-weight: 500;\n  text-transform: uppercase;\n  line-height: 1;\n  letter-spacing: 0;\n  opacity: 0.87; }\n\n.mdl-typography--text-left {\n  text-align: left; }\n\n.mdl-typography--text-right {\n  text-align: right; }\n\n.mdl-typography--text-center {\n  text-align: center; }\n\n.mdl-typography--text-justify {\n  text-align: justify; }\n\n.mdl-typography--text-nowrap {\n  white-space: nowrap; }\n\n.mdl-typography--text-lowercase {\n  text-transform: lowercase; }\n\n.mdl-typography--text-uppercase {\n  text-transform: uppercase; }\n\n.mdl-typography--text-capitalize {\n  text-transform: capitalize; }\n\n.mdl-typography--font-thin {\n  font-weight: 200 !important; }\n\n.mdl-typography--font-light {\n  font-weight: 300 !important; }\n\n.mdl-typography--font-regular {\n  font-weight: 400 !important; }\n\n.mdl-typography--font-medium {\n  font-weight: 500 !important; }\n\n.mdl-typography--font-bold {\n  font-weight: 700 !important; }\n\n.mdl-typography--font-black {\n  font-weight: 900 !important; }\n\n.material-icons {\n  font-family: 'Material Icons';\n  font-weight: normal;\n  font-style: normal;\n  font-size: 24px;\n  line-height: 1;\n  letter-spacing: normal;\n  text-transform: none;\n  display: inline-block;\n  word-wrap: normal;\n  font-feature-settings: 'liga';\n  -webkit-font-feature-settings: 'liga';\n  -webkit-font-smoothing: antialiased; }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n.mdl-color-text--red {\n  color: rgb(244,67,54) !important; }\n\n.mdl-color--red {\n  background-color: rgb(244,67,54) !important; }\n\n.mdl-color-text--red-50 {\n  color: rgb(255,235,238) !important; }\n\n.mdl-color--red-50 {\n  background-color: rgb(255,235,238) !important; }\n\n.mdl-color-text--red-100 {\n  color: rgb(255,205,210) !important; }\n\n.mdl-color--red-100 {\n  background-color: rgb(255,205,210) !important; }\n\n.mdl-color-text--red-200 {\n  color: rgb(239,154,154) !important; }\n\n.mdl-color--red-200 {\n  background-color: rgb(239,154,154) !important; }\n\n.mdl-color-text--red-300 {\n  color: rgb(229,115,115) !important; }\n\n.mdl-color--red-300 {\n  background-color: rgb(229,115,115) !important; }\n\n.mdl-color-text--red-400 {\n  color: rgb(239,83,80) !important; }\n\n.mdl-color--red-400 {\n  background-color: rgb(239,83,80) !important; }\n\n.mdl-color-text--red-500 {\n  color: rgb(244,67,54) !important; }\n\n.mdl-color--red-500 {\n  background-color: rgb(244,67,54) !important; }\n\n.mdl-color-text--red-600 {\n  color: rgb(229,57,53) !important; }\n\n.mdl-color--red-600 {\n  background-color: rgb(229,57,53) !important; }\n\n.mdl-color-text--red-700 {\n  color: rgb(211,47,47) !important; }\n\n.mdl-color--red-700 {\n  background-color: rgb(211,47,47) !important; }\n\n.mdl-color-text--red-800 {\n  color: rgb(198,40,40) !important; }\n\n.mdl-color--red-800 {\n  background-color: rgb(198,40,40) !important; }\n\n.mdl-color-text--red-900 {\n  color: rgb(183,28,28) !important; }\n\n.mdl-color--red-900 {\n  background-color: rgb(183,28,28) !important; }\n\n.mdl-color-text--red-A100 {\n  color: rgb(255,138,128) !important; }\n\n.mdl-color--red-A100 {\n  background-color: rgb(255,138,128) !important; }\n\n.mdl-color-text--red-A200 {\n  color: rgb(255,82,82) !important; }\n\n.mdl-color--red-A200 {\n  background-color: rgb(255,82,82) !important; }\n\n.mdl-color-text--red-A400 {\n  color: rgb(255,23,68) !important; }\n\n.mdl-color--red-A400 {\n  background-color: rgb(255,23,68) !important; }\n\n.mdl-color-text--red-A700 {\n  color: rgb(213,0,0) !important; }\n\n.mdl-color--red-A700 {\n  background-color: rgb(213,0,0) !important; }\n\n.mdl-color-text--pink {\n  color: rgb(233,30,99) !important; }\n\n.mdl-color--pink {\n  background-color: rgb(233,30,99) !important; }\n\n.mdl-color-text--pink-50 {\n  color: rgb(252,228,236) !important; }\n\n.mdl-color--pink-50 {\n  background-color: rgb(252,228,236) !important; }\n\n.mdl-color-text--pink-100 {\n  color: rgb(248,187,208) !important; }\n\n.mdl-color--pink-100 {\n  background-color: rgb(248,187,208) !important; }\n\n.mdl-color-text--pink-200 {\n  color: rgb(244,143,177) !important; }\n\n.mdl-color--pink-200 {\n  background-color: rgb(244,143,177) !important; }\n\n.mdl-color-text--pink-300 {\n  color: rgb(240,98,146) !important; }\n\n.mdl-color--pink-300 {\n  background-color: rgb(240,98,146) !important; }\n\n.mdl-color-text--pink-400 {\n  color: rgb(236,64,122) !important; }\n\n.mdl-color--pink-400 {\n  background-color: rgb(236,64,122) !important; }\n\n.mdl-color-text--pink-500 {\n  color: rgb(233,30,99) !important; }\n\n.mdl-color--pink-500 {\n  background-color: rgb(233,30,99) !important; }\n\n.mdl-color-text--pink-600 {\n  color: rgb(216,27,96) !important; }\n\n.mdl-color--pink-600 {\n  background-color: rgb(216,27,96) !important; }\n\n.mdl-color-text--pink-700 {\n  color: rgb(194,24,91) !important; }\n\n.mdl-color--pink-700 {\n  background-color: rgb(194,24,91) !important; }\n\n.mdl-color-text--pink-800 {\n  color: rgb(173,20,87) !important; }\n\n.mdl-color--pink-800 {\n  background-color: rgb(173,20,87) !important; }\n\n.mdl-color-text--pink-900 {\n  color: rgb(136,14,79) !important; }\n\n.mdl-color--pink-900 {\n  background-color: rgb(136,14,79) !important; }\n\n.mdl-color-text--pink-A100 {\n  color: rgb(255,128,171) !important; }\n\n.mdl-color--pink-A100 {\n  background-color: rgb(255,128,171) !important; }\n\n.mdl-color-text--pink-A200 {\n  color: rgb(255,64,129) !important; }\n\n.mdl-color--pink-A200 {\n  background-color: rgb(255,64,129) !important; }\n\n.mdl-color-text--pink-A400 {\n  color: rgb(245,0,87) !important; }\n\n.mdl-color--pink-A400 {\n  background-color: rgb(245,0,87) !important; }\n\n.mdl-color-text--pink-A700 {\n  color: rgb(197,17,98) !important; }\n\n.mdl-color--pink-A700 {\n  background-color: rgb(197,17,98) !important; }\n\n.mdl-color-text--purple {\n  color: rgb(156,39,176) !important; }\n\n.mdl-color--purple {\n  background-color: rgb(156,39,176) !important; }\n\n.mdl-color-text--purple-50 {\n  color: rgb(243,229,245) !important; }\n\n.mdl-color--purple-50 {\n  background-color: rgb(243,229,245) !important; }\n\n.mdl-color-text--purple-100 {\n  color: rgb(225,190,231) !important; }\n\n.mdl-color--purple-100 {\n  background-color: rgb(225,190,231) !important; }\n\n.mdl-color-text--purple-200 {\n  color: rgb(206,147,216) !important; }\n\n.mdl-color--purple-200 {\n  background-color: rgb(206,147,216) !important; }\n\n.mdl-color-text--purple-300 {\n  color: rgb(186,104,200) !important; }\n\n.mdl-color--purple-300 {\n  background-color: rgb(186,104,200) !important; }\n\n.mdl-color-text--purple-400 {\n  color: rgb(171,71,188) !important; }\n\n.mdl-color--purple-400 {\n  background-color: rgb(171,71,188) !important; }\n\n.mdl-color-text--purple-500 {\n  color: rgb(156,39,176) !important; }\n\n.mdl-color--purple-500 {\n  background-color: rgb(156,39,176) !important; }\n\n.mdl-color-text--purple-600 {\n  color: rgb(142,36,170) !important; }\n\n.mdl-color--purple-600 {\n  background-color: rgb(142,36,170) !important; }\n\n.mdl-color-text--purple-700 {\n  color: rgb(123,31,162) !important; }\n\n.mdl-color--purple-700 {\n  background-color: rgb(123,31,162) !important; }\n\n.mdl-color-text--purple-800 {\n  color: rgb(106,27,154) !important; }\n\n.mdl-color--purple-800 {\n  background-color: rgb(106,27,154) !important; }\n\n.mdl-color-text--purple-900 {\n  color: rgb(74,20,140) !important; }\n\n.mdl-color--purple-900 {\n  background-color: rgb(74,20,140) !important; }\n\n.mdl-color-text--purple-A100 {\n  color: rgb(234,128,252) !important; }\n\n.mdl-color--purple-A100 {\n  background-color: rgb(234,128,252) !important; }\n\n.mdl-color-text--purple-A200 {\n  color: rgb(224,64,251) !important; }\n\n.mdl-color--purple-A200 {\n  background-color: rgb(224,64,251) !important; }\n\n.mdl-color-text--purple-A400 {\n  color: rgb(213,0,249) !important; }\n\n.mdl-color--purple-A400 {\n  background-color: rgb(213,0,249) !important; }\n\n.mdl-color-text--purple-A700 {\n  color: rgb(170,0,255) !important; }\n\n.mdl-color--purple-A700 {\n  background-color: rgb(170,0,255) !important; }\n\n.mdl-color-text--deep-purple {\n  color: rgb(103,58,183) !important; }\n\n.mdl-color--deep-purple {\n  background-color: rgb(103,58,183) !important; }\n\n.mdl-color-text--deep-purple-50 {\n  color: rgb(237,231,246) !important; }\n\n.mdl-color--deep-purple-50 {\n  background-color: rgb(237,231,246) !important; }\n\n.mdl-color-text--deep-purple-100 {\n  color: rgb(209,196,233) !important; }\n\n.mdl-color--deep-purple-100 {\n  background-color: rgb(209,196,233) !important; }\n\n.mdl-color-text--deep-purple-200 {\n  color: rgb(179,157,219) !important; }\n\n.mdl-color--deep-purple-200 {\n  background-color: rgb(179,157,219) !important; }\n\n.mdl-color-text--deep-purple-300 {\n  color: rgb(149,117,205) !important; }\n\n.mdl-color--deep-purple-300 {\n  background-color: rgb(149,117,205) !important; }\n\n.mdl-color-text--deep-purple-400 {\n  color: rgb(126,87,194) !important; }\n\n.mdl-color--deep-purple-400 {\n  background-color: rgb(126,87,194) !important; }\n\n.mdl-color-text--deep-purple-500 {\n  color: rgb(103,58,183) !important; }\n\n.mdl-color--deep-purple-500 {\n  background-color: rgb(103,58,183) !important; }\n\n.mdl-color-text--deep-purple-600 {\n  color: rgb(94,53,177) !important; }\n\n.mdl-color--deep-purple-600 {\n  background-color: rgb(94,53,177) !important; }\n\n.mdl-color-text--deep-purple-700 {\n  color: rgb(81,45,168) !important; }\n\n.mdl-color--deep-purple-700 {\n  background-color: rgb(81,45,168) !important; }\n\n.mdl-color-text--deep-purple-800 {\n  color: rgb(69,39,160) !important; }\n\n.mdl-color--deep-purple-800 {\n  background-color: rgb(69,39,160) !important; }\n\n.mdl-color-text--deep-purple-900 {\n  color: rgb(49,27,146) !important; }\n\n.mdl-color--deep-purple-900 {\n  background-color: rgb(49,27,146) !important; }\n\n.mdl-color-text--deep-purple-A100 {\n  color: rgb(179,136,255) !important; }\n\n.mdl-color--deep-purple-A100 {\n  background-color: rgb(179,136,255) !important; }\n\n.mdl-color-text--deep-purple-A200 {\n  color: rgb(124,77,255) !important; }\n\n.mdl-color--deep-purple-A200 {\n  background-color: rgb(124,77,255) !important; }\n\n.mdl-color-text--deep-purple-A400 {\n  color: rgb(101,31,255) !important; }\n\n.mdl-color--deep-purple-A400 {\n  background-color: rgb(101,31,255) !important; }\n\n.mdl-color-text--deep-purple-A700 {\n  color: rgb(98,0,234) !important; }\n\n.mdl-color--deep-purple-A700 {\n  background-color: rgb(98,0,234) !important; }\n\n.mdl-color-text--indigo {\n  color: rgb(63,81,181) !important; }\n\n.mdl-color--indigo {\n  background-color: rgb(63,81,181) !important; }\n\n.mdl-color-text--indigo-50 {\n  color: rgb(232,234,246) !important; }\n\n.mdl-color--indigo-50 {\n  background-color: rgb(232,234,246) !important; }\n\n.mdl-color-text--indigo-100 {\n  color: rgb(197,202,233) !important; }\n\n.mdl-color--indigo-100 {\n  background-color: rgb(197,202,233) !important; }\n\n.mdl-color-text--indigo-200 {\n  color: rgb(159,168,218) !important; }\n\n.mdl-color--indigo-200 {\n  background-color: rgb(159,168,218) !important; }\n\n.mdl-color-text--indigo-300 {\n  color: rgb(121,134,203) !important; }\n\n.mdl-color--indigo-300 {\n  background-color: rgb(121,134,203) !important; }\n\n.mdl-color-text--indigo-400 {\n  color: rgb(92,107,192) !important; }\n\n.mdl-color--indigo-400 {\n  background-color: rgb(92,107,192) !important; }\n\n.mdl-color-text--indigo-500 {\n  color: rgb(63,81,181) !important; }\n\n.mdl-color--indigo-500 {\n  background-color: rgb(63,81,181) !important; }\n\n.mdl-color-text--indigo-600 {\n  color: rgb(57,73,171) !important; }\n\n.mdl-color--indigo-600 {\n  background-color: rgb(57,73,171) !important; }\n\n.mdl-color-text--indigo-700 {\n  color: rgb(48,63,159) !important; }\n\n.mdl-color--indigo-700 {\n  background-color: rgb(48,63,159) !important; }\n\n.mdl-color-text--indigo-800 {\n  color: rgb(40,53,147) !important; }\n\n.mdl-color--indigo-800 {\n  background-color: rgb(40,53,147) !important; }\n\n.mdl-color-text--indigo-900 {\n  color: rgb(26,35,126) !important; }\n\n.mdl-color--indigo-900 {\n  background-color: rgb(26,35,126) !important; }\n\n.mdl-color-text--indigo-A100 {\n  color: rgb(140,158,255) !important; }\n\n.mdl-color--indigo-A100 {\n  background-color: rgb(140,158,255) !important; }\n\n.mdl-color-text--indigo-A200 {\n  color: rgb(83,109,254) !important; }\n\n.mdl-color--indigo-A200 {\n  background-color: rgb(83,109,254) !important; }\n\n.mdl-color-text--indigo-A400 {\n  color: rgb(61,90,254) !important; }\n\n.mdl-color--indigo-A400 {\n  background-color: rgb(61,90,254) !important; }\n\n.mdl-color-text--indigo-A700 {\n  color: rgb(48,79,254) !important; }\n\n.mdl-color--indigo-A700 {\n  background-color: rgb(48,79,254) !important; }\n\n.mdl-color-text--blue {\n  color: rgb(33,150,243) !important; }\n\n.mdl-color--blue {\n  background-color: rgb(33,150,243) !important; }\n\n.mdl-color-text--blue-50 {\n  color: rgb(227,242,253) !important; }\n\n.mdl-color--blue-50 {\n  background-color: rgb(227,242,253) !important; }\n\n.mdl-color-text--blue-100 {\n  color: rgb(187,222,251) !important; }\n\n.mdl-color--blue-100 {\n  background-color: rgb(187,222,251) !important; }\n\n.mdl-color-text--blue-200 {\n  color: rgb(144,202,249) !important; }\n\n.mdl-color--blue-200 {\n  background-color: rgb(144,202,249) !important; }\n\n.mdl-color-text--blue-300 {\n  color: rgb(100,181,246) !important; }\n\n.mdl-color--blue-300 {\n  background-color: rgb(100,181,246) !important; }\n\n.mdl-color-text--blue-400 {\n  color: rgb(66,165,245) !important; }\n\n.mdl-color--blue-400 {\n  background-color: rgb(66,165,245) !important; }\n\n.mdl-color-text--blue-500 {\n  color: rgb(33,150,243) !important; }\n\n.mdl-color--blue-500 {\n  background-color: rgb(33,150,243) !important; }\n\n.mdl-color-text--blue-600 {\n  color: rgb(30,136,229) !important; }\n\n.mdl-color--blue-600 {\n  background-color: rgb(30,136,229) !important; }\n\n.mdl-color-text--blue-700 {\n  color: rgb(25,118,210) !important; }\n\n.mdl-color--blue-700 {\n  background-color: rgb(25,118,210) !important; }\n\n.mdl-color-text--blue-800 {\n  color: rgb(21,101,192) !important; }\n\n.mdl-color--blue-800 {\n  background-color: rgb(21,101,192) !important; }\n\n.mdl-color-text--blue-900 {\n  color: rgb(13,71,161) !important; }\n\n.mdl-color--blue-900 {\n  background-color: rgb(13,71,161) !important; }\n\n.mdl-color-text--blue-A100 {\n  color: rgb(130,177,255) !important; }\n\n.mdl-color--blue-A100 {\n  background-color: rgb(130,177,255) !important; }\n\n.mdl-color-text--blue-A200 {\n  color: rgb(68,138,255) !important; }\n\n.mdl-color--blue-A200 {\n  background-color: rgb(68,138,255) !important; }\n\n.mdl-color-text--blue-A400 {\n  color: rgb(41,121,255) !important; }\n\n.mdl-color--blue-A400 {\n  background-color: rgb(41,121,255) !important; }\n\n.mdl-color-text--blue-A700 {\n  color: rgb(41,98,255) !important; }\n\n.mdl-color--blue-A700 {\n  background-color: rgb(41,98,255) !important; }\n\n.mdl-color-text--light-blue {\n  color: rgb(3,169,244) !important; }\n\n.mdl-color--light-blue {\n  background-color: rgb(3,169,244) !important; }\n\n.mdl-color-text--light-blue-50 {\n  color: rgb(225,245,254) !important; }\n\n.mdl-color--light-blue-50 {\n  background-color: rgb(225,245,254) !important; }\n\n.mdl-color-text--light-blue-100 {\n  color: rgb(179,229,252) !important; }\n\n.mdl-color--light-blue-100 {\n  background-color: rgb(179,229,252) !important; }\n\n.mdl-color-text--light-blue-200 {\n  color: rgb(129,212,250) !important; }\n\n.mdl-color--light-blue-200 {\n  background-color: rgb(129,212,250) !important; }\n\n.mdl-color-text--light-blue-300 {\n  color: rgb(79,195,247) !important; }\n\n.mdl-color--light-blue-300 {\n  background-color: rgb(79,195,247) !important; }\n\n.mdl-color-text--light-blue-400 {\n  color: rgb(41,182,246) !important; }\n\n.mdl-color--light-blue-400 {\n  background-color: rgb(41,182,246) !important; }\n\n.mdl-color-text--light-blue-500 {\n  color: rgb(3,169,244) !important; }\n\n.mdl-color--light-blue-500 {\n  background-color: rgb(3,169,244) !important; }\n\n.mdl-color-text--light-blue-600 {\n  color: rgb(3,155,229) !important; }\n\n.mdl-color--light-blue-600 {\n  background-color: rgb(3,155,229) !important; }\n\n.mdl-color-text--light-blue-700 {\n  color: rgb(2,136,209) !important; }\n\n.mdl-color--light-blue-700 {\n  background-color: rgb(2,136,209) !important; }\n\n.mdl-color-text--light-blue-800 {\n  color: rgb(2,119,189) !important; }\n\n.mdl-color--light-blue-800 {\n  background-color: rgb(2,119,189) !important; }\n\n.mdl-color-text--light-blue-900 {\n  color: rgb(1,87,155) !important; }\n\n.mdl-color--light-blue-900 {\n  background-color: rgb(1,87,155) !important; }\n\n.mdl-color-text--light-blue-A100 {\n  color: rgb(128,216,255) !important; }\n\n.mdl-color--light-blue-A100 {\n  background-color: rgb(128,216,255) !important; }\n\n.mdl-color-text--light-blue-A200 {\n  color: rgb(64,196,255) !important; }\n\n.mdl-color--light-blue-A200 {\n  background-color: rgb(64,196,255) !important; }\n\n.mdl-color-text--light-blue-A400 {\n  color: rgb(0,176,255) !important; }\n\n.mdl-color--light-blue-A400 {\n  background-color: rgb(0,176,255) !important; }\n\n.mdl-color-text--light-blue-A700 {\n  color: rgb(0,145,234) !important; }\n\n.mdl-color--light-blue-A700 {\n  background-color: rgb(0,145,234) !important; }\n\n.mdl-color-text--cyan {\n  color: rgb(0,188,212) !important; }\n\n.mdl-color--cyan {\n  background-color: rgb(0,188,212) !important; }\n\n.mdl-color-text--cyan-50 {\n  color: rgb(224,247,250) !important; }\n\n.mdl-color--cyan-50 {\n  background-color: rgb(224,247,250) !important; }\n\n.mdl-color-text--cyan-100 {\n  color: rgb(178,235,242) !important; }\n\n.mdl-color--cyan-100 {\n  background-color: rgb(178,235,242) !important; }\n\n.mdl-color-text--cyan-200 {\n  color: rgb(128,222,234) !important; }\n\n.mdl-color--cyan-200 {\n  background-color: rgb(128,222,234) !important; }\n\n.mdl-color-text--cyan-300 {\n  color: rgb(77,208,225) !important; }\n\n.mdl-color--cyan-300 {\n  background-color: rgb(77,208,225) !important; }\n\n.mdl-color-text--cyan-400 {\n  color: rgb(38,198,218) !important; }\n\n.mdl-color--cyan-400 {\n  background-color: rgb(38,198,218) !important; }\n\n.mdl-color-text--cyan-500 {\n  color: rgb(0,188,212) !important; }\n\n.mdl-color--cyan-500 {\n  background-color: rgb(0,188,212) !important; }\n\n.mdl-color-text--cyan-600 {\n  color: rgb(0,172,193) !important; }\n\n.mdl-color--cyan-600 {\n  background-color: rgb(0,172,193) !important; }\n\n.mdl-color-text--cyan-700 {\n  color: rgb(0,151,167) !important; }\n\n.mdl-color--cyan-700 {\n  background-color: rgb(0,151,167) !important; }\n\n.mdl-color-text--cyan-800 {\n  color: rgb(0,131,143) !important; }\n\n.mdl-color--cyan-800 {\n  background-color: rgb(0,131,143) !important; }\n\n.mdl-color-text--cyan-900 {\n  color: rgb(0,96,100) !important; }\n\n.mdl-color--cyan-900 {\n  background-color: rgb(0,96,100) !important; }\n\n.mdl-color-text--cyan-A100 {\n  color: rgb(132,255,255) !important; }\n\n.mdl-color--cyan-A100 {\n  background-color: rgb(132,255,255) !important; }\n\n.mdl-color-text--cyan-A200 {\n  color: rgb(24,255,255) !important; }\n\n.mdl-color--cyan-A200 {\n  background-color: rgb(24,255,255) !important; }\n\n.mdl-color-text--cyan-A400 {\n  color: rgb(0,229,255) !important; }\n\n.mdl-color--cyan-A400 {\n  background-color: rgb(0,229,255) !important; }\n\n.mdl-color-text--cyan-A700 {\n  color: rgb(0,184,212) !important; }\n\n.mdl-color--cyan-A700 {\n  background-color: rgb(0,184,212) !important; }\n\n.mdl-color-text--teal {\n  color: rgb(0,150,136) !important; }\n\n.mdl-color--teal {\n  background-color: rgb(0,150,136) !important; }\n\n.mdl-color-text--teal-50 {\n  color: rgb(224,242,241) !important; }\n\n.mdl-color--teal-50 {\n  background-color: rgb(224,242,241) !important; }\n\n.mdl-color-text--teal-100 {\n  color: rgb(178,223,219) !important; }\n\n.mdl-color--teal-100 {\n  background-color: rgb(178,223,219) !important; }\n\n.mdl-color-text--teal-200 {\n  color: rgb(128,203,196) !important; }\n\n.mdl-color--teal-200 {\n  background-color: rgb(128,203,196) !important; }\n\n.mdl-color-text--teal-300 {\n  color: rgb(77,182,172) !important; }\n\n.mdl-color--teal-300 {\n  background-color: rgb(77,182,172) !important; }\n\n.mdl-color-text--teal-400 {\n  color: rgb(38,166,154) !important; }\n\n.mdl-color--teal-400 {\n  background-color: rgb(38,166,154) !important; }\n\n.mdl-color-text--teal-500 {\n  color: rgb(0,150,136) !important; }\n\n.mdl-color--teal-500 {\n  background-color: rgb(0,150,136) !important; }\n\n.mdl-color-text--teal-600 {\n  color: rgb(0,137,123) !important; }\n\n.mdl-color--teal-600 {\n  background-color: rgb(0,137,123) !important; }\n\n.mdl-color-text--teal-700 {\n  color: rgb(0,121,107) !important; }\n\n.mdl-color--teal-700 {\n  background-color: rgb(0,121,107) !important; }\n\n.mdl-color-text--teal-800 {\n  color: rgb(0,105,92) !important; }\n\n.mdl-color--teal-800 {\n  background-color: rgb(0,105,92) !important; }\n\n.mdl-color-text--teal-900 {\n  color: rgb(0,77,64) !important; }\n\n.mdl-color--teal-900 {\n  background-color: rgb(0,77,64) !important; }\n\n.mdl-color-text--teal-A100 {\n  color: rgb(167,255,235) !important; }\n\n.mdl-color--teal-A100 {\n  background-color: rgb(167,255,235) !important; }\n\n.mdl-color-text--teal-A200 {\n  color: rgb(100,255,218) !important; }\n\n.mdl-color--teal-A200 {\n  background-color: rgb(100,255,218) !important; }\n\n.mdl-color-text--teal-A400 {\n  color: rgb(29,233,182) !important; }\n\n.mdl-color--teal-A400 {\n  background-color: rgb(29,233,182) !important; }\n\n.mdl-color-text--teal-A700 {\n  color: rgb(0,191,165) !important; }\n\n.mdl-color--teal-A700 {\n  background-color: rgb(0,191,165) !important; }\n\n.mdl-color-text--green {\n  color: rgb(76,175,80) !important; }\n\n.mdl-color--green {\n  background-color: rgb(76,175,80) !important; }\n\n.mdl-color-text--green-50 {\n  color: rgb(232,245,233) !important; }\n\n.mdl-color--green-50 {\n  background-color: rgb(232,245,233) !important; }\n\n.mdl-color-text--green-100 {\n  color: rgb(200,230,201) !important; }\n\n.mdl-color--green-100 {\n  background-color: rgb(200,230,201) !important; }\n\n.mdl-color-text--green-200 {\n  color: rgb(165,214,167) !important; }\n\n.mdl-color--green-200 {\n  background-color: rgb(165,214,167) !important; }\n\n.mdl-color-text--green-300 {\n  color: rgb(129,199,132) !important; }\n\n.mdl-color--green-300 {\n  background-color: rgb(129,199,132) !important; }\n\n.mdl-color-text--green-400 {\n  color: rgb(102,187,106) !important; }\n\n.mdl-color--green-400 {\n  background-color: rgb(102,187,106) !important; }\n\n.mdl-color-text--green-500 {\n  color: rgb(76,175,80) !important; }\n\n.mdl-color--green-500 {\n  background-color: rgb(76,175,80) !important; }\n\n.mdl-color-text--green-600 {\n  color: rgb(67,160,71) !important; }\n\n.mdl-color--green-600 {\n  background-color: rgb(67,160,71) !important; }\n\n.mdl-color-text--green-700 {\n  color: rgb(56,142,60) !important; }\n\n.mdl-color--green-700 {\n  background-color: rgb(56,142,60) !important; }\n\n.mdl-color-text--green-800 {\n  color: rgb(46,125,50) !important; }\n\n.mdl-color--green-800 {\n  background-color: rgb(46,125,50) !important; }\n\n.mdl-color-text--green-900 {\n  color: rgb(27,94,32) !important; }\n\n.mdl-color--green-900 {\n  background-color: rgb(27,94,32) !important; }\n\n.mdl-color-text--green-A100 {\n  color: rgb(185,246,202) !important; }\n\n.mdl-color--green-A100 {\n  background-color: rgb(185,246,202) !important; }\n\n.mdl-color-text--green-A200 {\n  color: rgb(105,240,174) !important; }\n\n.mdl-color--green-A200 {\n  background-color: rgb(105,240,174) !important; }\n\n.mdl-color-text--green-A400 {\n  color: rgb(0,230,118) !important; }\n\n.mdl-color--green-A400 {\n  background-color: rgb(0,230,118) !important; }\n\n.mdl-color-text--green-A700 {\n  color: rgb(0,200,83) !important; }\n\n.mdl-color--green-A700 {\n  background-color: rgb(0,200,83) !important; }\n\n.mdl-color-text--light-green {\n  color: rgb(139,195,74) !important; }\n\n.mdl-color--light-green {\n  background-color: rgb(139,195,74) !important; }\n\n.mdl-color-text--light-green-50 {\n  color: rgb(241,248,233) !important; }\n\n.mdl-color--light-green-50 {\n  background-color: rgb(241,248,233) !important; }\n\n.mdl-color-text--light-green-100 {\n  color: rgb(220,237,200) !important; }\n\n.mdl-color--light-green-100 {\n  background-color: rgb(220,237,200) !important; }\n\n.mdl-color-text--light-green-200 {\n  color: rgb(197,225,165) !important; }\n\n.mdl-color--light-green-200 {\n  background-color: rgb(197,225,165) !important; }\n\n.mdl-color-text--light-green-300 {\n  color: rgb(174,213,129) !important; }\n\n.mdl-color--light-green-300 {\n  background-color: rgb(174,213,129) !important; }\n\n.mdl-color-text--light-green-400 {\n  color: rgb(156,204,101) !important; }\n\n.mdl-color--light-green-400 {\n  background-color: rgb(156,204,101) !important; }\n\n.mdl-color-text--light-green-500 {\n  color: rgb(139,195,74) !important; }\n\n.mdl-color--light-green-500 {\n  background-color: rgb(139,195,74) !important; }\n\n.mdl-color-text--light-green-600 {\n  color: rgb(124,179,66) !important; }\n\n.mdl-color--light-green-600 {\n  background-color: rgb(124,179,66) !important; }\n\n.mdl-color-text--light-green-700 {\n  color: rgb(104,159,56) !important; }\n\n.mdl-color--light-green-700 {\n  background-color: rgb(104,159,56) !important; }\n\n.mdl-color-text--light-green-800 {\n  color: rgb(85,139,47) !important; }\n\n.mdl-color--light-green-800 {\n  background-color: rgb(85,139,47) !important; }\n\n.mdl-color-text--light-green-900 {\n  color: rgb(51,105,30) !important; }\n\n.mdl-color--light-green-900 {\n  background-color: rgb(51,105,30) !important; }\n\n.mdl-color-text--light-green-A100 {\n  color: rgb(204,255,144) !important; }\n\n.mdl-color--light-green-A100 {\n  background-color: rgb(204,255,144) !important; }\n\n.mdl-color-text--light-green-A200 {\n  color: rgb(178,255,89) !important; }\n\n.mdl-color--light-green-A200 {\n  background-color: rgb(178,255,89) !important; }\n\n.mdl-color-text--light-green-A400 {\n  color: rgb(118,255,3) !important; }\n\n.mdl-color--light-green-A400 {\n  background-color: rgb(118,255,3) !important; }\n\n.mdl-color-text--light-green-A700 {\n  color: rgb(100,221,23) !important; }\n\n.mdl-color--light-green-A700 {\n  background-color: rgb(100,221,23) !important; }\n\n.mdl-color-text--lime {\n  color: rgb(205,220,57) !important; }\n\n.mdl-color--lime {\n  background-color: rgb(205,220,57) !important; }\n\n.mdl-color-text--lime-50 {\n  color: rgb(249,251,231) !important; }\n\n.mdl-color--lime-50 {\n  background-color: rgb(249,251,231) !important; }\n\n.mdl-color-text--lime-100 {\n  color: rgb(240,244,195) !important; }\n\n.mdl-color--lime-100 {\n  background-color: rgb(240,244,195) !important; }\n\n.mdl-color-text--lime-200 {\n  color: rgb(230,238,156) !important; }\n\n.mdl-color--lime-200 {\n  background-color: rgb(230,238,156) !important; }\n\n.mdl-color-text--lime-300 {\n  color: rgb(220,231,117) !important; }\n\n.mdl-color--lime-300 {\n  background-color: rgb(220,231,117) !important; }\n\n.mdl-color-text--lime-400 {\n  color: rgb(212,225,87) !important; }\n\n.mdl-color--lime-400 {\n  background-color: rgb(212,225,87) !important; }\n\n.mdl-color-text--lime-500 {\n  color: rgb(205,220,57) !important; }\n\n.mdl-color--lime-500 {\n  background-color: rgb(205,220,57) !important; }\n\n.mdl-color-text--lime-600 {\n  color: rgb(192,202,51) !important; }\n\n.mdl-color--lime-600 {\n  background-color: rgb(192,202,51) !important; }\n\n.mdl-color-text--lime-700 {\n  color: rgb(175,180,43) !important; }\n\n.mdl-color--lime-700 {\n  background-color: rgb(175,180,43) !important; }\n\n.mdl-color-text--lime-800 {\n  color: rgb(158,157,36) !important; }\n\n.mdl-color--lime-800 {\n  background-color: rgb(158,157,36) !important; }\n\n.mdl-color-text--lime-900 {\n  color: rgb(130,119,23) !important; }\n\n.mdl-color--lime-900 {\n  background-color: rgb(130,119,23) !important; }\n\n.mdl-color-text--lime-A100 {\n  color: rgb(244,255,129) !important; }\n\n.mdl-color--lime-A100 {\n  background-color: rgb(244,255,129) !important; }\n\n.mdl-color-text--lime-A200 {\n  color: rgb(238,255,65) !important; }\n\n.mdl-color--lime-A200 {\n  background-color: rgb(238,255,65) !important; }\n\n.mdl-color-text--lime-A400 {\n  color: rgb(198,255,0) !important; }\n\n.mdl-color--lime-A400 {\n  background-color: rgb(198,255,0) !important; }\n\n.mdl-color-text--lime-A700 {\n  color: rgb(174,234,0) !important; }\n\n.mdl-color--lime-A700 {\n  background-color: rgb(174,234,0) !important; }\n\n.mdl-color-text--yellow {\n  color: rgb(255,235,59) !important; }\n\n.mdl-color--yellow {\n  background-color: rgb(255,235,59) !important; }\n\n.mdl-color-text--yellow-50 {\n  color: rgb(255,253,231) !important; }\n\n.mdl-color--yellow-50 {\n  background-color: rgb(255,253,231) !important; }\n\n.mdl-color-text--yellow-100 {\n  color: rgb(255,249,196) !important; }\n\n.mdl-color--yellow-100 {\n  background-color: rgb(255,249,196) !important; }\n\n.mdl-color-text--yellow-200 {\n  color: rgb(255,245,157) !important; }\n\n.mdl-color--yellow-200 {\n  background-color: rgb(255,245,157) !important; }\n\n.mdl-color-text--yellow-300 {\n  color: rgb(255,241,118) !important; }\n\n.mdl-color--yellow-300 {\n  background-color: rgb(255,241,118) !important; }\n\n.mdl-color-text--yellow-400 {\n  color: rgb(255,238,88) !important; }\n\n.mdl-color--yellow-400 {\n  background-color: rgb(255,238,88) !important; }\n\n.mdl-color-text--yellow-500 {\n  color: rgb(255,235,59) !important; }\n\n.mdl-color--yellow-500 {\n  background-color: rgb(255,235,59) !important; }\n\n.mdl-color-text--yellow-600 {\n  color: rgb(253,216,53) !important; }\n\n.mdl-color--yellow-600 {\n  background-color: rgb(253,216,53) !important; }\n\n.mdl-color-text--yellow-700 {\n  color: rgb(251,192,45) !important; }\n\n.mdl-color--yellow-700 {\n  background-color: rgb(251,192,45) !important; }\n\n.mdl-color-text--yellow-800 {\n  color: rgb(249,168,37) !important; }\n\n.mdl-color--yellow-800 {\n  background-color: rgb(249,168,37) !important; }\n\n.mdl-color-text--yellow-900 {\n  color: rgb(245,127,23) !important; }\n\n.mdl-color--yellow-900 {\n  background-color: rgb(245,127,23) !important; }\n\n.mdl-color-text--yellow-A100 {\n  color: rgb(255,255,141) !important; }\n\n.mdl-color--yellow-A100 {\n  background-color: rgb(255,255,141) !important; }\n\n.mdl-color-text--yellow-A200 {\n  color: rgb(255,255,0) !important; }\n\n.mdl-color--yellow-A200 {\n  background-color: rgb(255,255,0) !important; }\n\n.mdl-color-text--yellow-A400 {\n  color: rgb(255,234,0) !important; }\n\n.mdl-color--yellow-A400 {\n  background-color: rgb(255,234,0) !important; }\n\n.mdl-color-text--yellow-A700 {\n  color: rgb(255,214,0) !important; }\n\n.mdl-color--yellow-A700 {\n  background-color: rgb(255,214,0) !important; }\n\n.mdl-color-text--amber {\n  color: rgb(255,193,7) !important; }\n\n.mdl-color--amber {\n  background-color: rgb(255,193,7) !important; }\n\n.mdl-color-text--amber-50 {\n  color: rgb(255,248,225) !important; }\n\n.mdl-color--amber-50 {\n  background-color: rgb(255,248,225) !important; }\n\n.mdl-color-text--amber-100 {\n  color: rgb(255,236,179) !important; }\n\n.mdl-color--amber-100 {\n  background-color: rgb(255,236,179) !important; }\n\n.mdl-color-text--amber-200 {\n  color: rgb(255,224,130) !important; }\n\n.mdl-color--amber-200 {\n  background-color: rgb(255,224,130) !important; }\n\n.mdl-color-text--amber-300 {\n  color: rgb(255,213,79) !important; }\n\n.mdl-color--amber-300 {\n  background-color: rgb(255,213,79) !important; }\n\n.mdl-color-text--amber-400 {\n  color: rgb(255,202,40) !important; }\n\n.mdl-color--amber-400 {\n  background-color: rgb(255,202,40) !important; }\n\n.mdl-color-text--amber-500 {\n  color: rgb(255,193,7) !important; }\n\n.mdl-color--amber-500 {\n  background-color: rgb(255,193,7) !important; }\n\n.mdl-color-text--amber-600 {\n  color: rgb(255,179,0) !important; }\n\n.mdl-color--amber-600 {\n  background-color: rgb(255,179,0) !important; }\n\n.mdl-color-text--amber-700 {\n  color: rgb(255,160,0) !important; }\n\n.mdl-color--amber-700 {\n  background-color: rgb(255,160,0) !important; }\n\n.mdl-color-text--amber-800 {\n  color: rgb(255,143,0) !important; }\n\n.mdl-color--amber-800 {\n  background-color: rgb(255,143,0) !important; }\n\n.mdl-color-text--amber-900 {\n  color: rgb(255,111,0) !important; }\n\n.mdl-color--amber-900 {\n  background-color: rgb(255,111,0) !important; }\n\n.mdl-color-text--amber-A100 {\n  color: rgb(255,229,127) !important; }\n\n.mdl-color--amber-A100 {\n  background-color: rgb(255,229,127) !important; }\n\n.mdl-color-text--amber-A200 {\n  color: rgb(255,215,64) !important; }\n\n.mdl-color--amber-A200 {\n  background-color: rgb(255,215,64) !important; }\n\n.mdl-color-text--amber-A400 {\n  color: rgb(255,196,0) !important; }\n\n.mdl-color--amber-A400 {\n  background-color: rgb(255,196,0) !important; }\n\n.mdl-color-text--amber-A700 {\n  color: rgb(255,171,0) !important; }\n\n.mdl-color--amber-A700 {\n  background-color: rgb(255,171,0) !important; }\n\n.mdl-color-text--orange {\n  color: rgb(255,152,0) !important; }\n\n.mdl-color--orange {\n  background-color: rgb(255,152,0) !important; }\n\n.mdl-color-text--orange-50 {\n  color: rgb(255,243,224) !important; }\n\n.mdl-color--orange-50 {\n  background-color: rgb(255,243,224) !important; }\n\n.mdl-color-text--orange-100 {\n  color: rgb(255,224,178) !important; }\n\n.mdl-color--orange-100 {\n  background-color: rgb(255,224,178) !important; }\n\n.mdl-color-text--orange-200 {\n  color: rgb(255,204,128) !important; }\n\n.mdl-color--orange-200 {\n  background-color: rgb(255,204,128) !important; }\n\n.mdl-color-text--orange-300 {\n  color: rgb(255,183,77) !important; }\n\n.mdl-color--orange-300 {\n  background-color: rgb(255,183,77) !important; }\n\n.mdl-color-text--orange-400 {\n  color: rgb(255,167,38) !important; }\n\n.mdl-color--orange-400 {\n  background-color: rgb(255,167,38) !important; }\n\n.mdl-color-text--orange-500 {\n  color: rgb(255,152,0) !important; }\n\n.mdl-color--orange-500 {\n  background-color: rgb(255,152,0) !important; }\n\n.mdl-color-text--orange-600 {\n  color: rgb(251,140,0) !important; }\n\n.mdl-color--orange-600 {\n  background-color: rgb(251,140,0) !important; }\n\n.mdl-color-text--orange-700 {\n  color: rgb(245,124,0) !important; }\n\n.mdl-color--orange-700 {\n  background-color: rgb(245,124,0) !important; }\n\n.mdl-color-text--orange-800 {\n  color: rgb(239,108,0) !important; }\n\n.mdl-color--orange-800 {\n  background-color: rgb(239,108,0) !important; }\n\n.mdl-color-text--orange-900 {\n  color: rgb(230,81,0) !important; }\n\n.mdl-color--orange-900 {\n  background-color: rgb(230,81,0) !important; }\n\n.mdl-color-text--orange-A100 {\n  color: rgb(255,209,128) !important; }\n\n.mdl-color--orange-A100 {\n  background-color: rgb(255,209,128) !important; }\n\n.mdl-color-text--orange-A200 {\n  color: rgb(255,171,64) !important; }\n\n.mdl-color--orange-A200 {\n  background-color: rgb(255,171,64) !important; }\n\n.mdl-color-text--orange-A400 {\n  color: rgb(255,145,0) !important; }\n\n.mdl-color--orange-A400 {\n  background-color: rgb(255,145,0) !important; }\n\n.mdl-color-text--orange-A700 {\n  color: rgb(255,109,0) !important; }\n\n.mdl-color--orange-A700 {\n  background-color: rgb(255,109,0) !important; }\n\n.mdl-color-text--deep-orange {\n  color: rgb(255,87,34) !important; }\n\n.mdl-color--deep-orange {\n  background-color: rgb(255,87,34) !important; }\n\n.mdl-color-text--deep-orange-50 {\n  color: rgb(251,233,231) !important; }\n\n.mdl-color--deep-orange-50 {\n  background-color: rgb(251,233,231) !important; }\n\n.mdl-color-text--deep-orange-100 {\n  color: rgb(255,204,188) !important; }\n\n.mdl-color--deep-orange-100 {\n  background-color: rgb(255,204,188) !important; }\n\n.mdl-color-text--deep-orange-200 {\n  color: rgb(255,171,145) !important; }\n\n.mdl-color--deep-orange-200 {\n  background-color: rgb(255,171,145) !important; }\n\n.mdl-color-text--deep-orange-300 {\n  color: rgb(255,138,101) !important; }\n\n.mdl-color--deep-orange-300 {\n  background-color: rgb(255,138,101) !important; }\n\n.mdl-color-text--deep-orange-400 {\n  color: rgb(255,112,67) !important; }\n\n.mdl-color--deep-orange-400 {\n  background-color: rgb(255,112,67) !important; }\n\n.mdl-color-text--deep-orange-500 {\n  color: rgb(255,87,34) !important; }\n\n.mdl-color--deep-orange-500 {\n  background-color: rgb(255,87,34) !important; }\n\n.mdl-color-text--deep-orange-600 {\n  color: rgb(244,81,30) !important; }\n\n.mdl-color--deep-orange-600 {\n  background-color: rgb(244,81,30) !important; }\n\n.mdl-color-text--deep-orange-700 {\n  color: rgb(230,74,25) !important; }\n\n.mdl-color--deep-orange-700 {\n  background-color: rgb(230,74,25) !important; }\n\n.mdl-color-text--deep-orange-800 {\n  color: rgb(216,67,21) !important; }\n\n.mdl-color--deep-orange-800 {\n  background-color: rgb(216,67,21) !important; }\n\n.mdl-color-text--deep-orange-900 {\n  color: rgb(191,54,12) !important; }\n\n.mdl-color--deep-orange-900 {\n  background-color: rgb(191,54,12) !important; }\n\n.mdl-color-text--deep-orange-A100 {\n  color: rgb(255,158,128) !important; }\n\n.mdl-color--deep-orange-A100 {\n  background-color: rgb(255,158,128) !important; }\n\n.mdl-color-text--deep-orange-A200 {\n  color: rgb(255,110,64) !important; }\n\n.mdl-color--deep-orange-A200 {\n  background-color: rgb(255,110,64) !important; }\n\n.mdl-color-text--deep-orange-A400 {\n  color: rgb(255,61,0) !important; }\n\n.mdl-color--deep-orange-A400 {\n  background-color: rgb(255,61,0) !important; }\n\n.mdl-color-text--deep-orange-A700 {\n  color: rgb(221,44,0) !important; }\n\n.mdl-color--deep-orange-A700 {\n  background-color: rgb(221,44,0) !important; }\n\n.mdl-color-text--brown {\n  color: rgb(121,85,72) !important; }\n\n.mdl-color--brown {\n  background-color: rgb(121,85,72) !important; }\n\n.mdl-color-text--brown-50 {\n  color: rgb(239,235,233) !important; }\n\n.mdl-color--brown-50 {\n  background-color: rgb(239,235,233) !important; }\n\n.mdl-color-text--brown-100 {\n  color: rgb(215,204,200) !important; }\n\n.mdl-color--brown-100 {\n  background-color: rgb(215,204,200) !important; }\n\n.mdl-color-text--brown-200 {\n  color: rgb(188,170,164) !important; }\n\n.mdl-color--brown-200 {\n  background-color: rgb(188,170,164) !important; }\n\n.mdl-color-text--brown-300 {\n  color: rgb(161,136,127) !important; }\n\n.mdl-color--brown-300 {\n  background-color: rgb(161,136,127) !important; }\n\n.mdl-color-text--brown-400 {\n  color: rgb(141,110,99) !important; }\n\n.mdl-color--brown-400 {\n  background-color: rgb(141,110,99) !important; }\n\n.mdl-color-text--brown-500 {\n  color: rgb(121,85,72) !important; }\n\n.mdl-color--brown-500 {\n  background-color: rgb(121,85,72) !important; }\n\n.mdl-color-text--brown-600 {\n  color: rgb(109,76,65) !important; }\n\n.mdl-color--brown-600 {\n  background-color: rgb(109,76,65) !important; }\n\n.mdl-color-text--brown-700 {\n  color: rgb(93,64,55) !important; }\n\n.mdl-color--brown-700 {\n  background-color: rgb(93,64,55) !important; }\n\n.mdl-color-text--brown-800 {\n  color: rgb(78,52,46) !important; }\n\n.mdl-color--brown-800 {\n  background-color: rgb(78,52,46) !important; }\n\n.mdl-color-text--brown-900 {\n  color: rgb(62,39,35) !important; }\n\n.mdl-color--brown-900 {\n  background-color: rgb(62,39,35) !important; }\n\n.mdl-color-text--grey {\n  color: rgb(158,158,158) !important; }\n\n.mdl-color--grey {\n  background-color: rgb(158,158,158) !important; }\n\n.mdl-color-text--grey-50 {\n  color: rgb(250,250,250) !important; }\n\n.mdl-color--grey-50 {\n  background-color: rgb(250,250,250) !important; }\n\n.mdl-color-text--grey-100 {\n  color: rgb(245,245,245) !important; }\n\n.mdl-color--grey-100 {\n  background-color: rgb(245,245,245) !important; }\n\n.mdl-color-text--grey-200 {\n  color: rgb(238,238,238) !important; }\n\n.mdl-color--grey-200 {\n  background-color: rgb(238,238,238) !important; }\n\n.mdl-color-text--grey-300 {\n  color: rgb(224,224,224) !important; }\n\n.mdl-color--grey-300 {\n  background-color: rgb(224,224,224) !important; }\n\n.mdl-color-text--grey-400 {\n  color: rgb(189,189,189) !important; }\n\n.mdl-color--grey-400 {\n  background-color: rgb(189,189,189) !important; }\n\n.mdl-color-text--grey-500 {\n  color: rgb(158,158,158) !important; }\n\n.mdl-color--grey-500 {\n  background-color: rgb(158,158,158) !important; }\n\n.mdl-color-text--grey-600 {\n  color: rgb(117,117,117) !important; }\n\n.mdl-color--grey-600 {\n  background-color: rgb(117,117,117) !important; }\n\n.mdl-color-text--grey-700 {\n  color: rgb(97,97,97) !important; }\n\n.mdl-color--grey-700 {\n  background-color: rgb(97,97,97) !important; }\n\n.mdl-color-text--grey-800 {\n  color: rgb(66,66,66) !important; }\n\n.mdl-color--grey-800 {\n  background-color: rgb(66,66,66) !important; }\n\n.mdl-color-text--grey-900 {\n  color: rgb(33,33,33) !important; }\n\n.mdl-color--grey-900 {\n  background-color: rgb(33,33,33) !important; }\n\n.mdl-color-text--blue-grey {\n  color: rgb(96,125,139) !important; }\n\n.mdl-color--blue-grey {\n  background-color: rgb(96,125,139) !important; }\n\n.mdl-color-text--blue-grey-50 {\n  color: rgb(236,239,241) !important; }\n\n.mdl-color--blue-grey-50 {\n  background-color: rgb(236,239,241) !important; }\n\n.mdl-color-text--blue-grey-100 {\n  color: rgb(207,216,220) !important; }\n\n.mdl-color--blue-grey-100 {\n  background-color: rgb(207,216,220) !important; }\n\n.mdl-color-text--blue-grey-200 {\n  color: rgb(176,190,197) !important; }\n\n.mdl-color--blue-grey-200 {\n  background-color: rgb(176,190,197) !important; }\n\n.mdl-color-text--blue-grey-300 {\n  color: rgb(144,164,174) !important; }\n\n.mdl-color--blue-grey-300 {\n  background-color: rgb(144,164,174) !important; }\n\n.mdl-color-text--blue-grey-400 {\n  color: rgb(120,144,156) !important; }\n\n.mdl-color--blue-grey-400 {\n  background-color: rgb(120,144,156) !important; }\n\n.mdl-color-text--blue-grey-500 {\n  color: rgb(96,125,139) !important; }\n\n.mdl-color--blue-grey-500 {\n  background-color: rgb(96,125,139) !important; }\n\n.mdl-color-text--blue-grey-600 {\n  color: rgb(84,110,122) !important; }\n\n.mdl-color--blue-grey-600 {\n  background-color: rgb(84,110,122) !important; }\n\n.mdl-color-text--blue-grey-700 {\n  color: rgb(69,90,100) !important; }\n\n.mdl-color--blue-grey-700 {\n  background-color: rgb(69,90,100) !important; }\n\n.mdl-color-text--blue-grey-800 {\n  color: rgb(55,71,79) !important; }\n\n.mdl-color--blue-grey-800 {\n  background-color: rgb(55,71,79) !important; }\n\n.mdl-color-text--blue-grey-900 {\n  color: rgb(38,50,56) !important; }\n\n.mdl-color--blue-grey-900 {\n  background-color: rgb(38,50,56) !important; }\n\n.mdl-color--black {\n  background-color: rgb(0,0,0) !important; }\n\n.mdl-color-text--black {\n  color: rgb(0,0,0) !important; }\n\n.mdl-color--white {\n  background-color: rgb(255,255,255) !important; }\n\n.mdl-color-text--white {\n  color: rgb(255,255,255) !important; }\n\n.mdl-color--primary {\n  background-color: rgb(63,81,181) !important; }\n\n.mdl-color--primary-contrast {\n  background-color: rgb(255,255,255) !important; }\n\n.mdl-color--primary-dark {\n  background-color: rgb(48,63,159) !important; }\n\n.mdl-color--accent {\n  background-color: rgb(255,64,129) !important; }\n\n.mdl-color--accent-contrast {\n  background-color: rgb(255,255,255) !important; }\n\n.mdl-color-text--primary {\n  color: rgb(63,81,181) !important; }\n\n.mdl-color-text--primary-contrast {\n  color: rgb(255,255,255) !important; }\n\n.mdl-color-text--primary-dark {\n  color: rgb(48,63,159) !important; }\n\n.mdl-color-text--accent {\n  color: rgb(255,64,129) !important; }\n\n.mdl-color-text--accent-contrast {\n  color: rgb(255,255,255) !important; }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n.mdl-ripple {\n  background: rgb(0,0,0);\n  border-radius: 50%;\n  height: 50px;\n  left: 0;\n  opacity: 0;\n  pointer-events: none;\n  position: absolute;\n  top: 0;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  width: 50px;\n  overflow: hidden; }\n  .mdl-ripple.is-animating {\n    -webkit-transition: width 0.3s cubic-bezier(0, 0, 0.2, 1), height 0.3s cubic-bezier(0, 0, 0.2, 1), opacity 0.6s cubic-bezier(0, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0, 0, 0.2, 1);\n    transition: width 0.3s cubic-bezier(0, 0, 0.2, 1), height 0.3s cubic-bezier(0, 0, 0.2, 1), opacity 0.6s cubic-bezier(0, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0, 0, 0.2, 1);\n    transition: transform 0.3s cubic-bezier(0, 0, 0.2, 1), width 0.3s cubic-bezier(0, 0, 0.2, 1), height 0.3s cubic-bezier(0, 0, 0.2, 1), opacity 0.6s cubic-bezier(0, 0, 0.2, 1);\n    transition: transform 0.3s cubic-bezier(0, 0, 0.2, 1), width 0.3s cubic-bezier(0, 0, 0.2, 1), height 0.3s cubic-bezier(0, 0, 0.2, 1), opacity 0.6s cubic-bezier(0, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0, 0, 0.2, 1); }\n  .mdl-ripple.is-visible {\n    opacity: 0.3; }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n.mdl-animation--default {\n  -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }\n\n.mdl-animation--fast-out-slow-in {\n  -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }\n\n.mdl-animation--linear-out-slow-in {\n  -webkit-transition-timing-function: cubic-bezier(0, 0, 0.2, 1);\n          transition-timing-function: cubic-bezier(0, 0, 0.2, 1); }\n\n.mdl-animation--fast-out-linear-in {\n  -webkit-transition-timing-function: cubic-bezier(0.4, 0, 1, 1);\n          transition-timing-function: cubic-bezier(0.4, 0, 1, 1); }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n.mdl-badge {\n  position: relative;\n  white-space: nowrap;\n  margin-right: 24px; }\n  .mdl-badge:not([data-badge]) {\n    margin-right: auto; }\n  .mdl-badge[data-badge]:after {\n    content: attr(data-badge);\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: row;\n            flex-direction: row;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -ms-flex-line-pack: center;\n        align-content: center;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    position: absolute;\n    top: -11px;\n    right: -24px;\n    font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n    font-weight: 600;\n    font-size: 12px;\n    width: 22px;\n    height: 22px;\n    border-radius: 50%;\n    background: rgb(255,64,129);\n    color: rgb(255,255,255); }\n    .mdl-button .mdl-badge[data-badge]:after {\n      top: -10px;\n      right: -5px; }\n  .mdl-badge.mdl-badge--no-background[data-badge]:after {\n    color: rgb(255,64,129);\n    background: rgba(255,255,255,0.2);\n    box-shadow: 0 0 1px gray; }\n  .mdl-badge.mdl-badge--overlap {\n    margin-right: 10px; }\n    .mdl-badge.mdl-badge--overlap:after {\n      right: -10px; }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* Typography */\n/* Shadows */\n/* Animations */\n/* Dialog */\n.mdl-button {\n  background: transparent;\n  border: none;\n  border-radius: 2px;\n  color: rgb(0,0,0);\n  position: relative;\n  height: 36px;\n  margin: 0;\n  min-width: 64px;\n  padding: 0 16px;\n  display: inline-block;\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 14px;\n  font-weight: 500;\n  text-transform: uppercase;\n  line-height: 1;\n  letter-spacing: 0;\n  overflow: hidden;\n  will-change: box-shadow;\n  -webkit-transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  outline: none;\n  cursor: pointer;\n  text-decoration: none;\n  text-align: center;\n  line-height: 36px;\n  vertical-align: middle; }\n  .mdl-button::-moz-focus-inner {\n    border: 0; }\n  .mdl-button:hover {\n    background-color: rgba(158,158,158, 0.20); }\n  .mdl-button:focus:not(:active) {\n    background-color: rgba(0,0,0, 0.12); }\n  .mdl-button:active {\n    background-color: rgba(158,158,158, 0.40); }\n  .mdl-button.mdl-button--colored {\n    color: rgb(63,81,181); }\n    .mdl-button.mdl-button--colored:focus:not(:active) {\n      background-color: rgba(0,0,0, 0.12); }\n\ninput.mdl-button[type=\"submit\"] {\n  -webkit-appearance: none; }\n\n.mdl-button--raised {\n  background: rgba(158,158,158, 0.20);\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }\n  .mdl-button--raised:active {\n    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);\n    background-color: rgba(158,158,158, 0.40); }\n  .mdl-button--raised:focus:not(:active) {\n    box-shadow: 0 0 8px rgba(0, 0, 0, 0.18), 0 8px 16px rgba(0, 0, 0, 0.36);\n    background-color: rgba(158,158,158, 0.40); }\n  .mdl-button--raised.mdl-button--colored {\n    background: rgb(63,81,181);\n    color: rgb(255,255,255); }\n    .mdl-button--raised.mdl-button--colored:hover {\n      background-color: rgb(63,81,181); }\n    .mdl-button--raised.mdl-button--colored:active {\n      background-color: rgb(63,81,181); }\n    .mdl-button--raised.mdl-button--colored:focus:not(:active) {\n      background-color: rgb(63,81,181); }\n    .mdl-button--raised.mdl-button--colored .mdl-ripple {\n      background: rgb(255,255,255); }\n\n.mdl-button--fab {\n  border-radius: 50%;\n  font-size: 24px;\n  height: 56px;\n  margin: auto;\n  min-width: 56px;\n  width: 56px;\n  padding: 0;\n  overflow: hidden;\n  background: rgba(158,158,158, 0.20);\n  box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);\n  position: relative;\n  line-height: normal; }\n  .mdl-button--fab .material-icons {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    -webkit-transform: translate(-12px, -12px);\n            transform: translate(-12px, -12px);\n    line-height: 24px;\n    width: 24px; }\n  .mdl-button--fab.mdl-button--mini-fab {\n    height: 40px;\n    min-width: 40px;\n    width: 40px; }\n  .mdl-button--fab .mdl-button__ripple-container {\n    border-radius: 50%;\n    -webkit-mask-image: -webkit-radial-gradient(circle, white, black); }\n  .mdl-button--fab:active {\n    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);\n    background-color: rgba(158,158,158, 0.40); }\n  .mdl-button--fab:focus:not(:active) {\n    box-shadow: 0 0 8px rgba(0, 0, 0, 0.18), 0 8px 16px rgba(0, 0, 0, 0.36);\n    background-color: rgba(158,158,158, 0.40); }\n  .mdl-button--fab.mdl-button--colored {\n    background: rgb(255,64,129);\n    color: rgb(255,255,255); }\n    .mdl-button--fab.mdl-button--colored:hover {\n      background-color: rgb(255,64,129); }\n    .mdl-button--fab.mdl-button--colored:focus:not(:active) {\n      background-color: rgb(255,64,129); }\n    .mdl-button--fab.mdl-button--colored:active {\n      background-color: rgb(255,64,129); }\n    .mdl-button--fab.mdl-button--colored .mdl-ripple {\n      background: rgb(255,255,255); }\n\n.mdl-button--icon {\n  border-radius: 50%;\n  font-size: 24px;\n  height: 32px;\n  margin-left: 0;\n  margin-right: 0;\n  min-width: 32px;\n  width: 32px;\n  padding: 0;\n  overflow: hidden;\n  color: inherit;\n  line-height: normal; }\n  .mdl-button--icon .material-icons {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    -webkit-transform: translate(-12px, -12px);\n            transform: translate(-12px, -12px);\n    line-height: 24px;\n    width: 24px; }\n  .mdl-button--icon.mdl-button--mini-icon {\n    height: 24px;\n    min-width: 24px;\n    width: 24px; }\n    .mdl-button--icon.mdl-button--mini-icon .material-icons {\n      top: 0px;\n      left: 0px; }\n  .mdl-button--icon .mdl-button__ripple-container {\n    border-radius: 50%;\n    -webkit-mask-image: -webkit-radial-gradient(circle, white, black); }\n\n.mdl-button__ripple-container {\n  display: block;\n  height: 100%;\n  left: 0px;\n  position: absolute;\n  top: 0px;\n  width: 100%;\n  z-index: 0;\n  overflow: hidden; }\n  .mdl-button[disabled] .mdl-button__ripple-container .mdl-ripple,\n  .mdl-button.mdl-button--disabled .mdl-button__ripple-container .mdl-ripple {\n    background-color: transparent; }\n\n.mdl-button--primary.mdl-button--primary {\n  color: rgb(63,81,181); }\n  .mdl-button--primary.mdl-button--primary .mdl-ripple {\n    background: rgb(255,255,255); }\n  .mdl-button--primary.mdl-button--primary.mdl-button--raised, .mdl-button--primary.mdl-button--primary.mdl-button--fab {\n    color: rgb(255,255,255);\n    background-color: rgb(63,81,181); }\n\n.mdl-button--accent.mdl-button--accent {\n  color: rgb(255,64,129); }\n  .mdl-button--accent.mdl-button--accent .mdl-ripple {\n    background: rgb(255,255,255); }\n  .mdl-button--accent.mdl-button--accent.mdl-button--raised, .mdl-button--accent.mdl-button--accent.mdl-button--fab {\n    color: rgb(255,255,255);\n    background-color: rgb(255,64,129); }\n\n.mdl-button[disabled][disabled], .mdl-button.mdl-button--disabled.mdl-button--disabled {\n  color: rgba(0,0,0, 0.26);\n  cursor: default;\n  background-color: transparent; }\n\n.mdl-button--fab[disabled][disabled], .mdl-button--fab.mdl-button--disabled.mdl-button--disabled {\n  background-color: rgba(0,0,0, 0.12);\n  color: rgba(0,0,0, 0.26); }\n\n.mdl-button--raised[disabled][disabled], .mdl-button--raised.mdl-button--disabled.mdl-button--disabled {\n  background-color: rgba(0,0,0, 0.12);\n  color: rgba(0,0,0, 0.26);\n  box-shadow: none; }\n\n.mdl-button--colored[disabled][disabled], .mdl-button--colored.mdl-button--disabled.mdl-button--disabled {\n  color: rgba(0,0,0, 0.26); }\n\n.mdl-button .material-icons {\n  vertical-align: middle; }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n.mdl-card {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  font-size: 16px;\n  font-weight: 400;\n  min-height: 200px;\n  overflow: hidden;\n  width: 330px;\n  z-index: 1;\n  position: relative;\n  background: rgb(255,255,255);\n  border-radius: 2px;\n  box-sizing: border-box; }\n\n.mdl-card__media {\n  background-color: rgb(255,64,129);\n  background-repeat: repeat;\n  background-position: 50% 50%;\n  background-size: cover;\n  background-origin: padding-box;\n  background-attachment: scroll;\n  box-sizing: border-box; }\n\n.mdl-card__title {\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  color: rgb(0,0,0);\n  display: block;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: stretch;\n      -ms-flex-pack: stretch;\n          justify-content: stretch;\n  line-height: normal;\n  padding: 16px 16px;\n  -webkit-perspective-origin: 165px 56px;\n          perspective-origin: 165px 56px;\n  -webkit-transform-origin: 165px 56px;\n          transform-origin: 165px 56px;\n  box-sizing: border-box; }\n  .mdl-card__title.mdl-card--border {\n    border-bottom: 1px solid rgba(0, 0, 0, 0.1); }\n\n.mdl-card__title-text {\n  -ms-flex-item-align: end;\n      align-self: flex-end;\n  color: inherit;\n  display: block;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  font-size: 24px;\n  font-weight: 300;\n  line-height: normal;\n  overflow: hidden;\n  -webkit-transform-origin: 149px 48px;\n          transform-origin: 149px 48px;\n  margin: 0; }\n\n.mdl-card__subtitle-text {\n  font-size: 14px;\n  color: rgba(0,0,0, 0.54);\n  margin: 0; }\n\n.mdl-card__supporting-text {\n  color: rgba(0,0,0, 0.54);\n  font-size: 1rem;\n  line-height: 18px;\n  overflow: hidden;\n  padding: 16px 16px;\n  width: 90%; }\n\n.mdl-card__actions {\n  font-size: 16px;\n  line-height: normal;\n  width: 100%;\n  background-color: transparent;\n  padding: 8px;\n  box-sizing: border-box; }\n  .mdl-card__actions.mdl-card--border {\n    border-top: 1px solid rgba(0, 0, 0, 0.1); }\n\n.mdl-card--expand {\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1; }\n\n.mdl-card__menu {\n  position: absolute;\n  right: 16px;\n  top: 16px; }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* Typography */\n/* Shadows */\n/* Animations */\n/* Dialog */\n.mdl-checkbox {\n  position: relative;\n  z-index: 1;\n  vertical-align: middle;\n  display: inline-block;\n  box-sizing: border-box;\n  width: 100%;\n  height: 24px;\n  margin: 0;\n  padding: 0; }\n  .mdl-checkbox.is-upgraded {\n    padding-left: 24px; }\n\n.mdl-checkbox__input {\n  line-height: 24px; }\n  .mdl-checkbox.is-upgraded .mdl-checkbox__input {\n    position: absolute;\n    width: 0;\n    height: 0;\n    margin: 0;\n    padding: 0;\n    opacity: 0;\n    -ms-appearance: none;\n    -moz-appearance: none;\n    -webkit-appearance: none;\n    appearance: none;\n    border: none; }\n\n.mdl-checkbox__box-outline {\n  position: absolute;\n  top: 3px;\n  left: 0;\n  display: inline-block;\n  box-sizing: border-box;\n  width: 16px;\n  height: 16px;\n  margin: 0;\n  cursor: pointer;\n  overflow: hidden;\n  border: 2px solid rgba(0,0,0, 0.54);\n  border-radius: 2px;\n  z-index: 2; }\n  .mdl-checkbox.is-checked .mdl-checkbox__box-outline {\n    border: 2px solid rgb(63,81,181); }\n  fieldset[disabled] .mdl-checkbox .mdl-checkbox__box-outline,\n  .mdl-checkbox.is-disabled .mdl-checkbox__box-outline {\n    border: 2px solid rgba(0,0,0, 0.26);\n    cursor: auto; }\n\n.mdl-checkbox__focus-helper {\n  position: absolute;\n  top: 3px;\n  left: 0;\n  display: inline-block;\n  box-sizing: border-box;\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background-color: transparent; }\n  .mdl-checkbox.is-focused .mdl-checkbox__focus-helper {\n    box-shadow: 0 0 0px 8px rgba(0, 0, 0, 0.1);\n    background-color: rgba(0, 0, 0, 0.1); }\n  .mdl-checkbox.is-focused.is-checked .mdl-checkbox__focus-helper {\n    box-shadow: 0 0 0px 8px rgba(63,81,181, 0.26);\n    background-color: rgba(63,81,181, 0.26); }\n\n.mdl-checkbox__tick-outline {\n  position: absolute;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  -webkit-mask: url(\"/images/tick-mask.svg?embed\");\n          mask: url(\"/images/tick-mask.svg?embed\");\n  background: transparent;\n  -webkit-transition-duration: 0.28s;\n          transition-duration: 0.28s;\n  -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n  -webkit-transition-property: background;\n  transition-property: background; }\n  .mdl-checkbox.is-checked .mdl-checkbox__tick-outline {\n    background: rgb(63,81,181) url(\"/images/tick.svg?embed\"); }\n  fieldset[disabled] .mdl-checkbox.is-checked .mdl-checkbox__tick-outline,\n  .mdl-checkbox.is-checked.is-disabled .mdl-checkbox__tick-outline {\n    background: rgba(0,0,0, 0.26) url(\"/images/tick.svg?embed\"); }\n\n.mdl-checkbox__label {\n  position: relative;\n  cursor: pointer;\n  font-size: 16px;\n  line-height: 24px;\n  margin: 0; }\n  fieldset[disabled] .mdl-checkbox .mdl-checkbox__label,\n  .mdl-checkbox.is-disabled .mdl-checkbox__label {\n    color: rgba(0,0,0, 0.26);\n    cursor: auto; }\n\n.mdl-checkbox__ripple-container {\n  position: absolute;\n  z-index: 2;\n  top: -6px;\n  left: -10px;\n  box-sizing: border-box;\n  width: 36px;\n  height: 36px;\n  border-radius: 50%;\n  cursor: pointer;\n  overflow: hidden;\n  -webkit-mask-image: -webkit-radial-gradient(circle, white, black); }\n  .mdl-checkbox__ripple-container .mdl-ripple {\n    background: rgb(63,81,181); }\n  fieldset[disabled] .mdl-checkbox .mdl-checkbox__ripple-container,\n  .mdl-checkbox.is-disabled .mdl-checkbox__ripple-container {\n    cursor: auto; }\n  fieldset[disabled] .mdl-checkbox .mdl-checkbox__ripple-container .mdl-ripple,\n  .mdl-checkbox.is-disabled .mdl-checkbox__ripple-container .mdl-ripple {\n    background: transparent; }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* Typography */\n/* Shadows */\n/* Animations */\n/* Dialog */\n.mdl-data-table {\n  position: relative;\n  border: 1px solid rgba(0, 0, 0, 0.12);\n  border-collapse: collapse;\n  white-space: nowrap;\n  font-size: 13px;\n  background-color: rgb(255,255,255); }\n  .mdl-data-table thead {\n    padding-bottom: 3px; }\n    .mdl-data-table thead .mdl-data-table__select {\n      margin-top: 0; }\n  .mdl-data-table tbody tr {\n    position: relative;\n    height: 48px;\n    -webkit-transition-duration: 0.28s;\n            transition-duration: 0.28s;\n    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n    -webkit-transition-property: background-color;\n    transition-property: background-color; }\n    .mdl-data-table tbody tr.is-selected {\n      background-color: #e0e0e0; }\n    .mdl-data-table tbody tr:hover {\n      background-color: #eeeeee; }\n  .mdl-data-table td, .mdl-data-table th {\n    padding: 0 18px 12px 18px;\n    text-align: right; }\n    .mdl-data-table td:first-of-type, .mdl-data-table th:first-of-type {\n      padding-left: 24px; }\n    .mdl-data-table td:last-of-type, .mdl-data-table th:last-of-type {\n      padding-right: 24px; }\n  .mdl-data-table td {\n    position: relative;\n    vertical-align: middle;\n    height: 48px;\n    border-top: 1px solid rgba(0, 0, 0, 0.12);\n    border-bottom: 1px solid rgba(0, 0, 0, 0.12);\n    padding-top: 12px;\n    box-sizing: border-box; }\n    .mdl-data-table td .mdl-data-table__select {\n      vertical-align: middle; }\n  .mdl-data-table th {\n    position: relative;\n    vertical-align: bottom;\n    text-overflow: ellipsis;\n    font-size: 14px;\n    font-weight: bold;\n    line-height: 24px;\n    letter-spacing: 0;\n    height: 48px;\n    font-size: 12px;\n    color: rgba(0, 0, 0, 0.54);\n    padding-bottom: 8px;\n    box-sizing: border-box; }\n    .mdl-data-table th.mdl-data-table__header--sorted-ascending, .mdl-data-table th.mdl-data-table__header--sorted-descending {\n      color: rgba(0, 0, 0, 0.87); }\n      .mdl-data-table th.mdl-data-table__header--sorted-ascending:before, .mdl-data-table th.mdl-data-table__header--sorted-descending:before {\n        font-family: 'Material Icons';\n        font-weight: normal;\n        font-style: normal;\n        font-size: 24px;\n        line-height: 1;\n        letter-spacing: normal;\n        text-transform: none;\n        display: inline-block;\n        word-wrap: normal;\n        font-feature-settings: 'liga';\n        -webkit-font-feature-settings: 'liga';\n        -webkit-font-smoothing: antialiased;\n        font-size: 16px;\n        content: \"\\E5D8\";\n        margin-right: 5px;\n        vertical-align: sub; }\n      .mdl-data-table th.mdl-data-table__header--sorted-ascending:hover, .mdl-data-table th.mdl-data-table__header--sorted-descending:hover {\n        cursor: pointer; }\n        .mdl-data-table th.mdl-data-table__header--sorted-ascending:hover:before, .mdl-data-table th.mdl-data-table__header--sorted-descending:hover:before {\n          color: rgba(0, 0, 0, 0.26); }\n    .mdl-data-table th.mdl-data-table__header--sorted-descending:before {\n      content: \"\\E5DB\"; }\n\n.mdl-data-table__select {\n  width: 16px; }\n\n.mdl-data-table__cell--non-numeric.mdl-data-table__cell--non-numeric {\n  text-align: left; }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* Typography */\n/* Shadows */\n/* Animations */\n/* Dialog */\n.mdl-dialog {\n  border: none;\n  box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);\n  width: 280px; }\n  .mdl-dialog__title {\n    padding: 24px 24px 0;\n    margin: 0;\n    font-size: 2.5rem; }\n  .mdl-dialog__actions {\n    padding: 8px 8px 8px 24px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: reverse;\n        -ms-flex-direction: row-reverse;\n            flex-direction: row-reverse;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap; }\n    .mdl-dialog__actions > * {\n      margin-right: 8px;\n      height: 36px; }\n      .mdl-dialog__actions > *:first-child {\n        margin-right: 0; }\n    .mdl-dialog__actions--full-width {\n      padding: 0 0 8px 0; }\n      .mdl-dialog__actions--full-width > * {\n        height: 48px;\n        -webkit-box-flex: 0;\n            -ms-flex: 0 0 100%;\n                flex: 0 0 100%;\n        padding-right: 16px;\n        margin-right: 0;\n        text-align: right; }\n  .mdl-dialog__content {\n    padding: 20px 24px 24px 24px;\n    color: rgba(0,0,0, 0.54); }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* Typography */\n/* Shadows */\n/* Animations */\n/* Dialog */\n.mdl-mega-footer {\n  padding: 16px 40px;\n  color: rgb(158,158,158);\n  background-color: rgb(66,66,66); }\n\n.mdl-mega-footer--top-section:after,\n.mdl-mega-footer--middle-section:after,\n.mdl-mega-footer--bottom-section:after,\n.mdl-mega-footer__top-section:after,\n.mdl-mega-footer__middle-section:after,\n.mdl-mega-footer__bottom-section:after {\n  content: '';\n  display: block;\n  clear: both; }\n\n.mdl-mega-footer--left-section,\n.mdl-mega-footer__left-section {\n  margin-bottom: 16px; }\n\n.mdl-mega-footer--right-section,\n.mdl-mega-footer__right-section {\n  margin-bottom: 16px; }\n\n.mdl-mega-footer--right-section a,\n.mdl-mega-footer__right-section a {\n  display: block;\n  margin-bottom: 16px;\n  color: inherit;\n  text-decoration: none; }\n\n@media screen and (min-width: 760px) {\n  .mdl-mega-footer--left-section,\n  .mdl-mega-footer__left-section {\n    float: left; }\n  .mdl-mega-footer--right-section,\n  .mdl-mega-footer__right-section {\n    float: right; }\n  .mdl-mega-footer--right-section a,\n  .mdl-mega-footer__right-section a {\n    display: inline-block;\n    margin-left: 16px;\n    line-height: 36px;\n    vertical-align: middle; } }\n\n.mdl-mega-footer--social-btn,\n.mdl-mega-footer__social-btn {\n  width: 36px;\n  height: 36px;\n  padding: 0;\n  margin: 0;\n  background-color: rgb(158,158,158);\n  border: none; }\n\n.mdl-mega-footer--drop-down-section,\n.mdl-mega-footer__drop-down-section {\n  display: block;\n  position: relative; }\n\n@media screen and (min-width: 760px) {\n  .mdl-mega-footer--drop-down-section,\n  .mdl-mega-footer__drop-down-section {\n    width: 33%; }\n  .mdl-mega-footer--drop-down-section:nth-child(1),\n  .mdl-mega-footer--drop-down-section:nth-child(2),\n  .mdl-mega-footer__drop-down-section:nth-child(1),\n  .mdl-mega-footer__drop-down-section:nth-child(2) {\n    float: left; }\n  .mdl-mega-footer--drop-down-section:nth-child(3),\n  .mdl-mega-footer__drop-down-section:nth-child(3) {\n    float: right; }\n    .mdl-mega-footer--drop-down-section:nth-child(3):after,\n    .mdl-mega-footer__drop-down-section:nth-child(3):after {\n      clear: right; }\n  .mdl-mega-footer--drop-down-section:nth-child(4),\n  .mdl-mega-footer__drop-down-section:nth-child(4) {\n    clear: right;\n    float: right; }\n  .mdl-mega-footer--middle-section:after,\n  .mdl-mega-footer__middle-section:after {\n    content: '';\n    display: block;\n    clear: both; }\n  .mdl-mega-footer--bottom-section,\n  .mdl-mega-footer__bottom-section {\n    padding-top: 0; } }\n\n@media screen and (min-width: 1024px) {\n  .mdl-mega-footer--drop-down-section,\n  .mdl-mega-footer--drop-down-section:nth-child(3),\n  .mdl-mega-footer--drop-down-section:nth-child(4),\n  .mdl-mega-footer__drop-down-section,\n  .mdl-mega-footer__drop-down-section:nth-child(3),\n  .mdl-mega-footer__drop-down-section:nth-child(4) {\n    width: 24%;\n    float: left; } }\n\n.mdl-mega-footer--heading-checkbox,\n.mdl-mega-footer__heading-checkbox {\n  position: absolute;\n  width: 100%;\n  height: 55.8px;\n  padding: 32px;\n  margin: 0;\n  margin-top: -16px;\n  cursor: pointer;\n  z-index: 1;\n  opacity: 0; }\n  .mdl-mega-footer--heading-checkbox + .mdl-mega-footer--heading:after,\n  .mdl-mega-footer--heading-checkbox + .mdl-mega-footer__heading:after,\n  .mdl-mega-footer__heading-checkbox + .mdl-mega-footer--heading:after,\n  .mdl-mega-footer__heading-checkbox + .mdl-mega-footer__heading:after {\n    font-family: 'Material Icons';\n    content: '\\E5CE'; }\n\n.mdl-mega-footer--heading-checkbox:checked ~ .mdl-mega-footer--link-list,\n.mdl-mega-footer--heading-checkbox:checked ~ .mdl-mega-footer__link-list,\n.mdl-mega-footer--heading-checkbox:checked + .mdl-mega-footer--heading + .mdl-mega-footer--link-list,\n.mdl-mega-footer--heading-checkbox:checked + .mdl-mega-footer__heading + .mdl-mega-footer__link-list,\n.mdl-mega-footer__heading-checkbox:checked ~ .mdl-mega-footer--link-list,\n.mdl-mega-footer__heading-checkbox:checked ~ .mdl-mega-footer__link-list,\n.mdl-mega-footer__heading-checkbox:checked + .mdl-mega-footer--heading + .mdl-mega-footer--link-list,\n.mdl-mega-footer__heading-checkbox:checked + .mdl-mega-footer__heading + .mdl-mega-footer__link-list {\n  display: none; }\n\n.mdl-mega-footer--heading-checkbox:checked + .mdl-mega-footer--heading:after,\n.mdl-mega-footer--heading-checkbox:checked + .mdl-mega-footer__heading:after,\n.mdl-mega-footer__heading-checkbox:checked + .mdl-mega-footer--heading:after,\n.mdl-mega-footer__heading-checkbox:checked + .mdl-mega-footer__heading:after {\n  font-family: 'Material Icons';\n  content: '\\E5CF'; }\n\n.mdl-mega-footer--heading,\n.mdl-mega-footer__heading {\n  position: relative;\n  width: 100%;\n  padding-right: 39.8px;\n  margin-bottom: 16px;\n  box-sizing: border-box;\n  font-size: 14px;\n  line-height: 23.8px;\n  font-weight: 500;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  overflow: hidden;\n  color: rgb(224,224,224); }\n\n.mdl-mega-footer--heading:after,\n.mdl-mega-footer__heading:after {\n  content: '';\n  position: absolute;\n  top: 0;\n  right: 0;\n  display: block;\n  width: 23.8px;\n  height: 23.8px;\n  background-size: cover; }\n\n.mdl-mega-footer--link-list,\n.mdl-mega-footer__link-list {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n  margin-bottom: 32px; }\n  .mdl-mega-footer--link-list:after,\n  .mdl-mega-footer__link-list:after {\n    clear: both;\n    display: block;\n    content: ''; }\n\n.mdl-mega-footer--link-list li,\n.mdl-mega-footer__link-list li {\n  font-size: 14px;\n  font-weight: 400;\n  line-height: 24px;\n  letter-spacing: 0;\n  line-height: 20px; }\n\n.mdl-mega-footer--link-list a,\n.mdl-mega-footer__link-list a {\n  color: inherit;\n  text-decoration: none;\n  white-space: nowrap; }\n\n@media screen and (min-width: 760px) {\n  .mdl-mega-footer--heading-checkbox,\n  .mdl-mega-footer__heading-checkbox {\n    display: none; }\n    .mdl-mega-footer--heading-checkbox + .mdl-mega-footer--heading:after,\n    .mdl-mega-footer--heading-checkbox + .mdl-mega-footer__heading:after,\n    .mdl-mega-footer__heading-checkbox + .mdl-mega-footer--heading:after,\n    .mdl-mega-footer__heading-checkbox + .mdl-mega-footer__heading:after {\n      content: ''; }\n  .mdl-mega-footer--heading-checkbox:checked ~ .mdl-mega-footer--link-list,\n  .mdl-mega-footer--heading-checkbox:checked ~ .mdl-mega-footer__link-list,\n  .mdl-mega-footer--heading-checkbox:checked + .mdl-mega-footer__heading + .mdl-mega-footer__link-list,\n  .mdl-mega-footer--heading-checkbox:checked + .mdl-mega-footer--heading + .mdl-mega-footer--link-list,\n  .mdl-mega-footer__heading-checkbox:checked ~ .mdl-mega-footer--link-list,\n  .mdl-mega-footer__heading-checkbox:checked ~ .mdl-mega-footer__link-list,\n  .mdl-mega-footer__heading-checkbox:checked + .mdl-mega-footer__heading + .mdl-mega-footer__link-list,\n  .mdl-mega-footer__heading-checkbox:checked + .mdl-mega-footer--heading + .mdl-mega-footer--link-list {\n    display: block; }\n  .mdl-mega-footer--heading-checkbox:checked + .mdl-mega-footer--heading:after,\n  .mdl-mega-footer--heading-checkbox:checked + .mdl-mega-footer__heading:after,\n  .mdl-mega-footer__heading-checkbox:checked + .mdl-mega-footer--heading:after,\n  .mdl-mega-footer__heading-checkbox:checked + .mdl-mega-footer__heading:after {\n    content: ''; } }\n\n.mdl-mega-footer--bottom-section,\n.mdl-mega-footer__bottom-section {\n  padding-top: 16px;\n  margin-bottom: 16px; }\n\n.mdl-logo {\n  margin-bottom: 16px;\n  color: white; }\n\n.mdl-mega-footer--bottom-section .mdl-mega-footer--link-list li,\n.mdl-mega-footer__bottom-section .mdl-mega-footer__link-list li {\n  float: left;\n  margin-bottom: 0;\n  margin-right: 16px; }\n\n@media screen and (min-width: 760px) {\n  .mdl-logo {\n    float: left;\n    margin-bottom: 0;\n    margin-right: 16px; } }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n.mdl-mini-footer {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-flow: row wrap;\n      flex-flow: row wrap;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  padding: 32px 16px;\n  color: rgb(158,158,158);\n  background-color: rgb(66,66,66); }\n  .mdl-mini-footer:after {\n    content: '';\n    display: block; }\n  .mdl-mini-footer .mdl-logo {\n    line-height: 36px; }\n\n.mdl-mini-footer--link-list,\n.mdl-mini-footer__link-list {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-flow: row nowrap;\n      flex-flow: row nowrap;\n  list-style: none;\n  margin: 0;\n  padding: 0; }\n  .mdl-mini-footer--link-list li,\n  .mdl-mini-footer__link-list li {\n    margin-bottom: 0;\n    margin-right: 16px; }\n    @media screen and (min-width: 760px) {\n      .mdl-mini-footer--link-list li,\n      .mdl-mini-footer__link-list li {\n        line-height: 36px; } }\n  .mdl-mini-footer--link-list a,\n  .mdl-mini-footer__link-list a {\n    color: inherit;\n    text-decoration: none;\n    white-space: nowrap; }\n\n.mdl-mini-footer--left-section,\n.mdl-mini-footer__left-section {\n  display: inline-block;\n  -webkit-box-ordinal-group: 1;\n      -ms-flex-order: 0;\n          order: 0; }\n\n.mdl-mini-footer--right-section,\n.mdl-mini-footer__right-section {\n  display: inline-block;\n  -webkit-box-ordinal-group: 2;\n      -ms-flex-order: 1;\n          order: 1; }\n\n.mdl-mini-footer--social-btn,\n.mdl-mini-footer__social-btn {\n  width: 36px;\n  height: 36px;\n  padding: 0;\n  margin: 0;\n  background-color: rgb(158,158,158);\n  border: none; }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n.mdl-icon-toggle {\n  position: relative;\n  z-index: 1;\n  vertical-align: middle;\n  display: inline-block;\n  height: 32px;\n  margin: 0;\n  padding: 0; }\n\n.mdl-icon-toggle__input {\n  line-height: 32px; }\n  .mdl-icon-toggle.is-upgraded .mdl-icon-toggle__input {\n    position: absolute;\n    width: 0;\n    height: 0;\n    margin: 0;\n    padding: 0;\n    opacity: 0;\n    -ms-appearance: none;\n    -moz-appearance: none;\n    -webkit-appearance: none;\n    appearance: none;\n    border: none; }\n\n.mdl-icon-toggle__label {\n  display: inline-block;\n  position: relative;\n  cursor: pointer;\n  height: 32px;\n  width: 32px;\n  min-width: 32px;\n  color: rgb(97,97,97);\n  border-radius: 50%;\n  padding: 0;\n  margin-left: 0;\n  margin-right: 0;\n  text-align: center;\n  background-color: transparent;\n  will-change: background-color;\n  -webkit-transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n  .mdl-icon-toggle__label.material-icons {\n    line-height: 32px;\n    font-size: 24px; }\n  .mdl-icon-toggle.is-checked .mdl-icon-toggle__label {\n    color: rgb(63,81,181); }\n  .mdl-icon-toggle.is-disabled .mdl-icon-toggle__label {\n    color: rgba(0,0,0, 0.26);\n    cursor: auto;\n    -webkit-transition: none;\n    transition: none; }\n  .mdl-icon-toggle.is-focused .mdl-icon-toggle__label {\n    background-color: rgba(0,0,0, 0.12); }\n  .mdl-icon-toggle.is-focused.is-checked .mdl-icon-toggle__label {\n    background-color: rgba(63,81,181, 0.26); }\n\n.mdl-icon-toggle__ripple-container {\n  position: absolute;\n  z-index: 2;\n  top: -2px;\n  left: -2px;\n  box-sizing: border-box;\n  width: 36px;\n  height: 36px;\n  border-radius: 50%;\n  cursor: pointer;\n  overflow: hidden;\n  -webkit-mask-image: -webkit-radial-gradient(circle, white, black); }\n  .mdl-icon-toggle__ripple-container .mdl-ripple {\n    background: rgb(97,97,97); }\n  .mdl-icon-toggle.is-disabled .mdl-icon-toggle__ripple-container {\n    cursor: auto; }\n  .mdl-icon-toggle.is-disabled .mdl-icon-toggle__ripple-container .mdl-ripple {\n    background: transparent; }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* Typography */\n/* Shadows */\n/* Animations */\n/* Dialog */\n.mdl-list {\n  display: block;\n  padding: 8px 0;\n  list-style: none; }\n\n.mdl-list__item {\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 24px;\n  letter-spacing: 0.04em;\n  line-height: 1;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  min-height: 48px;\n  box-sizing: border-box;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -ms-flex-wrap: nowrap;\n      flex-wrap: nowrap;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  padding: 16px;\n  cursor: default;\n  color: rgba(0,0,0, 0.87);\n  overflow: hidden; }\n  .mdl-list__item .mdl-list__item-primary-content {\n    -webkit-box-ordinal-group: 1;\n        -ms-flex-order: 0;\n            order: 0;\n    -webkit-box-flex: 2;\n        -ms-flex-positive: 2;\n            flex-grow: 2;\n    text-decoration: none;\n    box-sizing: border-box;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center; }\n    .mdl-list__item .mdl-list__item-primary-content .mdl-list__item-icon {\n      margin-right: 32px; }\n    .mdl-list__item .mdl-list__item-primary-content .mdl-list__item-avatar {\n      margin-right: 16px; }\n  .mdl-list__item .mdl-list__item-secondary-content {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-flow: column;\n        flex-flow: column;\n    -webkit-box-align: end;\n        -ms-flex-align: end;\n            align-items: flex-end;\n    margin-left: 16px; }\n    .mdl-list__item .mdl-list__item-secondary-content .mdl-list__item-secondary-action label {\n      display: inline; }\n    .mdl-list__item .mdl-list__item-secondary-content .mdl-list__item-secondary-info {\n      font-size: 12px;\n      font-weight: 400;\n      line-height: 1;\n      letter-spacing: 0;\n      color: rgba(0,0,0, 0.54); }\n    .mdl-list__item .mdl-list__item-secondary-content .mdl-list__item-sub-header {\n      padding: 0 0 0 16px; }\n\n.mdl-list__item-icon,\n.mdl-list__item-icon.material-icons {\n  height: 24px;\n  width: 24px;\n  font-size: 24px;\n  box-sizing: border-box;\n  color: rgb(117,117,117); }\n\n.mdl-list__item-avatar,\n.mdl-list__item-avatar.material-icons {\n  height: 40px;\n  width: 40px;\n  box-sizing: border-box;\n  border-radius: 50%;\n  background-color: rgb(117,117,117);\n  font-size: 40px;\n  color: white; }\n\n.mdl-list__item--two-line {\n  height: 72px; }\n  .mdl-list__item--two-line .mdl-list__item-primary-content {\n    height: 36px;\n    line-height: 20px;\n    display: block; }\n    .mdl-list__item--two-line .mdl-list__item-primary-content .mdl-list__item-avatar {\n      float: left; }\n    .mdl-list__item--two-line .mdl-list__item-primary-content .mdl-list__item-icon {\n      float: left;\n      margin-top: 6px; }\n    .mdl-list__item--two-line .mdl-list__item-primary-content .mdl-list__item-secondary-content {\n      height: 36px; }\n    .mdl-list__item--two-line .mdl-list__item-primary-content .mdl-list__item-sub-title {\n      font-size: 14px;\n      font-weight: 400;\n      line-height: 24px;\n      letter-spacing: 0;\n      line-height: 18px;\n      color: rgba(0,0,0, 0.54);\n      display: block;\n      padding: 0; }\n\n.mdl-list__item--three-line {\n  height: 88px; }\n  .mdl-list__item--three-line .mdl-list__item-primary-content {\n    height: 52px;\n    line-height: 20px;\n    display: block; }\n    .mdl-list__item--three-line .mdl-list__item-primary-content .mdl-list__item-avatar,\n    .mdl-list__item--three-line .mdl-list__item-primary-content .mdl-list__item-icon {\n      float: left; }\n  .mdl-list__item--three-line .mdl-list__item-secondary-content {\n    height: 52px; }\n  .mdl-list__item--three-line .mdl-list__item-text-body {\n    font-size: 14px;\n    font-weight: 400;\n    line-height: 24px;\n    letter-spacing: 0;\n    line-height: 18px;\n    height: 52px;\n    color: rgba(0,0,0, 0.54);\n    display: block;\n    padding: 0; }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* Typography */\n/* Shadows */\n/* Animations */\n/* Dialog */\n.mdl-menu__container {\n  display: block;\n  margin: 0;\n  padding: 0;\n  border: none;\n  position: absolute;\n  overflow: visible;\n  height: 0;\n  width: 0;\n  visibility: hidden;\n  z-index: -1; }\n  .mdl-menu__container.is-visible, .mdl-menu__container.is-animating {\n    z-index: 999;\n    visibility: visible; }\n\n.mdl-menu__outline {\n  display: block;\n  background: rgb(255,255,255);\n  margin: 0;\n  padding: 0;\n  border: none;\n  border-radius: 2px;\n  position: absolute;\n  top: 0;\n  left: 0;\n  overflow: hidden;\n  opacity: 0;\n  -webkit-transform: scale(0);\n          transform: scale(0);\n  -webkit-transform-origin: 0 0;\n          transform-origin: 0 0;\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  will-change: transform;\n  -webkit-transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  z-index: -1; }\n  .mdl-menu__container.is-visible .mdl-menu__outline {\n    opacity: 1;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    z-index: 999; }\n  .mdl-menu__outline.mdl-menu--bottom-right {\n    -webkit-transform-origin: 100% 0;\n            transform-origin: 100% 0; }\n  .mdl-menu__outline.mdl-menu--top-left {\n    -webkit-transform-origin: 0 100%;\n            transform-origin: 0 100%; }\n  .mdl-menu__outline.mdl-menu--top-right {\n    -webkit-transform-origin: 100% 100%;\n            transform-origin: 100% 100%; }\n\n.mdl-menu {\n  position: absolute;\n  list-style: none;\n  top: 0;\n  left: 0;\n  height: auto;\n  width: auto;\n  min-width: 124px;\n  padding: 8px 0;\n  margin: 0;\n  opacity: 0;\n  clip: rect(0 0 0 0);\n  z-index: -1; }\n  .mdl-menu__container.is-visible .mdl-menu {\n    opacity: 1;\n    z-index: 999; }\n  .mdl-menu.is-animating {\n    -webkit-transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), clip 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), clip 0.3s cubic-bezier(0.4, 0, 0.2, 1); }\n  .mdl-menu.mdl-menu--bottom-right {\n    left: auto;\n    right: 0; }\n  .mdl-menu.mdl-menu--top-left {\n    top: auto;\n    bottom: 0; }\n  .mdl-menu.mdl-menu--top-right {\n    top: auto;\n    left: auto;\n    bottom: 0;\n    right: 0; }\n  .mdl-menu.mdl-menu--unaligned {\n    top: auto;\n    left: auto; }\n\n.mdl-menu__item {\n  display: block;\n  border: none;\n  color: rgba(0,0,0, 0.87);\n  background-color: transparent;\n  text-align: left;\n  margin: 0;\n  padding: 0 16px;\n  outline-color: rgb(189,189,189);\n  position: relative;\n  overflow: hidden;\n  font-size: 14px;\n  font-weight: 400;\n  line-height: 24px;\n  letter-spacing: 0;\n  text-decoration: none;\n  cursor: pointer;\n  height: 48px;\n  line-height: 48px;\n  white-space: nowrap;\n  opacity: 0;\n  -webkit-transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none; }\n  .mdl-menu__container.is-visible .mdl-menu__item {\n    opacity: 1; }\n  .mdl-menu__item::-moz-focus-inner {\n    border: 0; }\n  .mdl-menu__item--full-bleed-divider {\n    border-bottom: 1px solid rgba(0,0,0, 0.12); }\n  .mdl-menu__item[disabled], .mdl-menu__item[data-mdl-disabled] {\n    color: rgb(189,189,189);\n    background-color: transparent;\n    cursor: auto; }\n    .mdl-menu__item[disabled]:hover, .mdl-menu__item[data-mdl-disabled]:hover {\n      background-color: transparent; }\n    .mdl-menu__item[disabled]:focus, .mdl-menu__item[data-mdl-disabled]:focus {\n      background-color: transparent; }\n    .mdl-menu__item[disabled] .mdl-ripple, .mdl-menu__item[data-mdl-disabled] .mdl-ripple {\n      background: transparent; }\n  .mdl-menu__item:hover {\n    background-color: rgb(238,238,238); }\n  .mdl-menu__item:focus {\n    outline: none;\n    background-color: rgb(238,238,238); }\n  .mdl-menu__item:active {\n    background-color: rgb(224,224,224); }\n\n.mdl-menu__item--ripple-container {\n  display: block;\n  height: 100%;\n  left: 0px;\n  position: absolute;\n  top: 0px;\n  width: 100%;\n  z-index: 0;\n  overflow: hidden; }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n.mdl-progress {\n  display: block;\n  position: relative;\n  height: 4px;\n  width: 500px;\n  max-width: 100%; }\n\n.mdl-progress > .bar {\n  display: block;\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  width: 0%;\n  -webkit-transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1); }\n\n.mdl-progress > .progressbar {\n  background-color: rgb(63,81,181);\n  z-index: 1;\n  left: 0; }\n\n.mdl-progress > .bufferbar {\n  background-image: -webkit-linear-gradient(left, rgba(255,255,255, 0.7), rgba(255,255,255, 0.7)), -webkit-linear-gradient(left, rgb(63,81,181), rgb(63,81,181));\n  background-image: linear-gradient(to right, rgba(255,255,255, 0.7), rgba(255,255,255, 0.7)), linear-gradient(to right, rgb(63,81,181), rgb(63,81,181));\n  z-index: 0;\n  left: 0; }\n\n.mdl-progress > .auxbar {\n  right: 0; }\n\n@supports (-webkit-appearance: none) {\n  .mdl-progress:not(.mdl-progress--indeterminate):not(.mdl-progress--indeterminate) > .auxbar,\n  .mdl-progress:not(.mdl-progress__indeterminate):not(.mdl-progress__indeterminate) > .auxbar {\n    background-image: -webkit-linear-gradient(left, rgba(255,255,255, 0.7), rgba(255,255,255, 0.7)), -webkit-linear-gradient(left, rgb(63,81,181), rgb(63,81,181));\n    background-image: linear-gradient(to right, rgba(255,255,255, 0.7), rgba(255,255,255, 0.7)), linear-gradient(to right, rgb(63,81,181), rgb(63,81,181));\n    -webkit-mask: url(\"/images/buffer.svg?embed\");\n            mask: url(\"/images/buffer.svg?embed\"); } }\n\n.mdl-progress:not(.mdl-progress--indeterminate) > .auxbar,\n.mdl-progress:not(.mdl-progress__indeterminate) > .auxbar {\n  background-image: -webkit-linear-gradient(left, rgba(255,255,255, 0.9), rgba(255,255,255, 0.9)), -webkit-linear-gradient(left, rgb(63,81,181), rgb(63,81,181));\n  background-image: linear-gradient(to right, rgba(255,255,255, 0.9), rgba(255,255,255, 0.9)), linear-gradient(to right, rgb(63,81,181), rgb(63,81,181)); }\n\n.mdl-progress.mdl-progress--indeterminate > .bar1,\n.mdl-progress.mdl-progress__indeterminate > .bar1 {\n  background-color: rgb(63,81,181);\n  -webkit-animation-name: indeterminate1;\n          animation-name: indeterminate1;\n  -webkit-animation-duration: 2s;\n          animation-duration: 2s;\n  -webkit-animation-iteration-count: infinite;\n          animation-iteration-count: infinite;\n  -webkit-animation-timing-function: linear;\n          animation-timing-function: linear; }\n\n.mdl-progress.mdl-progress--indeterminate > .bar3,\n.mdl-progress.mdl-progress__indeterminate > .bar3 {\n  background-image: none;\n  background-color: rgb(63,81,181);\n  -webkit-animation-name: indeterminate2;\n          animation-name: indeterminate2;\n  -webkit-animation-duration: 2s;\n          animation-duration: 2s;\n  -webkit-animation-iteration-count: infinite;\n          animation-iteration-count: infinite;\n  -webkit-animation-timing-function: linear;\n          animation-timing-function: linear; }\n\n@-webkit-keyframes indeterminate1 {\n  0% {\n    left: 0%;\n    width: 0%; }\n  50% {\n    left: 25%;\n    width: 75%; }\n  75% {\n    left: 100%;\n    width: 0%; } }\n\n@keyframes indeterminate1 {\n  0% {\n    left: 0%;\n    width: 0%; }\n  50% {\n    left: 25%;\n    width: 75%; }\n  75% {\n    left: 100%;\n    width: 0%; } }\n\n@-webkit-keyframes indeterminate2 {\n  0% {\n    left: 0%;\n    width: 0%; }\n  50% {\n    left: 0%;\n    width: 0%; }\n  75% {\n    left: 0%;\n    width: 25%; }\n  100% {\n    left: 100%;\n    width: 0%; } }\n\n@keyframes indeterminate2 {\n  0% {\n    left: 0%;\n    width: 0%; }\n  50% {\n    left: 0%;\n    width: 0%; }\n  75% {\n    left: 0%;\n    width: 25%; }\n  100% {\n    left: 100%;\n    width: 0%; } }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* Typography */\n/* Shadows */\n/* Animations */\n/* Dialog */\n.mdl-navigation {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: nowrap;\n      flex-wrap: nowrap;\n  box-sizing: border-box; }\n\n.mdl-navigation__link {\n  color: rgb(66,66,66);\n  text-decoration: none;\n  margin: 0;\n  font-size: 14px;\n  font-weight: 400;\n  line-height: 24px;\n  letter-spacing: 0;\n  opacity: 0.87; }\n  .mdl-navigation__link .material-icons {\n    vertical-align: middle; }\n\n.mdl-layout {\n  width: 100%;\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  overflow-y: auto;\n  overflow-x: hidden;\n  position: relative;\n  -webkit-overflow-scrolling: touch; }\n\n.mdl-layout.is-small-screen .mdl-layout--large-screen-only {\n  display: none; }\n\n.mdl-layout:not(.is-small-screen) .mdl-layout--small-screen-only {\n  display: none; }\n\n.mdl-layout__container {\n  position: absolute;\n  width: 100%;\n  height: 100%; }\n\n.mdl-layout__title,\n.mdl-layout-title {\n  display: block;\n  position: relative;\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  font-size: 20px;\n  font-weight: 500;\n  line-height: 1;\n  letter-spacing: 0.02em;\n  font-weight: 400;\n  box-sizing: border-box; }\n\n.mdl-layout-spacer {\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1; }\n\n.mdl-layout__drawer {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -ms-flex-wrap: nowrap;\n      flex-wrap: nowrap;\n  width: 240px;\n  height: 100%;\n  max-height: 100%;\n  position: absolute;\n  top: 0;\n  left: 0;\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  box-sizing: border-box;\n  border-right: 1px solid rgb(224,224,224);\n  background: rgb(250,250,250);\n  -webkit-transform: translateX(-250px);\n          transform: translateX(-250px);\n  -webkit-transform-style: preserve-3d;\n          transform-style: preserve-3d;\n  will-change: transform;\n  -webkit-transition-duration: 0.2s;\n          transition-duration: 0.2s;\n  -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n  -webkit-transition-property: -webkit-transform;\n  transition-property: -webkit-transform;\n  transition-property: transform;\n  transition-property: transform, -webkit-transform;\n  color: rgb(66,66,66);\n  overflow: visible;\n  overflow-y: auto;\n  z-index: 5; }\n  .mdl-layout__drawer.is-visible {\n    -webkit-transform: translateX(0);\n            transform: translateX(0); }\n    .mdl-layout__drawer.is-visible ~ .mdl-layout__content.mdl-layout__content {\n      overflow: hidden; }\n  .mdl-layout__drawer > * {\n    -ms-flex-negative: 0;\n        flex-shrink: 0; }\n  .mdl-layout__drawer > .mdl-layout__title,\n  .mdl-layout__drawer > .mdl-layout-title {\n    line-height: 64px;\n    padding-left: 40px; }\n    @media screen and (max-width: 1024px) {\n      .mdl-layout__drawer > .mdl-layout__title,\n      .mdl-layout__drawer > .mdl-layout-title {\n        line-height: 56px;\n        padding-left: 16px; } }\n  .mdl-layout__drawer .mdl-navigation {\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-align: stretch;\n        -ms-flex-align: stretch;\n                -ms-grid-row-align: stretch;\n            align-items: stretch;\n    padding-top: 16px; }\n    .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {\n      display: block;\n      -ms-flex-negative: 0;\n          flex-shrink: 0;\n      padding: 16px 40px;\n      margin: 0;\n      color: #757575; }\n      @media screen and (max-width: 1024px) {\n        .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {\n          padding: 16px 16px; } }\n      .mdl-layout__drawer .mdl-navigation .mdl-navigation__link:hover {\n        background-color: rgb(224,224,224); }\n      .mdl-layout__drawer .mdl-navigation .mdl-navigation__link--current {\n        background-color: rgb(0,0,0);\n        color: rgb(224,224,224); }\n  @media screen and (min-width: 1025px) {\n    .mdl-layout--fixed-drawer > .mdl-layout__drawer {\n      -webkit-transform: translateX(0);\n              transform: translateX(0); } }\n\n.mdl-layout__drawer-button {\n  display: block;\n  position: absolute;\n  height: 48px;\n  width: 48px;\n  border: 0;\n  -ms-flex-negative: 0;\n      flex-shrink: 0;\n  overflow: hidden;\n  text-align: center;\n  cursor: pointer;\n  font-size: 26px;\n  line-height: 50px;\n  font-family: Helvetica, Arial, sans-serif;\n  margin: 10px 12px;\n  top: 0;\n  left: 0;\n  color: rgb(255,255,255);\n  z-index: 4; }\n  .mdl-layout__header .mdl-layout__drawer-button {\n    position: absolute;\n    color: rgb(255,255,255);\n    background-color: inherit; }\n    @media screen and (max-width: 1024px) {\n      .mdl-layout__header .mdl-layout__drawer-button {\n        margin: 4px; } }\n  @media screen and (max-width: 1024px) {\n    .mdl-layout__drawer-button {\n      margin: 4px;\n      color: rgba(0, 0, 0, 0.5); } }\n  @media screen and (min-width: 1025px) {\n    .mdl-layout--fixed-drawer > .mdl-layout__drawer-button {\n      display: none; }\n    .mdl-layout--no-desktop-drawer-button .mdl-layout__drawer-button {\n      display: none; } }\n  .mdl-layout--no-drawer-button .mdl-layout__drawer-button {\n    display: none; }\n\n.mdl-layout__header {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -ms-flex-wrap: nowrap;\n      flex-wrap: nowrap;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  box-sizing: border-box;\n  -ms-flex-negative: 0;\n      flex-shrink: 0;\n  width: 100%;\n  margin: 0;\n  padding: 0;\n  border: none;\n  min-height: 64px;\n  max-height: 1000px;\n  z-index: 3;\n  background-color: rgb(63,81,181);\n  color: rgb(255,255,255);\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  -webkit-transition-duration: 0.2s;\n          transition-duration: 0.2s;\n  -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n  -webkit-transition-property: max-height, box-shadow;\n  transition-property: max-height, box-shadow; }\n  @media screen and (max-width: 1024px) {\n    .mdl-layout__header {\n      min-height: 56px; } }\n  .mdl-layout--fixed-drawer.is-upgraded:not(.is-small-screen) > .mdl-layout__header {\n    margin-left: 240px;\n    width: calc(100% - 240px); }\n  @media screen and (min-width: 1025px) {\n    .mdl-layout--fixed-drawer > .mdl-layout__header .mdl-layout__header-row {\n      padding-left: 40px; } }\n  .mdl-layout__header > .mdl-layout-icon {\n    position: absolute;\n    left: 40px;\n    top: 16px;\n    height: 32px;\n    width: 32px;\n    overflow: hidden;\n    z-index: 3;\n    display: block; }\n    @media screen and (max-width: 1024px) {\n      .mdl-layout__header > .mdl-layout-icon {\n        left: 16px;\n        top: 12px; } }\n  .mdl-layout.has-drawer .mdl-layout__header > .mdl-layout-icon {\n    display: none; }\n  .mdl-layout__header.is-compact {\n    max-height: 64px; }\n    @media screen and (max-width: 1024px) {\n      .mdl-layout__header.is-compact {\n        max-height: 56px; } }\n  .mdl-layout__header.is-compact.has-tabs {\n    height: 112px; }\n    @media screen and (max-width: 1024px) {\n      .mdl-layout__header.is-compact.has-tabs {\n        min-height: 104px; } }\n  @media screen and (max-width: 1024px) {\n    .mdl-layout__header {\n      display: none; }\n    .mdl-layout--fixed-header > .mdl-layout__header {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex; } }\n\n.mdl-layout__header--transparent.mdl-layout__header--transparent {\n  background-color: transparent;\n  box-shadow: none; }\n\n.mdl-layout__header--seamed {\n  box-shadow: none; }\n\n.mdl-layout__header--scroll {\n  box-shadow: none; }\n\n.mdl-layout__header--waterfall {\n  box-shadow: none;\n  overflow: hidden; }\n  .mdl-layout__header--waterfall.is-casting-shadow {\n    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }\n  .mdl-layout__header--waterfall.mdl-layout__header--waterfall-hide-top {\n    -webkit-box-pack: end;\n        -ms-flex-pack: end;\n            justify-content: flex-end; }\n\n.mdl-layout__header-row {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -ms-flex-wrap: nowrap;\n      flex-wrap: nowrap;\n  -ms-flex-negative: 0;\n      flex-shrink: 0;\n  box-sizing: border-box;\n  -ms-flex-item-align: stretch;\n      align-self: stretch;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  height: 64px;\n  margin: 0;\n  padding: 0 40px 0 80px; }\n  .mdl-layout--no-drawer-button .mdl-layout__header-row {\n    padding-left: 40px; }\n  @media screen and (min-width: 1025px) {\n    .mdl-layout--no-desktop-drawer-button .mdl-layout__header-row {\n      padding-left: 40px; } }\n  @media screen and (max-width: 1024px) {\n    .mdl-layout__header-row {\n      height: 56px;\n      padding: 0 16px 0 72px; }\n      .mdl-layout--no-drawer-button .mdl-layout__header-row {\n        padding-left: 16px; } }\n  .mdl-layout__header-row > * {\n    -ms-flex-negative: 0;\n        flex-shrink: 0; }\n  .mdl-layout__header--scroll .mdl-layout__header-row {\n    width: 100%; }\n  .mdl-layout__header-row .mdl-navigation {\n    margin: 0;\n    padding: 0;\n    height: 64px;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: row;\n            flex-direction: row;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n                -ms-grid-row-align: center;\n            align-items: center; }\n    @media screen and (max-width: 1024px) {\n      .mdl-layout__header-row .mdl-navigation {\n        height: 56px; } }\n  .mdl-layout__header-row .mdl-navigation__link {\n    display: block;\n    color: rgb(255,255,255);\n    line-height: 64px;\n    padding: 0 24px; }\n    @media screen and (max-width: 1024px) {\n      .mdl-layout__header-row .mdl-navigation__link {\n        line-height: 56px;\n        padding: 0 16px; } }\n\n.mdl-layout__obfuscator {\n  background-color: transparent;\n  position: absolute;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  z-index: 4;\n  visibility: hidden;\n  -webkit-transition-property: background-color;\n  transition-property: background-color;\n  -webkit-transition-duration: 0.2s;\n          transition-duration: 0.2s;\n  -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }\n  .mdl-layout__obfuscator.is-visible {\n    background-color: rgba(0, 0, 0, 0.5);\n    visibility: visible; }\n  @supports (pointer-events: auto) {\n    .mdl-layout__obfuscator {\n      background-color: rgba(0, 0, 0, 0.5);\n      opacity: 0;\n      -webkit-transition-property: opacity;\n      transition-property: opacity;\n      visibility: visible;\n      pointer-events: none; }\n      .mdl-layout__obfuscator.is-visible {\n        pointer-events: auto;\n        opacity: 1; } }\n\n.mdl-layout__content {\n  -ms-flex: 0 1 auto;\n  position: relative;\n  display: inline-block;\n  overflow-y: auto;\n  overflow-x: hidden;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  z-index: 1;\n  -webkit-overflow-scrolling: touch; }\n  .mdl-layout--fixed-drawer > .mdl-layout__content {\n    margin-left: 240px; }\n  .mdl-layout__container.has-scrolling-header .mdl-layout__content {\n    overflow: visible; }\n  @media screen and (max-width: 1024px) {\n    .mdl-layout--fixed-drawer > .mdl-layout__content {\n      margin-left: 0; }\n    .mdl-layout__container.has-scrolling-header .mdl-layout__content {\n      overflow-y: auto;\n      overflow-x: hidden; } }\n\n.mdl-layout__tab-bar {\n  height: 96px;\n  margin: 0;\n  width: calc(100% - 112px);\n  padding: 0 0 0 56px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  background-color: rgb(63,81,181);\n  overflow-y: hidden;\n  overflow-x: scroll; }\n  .mdl-layout__tab-bar::-webkit-scrollbar {\n    display: none; }\n  .mdl-layout--no-drawer-button .mdl-layout__tab-bar {\n    padding-left: 16px;\n    width: calc(100% - 32px); }\n  @media screen and (min-width: 1025px) {\n    .mdl-layout--no-desktop-drawer-button .mdl-layout__tab-bar {\n      padding-left: 16px;\n      width: calc(100% - 32px); } }\n  @media screen and (max-width: 1024px) {\n    .mdl-layout__tab-bar {\n      width: calc(100% - 60px);\n      padding: 0 0 0 60px; }\n      .mdl-layout--no-drawer-button .mdl-layout__tab-bar {\n        width: calc(100% - 8px);\n        padding-left: 4px; } }\n  .mdl-layout--fixed-tabs .mdl-layout__tab-bar {\n    padding: 0;\n    overflow: hidden;\n    width: 100%; }\n\n.mdl-layout__tab-bar-container {\n  position: relative;\n  height: 48px;\n  width: 100%;\n  border: none;\n  margin: 0;\n  z-index: 2;\n  -webkit-box-flex: 0;\n      -ms-flex-positive: 0;\n          flex-grow: 0;\n  -ms-flex-negative: 0;\n      flex-shrink: 0;\n  overflow: hidden; }\n  .mdl-layout__container > .mdl-layout__tab-bar-container {\n    position: absolute;\n    top: 0;\n    left: 0; }\n\n.mdl-layout__tab-bar-button {\n  display: inline-block;\n  position: absolute;\n  top: 0;\n  height: 48px;\n  width: 56px;\n  z-index: 4;\n  text-align: center;\n  background-color: rgb(63,81,181);\n  color: transparent;\n  cursor: pointer;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none; }\n  .mdl-layout--no-desktop-drawer-button .mdl-layout__tab-bar-button,\n  .mdl-layout--no-drawer-button .mdl-layout__tab-bar-button {\n    width: 16px; }\n    .mdl-layout--no-desktop-drawer-button .mdl-layout__tab-bar-button .material-icons,\n    .mdl-layout--no-drawer-button .mdl-layout__tab-bar-button .material-icons {\n      position: relative;\n      left: -4px; }\n  @media screen and (max-width: 1024px) {\n    .mdl-layout__tab-bar-button {\n      display: none;\n      width: 60px; } }\n  .mdl-layout--fixed-tabs .mdl-layout__tab-bar-button {\n    display: none; }\n  .mdl-layout__tab-bar-button .material-icons {\n    line-height: 48px; }\n  .mdl-layout__tab-bar-button.is-active {\n    color: rgb(255,255,255); }\n\n.mdl-layout__tab-bar-left-button {\n  left: 0; }\n\n.mdl-layout__tab-bar-right-button {\n  right: 0; }\n\n.mdl-layout__tab {\n  margin: 0;\n  border: none;\n  padding: 0 24px 0 24px;\n  float: left;\n  position: relative;\n  display: block;\n  -webkit-box-flex: 0;\n      -ms-flex-positive: 0;\n          flex-grow: 0;\n  -ms-flex-negative: 0;\n      flex-shrink: 0;\n  text-decoration: none;\n  height: 48px;\n  line-height: 48px;\n  text-align: center;\n  font-weight: 500;\n  font-size: 14px;\n  text-transform: uppercase;\n  color: rgba(255,255,255, 0.6);\n  overflow: hidden; }\n  @media screen and (max-width: 1024px) {\n    .mdl-layout__tab {\n      padding: 0 12px 0 12px; } }\n  .mdl-layout--fixed-tabs .mdl-layout__tab {\n    float: none;\n    -webkit-box-flex: 1;\n        -ms-flex-positive: 1;\n            flex-grow: 1;\n    padding: 0; }\n  .mdl-layout.is-upgraded .mdl-layout__tab.is-active {\n    color: rgb(255,255,255); }\n  .mdl-layout.is-upgraded .mdl-layout__tab.is-active::after {\n    height: 2px;\n    width: 100%;\n    display: block;\n    content: \" \";\n    bottom: 0;\n    left: 0;\n    position: absolute;\n    background: rgb(255,64,129);\n    -webkit-animation: border-expand 0.2s cubic-bezier(0.4, 0, 0.4, 1) 0.01s alternate forwards;\n            animation: border-expand 0.2s cubic-bezier(0.4, 0, 0.4, 1) 0.01s alternate forwards;\n    -webkit-transition: all 1s cubic-bezier(0.4, 0, 1, 1);\n    transition: all 1s cubic-bezier(0.4, 0, 1, 1); }\n  .mdl-layout__tab .mdl-layout__tab-ripple-container {\n    display: block;\n    position: absolute;\n    height: 100%;\n    width: 100%;\n    left: 0;\n    top: 0;\n    z-index: 1;\n    overflow: hidden; }\n    .mdl-layout__tab .mdl-layout__tab-ripple-container .mdl-ripple {\n      background-color: rgb(255,255,255); }\n\n.mdl-layout__tab-panel {\n  display: block; }\n  .mdl-layout.is-upgraded .mdl-layout__tab-panel {\n    display: none; }\n  .mdl-layout.is-upgraded .mdl-layout__tab-panel.is-active {\n    display: block; }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* Typography */\n/* Shadows */\n/* Animations */\n/* Dialog */\n.mdl-radio {\n  position: relative;\n  font-size: 16px;\n  line-height: 24px;\n  display: inline-block;\n  box-sizing: border-box;\n  margin: 0;\n  padding-left: 0; }\n  .mdl-radio.is-upgraded {\n    padding-left: 24px; }\n\n.mdl-radio__button {\n  line-height: 24px; }\n  .mdl-radio.is-upgraded .mdl-radio__button {\n    position: absolute;\n    width: 0;\n    height: 0;\n    margin: 0;\n    padding: 0;\n    opacity: 0;\n    -ms-appearance: none;\n    -moz-appearance: none;\n    -webkit-appearance: none;\n    appearance: none;\n    border: none; }\n\n.mdl-radio__outer-circle {\n  position: absolute;\n  top: 4px;\n  left: 0;\n  display: inline-block;\n  box-sizing: border-box;\n  width: 16px;\n  height: 16px;\n  margin: 0;\n  cursor: pointer;\n  border: 2px solid rgba(0,0,0, 0.54);\n  border-radius: 50%;\n  z-index: 2; }\n  .mdl-radio.is-checked .mdl-radio__outer-circle {\n    border: 2px solid rgb(63,81,181); }\n  .mdl-radio__outer-circle fieldset[disabled] .mdl-radio,\n  .mdl-radio.is-disabled .mdl-radio__outer-circle {\n    border: 2px solid rgba(0,0,0, 0.26);\n    cursor: auto; }\n\n.mdl-radio__inner-circle {\n  position: absolute;\n  z-index: 1;\n  margin: 0;\n  top: 8px;\n  left: 4px;\n  box-sizing: border-box;\n  width: 8px;\n  height: 8px;\n  cursor: pointer;\n  -webkit-transition-duration: 0.28s;\n          transition-duration: 0.28s;\n  -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n  -webkit-transition-property: -webkit-transform;\n  transition-property: -webkit-transform;\n  transition-property: transform;\n  transition-property: transform, -webkit-transform;\n  -webkit-transform: scale3d(0, 0, 0);\n          transform: scale3d(0, 0, 0);\n  border-radius: 50%;\n  background: rgb(63,81,181); }\n  .mdl-radio.is-checked .mdl-radio__inner-circle {\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1); }\n  fieldset[disabled] .mdl-radio .mdl-radio__inner-circle,\n  .mdl-radio.is-disabled .mdl-radio__inner-circle {\n    background: rgba(0,0,0, 0.26);\n    cursor: auto; }\n  .mdl-radio.is-focused .mdl-radio__inner-circle {\n    box-shadow: 0 0 0px 10px rgba(0, 0, 0, 0.1); }\n\n.mdl-radio__label {\n  cursor: pointer; }\n  fieldset[disabled] .mdl-radio .mdl-radio__label,\n  .mdl-radio.is-disabled .mdl-radio__label {\n    color: rgba(0,0,0, 0.26);\n    cursor: auto; }\n\n.mdl-radio__ripple-container {\n  position: absolute;\n  z-index: 2;\n  top: -9px;\n  left: -13px;\n  box-sizing: border-box;\n  width: 42px;\n  height: 42px;\n  border-radius: 50%;\n  cursor: pointer;\n  overflow: hidden;\n  -webkit-mask-image: -webkit-radial-gradient(circle, white, black); }\n  .mdl-radio__ripple-container .mdl-ripple {\n    background: rgb(63,81,181); }\n  fieldset[disabled] .mdl-radio .mdl-radio__ripple-container,\n  .mdl-radio.is-disabled .mdl-radio__ripple-container {\n    cursor: auto; }\n  fieldset[disabled] .mdl-radio .mdl-radio__ripple-container .mdl-ripple,\n  .mdl-radio.is-disabled .mdl-radio__ripple-container .mdl-ripple {\n    background: transparent; }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n_:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {\n  -ms-appearance: none;\n  height: 32px;\n  margin: 0; }\n\n.mdl-slider {\n  width: calc(100% - 40px);\n  margin: 0 20px; }\n  .mdl-slider.is-upgraded {\n    -webkit-appearance: none;\n    -moz-appearance: none;\n    appearance: none;\n    height: 2px;\n    background: transparent;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n        user-select: none;\n    outline: 0;\n    padding: 0;\n    color: rgb(63,81,181);\n    -ms-flex-item-align: center;\n        align-self: center;\n    z-index: 1;\n    cursor: pointer;\n    /**************************** Tracks ****************************/\n    /**************************** Thumbs ****************************/\n    /**************************** 0-value ****************************/\n    /**************************** Disabled ****************************/ }\n    .mdl-slider.is-upgraded::-moz-focus-outer {\n      border: 0; }\n    .mdl-slider.is-upgraded::-ms-tooltip {\n      display: none; }\n    .mdl-slider.is-upgraded::-webkit-slider-runnable-track {\n      background: transparent; }\n    .mdl-slider.is-upgraded::-moz-range-track {\n      background: transparent;\n      border: none; }\n    .mdl-slider.is-upgraded::-ms-track {\n      background: none;\n      color: transparent;\n      height: 2px;\n      width: 100%;\n      border: none; }\n    .mdl-slider.is-upgraded::-ms-fill-lower {\n      padding: 0;\n      background: linear-gradient(to right, transparent, transparent 16px, rgb(63,81,181) 16px, rgb(63,81,181) 0); }\n    .mdl-slider.is-upgraded::-ms-fill-upper {\n      padding: 0;\n      background: linear-gradient(to left, transparent, transparent 16px, rgba(0,0,0, 0.26) 16px, rgba(0,0,0, 0.26) 0); }\n    .mdl-slider.is-upgraded::-webkit-slider-thumb {\n      -webkit-appearance: none;\n      width: 12px;\n      height: 12px;\n      box-sizing: border-box;\n      border-radius: 50%;\n      background: rgb(63,81,181);\n      border: none;\n      -webkit-transition: border 0.18s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);\n      transition: border 0.18s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);\n      transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1), border 0.18s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1);\n      transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1), border 0.18s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.18s cubic-bezier(0.4, 0, 0.2, 1); }\n    .mdl-slider.is-upgraded::-moz-range-thumb {\n      -moz-appearance: none;\n      width: 12px;\n      height: 12px;\n      box-sizing: border-box;\n      border-radius: 50%;\n      background-image: none;\n      background: rgb(63,81,181);\n      border: none; }\n    .mdl-slider.is-upgraded:focus:not(:active)::-webkit-slider-thumb {\n      box-shadow: 0 0 0 10px rgba(63,81,181, 0.26); }\n    .mdl-slider.is-upgraded:focus:not(:active)::-moz-range-thumb {\n      box-shadow: 0 0 0 10px rgba(63,81,181, 0.26); }\n    .mdl-slider.is-upgraded:active::-webkit-slider-thumb {\n      background-image: none;\n      background: rgb(63,81,181);\n      -webkit-transform: scale(1.5);\n              transform: scale(1.5); }\n    .mdl-slider.is-upgraded:active::-moz-range-thumb {\n      background-image: none;\n      background: rgb(63,81,181);\n      transform: scale(1.5); }\n    .mdl-slider.is-upgraded::-ms-thumb {\n      width: 32px;\n      height: 32px;\n      border: none;\n      border-radius: 50%;\n      background: rgb(63,81,181);\n      transform: scale(0.375);\n      -webkit-transition: background 0.28s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);\n      transition: background 0.28s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);\n      transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1);\n      transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 0.18s cubic-bezier(0.4, 0, 0.2, 1); }\n    .mdl-slider.is-upgraded:focus:not(:active)::-ms-thumb {\n      background: radial-gradient(circle closest-side, rgb(63,81,181) 0%, rgb(63,81,181) 37.5%, rgba(63,81,181, 0.26) 37.5%, rgba(63,81,181, 0.26) 100%);\n      transform: scale(1); }\n    .mdl-slider.is-upgraded:active::-ms-thumb {\n      background: rgb(63,81,181);\n      transform: scale(0.5625); }\n    .mdl-slider.is-upgraded.is-lowest-value::-webkit-slider-thumb {\n      border: 2px solid rgba(0,0,0, 0.26);\n      background: transparent; }\n    .mdl-slider.is-upgraded.is-lowest-value::-moz-range-thumb {\n      border: 2px solid rgba(0,0,0, 0.26);\n      background: transparent; }\n    .mdl-slider.is-upgraded.is-lowest-value +\n.mdl-slider__background-flex > .mdl-slider__background-upper {\n      left: 6px; }\n    .mdl-slider.is-upgraded.is-lowest-value:focus:not(:active)::-webkit-slider-thumb {\n      box-shadow: 0 0 0 10px rgba(0,0,0, 0.12);\n      background: rgba(0,0,0, 0.12); }\n    .mdl-slider.is-upgraded.is-lowest-value:focus:not(:active)::-moz-range-thumb {\n      box-shadow: 0 0 0 10px rgba(0,0,0, 0.12);\n      background: rgba(0,0,0, 0.12); }\n    .mdl-slider.is-upgraded.is-lowest-value:active::-webkit-slider-thumb {\n      border: 1.6px solid rgba(0,0,0, 0.26);\n      -webkit-transform: scale(1.5);\n              transform: scale(1.5); }\n    .mdl-slider.is-upgraded.is-lowest-value:active +\n.mdl-slider__background-flex > .mdl-slider__background-upper {\n      left: 9px; }\n    .mdl-slider.is-upgraded.is-lowest-value:active::-moz-range-thumb {\n      border: 1.5px solid rgba(0,0,0, 0.26);\n      transform: scale(1.5); }\n    .mdl-slider.is-upgraded.is-lowest-value::-ms-thumb {\n      background: radial-gradient(circle closest-side, transparent 0%, transparent 66.67%, rgba(0,0,0, 0.26) 66.67%, rgba(0,0,0, 0.26) 100%); }\n    .mdl-slider.is-upgraded.is-lowest-value:focus:not(:active)::-ms-thumb {\n      background: radial-gradient(circle closest-side, rgba(0,0,0, 0.12) 0%, rgba(0,0,0, 0.12) 25%, rgba(0,0,0, 0.26) 25%, rgba(0,0,0, 0.26) 37.5%, rgba(0,0,0, 0.12) 37.5%, rgba(0,0,0, 0.12) 100%);\n      transform: scale(1); }\n    .mdl-slider.is-upgraded.is-lowest-value:active::-ms-thumb {\n      transform: scale(0.5625);\n      background: radial-gradient(circle closest-side, transparent 0%, transparent 77.78%, rgba(0,0,0, 0.26) 77.78%, rgba(0,0,0, 0.26) 100%); }\n    .mdl-slider.is-upgraded.is-lowest-value::-ms-fill-lower {\n      background: transparent; }\n    .mdl-slider.is-upgraded.is-lowest-value::-ms-fill-upper {\n      margin-left: 6px; }\n    .mdl-slider.is-upgraded.is-lowest-value:active::-ms-fill-upper {\n      margin-left: 9px; }\n    .mdl-slider.is-upgraded:disabled:focus::-webkit-slider-thumb, .mdl-slider.is-upgraded:disabled:active::-webkit-slider-thumb, .mdl-slider.is-upgraded:disabled::-webkit-slider-thumb {\n      -webkit-transform: scale(0.667);\n              transform: scale(0.667);\n      background: rgba(0,0,0, 0.26); }\n    .mdl-slider.is-upgraded:disabled:focus::-moz-range-thumb, .mdl-slider.is-upgraded:disabled:active::-moz-range-thumb, .mdl-slider.is-upgraded:disabled::-moz-range-thumb {\n      transform: scale(0.667);\n      background: rgba(0,0,0, 0.26); }\n    .mdl-slider.is-upgraded:disabled +\n.mdl-slider__background-flex > .mdl-slider__background-lower {\n      background-color: rgba(0,0,0, 0.26);\n      left: -6px; }\n    .mdl-slider.is-upgraded:disabled +\n.mdl-slider__background-flex > .mdl-slider__background-upper {\n      left: 6px; }\n    .mdl-slider.is-upgraded.is-lowest-value:disabled:focus::-webkit-slider-thumb, .mdl-slider.is-upgraded.is-lowest-value:disabled:active::-webkit-slider-thumb, .mdl-slider.is-upgraded.is-lowest-value:disabled::-webkit-slider-thumb {\n      border: 3px solid rgba(0,0,0, 0.26);\n      background: transparent;\n      -webkit-transform: scale(0.667);\n              transform: scale(0.667); }\n    .mdl-slider.is-upgraded.is-lowest-value:disabled:focus::-moz-range-thumb, .mdl-slider.is-upgraded.is-lowest-value:disabled:active::-moz-range-thumb, .mdl-slider.is-upgraded.is-lowest-value:disabled::-moz-range-thumb {\n      border: 3px solid rgba(0,0,0, 0.26);\n      background: transparent;\n      transform: scale(0.667); }\n    .mdl-slider.is-upgraded.is-lowest-value:disabled:active +\n.mdl-slider__background-flex > .mdl-slider__background-upper {\n      left: 6px; }\n    .mdl-slider.is-upgraded:disabled:focus::-ms-thumb, .mdl-slider.is-upgraded:disabled:active::-ms-thumb, .mdl-slider.is-upgraded:disabled::-ms-thumb {\n      transform: scale(0.25);\n      background: rgba(0,0,0, 0.26); }\n    .mdl-slider.is-upgraded.is-lowest-value:disabled:focus::-ms-thumb, .mdl-slider.is-upgraded.is-lowest-value:disabled:active::-ms-thumb, .mdl-slider.is-upgraded.is-lowest-value:disabled::-ms-thumb {\n      transform: scale(0.25);\n      background: radial-gradient(circle closest-side, transparent 0%, transparent 50%, rgba(0,0,0, 0.26) 50%, rgba(0,0,0, 0.26) 100%); }\n    .mdl-slider.is-upgraded:disabled::-ms-fill-lower {\n      margin-right: 6px;\n      background: linear-gradient(to right, transparent, transparent 25px, rgba(0,0,0, 0.26) 25px, rgba(0,0,0, 0.26) 0); }\n    .mdl-slider.is-upgraded:disabled::-ms-fill-upper {\n      margin-left: 6px; }\n    .mdl-slider.is-upgraded.is-lowest-value:disabled:active::-ms-fill-upper {\n      margin-left: 6px; }\n\n.mdl-slider__ie-container {\n  height: 18px;\n  overflow: visible;\n  border: none;\n  margin: none;\n  padding: none; }\n\n.mdl-slider__container {\n  height: 18px;\n  position: relative;\n  background: none;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row; }\n\n.mdl-slider__background-flex {\n  background: transparent;\n  position: absolute;\n  height: 2px;\n  width: calc(100% - 52px);\n  top: 50%;\n  left: 0;\n  margin: 0 26px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  overflow: hidden;\n  border: 0;\n  padding: 0;\n  -webkit-transform: translate(0, -1px);\n          transform: translate(0, -1px); }\n\n.mdl-slider__background-lower {\n  background: rgb(63,81,181);\n  -webkit-box-flex: 0;\n      -ms-flex: 0;\n          flex: 0;\n  position: relative;\n  border: 0;\n  padding: 0; }\n\n.mdl-slider__background-upper {\n  background: rgba(0,0,0, 0.26);\n  -webkit-box-flex: 0;\n      -ms-flex: 0;\n          flex: 0;\n  position: relative;\n  border: 0;\n  padding: 0;\n  -webkit-transition: left 0.18s cubic-bezier(0.4, 0, 0.2, 1);\n  transition: left 0.18s cubic-bezier(0.4, 0, 0.2, 1); }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* Typography */\n/* Shadows */\n/* Animations */\n/* Dialog */\n.mdl-snackbar {\n  position: fixed;\n  bottom: 0;\n  left: 50%;\n  cursor: default;\n  background-color: #323232;\n  z-index: 3;\n  display: block;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  will-change: transform;\n  -webkit-transform: translate(0, 80px);\n          transform: translate(0, 80px);\n  -webkit-transition: -webkit-transform 0.25s cubic-bezier(0.4, 0, 1, 1);\n  transition: -webkit-transform 0.25s cubic-bezier(0.4, 0, 1, 1);\n  transition: transform 0.25s cubic-bezier(0.4, 0, 1, 1);\n  transition: transform 0.25s cubic-bezier(0.4, 0, 1, 1), -webkit-transform 0.25s cubic-bezier(0.4, 0, 1, 1);\n  pointer-events: none; }\n  @media (max-width: 479px) {\n    .mdl-snackbar {\n      width: 100%;\n      left: 0;\n      min-height: 48px;\n      max-height: 80px; } }\n  @media (min-width: 480px) {\n    .mdl-snackbar {\n      min-width: 288px;\n      max-width: 568px;\n      border-radius: 2px;\n      -webkit-transform: translate(-50%, 80px);\n              transform: translate(-50%, 80px); } }\n  .mdl-snackbar--active {\n    -webkit-transform: translate(0, 0);\n            transform: translate(0, 0);\n    pointer-events: auto;\n    -webkit-transition: -webkit-transform 0.25s cubic-bezier(0, 0, 0.2, 1);\n    transition: -webkit-transform 0.25s cubic-bezier(0, 0, 0.2, 1);\n    transition: transform 0.25s cubic-bezier(0, 0, 0.2, 1);\n    transition: transform 0.25s cubic-bezier(0, 0, 0.2, 1), -webkit-transform 0.25s cubic-bezier(0, 0, 0.2, 1); }\n    @media (min-width: 480px) {\n      .mdl-snackbar--active {\n        -webkit-transform: translate(-50%, 0);\n                transform: translate(-50%, 0); } }\n  .mdl-snackbar__text {\n    padding: 14px 12px 14px 24px;\n    vertical-align: middle;\n    color: white;\n    float: left; }\n  .mdl-snackbar__action {\n    background: transparent;\n    border: none;\n    color: rgb(255,64,129);\n    float: right;\n    text-transform: uppercase;\n    padding: 14px 24px 14px 12px;\n    font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n    font-size: 14px;\n    font-weight: 500;\n    text-transform: uppercase;\n    line-height: 1;\n    letter-spacing: 0;\n    overflow: hidden;\n    outline: none;\n    opacity: 0;\n    pointer-events: none;\n    cursor: pointer;\n    text-decoration: none;\n    text-align: center;\n    -ms-flex-item-align: center;\n        align-self: center; }\n    .mdl-snackbar__action::-moz-focus-inner {\n      border: 0; }\n    .mdl-snackbar__action:not([aria-hidden]) {\n      opacity: 1;\n      pointer-events: auto; }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n.mdl-spinner {\n  display: inline-block;\n  position: relative;\n  width: 28px;\n  height: 28px; }\n  .mdl-spinner:not(.is-upgraded).is-active:after {\n    content: \"Loading...\"; }\n  .mdl-spinner.is-upgraded.is-active {\n    -webkit-animation: mdl-spinner__container-rotate 1568.23529ms linear infinite;\n            animation: mdl-spinner__container-rotate 1568.23529ms linear infinite; }\n\n@-webkit-keyframes mdl-spinner__container-rotate {\n  to {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n\n@keyframes mdl-spinner__container-rotate {\n  to {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n\n.mdl-spinner__layer {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 0; }\n\n.mdl-spinner__layer-1 {\n  border-color: rgb(66,165,245); }\n  .mdl-spinner--single-color .mdl-spinner__layer-1 {\n    border-color: rgb(63,81,181); }\n  .mdl-spinner.is-active .mdl-spinner__layer-1 {\n    -webkit-animation: mdl-spinner__fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both, mdl-spinner__layer-1-fade-in-out 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;\n            animation: mdl-spinner__fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both, mdl-spinner__layer-1-fade-in-out 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both; }\n\n.mdl-spinner__layer-2 {\n  border-color: rgb(244,67,54); }\n  .mdl-spinner--single-color .mdl-spinner__layer-2 {\n    border-color: rgb(63,81,181); }\n  .mdl-spinner.is-active .mdl-spinner__layer-2 {\n    -webkit-animation: mdl-spinner__fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both, mdl-spinner__layer-2-fade-in-out 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;\n            animation: mdl-spinner__fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both, mdl-spinner__layer-2-fade-in-out 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both; }\n\n.mdl-spinner__layer-3 {\n  border-color: rgb(253,216,53); }\n  .mdl-spinner--single-color .mdl-spinner__layer-3 {\n    border-color: rgb(63,81,181); }\n  .mdl-spinner.is-active .mdl-spinner__layer-3 {\n    -webkit-animation: mdl-spinner__fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both, mdl-spinner__layer-3-fade-in-out 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;\n            animation: mdl-spinner__fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both, mdl-spinner__layer-3-fade-in-out 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both; }\n\n.mdl-spinner__layer-4 {\n  border-color: rgb(76,175,80); }\n  .mdl-spinner--single-color .mdl-spinner__layer-4 {\n    border-color: rgb(63,81,181); }\n  .mdl-spinner.is-active .mdl-spinner__layer-4 {\n    -webkit-animation: mdl-spinner__fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both, mdl-spinner__layer-4-fade-in-out 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;\n            animation: mdl-spinner__fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both, mdl-spinner__layer-4-fade-in-out 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both; }\n\n@-webkit-keyframes mdl-spinner__fill-unfill-rotate {\n  12.5% {\n    -webkit-transform: rotate(135deg);\n            transform: rotate(135deg); }\n  25% {\n    -webkit-transform: rotate(270deg);\n            transform: rotate(270deg); }\n  37.5% {\n    -webkit-transform: rotate(405deg);\n            transform: rotate(405deg); }\n  50% {\n    -webkit-transform: rotate(540deg);\n            transform: rotate(540deg); }\n  62.5% {\n    -webkit-transform: rotate(675deg);\n            transform: rotate(675deg); }\n  75% {\n    -webkit-transform: rotate(810deg);\n            transform: rotate(810deg); }\n  87.5% {\n    -webkit-transform: rotate(945deg);\n            transform: rotate(945deg); }\n  to {\n    -webkit-transform: rotate(1080deg);\n            transform: rotate(1080deg); } }\n\n@keyframes mdl-spinner__fill-unfill-rotate {\n  12.5% {\n    -webkit-transform: rotate(135deg);\n            transform: rotate(135deg); }\n  25% {\n    -webkit-transform: rotate(270deg);\n            transform: rotate(270deg); }\n  37.5% {\n    -webkit-transform: rotate(405deg);\n            transform: rotate(405deg); }\n  50% {\n    -webkit-transform: rotate(540deg);\n            transform: rotate(540deg); }\n  62.5% {\n    -webkit-transform: rotate(675deg);\n            transform: rotate(675deg); }\n  75% {\n    -webkit-transform: rotate(810deg);\n            transform: rotate(810deg); }\n  87.5% {\n    -webkit-transform: rotate(945deg);\n            transform: rotate(945deg); }\n  to {\n    -webkit-transform: rotate(1080deg);\n            transform: rotate(1080deg); } }\n\n/**\n* HACK: Even though the intention is to have the current .mdl-spinner__layer-N\n* at `opacity: 1`, we set it to `opacity: 0.99` instead since this forces Chrome\n* to do proper subpixel rendering for the elements being animated. This is\n* especially visible in Chrome 39 on Ubuntu 14.04. See:\n*\n* - https://github.com/Polymer/paper-spinner/issues/9\n* - https://code.google.com/p/chromium/issues/detail?id=436255\n*/\n@-webkit-keyframes mdl-spinner__layer-1-fade-in-out {\n  from {\n    opacity: 0.99; }\n  25% {\n    opacity: 0.99; }\n  26% {\n    opacity: 0; }\n  89% {\n    opacity: 0; }\n  90% {\n    opacity: 0.99; }\n  100% {\n    opacity: 0.99; } }\n@keyframes mdl-spinner__layer-1-fade-in-out {\n  from {\n    opacity: 0.99; }\n  25% {\n    opacity: 0.99; }\n  26% {\n    opacity: 0; }\n  89% {\n    opacity: 0; }\n  90% {\n    opacity: 0.99; }\n  100% {\n    opacity: 0.99; } }\n\n@-webkit-keyframes mdl-spinner__layer-2-fade-in-out {\n  from {\n    opacity: 0; }\n  15% {\n    opacity: 0; }\n  25% {\n    opacity: 0.99; }\n  50% {\n    opacity: 0.99; }\n  51% {\n    opacity: 0; } }\n\n@keyframes mdl-spinner__layer-2-fade-in-out {\n  from {\n    opacity: 0; }\n  15% {\n    opacity: 0; }\n  25% {\n    opacity: 0.99; }\n  50% {\n    opacity: 0.99; }\n  51% {\n    opacity: 0; } }\n\n@-webkit-keyframes mdl-spinner__layer-3-fade-in-out {\n  from {\n    opacity: 0; }\n  40% {\n    opacity: 0; }\n  50% {\n    opacity: 0.99; }\n  75% {\n    opacity: 0.99; }\n  76% {\n    opacity: 0; } }\n\n@keyframes mdl-spinner__layer-3-fade-in-out {\n  from {\n    opacity: 0; }\n  40% {\n    opacity: 0; }\n  50% {\n    opacity: 0.99; }\n  75% {\n    opacity: 0.99; }\n  76% {\n    opacity: 0; } }\n\n@-webkit-keyframes mdl-spinner__layer-4-fade-in-out {\n  from {\n    opacity: 0; }\n  65% {\n    opacity: 0; }\n  75% {\n    opacity: 0.99; }\n  90% {\n    opacity: 0.99; }\n  100% {\n    opacity: 0; } }\n\n@keyframes mdl-spinner__layer-4-fade-in-out {\n  from {\n    opacity: 0; }\n  65% {\n    opacity: 0; }\n  75% {\n    opacity: 0.99; }\n  90% {\n    opacity: 0.99; }\n  100% {\n    opacity: 0; } }\n\n/**\n* Patch the gap that appear between the two adjacent\n* div.mdl-spinner__circle-clipper while the spinner is rotating\n* (appears on Chrome 38, Safari 7.1, and IE 11).\n*\n* Update: the gap no longer appears on Chrome when .mdl-spinner__layer-N's\n* opacity is 0.99, but still does on Safari and IE.\n*/\n.mdl-spinner__gap-patch {\n  position: absolute;\n  box-sizing: border-box;\n  top: 0;\n  left: 45%;\n  width: 10%;\n  height: 100%;\n  overflow: hidden;\n  border-color: inherit; }\n  .mdl-spinner__gap-patch .mdl-spinner__circle {\n    width: 1000%;\n    left: -450%; }\n\n.mdl-spinner__circle-clipper {\n  display: inline-block;\n  position: relative;\n  width: 50%;\n  height: 100%;\n  overflow: hidden;\n  border-color: inherit; }\n  .mdl-spinner__circle-clipper .mdl-spinner__circle {\n    width: 200%; }\n\n.mdl-spinner__circle {\n  box-sizing: border-box;\n  height: 100%;\n  border-width: 3px;\n  border-style: solid;\n  border-color: inherit;\n  border-bottom-color: transparent !important;\n  border-radius: 50%;\n  -webkit-animation: none;\n          animation: none;\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0; }\n  .mdl-spinner__left .mdl-spinner__circle {\n    border-right-color: transparent !important;\n    -webkit-transform: rotate(129deg);\n            transform: rotate(129deg); }\n    .mdl-spinner.is-active .mdl-spinner__left .mdl-spinner__circle {\n      -webkit-animation: mdl-spinner__left-spin 1333ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;\n              animation: mdl-spinner__left-spin 1333ms cubic-bezier(0.4, 0, 0.2, 1) infinite both; }\n  .mdl-spinner__right .mdl-spinner__circle {\n    left: -100%;\n    border-left-color: transparent !important;\n    -webkit-transform: rotate(-129deg);\n            transform: rotate(-129deg); }\n    .mdl-spinner.is-active .mdl-spinner__right .mdl-spinner__circle {\n      -webkit-animation: mdl-spinner__right-spin 1333ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;\n              animation: mdl-spinner__right-spin 1333ms cubic-bezier(0.4, 0, 0.2, 1) infinite both; }\n\n@-webkit-keyframes mdl-spinner__left-spin {\n  from {\n    -webkit-transform: rotate(130deg);\n            transform: rotate(130deg); }\n  50% {\n    -webkit-transform: rotate(-5deg);\n            transform: rotate(-5deg); }\n  to {\n    -webkit-transform: rotate(130deg);\n            transform: rotate(130deg); } }\n\n@keyframes mdl-spinner__left-spin {\n  from {\n    -webkit-transform: rotate(130deg);\n            transform: rotate(130deg); }\n  50% {\n    -webkit-transform: rotate(-5deg);\n            transform: rotate(-5deg); }\n  to {\n    -webkit-transform: rotate(130deg);\n            transform: rotate(130deg); } }\n\n@-webkit-keyframes mdl-spinner__right-spin {\n  from {\n    -webkit-transform: rotate(-130deg);\n            transform: rotate(-130deg); }\n  50% {\n    -webkit-transform: rotate(5deg);\n            transform: rotate(5deg); }\n  to {\n    -webkit-transform: rotate(-130deg);\n            transform: rotate(-130deg); } }\n\n@keyframes mdl-spinner__right-spin {\n  from {\n    -webkit-transform: rotate(-130deg);\n            transform: rotate(-130deg); }\n  50% {\n    -webkit-transform: rotate(5deg);\n            transform: rotate(5deg); }\n  to {\n    -webkit-transform: rotate(-130deg);\n            transform: rotate(-130deg); } }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* Typography */\n/* Shadows */\n/* Animations */\n/* Dialog */\n.mdl-switch {\n  position: relative;\n  z-index: 1;\n  vertical-align: middle;\n  display: inline-block;\n  box-sizing: border-box;\n  width: 100%;\n  height: 24px;\n  margin: 0;\n  padding: 0;\n  overflow: visible;\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none; }\n  .mdl-switch.is-upgraded {\n    padding-left: 28px; }\n\n.mdl-switch__input {\n  line-height: 24px; }\n  .mdl-switch.is-upgraded .mdl-switch__input {\n    position: absolute;\n    width: 0;\n    height: 0;\n    margin: 0;\n    padding: 0;\n    opacity: 0;\n    -ms-appearance: none;\n    -moz-appearance: none;\n    -webkit-appearance: none;\n    appearance: none;\n    border: none; }\n\n.mdl-switch__track {\n  background: rgba(0,0,0, 0.26);\n  position: absolute;\n  left: 0;\n  top: 5px;\n  height: 14px;\n  width: 36px;\n  border-radius: 14px;\n  cursor: pointer; }\n  .mdl-switch.is-checked .mdl-switch__track {\n    background: rgba(63,81,181, 0.5); }\n  .mdl-switch__track fieldset[disabled] .mdl-switch,\n  .mdl-switch.is-disabled .mdl-switch__track {\n    background: rgba(0,0,0, 0.12);\n    cursor: auto; }\n\n.mdl-switch__thumb {\n  background: rgb(250,250,250);\n  position: absolute;\n  left: 0;\n  top: 2px;\n  height: 20px;\n  width: 20px;\n  border-radius: 50%;\n  cursor: pointer;\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);\n  -webkit-transition-duration: 0.28s;\n          transition-duration: 0.28s;\n  -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n  -webkit-transition-property: left;\n  transition-property: left; }\n  .mdl-switch.is-checked .mdl-switch__thumb {\n    background: rgb(63,81,181);\n    left: 16px;\n    box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 1px 8px 0 rgba(0, 0, 0, 0.12); }\n  .mdl-switch__thumb fieldset[disabled] .mdl-switch,\n  .mdl-switch.is-disabled .mdl-switch__thumb {\n    background: rgb(189,189,189);\n    cursor: auto; }\n\n.mdl-switch__focus-helper {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-4px, -4px);\n          transform: translate(-4px, -4px);\n  display: inline-block;\n  box-sizing: border-box;\n  width: 8px;\n  height: 8px;\n  border-radius: 50%;\n  background-color: transparent; }\n  .mdl-switch.is-focused .mdl-switch__focus-helper {\n    box-shadow: 0 0 0px 20px rgba(0, 0, 0, 0.1);\n    background-color: rgba(0, 0, 0, 0.1); }\n  .mdl-switch.is-focused.is-checked .mdl-switch__focus-helper {\n    box-shadow: 0 0 0px 20px rgba(63,81,181, 0.26);\n    background-color: rgba(63,81,181, 0.26); }\n\n.mdl-switch__label {\n  position: relative;\n  cursor: pointer;\n  font-size: 16px;\n  line-height: 24px;\n  margin: 0;\n  left: 24px; }\n  .mdl-switch__label fieldset[disabled] .mdl-switch,\n  .mdl-switch.is-disabled .mdl-switch__label {\n    color: rgb(189,189,189);\n    cursor: auto; }\n\n.mdl-switch__ripple-container {\n  position: absolute;\n  z-index: 2;\n  top: -12px;\n  left: -14px;\n  box-sizing: border-box;\n  width: 48px;\n  height: 48px;\n  border-radius: 50%;\n  cursor: pointer;\n  overflow: hidden;\n  -webkit-mask-image: -webkit-radial-gradient(circle, white, black);\n  -webkit-transition-duration: 0.40s;\n          transition-duration: 0.40s;\n  -webkit-transition-timing-function: step-end;\n          transition-timing-function: step-end;\n  -webkit-transition-property: left;\n  transition-property: left; }\n  .mdl-switch__ripple-container .mdl-ripple {\n    background: rgb(63,81,181); }\n  .mdl-switch__ripple-container fieldset[disabled] .mdl-switch,\n  .mdl-switch.is-disabled .mdl-switch__ripple-container {\n    cursor: auto; }\n  fieldset[disabled] .mdl-switch .mdl-switch__ripple-container .mdl-ripple,\n  .mdl-switch.is-disabled .mdl-switch__ripple-container .mdl-ripple {\n    background: transparent; }\n  .mdl-switch.is-checked .mdl-switch__ripple-container {\n    left: 2px; }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n.mdl-tabs {\n  display: block;\n  width: 100%; }\n\n.mdl-tabs__tab-bar {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -ms-flex-line-pack: justify;\n      align-content: space-between;\n  -webkit-box-align: start;\n      -ms-flex-align: start;\n          align-items: flex-start;\n  height: 48px;\n  padding: 0 0 0 0;\n  margin: 0;\n  border-bottom: 1px solid rgb(224,224,224); }\n\n.mdl-tabs__tab {\n  margin: 0;\n  border: none;\n  padding: 0 24px 0 24px;\n  float: left;\n  position: relative;\n  display: block;\n  text-decoration: none;\n  height: 48px;\n  line-height: 48px;\n  text-align: center;\n  font-weight: 500;\n  font-size: 14px;\n  text-transform: uppercase;\n  color: rgba(0,0,0, 0.54);\n  overflow: hidden; }\n  .mdl-tabs.is-upgraded .mdl-tabs__tab.is-active {\n    color: rgba(0,0,0, 0.87); }\n  .mdl-tabs.is-upgraded .mdl-tabs__tab.is-active:after {\n    height: 2px;\n    width: 100%;\n    display: block;\n    content: \" \";\n    bottom: 0px;\n    left: 0px;\n    position: absolute;\n    background: rgb(63,81,181);\n    -webkit-animation: border-expand 0.2s cubic-bezier(0.4, 0, 0.4, 1) 0.01s alternate forwards;\n            animation: border-expand 0.2s cubic-bezier(0.4, 0, 0.4, 1) 0.01s alternate forwards;\n    -webkit-transition: all 1s cubic-bezier(0.4, 0, 1, 1);\n    transition: all 1s cubic-bezier(0.4, 0, 1, 1); }\n  .mdl-tabs__tab .mdl-tabs__ripple-container {\n    display: block;\n    position: absolute;\n    height: 100%;\n    width: 100%;\n    left: 0px;\n    top: 0px;\n    z-index: 1;\n    overflow: hidden; }\n    .mdl-tabs__tab .mdl-tabs__ripple-container .mdl-ripple {\n      background: rgb(63,81,181); }\n\n.mdl-tabs__panel {\n  display: block; }\n  .mdl-tabs.is-upgraded .mdl-tabs__panel {\n    display: none; }\n  .mdl-tabs.is-upgraded .mdl-tabs__panel.is-active {\n    display: block; }\n\n@-webkit-keyframes border-expand {\n  0% {\n    opacity: 0;\n    width: 0; }\n  100% {\n    opacity: 1;\n    width: 100%; } }\n\n@keyframes border-expand {\n  0% {\n    opacity: 0;\n    width: 0; }\n  100% {\n    opacity: 1;\n    width: 100%; } }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* Typography */\n/* Shadows */\n/* Animations */\n/* Dialog */\n.mdl-textfield {\n  position: relative;\n  font-size: 16px;\n  display: inline-block;\n  box-sizing: border-box;\n  width: 300px;\n  max-width: 100%;\n  margin: 0;\n  padding: 20px 0; }\n  .mdl-textfield .mdl-button {\n    position: absolute;\n    bottom: 20px; }\n\n.mdl-textfield--align-right {\n  text-align: right; }\n\n.mdl-textfield--full-width {\n  width: 100%; }\n\n.mdl-textfield--expandable {\n  min-width: 32px;\n  width: auto;\n  min-height: 32px; }\n\n.mdl-textfield__input {\n  border: none;\n  border-bottom: 1px solid rgba(0,0,0, 0.12);\n  display: block;\n  font-size: 16px;\n  font-family: \"Roboto\", \"Helvetica Neue\", \"Open Sans\", \"Arial\", sans-serif;\n  margin: 0;\n  padding: 4px 0;\n  width: 100%;\n  background: none;\n  text-align: left;\n  color: inherit; }\n  .mdl-textfield__input[type=\"number\"] {\n    -moz-appearance: textfield; }\n  .mdl-textfield__input[type=\"number\"]::-webkit-inner-spin-button, .mdl-textfield__input[type=\"number\"]::-webkit-outer-spin-button {\n    -webkit-appearance: none;\n    margin: 0; }\n  .mdl-textfield.is-focused .mdl-textfield__input {\n    outline: none; }\n  .mdl-textfield.is-invalid .mdl-textfield__input {\n    border-color: rgb(213,0,0);\n    box-shadow: none; }\n  fieldset[disabled] .mdl-textfield .mdl-textfield__input,\n  .mdl-textfield.is-disabled .mdl-textfield__input {\n    background-color: transparent;\n    border-bottom: 1px dotted rgba(0,0,0, 0.12);\n    color: rgba(0,0,0, 0.26); }\n\n.mdl-textfield textarea.mdl-textfield__input {\n  display: block; }\n\n.mdl-textfield__label {\n  bottom: 0;\n  color: rgba(0,0,0, 0.26);\n  font-size: 16px;\n  left: 0;\n  right: 0;\n  pointer-events: none;\n  position: absolute;\n  display: block;\n  top: 24px;\n  width: 100%;\n  overflow: hidden;\n  white-space: nowrap;\n  text-align: left; }\n  .mdl-textfield.is-dirty .mdl-textfield__label,\n  .mdl-textfield.has-placeholder .mdl-textfield__label {\n    visibility: hidden; }\n  .mdl-textfield--floating-label .mdl-textfield__label {\n    -webkit-transition-duration: 0.2s;\n            transition-duration: 0.2s;\n    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }\n  .mdl-textfield--floating-label.has-placeholder .mdl-textfield__label {\n    -webkit-transition: none;\n    transition: none; }\n  fieldset[disabled] .mdl-textfield .mdl-textfield__label,\n  .mdl-textfield.is-disabled.is-disabled .mdl-textfield__label {\n    color: rgba(0,0,0, 0.26); }\n  .mdl-textfield--floating-label.is-focused .mdl-textfield__label,\n  .mdl-textfield--floating-label.is-dirty .mdl-textfield__label,\n  .mdl-textfield--floating-label.has-placeholder .mdl-textfield__label {\n    color: rgb(63,81,181);\n    font-size: 12px;\n    top: 4px;\n    visibility: visible; }\n  .mdl-textfield--floating-label.is-focused .mdl-textfield__expandable-holder .mdl-textfield__label,\n  .mdl-textfield--floating-label.is-dirty .mdl-textfield__expandable-holder .mdl-textfield__label,\n  .mdl-textfield--floating-label.has-placeholder .mdl-textfield__expandable-holder .mdl-textfield__label {\n    top: -16px; }\n  .mdl-textfield--floating-label.is-invalid .mdl-textfield__label {\n    color: rgb(213,0,0);\n    font-size: 12px; }\n  .mdl-textfield__label:after {\n    background-color: rgb(63,81,181);\n    bottom: 20px;\n    content: '';\n    height: 2px;\n    left: 45%;\n    position: absolute;\n    -webkit-transition-duration: 0.2s;\n            transition-duration: 0.2s;\n    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n    visibility: hidden;\n    width: 10px; }\n  .mdl-textfield.is-focused .mdl-textfield__label:after {\n    left: 0;\n    visibility: visible;\n    width: 100%; }\n  .mdl-textfield.is-invalid .mdl-textfield__label:after {\n    background-color: rgb(213,0,0); }\n\n.mdl-textfield__error {\n  color: rgb(213,0,0);\n  position: absolute;\n  font-size: 12px;\n  margin-top: 3px;\n  visibility: hidden;\n  display: block; }\n  .mdl-textfield.is-invalid .mdl-textfield__error {\n    visibility: visible; }\n\n.mdl-textfield__expandable-holder {\n  display: inline-block;\n  position: relative;\n  margin-left: 32px;\n  -webkit-transition-duration: 0.2s;\n          transition-duration: 0.2s;\n  -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n  display: inline-block;\n  max-width: 0.1px; }\n  .mdl-textfield.is-focused .mdl-textfield__expandable-holder, .mdl-textfield.is-dirty .mdl-textfield__expandable-holder {\n    max-width: 600px; }\n  .mdl-textfield__expandable-holder .mdl-textfield__label:after {\n    bottom: 0; }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n.mdl-tooltip {\n  -webkit-transform: scale(0);\n          transform: scale(0);\n  -webkit-transform-origin: top center;\n          transform-origin: top center;\n  will-change: transform;\n  z-index: 999;\n  background: rgba(97,97,97, 0.9);\n  border-radius: 2px;\n  color: rgb(255,255,255);\n  display: inline-block;\n  font-size: 10px;\n  font-weight: 500;\n  line-height: 14px;\n  max-width: 170px;\n  position: fixed;\n  top: -500px;\n  left: -500px;\n  padding: 8px;\n  text-align: center; }\n\n.mdl-tooltip.is-active {\n  -webkit-animation: pulse 200ms cubic-bezier(0, 0, 0.2, 1) forwards;\n          animation: pulse 200ms cubic-bezier(0, 0, 0.2, 1) forwards; }\n\n.mdl-tooltip--large {\n  line-height: 14px;\n  font-size: 14px;\n  padding: 16px; }\n\n@-webkit-keyframes pulse {\n  0% {\n    -webkit-transform: scale(0);\n            transform: scale(0);\n    opacity: 0; }\n  50% {\n    -webkit-transform: scale(0.99);\n            transform: scale(0.99); }\n  100% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1;\n    visibility: visible; } }\n\n@keyframes pulse {\n  0% {\n    -webkit-transform: scale(0);\n            transform: scale(0);\n    opacity: 0; }\n  50% {\n    -webkit-transform: scale(0.99);\n            transform: scale(0.99); }\n  100% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n    opacity: 1;\n    visibility: visible; } }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* Typography */\n/* Shadows */\n/* Animations */\n/* Dialog */\n.mdl-shadow--2dp {\n  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }\n\n.mdl-shadow--3dp {\n  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 1px 8px 0 rgba(0, 0, 0, 0.12); }\n\n.mdl-shadow--4dp {\n  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2); }\n\n.mdl-shadow--6dp {\n  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2); }\n\n.mdl-shadow--8dp {\n  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2); }\n\n.mdl-shadow--16dp {\n  box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2); }\n\n.mdl-shadow--24dp {\n  box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2); }\n\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*\n* NOTE: Some rules here are applied using duplicate selectors.\n* This is on purpose to increase their specificity when applied.\n* For example: `.mdl-cell--1-col-phone.mdl-cell--1-col-phone`\n*/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/*------------------------------------*    $CONTENTS\n\\*------------------------------------*/\n/**\n * STYLE GUIDE VARIABLES------------------Declarations of Sass variables\n * -----Typography\n * -----Colors\n * -----Textfield\n * -----Switch\n * -----Spinner\n * -----Radio\n * -----Menu\n * -----List\n * -----Layout\n * -----Icon toggles\n * -----Footer\n * -----Column\n * -----Checkbox\n * -----Card\n * -----Button\n * -----Animation\n * -----Progress\n * -----Badge\n * -----Shadows\n * -----Grid\n * -----Data table\n * -----Dialog\n * -----Snackbar\n *\n * Even though all variables have the `!default` directive, most of them\n * should not be changed as they are dependent one another. This can cause\n * visual distortions (like alignment issues) that are hard to track down\n * and fix.\n */\n/* ==========  TYPOGRAPHY  ========== */\n/* We're splitting fonts into \"preferred\" and \"performance\" in order to optimize\n   page loading. For important text, such as the body, we want it to load\n   immediately and not wait for the web font load, whereas for other sections,\n   such as headers and titles, we're OK with things taking a bit longer to load.\n   We do have some optional classes and parameters in the mixins, in case you\n   definitely want to make sure you're using the preferred font and don't mind\n   the performance hit.\n   We should be able to improve on this once CSS Font Loading L3 becomes more\n   widely available.\n*/\n/* ==========  COLORS  ========== */\n/**\n*\n* Material design color palettes.\n* @see http://www.google.com/design/spec/style/color.html\n*\n**/\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  Color Palettes  ========== */\n/* colors.scss */\n/**\n * Copyright 2015 Google Inc. All Rights Reserved.\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n/* ==========  IMAGES  ========== */\n/* ==========  Color & Themes  ========== */\n/* ==========  Typography  ========== */\n/* ==========  Components  ========== */\n/* ==========  Standard Buttons  ========== */\n/* ==========  Icon Toggles  ========== */\n/* ==========  Radio Buttons  ========== */\n/* ==========  Ripple effect  ========== */\n/* ==========  Layout  ========== */\n/* ==========  Content Tabs  ========== */\n/* ==========  Checkboxes  ========== */\n/* ==========  Switches  ========== */\n/* ==========  Spinner  ========== */\n/* ==========  Text fields  ========== */\n/* ==========  Card  ========== */\n/* ==========  Sliders ========== */\n/* ========== Progress ========== */\n/* ==========  List ========== */\n/* ==========  Item ========== */\n/* ==========  Dropdown menu ========== */\n/* ==========  Tooltips  ========== */\n/* ==========  Footer  ========== */\n/* TEXTFIELD */\n/* SWITCH */\n/* SPINNER */\n/* RADIO */\n/* MENU */\n/* LIST */\n/* LAYOUT */\n/* ICON TOGGLE */\n/* FOOTER */\n/*mega-footer*/\n/*mini-footer*/\n/* CHECKBOX */\n/* CARD */\n/* Card dimensions */\n/* Cover image */\n/* BUTTON */\n/**\n *\n * Dimensions\n *\n */\n/* ANIMATION */\n/* PROGRESS */\n/* BADGE */\n/* SHADOWS */\n/* GRID */\n/* DATA TABLE */\n/* DIALOG */\n/* SNACKBAR */\n/* TOOLTIP */\n.mdl-grid {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-flow: row wrap;\n      flex-flow: row wrap;\n  margin: 0 auto 0 auto;\n  -webkit-box-align: stretch;\n      -ms-flex-align: stretch;\n          align-items: stretch; }\n  .mdl-grid.mdl-grid--no-spacing {\n    padding: 0; }\n\n.mdl-cell {\n  box-sizing: border-box; }\n\n.mdl-cell--top {\n  -ms-flex-item-align: start;\n      align-self: flex-start; }\n\n.mdl-cell--middle {\n  -ms-flex-item-align: center;\n      align-self: center; }\n\n.mdl-cell--bottom {\n  -ms-flex-item-align: end;\n      align-self: flex-end; }\n\n.mdl-cell--stretch {\n  -ms-flex-item-align: stretch;\n      align-self: stretch; }\n\n.mdl-grid.mdl-grid--no-spacing > .mdl-cell {\n  margin: 0; }\n\n.mdl-cell--order-1 {\n  -webkit-box-ordinal-group: 2;\n      -ms-flex-order: 1;\n          order: 1; }\n\n.mdl-cell--order-2 {\n  -webkit-box-ordinal-group: 3;\n      -ms-flex-order: 2;\n          order: 2; }\n\n.mdl-cell--order-3 {\n  -webkit-box-ordinal-group: 4;\n      -ms-flex-order: 3;\n          order: 3; }\n\n.mdl-cell--order-4 {\n  -webkit-box-ordinal-group: 5;\n      -ms-flex-order: 4;\n          order: 4; }\n\n.mdl-cell--order-5 {\n  -webkit-box-ordinal-group: 6;\n      -ms-flex-order: 5;\n          order: 5; }\n\n.mdl-cell--order-6 {\n  -webkit-box-ordinal-group: 7;\n      -ms-flex-order: 6;\n          order: 6; }\n\n.mdl-cell--order-7 {\n  -webkit-box-ordinal-group: 8;\n      -ms-flex-order: 7;\n          order: 7; }\n\n.mdl-cell--order-8 {\n  -webkit-box-ordinal-group: 9;\n      -ms-flex-order: 8;\n          order: 8; }\n\n.mdl-cell--order-9 {\n  -webkit-box-ordinal-group: 10;\n      -ms-flex-order: 9;\n          order: 9; }\n\n.mdl-cell--order-10 {\n  -webkit-box-ordinal-group: 11;\n      -ms-flex-order: 10;\n          order: 10; }\n\n.mdl-cell--order-11 {\n  -webkit-box-ordinal-group: 12;\n      -ms-flex-order: 11;\n          order: 11; }\n\n.mdl-cell--order-12 {\n  -webkit-box-ordinal-group: 13;\n      -ms-flex-order: 12;\n          order: 12; }\n\n@media (max-width: 479px) {\n  .mdl-grid {\n    padding: 8px; }\n  .mdl-cell {\n    margin: 8px;\n    width: calc(100% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell {\n      width: 100%; }\n  .mdl-cell--hide-phone {\n    display: none !important; }\n  .mdl-cell--order-1-phone.mdl-cell--order-1-phone {\n    -webkit-box-ordinal-group: 2;\n        -ms-flex-order: 1;\n            order: 1; }\n  .mdl-cell--order-2-phone.mdl-cell--order-2-phone {\n    -webkit-box-ordinal-group: 3;\n        -ms-flex-order: 2;\n            order: 2; }\n  .mdl-cell--order-3-phone.mdl-cell--order-3-phone {\n    -webkit-box-ordinal-group: 4;\n        -ms-flex-order: 3;\n            order: 3; }\n  .mdl-cell--order-4-phone.mdl-cell--order-4-phone {\n    -webkit-box-ordinal-group: 5;\n        -ms-flex-order: 4;\n            order: 4; }\n  .mdl-cell--order-5-phone.mdl-cell--order-5-phone {\n    -webkit-box-ordinal-group: 6;\n        -ms-flex-order: 5;\n            order: 5; }\n  .mdl-cell--order-6-phone.mdl-cell--order-6-phone {\n    -webkit-box-ordinal-group: 7;\n        -ms-flex-order: 6;\n            order: 6; }\n  .mdl-cell--order-7-phone.mdl-cell--order-7-phone {\n    -webkit-box-ordinal-group: 8;\n        -ms-flex-order: 7;\n            order: 7; }\n  .mdl-cell--order-8-phone.mdl-cell--order-8-phone {\n    -webkit-box-ordinal-group: 9;\n        -ms-flex-order: 8;\n            order: 8; }\n  .mdl-cell--order-9-phone.mdl-cell--order-9-phone {\n    -webkit-box-ordinal-group: 10;\n        -ms-flex-order: 9;\n            order: 9; }\n  .mdl-cell--order-10-phone.mdl-cell--order-10-phone {\n    -webkit-box-ordinal-group: 11;\n        -ms-flex-order: 10;\n            order: 10; }\n  .mdl-cell--order-11-phone.mdl-cell--order-11-phone {\n    -webkit-box-ordinal-group: 12;\n        -ms-flex-order: 11;\n            order: 11; }\n  .mdl-cell--order-12-phone.mdl-cell--order-12-phone {\n    -webkit-box-ordinal-group: 13;\n        -ms-flex-order: 12;\n            order: 12; }\n  .mdl-cell--1-col,\n  .mdl-cell--1-col-phone.mdl-cell--1-col-phone {\n    width: calc(25% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--1-col, .mdl-grid--no-spacing >\n    .mdl-cell--1-col-phone.mdl-cell--1-col-phone {\n      width: 25%; }\n  .mdl-cell--2-col,\n  .mdl-cell--2-col-phone.mdl-cell--2-col-phone {\n    width: calc(50% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--2-col, .mdl-grid--no-spacing >\n    .mdl-cell--2-col-phone.mdl-cell--2-col-phone {\n      width: 50%; }\n  .mdl-cell--3-col,\n  .mdl-cell--3-col-phone.mdl-cell--3-col-phone {\n    width: calc(75% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--3-col, .mdl-grid--no-spacing >\n    .mdl-cell--3-col-phone.mdl-cell--3-col-phone {\n      width: 75%; }\n  .mdl-cell--4-col,\n  .mdl-cell--4-col-phone.mdl-cell--4-col-phone {\n    width: calc(100% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--4-col, .mdl-grid--no-spacing >\n    .mdl-cell--4-col-phone.mdl-cell--4-col-phone {\n      width: 100%; }\n  .mdl-cell--5-col,\n  .mdl-cell--5-col-phone.mdl-cell--5-col-phone {\n    width: calc(100% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--5-col, .mdl-grid--no-spacing >\n    .mdl-cell--5-col-phone.mdl-cell--5-col-phone {\n      width: 100%; }\n  .mdl-cell--6-col,\n  .mdl-cell--6-col-phone.mdl-cell--6-col-phone {\n    width: calc(100% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--6-col, .mdl-grid--no-spacing >\n    .mdl-cell--6-col-phone.mdl-cell--6-col-phone {\n      width: 100%; }\n  .mdl-cell--7-col,\n  .mdl-cell--7-col-phone.mdl-cell--7-col-phone {\n    width: calc(100% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--7-col, .mdl-grid--no-spacing >\n    .mdl-cell--7-col-phone.mdl-cell--7-col-phone {\n      width: 100%; }\n  .mdl-cell--8-col,\n  .mdl-cell--8-col-phone.mdl-cell--8-col-phone {\n    width: calc(100% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--8-col, .mdl-grid--no-spacing >\n    .mdl-cell--8-col-phone.mdl-cell--8-col-phone {\n      width: 100%; }\n  .mdl-cell--9-col,\n  .mdl-cell--9-col-phone.mdl-cell--9-col-phone {\n    width: calc(100% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--9-col, .mdl-grid--no-spacing >\n    .mdl-cell--9-col-phone.mdl-cell--9-col-phone {\n      width: 100%; }\n  .mdl-cell--10-col,\n  .mdl-cell--10-col-phone.mdl-cell--10-col-phone {\n    width: calc(100% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--10-col, .mdl-grid--no-spacing >\n    .mdl-cell--10-col-phone.mdl-cell--10-col-phone {\n      width: 100%; }\n  .mdl-cell--11-col,\n  .mdl-cell--11-col-phone.mdl-cell--11-col-phone {\n    width: calc(100% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--11-col, .mdl-grid--no-spacing >\n    .mdl-cell--11-col-phone.mdl-cell--11-col-phone {\n      width: 100%; }\n  .mdl-cell--12-col,\n  .mdl-cell--12-col-phone.mdl-cell--12-col-phone {\n    width: calc(100% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--12-col, .mdl-grid--no-spacing >\n    .mdl-cell--12-col-phone.mdl-cell--12-col-phone {\n      width: 100%; }\n  .mdl-cell--1-offset,\n  .mdl-cell--1-offset-phone.mdl-cell--1-offset-phone {\n    margin-left: calc(25% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--1-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--1-offset-phone.mdl-cell--1-offset-phone {\n      margin-left: 25%; }\n  .mdl-cell--2-offset,\n  .mdl-cell--2-offset-phone.mdl-cell--2-offset-phone {\n    margin-left: calc(50% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--2-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--2-offset-phone.mdl-cell--2-offset-phone {\n      margin-left: 50%; }\n  .mdl-cell--3-offset,\n  .mdl-cell--3-offset-phone.mdl-cell--3-offset-phone {\n    margin-left: calc(75% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--3-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--3-offset-phone.mdl-cell--3-offset-phone {\n      margin-left: 75%; } }\n\n@media (min-width: 480px) and (max-width: 839px) {\n  .mdl-grid {\n    padding: 8px; }\n  .mdl-cell {\n    margin: 8px;\n    width: calc(50% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell {\n      width: 50%; }\n  .mdl-cell--hide-tablet {\n    display: none !important; }\n  .mdl-cell--order-1-tablet.mdl-cell--order-1-tablet {\n    -webkit-box-ordinal-group: 2;\n        -ms-flex-order: 1;\n            order: 1; }\n  .mdl-cell--order-2-tablet.mdl-cell--order-2-tablet {\n    -webkit-box-ordinal-group: 3;\n        -ms-flex-order: 2;\n            order: 2; }\n  .mdl-cell--order-3-tablet.mdl-cell--order-3-tablet {\n    -webkit-box-ordinal-group: 4;\n        -ms-flex-order: 3;\n            order: 3; }\n  .mdl-cell--order-4-tablet.mdl-cell--order-4-tablet {\n    -webkit-box-ordinal-group: 5;\n        -ms-flex-order: 4;\n            order: 4; }\n  .mdl-cell--order-5-tablet.mdl-cell--order-5-tablet {\n    -webkit-box-ordinal-group: 6;\n        -ms-flex-order: 5;\n            order: 5; }\n  .mdl-cell--order-6-tablet.mdl-cell--order-6-tablet {\n    -webkit-box-ordinal-group: 7;\n        -ms-flex-order: 6;\n            order: 6; }\n  .mdl-cell--order-7-tablet.mdl-cell--order-7-tablet {\n    -webkit-box-ordinal-group: 8;\n        -ms-flex-order: 7;\n            order: 7; }\n  .mdl-cell--order-8-tablet.mdl-cell--order-8-tablet {\n    -webkit-box-ordinal-group: 9;\n        -ms-flex-order: 8;\n            order: 8; }\n  .mdl-cell--order-9-tablet.mdl-cell--order-9-tablet {\n    -webkit-box-ordinal-group: 10;\n        -ms-flex-order: 9;\n            order: 9; }\n  .mdl-cell--order-10-tablet.mdl-cell--order-10-tablet {\n    -webkit-box-ordinal-group: 11;\n        -ms-flex-order: 10;\n            order: 10; }\n  .mdl-cell--order-11-tablet.mdl-cell--order-11-tablet {\n    -webkit-box-ordinal-group: 12;\n        -ms-flex-order: 11;\n            order: 11; }\n  .mdl-cell--order-12-tablet.mdl-cell--order-12-tablet {\n    -webkit-box-ordinal-group: 13;\n        -ms-flex-order: 12;\n            order: 12; }\n  .mdl-cell--1-col,\n  .mdl-cell--1-col-tablet.mdl-cell--1-col-tablet {\n    width: calc(12.5% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--1-col, .mdl-grid--no-spacing >\n    .mdl-cell--1-col-tablet.mdl-cell--1-col-tablet {\n      width: 12.5%; }\n  .mdl-cell--2-col,\n  .mdl-cell--2-col-tablet.mdl-cell--2-col-tablet {\n    width: calc(25% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--2-col, .mdl-grid--no-spacing >\n    .mdl-cell--2-col-tablet.mdl-cell--2-col-tablet {\n      width: 25%; }\n  .mdl-cell--3-col,\n  .mdl-cell--3-col-tablet.mdl-cell--3-col-tablet {\n    width: calc(37.5% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--3-col, .mdl-grid--no-spacing >\n    .mdl-cell--3-col-tablet.mdl-cell--3-col-tablet {\n      width: 37.5%; }\n  .mdl-cell--4-col,\n  .mdl-cell--4-col-tablet.mdl-cell--4-col-tablet {\n    width: calc(50% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--4-col, .mdl-grid--no-spacing >\n    .mdl-cell--4-col-tablet.mdl-cell--4-col-tablet {\n      width: 50%; }\n  .mdl-cell--5-col,\n  .mdl-cell--5-col-tablet.mdl-cell--5-col-tablet {\n    width: calc(62.5% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--5-col, .mdl-grid--no-spacing >\n    .mdl-cell--5-col-tablet.mdl-cell--5-col-tablet {\n      width: 62.5%; }\n  .mdl-cell--6-col,\n  .mdl-cell--6-col-tablet.mdl-cell--6-col-tablet {\n    width: calc(75% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--6-col, .mdl-grid--no-spacing >\n    .mdl-cell--6-col-tablet.mdl-cell--6-col-tablet {\n      width: 75%; }\n  .mdl-cell--7-col,\n  .mdl-cell--7-col-tablet.mdl-cell--7-col-tablet {\n    width: calc(87.5% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--7-col, .mdl-grid--no-spacing >\n    .mdl-cell--7-col-tablet.mdl-cell--7-col-tablet {\n      width: 87.5%; }\n  .mdl-cell--8-col,\n  .mdl-cell--8-col-tablet.mdl-cell--8-col-tablet {\n    width: calc(100% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--8-col, .mdl-grid--no-spacing >\n    .mdl-cell--8-col-tablet.mdl-cell--8-col-tablet {\n      width: 100%; }\n  .mdl-cell--9-col,\n  .mdl-cell--9-col-tablet.mdl-cell--9-col-tablet {\n    width: calc(100% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--9-col, .mdl-grid--no-spacing >\n    .mdl-cell--9-col-tablet.mdl-cell--9-col-tablet {\n      width: 100%; }\n  .mdl-cell--10-col,\n  .mdl-cell--10-col-tablet.mdl-cell--10-col-tablet {\n    width: calc(100% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--10-col, .mdl-grid--no-spacing >\n    .mdl-cell--10-col-tablet.mdl-cell--10-col-tablet {\n      width: 100%; }\n  .mdl-cell--11-col,\n  .mdl-cell--11-col-tablet.mdl-cell--11-col-tablet {\n    width: calc(100% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--11-col, .mdl-grid--no-spacing >\n    .mdl-cell--11-col-tablet.mdl-cell--11-col-tablet {\n      width: 100%; }\n  .mdl-cell--12-col,\n  .mdl-cell--12-col-tablet.mdl-cell--12-col-tablet {\n    width: calc(100% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--12-col, .mdl-grid--no-spacing >\n    .mdl-cell--12-col-tablet.mdl-cell--12-col-tablet {\n      width: 100%; }\n  .mdl-cell--1-offset,\n  .mdl-cell--1-offset-tablet.mdl-cell--1-offset-tablet {\n    margin-left: calc(12.5% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--1-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--1-offset-tablet.mdl-cell--1-offset-tablet {\n      margin-left: 12.5%; }\n  .mdl-cell--2-offset,\n  .mdl-cell--2-offset-tablet.mdl-cell--2-offset-tablet {\n    margin-left: calc(25% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--2-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--2-offset-tablet.mdl-cell--2-offset-tablet {\n      margin-left: 25%; }\n  .mdl-cell--3-offset,\n  .mdl-cell--3-offset-tablet.mdl-cell--3-offset-tablet {\n    margin-left: calc(37.5% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--3-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--3-offset-tablet.mdl-cell--3-offset-tablet {\n      margin-left: 37.5%; }\n  .mdl-cell--4-offset,\n  .mdl-cell--4-offset-tablet.mdl-cell--4-offset-tablet {\n    margin-left: calc(50% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--4-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--4-offset-tablet.mdl-cell--4-offset-tablet {\n      margin-left: 50%; }\n  .mdl-cell--5-offset,\n  .mdl-cell--5-offset-tablet.mdl-cell--5-offset-tablet {\n    margin-left: calc(62.5% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--5-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--5-offset-tablet.mdl-cell--5-offset-tablet {\n      margin-left: 62.5%; }\n  .mdl-cell--6-offset,\n  .mdl-cell--6-offset-tablet.mdl-cell--6-offset-tablet {\n    margin-left: calc(75% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--6-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--6-offset-tablet.mdl-cell--6-offset-tablet {\n      margin-left: 75%; }\n  .mdl-cell--7-offset,\n  .mdl-cell--7-offset-tablet.mdl-cell--7-offset-tablet {\n    margin-left: calc(87.5% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--7-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--7-offset-tablet.mdl-cell--7-offset-tablet {\n      margin-left: 87.5%; } }\n\n@media (min-width: 840px) {\n  .mdl-grid {\n    padding: 8px; }\n  .mdl-cell {\n    margin: 8px;\n    width: calc(33.33333% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell {\n      width: 33.33333%; }\n  .mdl-cell--hide-desktop {\n    display: none !important; }\n  .mdl-cell--order-1-desktop.mdl-cell--order-1-desktop {\n    -webkit-box-ordinal-group: 2;\n        -ms-flex-order: 1;\n            order: 1; }\n  .mdl-cell--order-2-desktop.mdl-cell--order-2-desktop {\n    -webkit-box-ordinal-group: 3;\n        -ms-flex-order: 2;\n            order: 2; }\n  .mdl-cell--order-3-desktop.mdl-cell--order-3-desktop {\n    -webkit-box-ordinal-group: 4;\n        -ms-flex-order: 3;\n            order: 3; }\n  .mdl-cell--order-4-desktop.mdl-cell--order-4-desktop {\n    -webkit-box-ordinal-group: 5;\n        -ms-flex-order: 4;\n            order: 4; }\n  .mdl-cell--order-5-desktop.mdl-cell--order-5-desktop {\n    -webkit-box-ordinal-group: 6;\n        -ms-flex-order: 5;\n            order: 5; }\n  .mdl-cell--order-6-desktop.mdl-cell--order-6-desktop {\n    -webkit-box-ordinal-group: 7;\n        -ms-flex-order: 6;\n            order: 6; }\n  .mdl-cell--order-7-desktop.mdl-cell--order-7-desktop {\n    -webkit-box-ordinal-group: 8;\n        -ms-flex-order: 7;\n            order: 7; }\n  .mdl-cell--order-8-desktop.mdl-cell--order-8-desktop {\n    -webkit-box-ordinal-group: 9;\n        -ms-flex-order: 8;\n            order: 8; }\n  .mdl-cell--order-9-desktop.mdl-cell--order-9-desktop {\n    -webkit-box-ordinal-group: 10;\n        -ms-flex-order: 9;\n            order: 9; }\n  .mdl-cell--order-10-desktop.mdl-cell--order-10-desktop {\n    -webkit-box-ordinal-group: 11;\n        -ms-flex-order: 10;\n            order: 10; }\n  .mdl-cell--order-11-desktop.mdl-cell--order-11-desktop {\n    -webkit-box-ordinal-group: 12;\n        -ms-flex-order: 11;\n            order: 11; }\n  .mdl-cell--order-12-desktop.mdl-cell--order-12-desktop {\n    -webkit-box-ordinal-group: 13;\n        -ms-flex-order: 12;\n            order: 12; }\n  .mdl-cell--1-col,\n  .mdl-cell--1-col-desktop.mdl-cell--1-col-desktop {\n    width: calc(8.33333% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--1-col, .mdl-grid--no-spacing >\n    .mdl-cell--1-col-desktop.mdl-cell--1-col-desktop {\n      width: 8.33333%; }\n  .mdl-cell--2-col,\n  .mdl-cell--2-col-desktop.mdl-cell--2-col-desktop {\n    width: calc(16.66667% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--2-col, .mdl-grid--no-spacing >\n    .mdl-cell--2-col-desktop.mdl-cell--2-col-desktop {\n      width: 16.66667%; }\n  .mdl-cell--3-col,\n  .mdl-cell--3-col-desktop.mdl-cell--3-col-desktop {\n    width: calc(25% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--3-col, .mdl-grid--no-spacing >\n    .mdl-cell--3-col-desktop.mdl-cell--3-col-desktop {\n      width: 25%; }\n  .mdl-cell--4-col,\n  .mdl-cell--4-col-desktop.mdl-cell--4-col-desktop {\n    width: calc(33.33333% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--4-col, .mdl-grid--no-spacing >\n    .mdl-cell--4-col-desktop.mdl-cell--4-col-desktop {\n      width: 33.33333%; }\n  .mdl-cell--5-col,\n  .mdl-cell--5-col-desktop.mdl-cell--5-col-desktop {\n    width: calc(41.66667% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--5-col, .mdl-grid--no-spacing >\n    .mdl-cell--5-col-desktop.mdl-cell--5-col-desktop {\n      width: 41.66667%; }\n  .mdl-cell--6-col,\n  .mdl-cell--6-col-desktop.mdl-cell--6-col-desktop {\n    width: calc(50% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--6-col, .mdl-grid--no-spacing >\n    .mdl-cell--6-col-desktop.mdl-cell--6-col-desktop {\n      width: 50%; }\n  .mdl-cell--7-col,\n  .mdl-cell--7-col-desktop.mdl-cell--7-col-desktop {\n    width: calc(58.33333% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--7-col, .mdl-grid--no-spacing >\n    .mdl-cell--7-col-desktop.mdl-cell--7-col-desktop {\n      width: 58.33333%; }\n  .mdl-cell--8-col,\n  .mdl-cell--8-col-desktop.mdl-cell--8-col-desktop {\n    width: calc(66.66667% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--8-col, .mdl-grid--no-spacing >\n    .mdl-cell--8-col-desktop.mdl-cell--8-col-desktop {\n      width: 66.66667%; }\n  .mdl-cell--9-col,\n  .mdl-cell--9-col-desktop.mdl-cell--9-col-desktop {\n    width: calc(75% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--9-col, .mdl-grid--no-spacing >\n    .mdl-cell--9-col-desktop.mdl-cell--9-col-desktop {\n      width: 75%; }\n  .mdl-cell--10-col,\n  .mdl-cell--10-col-desktop.mdl-cell--10-col-desktop {\n    width: calc(83.33333% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--10-col, .mdl-grid--no-spacing >\n    .mdl-cell--10-col-desktop.mdl-cell--10-col-desktop {\n      width: 83.33333%; }\n  .mdl-cell--11-col,\n  .mdl-cell--11-col-desktop.mdl-cell--11-col-desktop {\n    width: calc(91.66667% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--11-col, .mdl-grid--no-spacing >\n    .mdl-cell--11-col-desktop.mdl-cell--11-col-desktop {\n      width: 91.66667%; }\n  .mdl-cell--12-col,\n  .mdl-cell--12-col-desktop.mdl-cell--12-col-desktop {\n    width: calc(100% - 16px); }\n    .mdl-grid--no-spacing > .mdl-cell--12-col, .mdl-grid--no-spacing >\n    .mdl-cell--12-col-desktop.mdl-cell--12-col-desktop {\n      width: 100%; }\n  .mdl-cell--1-offset,\n  .mdl-cell--1-offset-desktop.mdl-cell--1-offset-desktop {\n    margin-left: calc(8.33333% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--1-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--1-offset-desktop.mdl-cell--1-offset-desktop {\n      margin-left: 8.33333%; }\n  .mdl-cell--2-offset,\n  .mdl-cell--2-offset-desktop.mdl-cell--2-offset-desktop {\n    margin-left: calc(16.66667% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--2-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--2-offset-desktop.mdl-cell--2-offset-desktop {\n      margin-left: 16.66667%; }\n  .mdl-cell--3-offset,\n  .mdl-cell--3-offset-desktop.mdl-cell--3-offset-desktop {\n    margin-left: calc(25% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--3-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--3-offset-desktop.mdl-cell--3-offset-desktop {\n      margin-left: 25%; }\n  .mdl-cell--4-offset,\n  .mdl-cell--4-offset-desktop.mdl-cell--4-offset-desktop {\n    margin-left: calc(33.33333% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--4-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--4-offset-desktop.mdl-cell--4-offset-desktop {\n      margin-left: 33.33333%; }\n  .mdl-cell--5-offset,\n  .mdl-cell--5-offset-desktop.mdl-cell--5-offset-desktop {\n    margin-left: calc(41.66667% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--5-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--5-offset-desktop.mdl-cell--5-offset-desktop {\n      margin-left: 41.66667%; }\n  .mdl-cell--6-offset,\n  .mdl-cell--6-offset-desktop.mdl-cell--6-offset-desktop {\n    margin-left: calc(50% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--6-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--6-offset-desktop.mdl-cell--6-offset-desktop {\n      margin-left: 50%; }\n  .mdl-cell--7-offset,\n  .mdl-cell--7-offset-desktop.mdl-cell--7-offset-desktop {\n    margin-left: calc(58.33333% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--7-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--7-offset-desktop.mdl-cell--7-offset-desktop {\n      margin-left: 58.33333%; }\n  .mdl-cell--8-offset,\n  .mdl-cell--8-offset-desktop.mdl-cell--8-offset-desktop {\n    margin-left: calc(66.66667% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--8-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--8-offset-desktop.mdl-cell--8-offset-desktop {\n      margin-left: 66.66667%; }\n  .mdl-cell--9-offset,\n  .mdl-cell--9-offset-desktop.mdl-cell--9-offset-desktop {\n    margin-left: calc(75% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--9-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--9-offset-desktop.mdl-cell--9-offset-desktop {\n      margin-left: 75%; }\n  .mdl-cell--10-offset,\n  .mdl-cell--10-offset-desktop.mdl-cell--10-offset-desktop {\n    margin-left: calc(83.33333% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--10-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--10-offset-desktop.mdl-cell--10-offset-desktop {\n      margin-left: 83.33333%; }\n  .mdl-cell--11-offset,\n  .mdl-cell--11-offset-desktop.mdl-cell--11-offset-desktop {\n    margin-left: calc(91.66667% + 8px); }\n    .mdl-grid.mdl-grid--no-spacing > .mdl-cell--11-offset, .mdl-grid.mdl-grid--no-spacing >\n    .mdl-cell--11-offset-desktop.mdl-cell--11-offset-desktop {\n      margin-left: 91.66667%; } }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 208 */
+/*!************************************************!*\
+  !*** (webpack)-material-design-icons/index.js ***!
+  \************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(/*! ./material-design-icons.css */ 209);
+
+
+/***/ },
+/* 209 */
+/*!*****************************************************************!*\
+  !*** (webpack)-material-design-icons/material-design-icons.css ***!
+  \*****************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../css-loader!./../postcss-loader!./material-design-icons.css */ 210);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../style-loader/addStyles.js */ 192)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../css-loader/index.js!./../postcss-loader/index.js!./material-design-icons.css", function() {
+				var newContent = require("!!./../css-loader/index.js!./../postcss-loader/index.js!./material-design-icons.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 210 */
+/*!***************************************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!(webpack)-material-design-icons/material-design-icons.css ***!
+  \***************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../css-loader/lib/css-base.js */ 191)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "/* Material Design Icons - Setup Method 2. Self hosting\n * http://google.github.io/material-design-icons/ */\n\n@font-face {\n  font-family: 'Material Icons';\n  font-style: normal;\n  font-weight: 400;\n  src: url(" + __webpack_require__(/*! material-design-icons/iconfont/MaterialIcons-Regular.eot */ 211) + "); /* For IE6-8 */\n  src: local('Material Icons'),\n       local('MaterialIcons-Regular'),\n       url(" + __webpack_require__(/*! material-design-icons/iconfont/MaterialIcons-Regular.woff2 */ 212) + ") format('woff2'),\n       url(" + __webpack_require__(/*! material-design-icons/iconfont/MaterialIcons-Regular.woff */ 213) + ") format('woff'),\n       url(" + __webpack_require__(/*! material-design-icons/iconfont/MaterialIcons-Regular.ttf */ 214) + ") format('truetype');\n}\n\n.material-icons {\n  font-family: 'Material Icons';\n  font-weight: normal;\n  font-style: normal;\n  font-size: 24px;  /* Preferred icon size */\n  display: inline-block;\n  line-height: 1;\n  text-transform: none;\n  letter-spacing: normal;\n  word-wrap: normal;\n  white-space: nowrap;\n  direction: ltr;\n\n  /* Support for all WebKit browsers. */\n  -webkit-font-smoothing: antialiased;\n  /* Support for Safari and Chrome. */\n  text-rendering: optimizeLegibility;\n\n  /* Support for Firefox. */\n  -moz-osx-font-smoothing: grayscale;\n\n  /* Support for IE. */\n  -webkit-font-feature-settings: 'liga';\n          font-feature-settings: 'liga';\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 211 */
+/*!********************************************************************!*\
+  !*** ./~/material-design-icons/iconfont/MaterialIcons-Regular.eot ***!
+  \********************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "MaterialIcons-Regular.eot";
+
+/***/ },
+/* 212 */
+/*!**********************************************************************!*\
+  !*** ./~/material-design-icons/iconfont/MaterialIcons-Regular.woff2 ***!
+  \**********************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "MaterialIcons-Regular.woff2";
+
+/***/ },
+/* 213 */
+/*!*********************************************************************!*\
+  !*** ./~/material-design-icons/iconfont/MaterialIcons-Regular.woff ***!
+  \*********************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "MaterialIcons-Regular.woff";
+
+/***/ },
+/* 214 */
+/*!********************************************************************!*\
+  !*** ./~/material-design-icons/iconfont/MaterialIcons-Regular.ttf ***!
+  \********************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "MaterialIcons-Regular.ttf";
+
+/***/ },
+/* 215 */
 /*!************************************!*\
   !*** ./browser/styles/global.sass ***!
   \************************************/
@@ -32573,7 +36713,7 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./global.sass */ 206);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./global.sass */ 216);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 192)(content, {});
@@ -32593,7 +36733,7 @@
 	}
 
 /***/ },
-/* 206 */
+/* 216 */
 /*!**************************************************************************************!*\
   !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/global.sass ***!
   \**************************************************************************************/
@@ -32610,7 +36750,7 @@
 
 
 /***/ },
-/* 207 */
+/* 217 */
 /*!************************************!*\
   !*** ./browser/scripts/header.jsx ***!
   \************************************/
@@ -32679,7 +36819,7 @@
 	exports.default = Header;
 
 /***/ },
-/* 208 */
+/* 218 */
 /*!***********************************!*\
   !*** ./browser/scripts/video.jsx ***!
   \***********************************/
@@ -32699,7 +36839,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _moment = __webpack_require__(/*! moment */ 209);
+	var _moment = __webpack_require__(/*! moment */ 219);
 	
 	var moment = _interopRequireWildcard(_moment);
 	
@@ -32835,7 +36975,7 @@
 	exports.default = VideoList;
 
 /***/ },
-/* 209 */
+/* 219 */
 /*!****************************!*\
   !*** ./~/moment/moment.js ***!
   \****************************/
@@ -34604,7 +38744,7 @@
 	                module && module.exports) {
 	            try {
 	                oldLocale = globalLocale._abbr;
-	                __webpack_require__(/*! ./locale */ 211)("./" + name);
+	                __webpack_require__(/*! ./locale */ 221)("./" + name);
 	                // because defineLocale currently also sets the global locale, we
 	                // want to undo that for lazy loaded locales
 	                locale_locales__getSetGlobalLocale(oldLocale);
@@ -37036,10 +41176,10 @@
 	    return _moment;
 	
 	}));
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 210)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 220)(module)))
 
 /***/ },
-/* 210 */
+/* 220 */
 /*!***********************************!*\
   !*** (webpack)/buildin/module.js ***!
   \***********************************/
@@ -37058,215 +41198,215 @@
 
 
 /***/ },
-/* 211 */
+/* 221 */
 /*!**********************************!*\
   !*** ./~/moment/locale ^\.\/.*$ ***!
   \**********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./af": 212,
-		"./af.js": 212,
-		"./ar": 213,
-		"./ar-ma": 214,
-		"./ar-ma.js": 214,
-		"./ar-sa": 215,
-		"./ar-sa.js": 215,
-		"./ar-tn": 216,
-		"./ar-tn.js": 216,
-		"./ar.js": 213,
-		"./az": 217,
-		"./az.js": 217,
-		"./be": 218,
-		"./be.js": 218,
-		"./bg": 219,
-		"./bg.js": 219,
-		"./bn": 220,
-		"./bn.js": 220,
-		"./bo": 221,
-		"./bo.js": 221,
-		"./br": 222,
-		"./br.js": 222,
-		"./bs": 223,
-		"./bs.js": 223,
-		"./ca": 224,
-		"./ca.js": 224,
-		"./cs": 225,
-		"./cs.js": 225,
-		"./cv": 226,
-		"./cv.js": 226,
-		"./cy": 227,
-		"./cy.js": 227,
-		"./da": 228,
-		"./da.js": 228,
-		"./de": 229,
-		"./de-at": 230,
-		"./de-at.js": 230,
-		"./de.js": 229,
-		"./dv": 231,
-		"./dv.js": 231,
-		"./el": 232,
-		"./el.js": 232,
-		"./en-au": 233,
-		"./en-au.js": 233,
-		"./en-ca": 234,
-		"./en-ca.js": 234,
-		"./en-gb": 235,
-		"./en-gb.js": 235,
-		"./en-ie": 236,
-		"./en-ie.js": 236,
-		"./en-nz": 237,
-		"./en-nz.js": 237,
-		"./eo": 238,
-		"./eo.js": 238,
-		"./es": 239,
-		"./es-do": 240,
-		"./es-do.js": 240,
-		"./es.js": 239,
-		"./et": 241,
-		"./et.js": 241,
-		"./eu": 242,
-		"./eu.js": 242,
-		"./fa": 243,
-		"./fa.js": 243,
-		"./fi": 244,
-		"./fi.js": 244,
-		"./fo": 245,
-		"./fo.js": 245,
-		"./fr": 246,
-		"./fr-ca": 247,
-		"./fr-ca.js": 247,
-		"./fr-ch": 248,
-		"./fr-ch.js": 248,
-		"./fr.js": 246,
-		"./fy": 249,
-		"./fy.js": 249,
-		"./gd": 250,
-		"./gd.js": 250,
-		"./gl": 251,
-		"./gl.js": 251,
-		"./he": 252,
-		"./he.js": 252,
-		"./hi": 253,
-		"./hi.js": 253,
-		"./hr": 254,
-		"./hr.js": 254,
-		"./hu": 255,
-		"./hu.js": 255,
-		"./hy-am": 256,
-		"./hy-am.js": 256,
-		"./id": 257,
-		"./id.js": 257,
-		"./is": 258,
-		"./is.js": 258,
-		"./it": 259,
-		"./it.js": 259,
-		"./ja": 260,
-		"./ja.js": 260,
-		"./jv": 261,
-		"./jv.js": 261,
-		"./ka": 262,
-		"./ka.js": 262,
-		"./kk": 263,
-		"./kk.js": 263,
-		"./km": 264,
-		"./km.js": 264,
-		"./ko": 265,
-		"./ko.js": 265,
-		"./ky": 266,
-		"./ky.js": 266,
-		"./lb": 267,
-		"./lb.js": 267,
-		"./lo": 268,
-		"./lo.js": 268,
-		"./lt": 269,
-		"./lt.js": 269,
-		"./lv": 270,
-		"./lv.js": 270,
-		"./me": 271,
-		"./me.js": 271,
-		"./mk": 272,
-		"./mk.js": 272,
-		"./ml": 273,
-		"./ml.js": 273,
-		"./mr": 274,
-		"./mr.js": 274,
-		"./ms": 275,
-		"./ms-my": 276,
-		"./ms-my.js": 276,
-		"./ms.js": 275,
-		"./my": 277,
-		"./my.js": 277,
-		"./nb": 278,
-		"./nb.js": 278,
-		"./ne": 279,
-		"./ne.js": 279,
-		"./nl": 280,
-		"./nl.js": 280,
-		"./nn": 281,
-		"./nn.js": 281,
-		"./pa-in": 282,
-		"./pa-in.js": 282,
-		"./pl": 283,
-		"./pl.js": 283,
-		"./pt": 284,
-		"./pt-br": 285,
-		"./pt-br.js": 285,
-		"./pt.js": 284,
-		"./ro": 286,
-		"./ro.js": 286,
-		"./ru": 287,
-		"./ru.js": 287,
-		"./se": 288,
-		"./se.js": 288,
-		"./si": 289,
-		"./si.js": 289,
-		"./sk": 290,
-		"./sk.js": 290,
-		"./sl": 291,
-		"./sl.js": 291,
-		"./sq": 292,
-		"./sq.js": 292,
-		"./sr": 293,
-		"./sr-cyrl": 294,
-		"./sr-cyrl.js": 294,
-		"./sr.js": 293,
-		"./ss": 295,
-		"./ss.js": 295,
-		"./sv": 296,
-		"./sv.js": 296,
-		"./sw": 297,
-		"./sw.js": 297,
-		"./ta": 298,
-		"./ta.js": 298,
-		"./te": 299,
-		"./te.js": 299,
-		"./th": 300,
-		"./th.js": 300,
-		"./tl-ph": 301,
-		"./tl-ph.js": 301,
-		"./tlh": 302,
-		"./tlh.js": 302,
-		"./tr": 303,
-		"./tr.js": 303,
-		"./tzl": 304,
-		"./tzl.js": 304,
-		"./tzm": 305,
-		"./tzm-latn": 306,
-		"./tzm-latn.js": 306,
-		"./tzm.js": 305,
-		"./uk": 307,
-		"./uk.js": 307,
-		"./uz": 308,
-		"./uz.js": 308,
-		"./vi": 309,
-		"./vi.js": 309,
-		"./x-pseudo": 310,
-		"./x-pseudo.js": 310,
-		"./zh-cn": 311,
-		"./zh-cn.js": 311,
-		"./zh-tw": 312,
-		"./zh-tw.js": 312
+		"./af": 222,
+		"./af.js": 222,
+		"./ar": 223,
+		"./ar-ma": 224,
+		"./ar-ma.js": 224,
+		"./ar-sa": 225,
+		"./ar-sa.js": 225,
+		"./ar-tn": 226,
+		"./ar-tn.js": 226,
+		"./ar.js": 223,
+		"./az": 227,
+		"./az.js": 227,
+		"./be": 228,
+		"./be.js": 228,
+		"./bg": 229,
+		"./bg.js": 229,
+		"./bn": 230,
+		"./bn.js": 230,
+		"./bo": 231,
+		"./bo.js": 231,
+		"./br": 232,
+		"./br.js": 232,
+		"./bs": 233,
+		"./bs.js": 233,
+		"./ca": 234,
+		"./ca.js": 234,
+		"./cs": 235,
+		"./cs.js": 235,
+		"./cv": 236,
+		"./cv.js": 236,
+		"./cy": 237,
+		"./cy.js": 237,
+		"./da": 238,
+		"./da.js": 238,
+		"./de": 239,
+		"./de-at": 240,
+		"./de-at.js": 240,
+		"./de.js": 239,
+		"./dv": 241,
+		"./dv.js": 241,
+		"./el": 242,
+		"./el.js": 242,
+		"./en-au": 243,
+		"./en-au.js": 243,
+		"./en-ca": 244,
+		"./en-ca.js": 244,
+		"./en-gb": 245,
+		"./en-gb.js": 245,
+		"./en-ie": 246,
+		"./en-ie.js": 246,
+		"./en-nz": 247,
+		"./en-nz.js": 247,
+		"./eo": 248,
+		"./eo.js": 248,
+		"./es": 249,
+		"./es-do": 250,
+		"./es-do.js": 250,
+		"./es.js": 249,
+		"./et": 251,
+		"./et.js": 251,
+		"./eu": 252,
+		"./eu.js": 252,
+		"./fa": 253,
+		"./fa.js": 253,
+		"./fi": 254,
+		"./fi.js": 254,
+		"./fo": 255,
+		"./fo.js": 255,
+		"./fr": 256,
+		"./fr-ca": 257,
+		"./fr-ca.js": 257,
+		"./fr-ch": 258,
+		"./fr-ch.js": 258,
+		"./fr.js": 256,
+		"./fy": 259,
+		"./fy.js": 259,
+		"./gd": 260,
+		"./gd.js": 260,
+		"./gl": 261,
+		"./gl.js": 261,
+		"./he": 262,
+		"./he.js": 262,
+		"./hi": 263,
+		"./hi.js": 263,
+		"./hr": 264,
+		"./hr.js": 264,
+		"./hu": 265,
+		"./hu.js": 265,
+		"./hy-am": 266,
+		"./hy-am.js": 266,
+		"./id": 267,
+		"./id.js": 267,
+		"./is": 268,
+		"./is.js": 268,
+		"./it": 269,
+		"./it.js": 269,
+		"./ja": 270,
+		"./ja.js": 270,
+		"./jv": 271,
+		"./jv.js": 271,
+		"./ka": 272,
+		"./ka.js": 272,
+		"./kk": 273,
+		"./kk.js": 273,
+		"./km": 274,
+		"./km.js": 274,
+		"./ko": 275,
+		"./ko.js": 275,
+		"./ky": 276,
+		"./ky.js": 276,
+		"./lb": 277,
+		"./lb.js": 277,
+		"./lo": 278,
+		"./lo.js": 278,
+		"./lt": 279,
+		"./lt.js": 279,
+		"./lv": 280,
+		"./lv.js": 280,
+		"./me": 281,
+		"./me.js": 281,
+		"./mk": 282,
+		"./mk.js": 282,
+		"./ml": 283,
+		"./ml.js": 283,
+		"./mr": 284,
+		"./mr.js": 284,
+		"./ms": 285,
+		"./ms-my": 286,
+		"./ms-my.js": 286,
+		"./ms.js": 285,
+		"./my": 287,
+		"./my.js": 287,
+		"./nb": 288,
+		"./nb.js": 288,
+		"./ne": 289,
+		"./ne.js": 289,
+		"./nl": 290,
+		"./nl.js": 290,
+		"./nn": 291,
+		"./nn.js": 291,
+		"./pa-in": 292,
+		"./pa-in.js": 292,
+		"./pl": 293,
+		"./pl.js": 293,
+		"./pt": 294,
+		"./pt-br": 295,
+		"./pt-br.js": 295,
+		"./pt.js": 294,
+		"./ro": 296,
+		"./ro.js": 296,
+		"./ru": 297,
+		"./ru.js": 297,
+		"./se": 298,
+		"./se.js": 298,
+		"./si": 299,
+		"./si.js": 299,
+		"./sk": 300,
+		"./sk.js": 300,
+		"./sl": 301,
+		"./sl.js": 301,
+		"./sq": 302,
+		"./sq.js": 302,
+		"./sr": 303,
+		"./sr-cyrl": 304,
+		"./sr-cyrl.js": 304,
+		"./sr.js": 303,
+		"./ss": 305,
+		"./ss.js": 305,
+		"./sv": 306,
+		"./sv.js": 306,
+		"./sw": 307,
+		"./sw.js": 307,
+		"./ta": 308,
+		"./ta.js": 308,
+		"./te": 309,
+		"./te.js": 309,
+		"./th": 310,
+		"./th.js": 310,
+		"./tl-ph": 311,
+		"./tl-ph.js": 311,
+		"./tlh": 312,
+		"./tlh.js": 312,
+		"./tr": 313,
+		"./tr.js": 313,
+		"./tzl": 314,
+		"./tzl.js": 314,
+		"./tzm": 315,
+		"./tzm-latn": 316,
+		"./tzm-latn.js": 316,
+		"./tzm.js": 315,
+		"./uk": 317,
+		"./uk.js": 317,
+		"./uz": 318,
+		"./uz.js": 318,
+		"./vi": 319,
+		"./vi.js": 319,
+		"./x-pseudo": 320,
+		"./x-pseudo.js": 320,
+		"./zh-cn": 321,
+		"./zh-cn.js": 321,
+		"./zh-tw": 322,
+		"./zh-tw.js": 322
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -37279,11 +41419,11 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 211;
+	webpackContext.id = 221;
 
 
 /***/ },
-/* 212 */
+/* 222 */
 /*!*******************************!*\
   !*** ./~/moment/locale/af.js ***!
   \*******************************/
@@ -37294,7 +41434,7 @@
 	//! author : Werner Mollentze : https://github.com/wernerm
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -37363,7 +41503,7 @@
 	}));
 
 /***/ },
-/* 213 */
+/* 223 */
 /*!*******************************!*\
   !*** ./~/moment/locale/ar.js ***!
   \*******************************/
@@ -37376,7 +41516,7 @@
 	//! Native plural forms: forabi https://github.com/forabi
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -37507,7 +41647,7 @@
 	}));
 
 /***/ },
-/* 214 */
+/* 224 */
 /*!**********************************!*\
   !*** ./~/moment/locale/ar-ma.js ***!
   \**********************************/
@@ -37519,7 +41659,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -37574,7 +41714,7 @@
 	}));
 
 /***/ },
-/* 215 */
+/* 225 */
 /*!**********************************!*\
   !*** ./~/moment/locale/ar-sa.js ***!
   \**********************************/
@@ -37585,7 +41725,7 @@
 	//! author : Suhail Alkowaileet : https://github.com/xsoh
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -37685,7 +41825,7 @@
 	}));
 
 /***/ },
-/* 216 */
+/* 226 */
 /*!**********************************!*\
   !*** ./~/moment/locale/ar-tn.js ***!
   \**********************************/
@@ -37695,7 +41835,7 @@
 	//! locale  :  Arabic (Tunisia) [ar-tn]
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -37750,7 +41890,7 @@
 	}));
 
 /***/ },
-/* 217 */
+/* 227 */
 /*!*******************************!*\
   !*** ./~/moment/locale/az.js ***!
   \*******************************/
@@ -37761,7 +41901,7 @@
 	//! author : topchiyev : https://github.com/topchiyev
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -37862,7 +42002,7 @@
 	}));
 
 /***/ },
-/* 218 */
+/* 228 */
 /*!*******************************!*\
   !*** ./~/moment/locale/be.js ***!
   \*******************************/
@@ -37875,7 +42015,7 @@
 	//! Author : Menelion Elensúle : https://github.com/Oire
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38003,7 +42143,7 @@
 	}));
 
 /***/ },
-/* 219 */
+/* 229 */
 /*!*******************************!*\
   !*** ./~/moment/locale/bg.js ***!
   \*******************************/
@@ -38014,7 +42154,7 @@
 	//! author : Krasen Borisov : https://github.com/kraz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38100,7 +42240,7 @@
 	}));
 
 /***/ },
-/* 220 */
+/* 230 */
 /*!*******************************!*\
   !*** ./~/moment/locale/bn.js ***!
   \*******************************/
@@ -38111,7 +42251,7 @@
 	//! author : Kaushik Gandhi : https://github.com/kaushikgandhi
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38226,7 +42366,7 @@
 	}));
 
 /***/ },
-/* 221 */
+/* 231 */
 /*!*******************************!*\
   !*** ./~/moment/locale/bo.js ***!
   \*******************************/
@@ -38237,7 +42377,7 @@
 	//! author : Thupten N. Chakrishar : https://github.com/vajradog
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38352,7 +42492,7 @@
 	}));
 
 /***/ },
-/* 222 */
+/* 232 */
 /*!*******************************!*\
   !*** ./~/moment/locale/br.js ***!
   \*******************************/
@@ -38363,7 +42503,7 @@
 	//! author : Jean-Baptiste Le Duigou : https://github.com/jbleduigou
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38467,7 +42607,7 @@
 	}));
 
 /***/ },
-/* 223 */
+/* 233 */
 /*!*******************************!*\
   !*** ./~/moment/locale/bs.js ***!
   \*******************************/
@@ -38479,7 +42619,7 @@
 	//! based on (hr) translation by Bojan Marković
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38617,7 +42757,7 @@
 	}));
 
 /***/ },
-/* 224 */
+/* 234 */
 /*!*******************************!*\
   !*** ./~/moment/locale/ca.js ***!
   \*******************************/
@@ -38628,7 +42768,7 @@
 	//! author : Juan G. Hurtado : https://github.com/juanghurtado
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38705,7 +42845,7 @@
 	}));
 
 /***/ },
-/* 225 */
+/* 235 */
 /*!*******************************!*\
   !*** ./~/moment/locale/cs.js ***!
   \*******************************/
@@ -38716,7 +42856,7 @@
 	//! author : petrbela : https://github.com/petrbela
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38884,7 +43024,7 @@
 	}));
 
 /***/ },
-/* 226 */
+/* 236 */
 /*!*******************************!*\
   !*** ./~/moment/locale/cv.js ***!
   \*******************************/
@@ -38895,7 +43035,7 @@
 	//! author : Anatoly Mironov : https://github.com/mirontoli
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38954,7 +43094,7 @@
 	}));
 
 /***/ },
-/* 227 */
+/* 237 */
 /*!*******************************!*\
   !*** ./~/moment/locale/cy.js ***!
   \*******************************/
@@ -38965,7 +43105,7 @@
 	//! author : Robert Allen
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39041,7 +43181,7 @@
 	}));
 
 /***/ },
-/* 228 */
+/* 238 */
 /*!*******************************!*\
   !*** ./~/moment/locale/da.js ***!
   \*******************************/
@@ -39052,7 +43192,7 @@
 	//! author : Ulrik Nielsen : https://github.com/mrbase
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39108,7 +43248,7 @@
 	}));
 
 /***/ },
-/* 229 */
+/* 239 */
 /*!*******************************!*\
   !*** ./~/moment/locale/de.js ***!
   \*******************************/
@@ -39121,7 +43261,7 @@
 	//! author : Mikolaj Dadela : https://github.com/mik01aj
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39193,7 +43333,7 @@
 	}));
 
 /***/ },
-/* 230 */
+/* 240 */
 /*!**********************************!*\
   !*** ./~/moment/locale/de-at.js ***!
   \**********************************/
@@ -39207,7 +43347,7 @@
 	//! author : Mikolaj Dadela : https://github.com/mik01aj
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39279,7 +43419,7 @@
 	}));
 
 /***/ },
-/* 231 */
+/* 241 */
 /*!*******************************!*\
   !*** ./~/moment/locale/dv.js ***!
   \*******************************/
@@ -39290,7 +43430,7 @@
 	//! author : Jawish Hameed : https://github.com/jawish
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39385,7 +43525,7 @@
 	}));
 
 /***/ },
-/* 232 */
+/* 242 */
 /*!*******************************!*\
   !*** ./~/moment/locale/el.js ***!
   \*******************************/
@@ -39396,7 +43536,7 @@
 	//! author : Aggelos Karalias : https://github.com/mehiel
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39490,7 +43630,7 @@
 	}));
 
 /***/ },
-/* 233 */
+/* 243 */
 /*!**********************************!*\
   !*** ./~/moment/locale/en-au.js ***!
   \**********************************/
@@ -39500,7 +43640,7 @@
 	//! locale : English (Australia) [en-au]
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39563,7 +43703,7 @@
 	}));
 
 /***/ },
-/* 234 */
+/* 244 */
 /*!**********************************!*\
   !*** ./~/moment/locale/en-ca.js ***!
   \**********************************/
@@ -39574,7 +43714,7 @@
 	//! author : Jonathan Abourbih : https://github.com/jonbca
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39633,7 +43773,7 @@
 	}));
 
 /***/ },
-/* 235 */
+/* 245 */
 /*!**********************************!*\
   !*** ./~/moment/locale/en-gb.js ***!
   \**********************************/
@@ -39644,7 +43784,7 @@
 	//! author : Chris Gedrim : https://github.com/chrisgedrim
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39707,7 +43847,7 @@
 	}));
 
 /***/ },
-/* 236 */
+/* 246 */
 /*!**********************************!*\
   !*** ./~/moment/locale/en-ie.js ***!
   \**********************************/
@@ -39718,7 +43858,7 @@
 	//! author : Chris Cartlidge : https://github.com/chriscartlidge
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39781,7 +43921,7 @@
 	}));
 
 /***/ },
-/* 237 */
+/* 247 */
 /*!**********************************!*\
   !*** ./~/moment/locale/en-nz.js ***!
   \**********************************/
@@ -39791,7 +43931,7 @@
 	//! locale : English (New Zealand) [en-nz]
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39854,7 +43994,7 @@
 	}));
 
 /***/ },
-/* 238 */
+/* 248 */
 /*!*******************************!*\
   !*** ./~/moment/locale/eo.js ***!
   \*******************************/
@@ -39867,7 +44007,7 @@
 	//!          Se ne, bonvolu korekti kaj avizi min por ke mi povas lerni!
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39934,7 +44074,7 @@
 	}));
 
 /***/ },
-/* 239 */
+/* 249 */
 /*!*******************************!*\
   !*** ./~/moment/locale/es.js ***!
   \*******************************/
@@ -39945,7 +44085,7 @@
 	//! author : Julio Napurí : https://github.com/julionc
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40022,7 +44162,7 @@
 	}));
 
 /***/ },
-/* 240 */
+/* 250 */
 /*!**********************************!*\
   !*** ./~/moment/locale/es-do.js ***!
   \**********************************/
@@ -40032,7 +44172,7 @@
 	//! locale : Spanish (Dominican Republic) [es-do]
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40109,7 +44249,7 @@
 	}));
 
 /***/ },
-/* 241 */
+/* 251 */
 /*!*******************************!*\
   !*** ./~/moment/locale/et.js ***!
   \*******************************/
@@ -40121,7 +44261,7 @@
 	//! improvements : Illimar Tambek : https://github.com/ragulka
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40196,7 +44336,7 @@
 	}));
 
 /***/ },
-/* 242 */
+/* 252 */
 /*!*******************************!*\
   !*** ./~/moment/locale/eu.js ***!
   \*******************************/
@@ -40207,7 +44347,7 @@
 	//! author : Eneko Illarramendi : https://github.com/eillarra
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40269,7 +44409,7 @@
 	}));
 
 /***/ },
-/* 243 */
+/* 253 */
 /*!*******************************!*\
   !*** ./~/moment/locale/fa.js ***!
   \*******************************/
@@ -40280,7 +44420,7 @@
 	//! author : Ebrahim Byagowi : https://github.com/ebraminio
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40382,7 +44522,7 @@
 	}));
 
 /***/ },
-/* 244 */
+/* 254 */
 /*!*******************************!*\
   !*** ./~/moment/locale/fi.js ***!
   \*******************************/
@@ -40393,7 +44533,7 @@
 	//! author : Tarmo Aidantausta : https://github.com/bleadof
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40496,7 +44636,7 @@
 	}));
 
 /***/ },
-/* 245 */
+/* 255 */
 /*!*******************************!*\
   !*** ./~/moment/locale/fo.js ***!
   \*******************************/
@@ -40507,7 +44647,7 @@
 	//! author : Ragnar Johannesen : https://github.com/ragnar123
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40563,7 +44703,7 @@
 	}));
 
 /***/ },
-/* 246 */
+/* 256 */
 /*!*******************************!*\
   !*** ./~/moment/locale/fr.js ***!
   \*******************************/
@@ -40574,7 +44714,7 @@
 	//! author : John Fischer : https://github.com/jfroffice
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40634,7 +44774,7 @@
 	}));
 
 /***/ },
-/* 247 */
+/* 257 */
 /*!**********************************!*\
   !*** ./~/moment/locale/fr-ca.js ***!
   \**********************************/
@@ -40645,7 +44785,7 @@
 	//! author : Jonathan Abourbih : https://github.com/jonbca
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40701,7 +44841,7 @@
 	}));
 
 /***/ },
-/* 248 */
+/* 258 */
 /*!**********************************!*\
   !*** ./~/moment/locale/fr-ch.js ***!
   \**********************************/
@@ -40712,7 +44852,7 @@
 	//! author : Gaspard Bucher : https://github.com/gaspard
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40772,7 +44912,7 @@
 	}));
 
 /***/ },
-/* 249 */
+/* 259 */
 /*!*******************************!*\
   !*** ./~/moment/locale/fy.js ***!
   \*******************************/
@@ -40783,7 +44923,7 @@
 	//! author : Robin van der Vliet : https://github.com/robin0van0der0v
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40852,7 +44992,7 @@
 	}));
 
 /***/ },
-/* 250 */
+/* 260 */
 /*!*******************************!*\
   !*** ./~/moment/locale/gd.js ***!
   \*******************************/
@@ -40863,7 +45003,7 @@
 	//! author : Jon Ashdown : https://github.com/jonashdown
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40935,7 +45075,7 @@
 	}));
 
 /***/ },
-/* 251 */
+/* 261 */
 /*!*******************************!*\
   !*** ./~/moment/locale/gl.js ***!
   \*******************************/
@@ -40946,7 +45086,7 @@
 	//! author : Juan G. Hurtado : https://github.com/juanghurtado
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41019,7 +45159,7 @@
 	}));
 
 /***/ },
-/* 252 */
+/* 262 */
 /*!*******************************!*\
   !*** ./~/moment/locale/he.js ***!
   \*******************************/
@@ -41032,7 +45172,7 @@
 	//! author : Tal Ater : https://github.com/TalAter
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41125,7 +45265,7 @@
 	}));
 
 /***/ },
-/* 253 */
+/* 263 */
 /*!*******************************!*\
   !*** ./~/moment/locale/hi.js ***!
   \*******************************/
@@ -41136,7 +45276,7 @@
 	//! author : Mayank Singhal : https://github.com/mayanksinghal
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41256,7 +45396,7 @@
 	}));
 
 /***/ },
-/* 254 */
+/* 264 */
 /*!*******************************!*\
   !*** ./~/moment/locale/hr.js ***!
   \*******************************/
@@ -41267,7 +45407,7 @@
 	//! author : Bojan Marković : https://github.com/bmarkovic
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41408,7 +45548,7 @@
 	}));
 
 /***/ },
-/* 255 */
+/* 265 */
 /*!*******************************!*\
   !*** ./~/moment/locale/hu.js ***!
   \*******************************/
@@ -41419,7 +45559,7 @@
 	//! author : Adam Brunner : https://github.com/adambrunner
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41524,7 +45664,7 @@
 	}));
 
 /***/ },
-/* 256 */
+/* 266 */
 /*!**********************************!*\
   !*** ./~/moment/locale/hy-am.js ***!
   \**********************************/
@@ -41535,7 +45675,7 @@
 	//! author : Armendarabyan : https://github.com/armendarabyan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41626,7 +45766,7 @@
 	}));
 
 /***/ },
-/* 257 */
+/* 267 */
 /*!*******************************!*\
   !*** ./~/moment/locale/id.js ***!
   \*******************************/
@@ -41638,7 +45778,7 @@
 	//! reference: http://id.wikisource.org/wiki/Pedoman_Umum_Ejaan_Bahasa_Indonesia_yang_Disempurnakan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41716,7 +45856,7 @@
 	}));
 
 /***/ },
-/* 258 */
+/* 268 */
 /*!*******************************!*\
   !*** ./~/moment/locale/is.js ***!
   \*******************************/
@@ -41727,7 +45867,7 @@
 	//! author : Hinrik Örn Sigurðsson : https://github.com/hinrik
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41850,7 +45990,7 @@
 	}));
 
 /***/ },
-/* 259 */
+/* 269 */
 /*!*******************************!*\
   !*** ./~/moment/locale/it.js ***!
   \*******************************/
@@ -41862,7 +46002,7 @@
 	//! author: Mattia Larentis: https://github.com/nostalgiaz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41927,7 +46067,7 @@
 	}));
 
 /***/ },
-/* 260 */
+/* 270 */
 /*!*******************************!*\
   !*** ./~/moment/locale/ja.js ***!
   \*******************************/
@@ -41938,7 +46078,7 @@
 	//! author : LI Long : https://github.com/baryon
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42010,7 +46150,7 @@
 	}));
 
 /***/ },
-/* 261 */
+/* 271 */
 /*!*******************************!*\
   !*** ./~/moment/locale/jv.js ***!
   \*******************************/
@@ -42022,7 +46162,7 @@
 	//! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42100,7 +46240,7 @@
 	}));
 
 /***/ },
-/* 262 */
+/* 272 */
 /*!*******************************!*\
   !*** ./~/moment/locale/ka.js ***!
   \*******************************/
@@ -42111,7 +46251,7 @@
 	//! author : Irakli Janiashvili : https://github.com/irakli-janiashvili
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42196,7 +46336,7 @@
 	}));
 
 /***/ },
-/* 263 */
+/* 273 */
 /*!*******************************!*\
   !*** ./~/moment/locale/kk.js ***!
   \*******************************/
@@ -42207,7 +46347,7 @@
 	//! authors : Nurlan Rakhimzhanov : https://github.com/nurlan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42290,7 +46430,7 @@
 	}));
 
 /***/ },
-/* 264 */
+/* 274 */
 /*!*******************************!*\
   !*** ./~/moment/locale/km.js ***!
   \*******************************/
@@ -42301,7 +46441,7 @@
 	//! author : Kruy Vanna : https://github.com/kruyvanna
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42355,7 +46495,7 @@
 	}));
 
 /***/ },
-/* 265 */
+/* 275 */
 /*!*******************************!*\
   !*** ./~/moment/locale/ko.js ***!
   \*******************************/
@@ -42370,7 +46510,7 @@
 	//! - Jeeeyul Lee <jeeeyul@gmail.com>
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42430,7 +46570,7 @@
 	}));
 
 /***/ },
-/* 266 */
+/* 276 */
 /*!*******************************!*\
   !*** ./~/moment/locale/ky.js ***!
   \*******************************/
@@ -42441,7 +46581,7 @@
 	//! author : Chyngyz Arystan uulu : https://github.com/chyngyz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42525,7 +46665,7 @@
 	}));
 
 /***/ },
-/* 267 */
+/* 277 */
 /*!*******************************!*\
   !*** ./~/moment/locale/lb.js ***!
   \*******************************/
@@ -42536,7 +46676,7 @@
 	//! author : mweimerskirch : https://github.com/mweimerskirch, David Raison : https://github.com/kwisatz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42668,7 +46808,7 @@
 	}));
 
 /***/ },
-/* 268 */
+/* 278 */
 /*!*******************************!*\
   !*** ./~/moment/locale/lo.js ***!
   \*******************************/
@@ -42679,7 +46819,7 @@
 	//! author : Ryan Hart : https://github.com/ryanhart2
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42745,7 +46885,7 @@
 	}));
 
 /***/ },
-/* 269 */
+/* 279 */
 /*!*******************************!*\
   !*** ./~/moment/locale/lt.js ***!
   \*******************************/
@@ -42756,7 +46896,7 @@
 	//! author : Mindaugas Mozūras : https://github.com/mmozuras
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42869,7 +47009,7 @@
 	}));
 
 /***/ },
-/* 270 */
+/* 280 */
 /*!*******************************!*\
   !*** ./~/moment/locale/lv.js ***!
   \*******************************/
@@ -42881,7 +47021,7 @@
 	//! author : Jānis Elmeris : https://github.com/JanisE
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42973,7 +47113,7 @@
 	}));
 
 /***/ },
-/* 271 */
+/* 281 */
 /*!*******************************!*\
   !*** ./~/moment/locale/me.js ***!
   \*******************************/
@@ -42984,7 +47124,7 @@
 	//! author : Miodrag Nikač <miodrag@restartit.me> : https://github.com/miodragnikac
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43091,7 +47231,7 @@
 	}));
 
 /***/ },
-/* 272 */
+/* 282 */
 /*!*******************************!*\
   !*** ./~/moment/locale/mk.js ***!
   \*******************************/
@@ -43102,7 +47242,7 @@
 	//! author : Borislav Mickov : https://github.com/B0k0
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43188,7 +47328,7 @@
 	}));
 
 /***/ },
-/* 273 */
+/* 283 */
 /*!*******************************!*\
   !*** ./~/moment/locale/ml.js ***!
   \*******************************/
@@ -43199,7 +47339,7 @@
 	//! author : Floyd Pink : https://github.com/floydpink
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43276,7 +47416,7 @@
 	}));
 
 /***/ },
-/* 274 */
+/* 284 */
 /*!*******************************!*\
   !*** ./~/moment/locale/mr.js ***!
   \*******************************/
@@ -43288,7 +47428,7 @@
 	//! author : Vivek Athalye : https://github.com/vnathalye
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43442,7 +47582,7 @@
 	}));
 
 /***/ },
-/* 275 */
+/* 285 */
 /*!*******************************!*\
   !*** ./~/moment/locale/ms.js ***!
   \*******************************/
@@ -43453,7 +47593,7 @@
 	//! author : Weldan Jamili : https://github.com/weldan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43531,7 +47671,7 @@
 	}));
 
 /***/ },
-/* 276 */
+/* 286 */
 /*!**********************************!*\
   !*** ./~/moment/locale/ms-my.js ***!
   \**********************************/
@@ -43543,7 +47683,7 @@
 	//! author : Weldan Jamili : https://github.com/weldan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43621,7 +47761,7 @@
 	}));
 
 /***/ },
-/* 277 */
+/* 287 */
 /*!*******************************!*\
   !*** ./~/moment/locale/my.js ***!
   \*******************************/
@@ -43632,7 +47772,7 @@
 	//! author : Squar team, mysquar.com
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43721,7 +47861,7 @@
 	}));
 
 /***/ },
-/* 278 */
+/* 288 */
 /*!*******************************!*\
   !*** ./~/moment/locale/nb.js ***!
   \*******************************/
@@ -43733,7 +47873,7 @@
 	//!           Sigurd Gartmann : https://github.com/sigurdga
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43791,7 +47931,7 @@
 	}));
 
 /***/ },
-/* 279 */
+/* 289 */
 /*!*******************************!*\
   !*** ./~/moment/locale/ne.js ***!
   \*******************************/
@@ -43802,7 +47942,7 @@
 	//! author : suvash : https://github.com/suvash
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43921,7 +48061,7 @@
 	}));
 
 /***/ },
-/* 280 */
+/* 290 */
 /*!*******************************!*\
   !*** ./~/moment/locale/nl.js ***!
   \*******************************/
@@ -43932,7 +48072,7 @@
 	//! author : Joris Röling : https://github.com/jjupiter
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44001,7 +48141,7 @@
 	}));
 
 /***/ },
-/* 281 */
+/* 291 */
 /*!*******************************!*\
   !*** ./~/moment/locale/nn.js ***!
   \*******************************/
@@ -44012,7 +48152,7 @@
 	//! author : https://github.com/mechuwind
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44068,7 +48208,7 @@
 	}));
 
 /***/ },
-/* 282 */
+/* 292 */
 /*!**********************************!*\
   !*** ./~/moment/locale/pa-in.js ***!
   \**********************************/
@@ -44079,7 +48219,7 @@
 	//! author : Harpreet Singh : https://github.com/harpreetkhalsagtbit
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44199,7 +48339,7 @@
 	}));
 
 /***/ },
-/* 283 */
+/* 293 */
 /*!*******************************!*\
   !*** ./~/moment/locale/pl.js ***!
   \*******************************/
@@ -44210,7 +48350,7 @@
 	//! author : Rafal Hirsz : https://github.com/evoL
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44311,7 +48451,7 @@
 	}));
 
 /***/ },
-/* 284 */
+/* 294 */
 /*!*******************************!*\
   !*** ./~/moment/locale/pt.js ***!
   \*******************************/
@@ -44322,7 +48462,7 @@
 	//! author : Jefferson : https://github.com/jalex79
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44383,7 +48523,7 @@
 	}));
 
 /***/ },
-/* 285 */
+/* 295 */
 /*!**********************************!*\
   !*** ./~/moment/locale/pt-br.js ***!
   \**********************************/
@@ -44394,7 +48534,7 @@
 	//! author : Caio Ribeiro Pereira : https://github.com/caio-ribeiro-pereira
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44451,7 +48591,7 @@
 	}));
 
 /***/ },
-/* 286 */
+/* 296 */
 /*!*******************************!*\
   !*** ./~/moment/locale/ro.js ***!
   \*******************************/
@@ -44463,7 +48603,7 @@
 	//! author : Valentin Agachi : https://github.com/avaly
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44533,7 +48673,7 @@
 	}));
 
 /***/ },
-/* 287 */
+/* 297 */
 /*!*******************************!*\
   !*** ./~/moment/locale/ru.js ***!
   \*******************************/
@@ -44546,7 +48686,7 @@
 	//! author : Коренберг Марк : https://github.com/socketpair
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44723,7 +48863,7 @@
 	}));
 
 /***/ },
-/* 288 */
+/* 298 */
 /*!*******************************!*\
   !*** ./~/moment/locale/se.js ***!
   \*******************************/
@@ -44734,7 +48874,7 @@
 	//! authors : Bård Rolstad Henriksen : https://github.com/karamell
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44791,7 +48931,7 @@
 	}));
 
 /***/ },
-/* 289 */
+/* 299 */
 /*!*******************************!*\
   !*** ./~/moment/locale/si.js ***!
   \*******************************/
@@ -44802,7 +48942,7 @@
 	//! author : Sampath Sitinamaluwa : https://github.com/sampathsris
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44869,7 +49009,7 @@
 	}));
 
 /***/ },
-/* 290 */
+/* 300 */
 /*!*******************************!*\
   !*** ./~/moment/locale/sk.js ***!
   \*******************************/
@@ -44881,7 +49021,7 @@
 	//! based on work of petrbela : https://github.com/petrbela
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45026,7 +49166,7 @@
 	}));
 
 /***/ },
-/* 291 */
+/* 301 */
 /*!*******************************!*\
   !*** ./~/moment/locale/sl.js ***!
   \*******************************/
@@ -45037,7 +49177,7 @@
 	//! author : Robert Sedovšek : https://github.com/sedovsek
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45195,7 +49335,7 @@
 	}));
 
 /***/ },
-/* 292 */
+/* 302 */
 /*!*******************************!*\
   !*** ./~/moment/locale/sq.js ***!
   \*******************************/
@@ -45208,7 +49348,7 @@
 	//! author : Oerd Cukalla : https://github.com/oerd (fixes)
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45272,7 +49412,7 @@
 	}));
 
 /***/ },
-/* 293 */
+/* 303 */
 /*!*******************************!*\
   !*** ./~/moment/locale/sr.js ***!
   \*******************************/
@@ -45283,7 +49423,7 @@
 	//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45389,7 +49529,7 @@
 	}));
 
 /***/ },
-/* 294 */
+/* 304 */
 /*!************************************!*\
   !*** ./~/moment/locale/sr-cyrl.js ***!
   \************************************/
@@ -45400,7 +49540,7 @@
 	//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45506,7 +49646,7 @@
 	}));
 
 /***/ },
-/* 295 */
+/* 305 */
 /*!*******************************!*\
   !*** ./~/moment/locale/ss.js ***!
   \*******************************/
@@ -45517,7 +49657,7 @@
 	//! author : Nicolai Davies<mail@nicolai.io> : https://github.com/nicolaidavies
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45602,7 +49742,7 @@
 	}));
 
 /***/ },
-/* 296 */
+/* 306 */
 /*!*******************************!*\
   !*** ./~/moment/locale/sv.js ***!
   \*******************************/
@@ -45613,7 +49753,7 @@
 	//! author : Jens Alm : https://github.com/ulmus
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45678,7 +49818,7 @@
 	}));
 
 /***/ },
-/* 297 */
+/* 307 */
 /*!*******************************!*\
   !*** ./~/moment/locale/sw.js ***!
   \*******************************/
@@ -45689,7 +49829,7 @@
 	//! author : Fahad Kassim : https://github.com/fadsel
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45744,7 +49884,7 @@
 	}));
 
 /***/ },
-/* 298 */
+/* 308 */
 /*!*******************************!*\
   !*** ./~/moment/locale/ta.js ***!
   \*******************************/
@@ -45755,7 +49895,7 @@
 	//! author : Arjunkumar Krishnamoorthy : https://github.com/tk120404
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45880,7 +50020,7 @@
 	}));
 
 /***/ },
-/* 299 */
+/* 309 */
 /*!*******************************!*\
   !*** ./~/moment/locale/te.js ***!
   \*******************************/
@@ -45891,7 +50031,7 @@
 	//! author : Krishna Chaitanya Thota : https://github.com/kcthota
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45976,7 +50116,7 @@
 	}));
 
 /***/ },
-/* 300 */
+/* 310 */
 /*!*******************************!*\
   !*** ./~/moment/locale/th.js ***!
   \*******************************/
@@ -45987,7 +50127,7 @@
 	//! author : Kridsada Thanabulpong : https://github.com/sirn
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46050,7 +50190,7 @@
 	}));
 
 /***/ },
-/* 301 */
+/* 311 */
 /*!**********************************!*\
   !*** ./~/moment/locale/tl-ph.js ***!
   \**********************************/
@@ -46061,7 +50201,7 @@
 	//! author : Dan Hagman
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46119,7 +50259,7 @@
 	}));
 
 /***/ },
-/* 302 */
+/* 312 */
 /*!********************************!*\
   !*** ./~/moment/locale/tlh.js ***!
   \********************************/
@@ -46130,7 +50270,7 @@
 	//! author : Dominika Kruk : https://github.com/amaranthrose
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46246,7 +50386,7 @@
 	}));
 
 /***/ },
-/* 303 */
+/* 313 */
 /*!*******************************!*\
   !*** ./~/moment/locale/tr.js ***!
   \*******************************/
@@ -46258,7 +50398,7 @@
 	//!           Burak Yiğit Kaya: https://github.com/BYK
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46343,7 +50483,7 @@
 	}));
 
 /***/ },
-/* 304 */
+/* 314 */
 /*!********************************!*\
   !*** ./~/moment/locale/tzl.js ***!
   \********************************/
@@ -46354,7 +50494,7 @@
 	//! author : Robin van der Vliet : https://github.com/robin0van0der0v with the help of Iustì Canun
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46441,7 +50581,7 @@
 	}));
 
 /***/ },
-/* 305 */
+/* 315 */
 /*!********************************!*\
   !*** ./~/moment/locale/tzm.js ***!
   \********************************/
@@ -46452,7 +50592,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46506,7 +50646,7 @@
 	}));
 
 /***/ },
-/* 306 */
+/* 316 */
 /*!*************************************!*\
   !*** ./~/moment/locale/tzm-latn.js ***!
   \*************************************/
@@ -46517,7 +50657,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46571,7 +50711,7 @@
 	}));
 
 /***/ },
-/* 307 */
+/* 317 */
 /*!*******************************!*\
   !*** ./~/moment/locale/uk.js ***!
   \*******************************/
@@ -46583,7 +50723,7 @@
 	//! Author : Menelion Elensúle : https://github.com/Oire
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46724,7 +50864,7 @@
 	}));
 
 /***/ },
-/* 308 */
+/* 318 */
 /*!*******************************!*\
   !*** ./~/moment/locale/uz.js ***!
   \*******************************/
@@ -46735,7 +50875,7 @@
 	//! author : Sardor Muminov : https://github.com/muminoff
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46789,7 +50929,7 @@
 	}));
 
 /***/ },
-/* 309 */
+/* 319 */
 /*!*******************************!*\
   !*** ./~/moment/locale/vi.js ***!
   \*******************************/
@@ -46800,7 +50940,7 @@
 	//! author : Bang Nguyen : https://github.com/bangnk
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46875,7 +51015,7 @@
 	}));
 
 /***/ },
-/* 310 */
+/* 320 */
 /*!*************************************!*\
   !*** ./~/moment/locale/x-pseudo.js ***!
   \*************************************/
@@ -46886,7 +51026,7 @@
 	//! author : Andrew Hood : https://github.com/andrewhood125
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46950,7 +51090,7 @@
 	}));
 
 /***/ },
-/* 311 */
+/* 321 */
 /*!**********************************!*\
   !*** ./~/moment/locale/zh-cn.js ***!
   \**********************************/
@@ -46962,7 +51102,7 @@
 	//! author : Zeno Zeng : https://github.com/zenozeng
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -47084,7 +51224,7 @@
 	}));
 
 /***/ },
-/* 312 */
+/* 322 */
 /*!**********************************!*\
   !*** ./~/moment/locale/zh-tw.js ***!
   \**********************************/
@@ -47096,7 +51236,7 @@
 	//! author : Chris Lam : https://github.com/hehachris
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(/*! ../moment */ 209)) :
+	    true ? factory(__webpack_require__(/*! ../moment */ 219)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -47195,7 +51335,7 @@
 	}));
 
 /***/ },
-/* 313 */
+/* 323 */
 /*!**************************************!*\
   !*** ./browser/scripts/materiel.jsx ***!
   \**************************************/
@@ -47215,7 +51355,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactAddonsCssTransitionGroup = __webpack_require__(/*! react-addons-css-transition-group */ 330);
+	var _reactAddonsCssTransitionGroup = __webpack_require__(/*! react-addons-css-transition-group */ 324);
 	
 	var _reactAddonsCssTransitionGroup2 = _interopRequireDefault(_reactAddonsCssTransitionGroup);
 	
@@ -47264,15 +51404,11 @@
 	      if (this.state.description) {
 	        cardDescription = _react2.default.createElement(
 	          'div',
-	          { className: 'card', key: "description" + this.props._id },
+	          { className: 'card-block' },
 	          _react2.default.createElement(
-	            'div',
-	            { className: 'card-block' },
-	            _react2.default.createElement(
-	              'p',
-	              { className: 'card-text' },
-	              this.props.description
-	            )
+	            'p',
+	            { className: 'card-text' },
+	            this.props.description
 	          )
 	        );
 	      }
@@ -47292,85 +51428,88 @@
 	
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'cardWrapper' },
+	        { className: 'mdl-card mdl-shadow--2dp', 'data-id': this.props._id },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'card', 'data-id': this.props._id },
-	          _react2.default.createElement('img', { className: 'card-img-top', src: this.props.thumbUrl, alt: 'Caméra' }),
+	          { className: 'mdl-card__title', style: { backgroundImage: 'url(' + this.props.thumbUrl + ')' } },
 	          _react2.default.createElement(
-	            'div',
-	            { className: 'card-block' },
-	            _react2.default.createElement(
-	              'h4',
-	              { className: 'card-title' },
-	              this.props.name
-	            ),
-	            _react2.default.createElement(
-	              'p',
-	              { className: 'card-text' },
-	              'Caution : ',
-	              this.props.caution
-	            ),
-	            emprunte ? _react2.default.createElement(
-	              'p',
-	              { className: 'card-text' },
-	              'Empruntée par ',
-	              emprunt(index).nom,
-	              ' le ',
-	              emprunt(index).date,
-	              _react2.default.createElement('br', null),
-	              'Responsable : ',
-	              emprunt(index).responsable
-	            ) : null,
-	            emprunte ? _react2.default.createElement(
-	              'button',
-	              { className: 'btn btn-danger', onClick: this.closeReservation },
-	              'Rendre matériel'
-	            ) : null,
-	            reserve ? _react2.default.createElement(
-	              'p',
-	              { className: 'card-text' },
-	              'Réservée par ',
-	              emprunt(index).nom,
-	              ' le ',
-	              emprunt(index).date
-	            ) : null,
-	            reserve ? _react2.default.createElement(
-	              'button',
-	              { className: 'btn btn-success', onClick: this.validerReservation },
-	              'Valider réservation'
-	            ) : null,
-	            reserve ? _react2.default.createElement(
-	              'button',
-	              { className: 'btn btn-danger', onClick: this.closeReservation },
-	              'Annuler réservation'
-	            ) : null,
-	            !emprunteOuReserve ? _react2.default.createElement(
-	              'p',
-	              { className: 'card-text materielDispo' },
-	              'Disponible !'
-	            ) : null,
-	            !emprunteOuReserve ? _react2.default.createElement(
-	              'button',
-	              { className: 'btn btn-primary', onClick: this.openReservation },
-	              'Réserver'
-	            ) : null
-	          ),
+	            'h2',
+	            { className: 'mdl-card__title-text' },
+	            this.props.name
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'mdl-card__menu' },
 	          _react2.default.createElement(
-	            'div',
-	            { className: 'card-block openDescription', onClick: this.switchDescription },
+	            'button',
+	            { className: 'mdl-button mdl-js-button mdl-button--fab mdl-button--colored' },
 	            _react2.default.createElement(
-	              'span',
-	              { className: 'text-muted link' },
-	              'Plus de détails...'
+	              'i',
+	              { className: 'material-icons' },
+	              'description'
 	            )
 	          )
 	        ),
 	        _react2.default.createElement(
-	          _reactAddonsCssTransitionGroup2.default,
-	          { transitionEnterTimeout: 500, transitionLeaveTimeout: 300, transitionName: 'cardDescription', className: 'card cardHidden' },
-	          cardDescription
-	        )
+	          'div',
+	          { className: 'mdl-card__supporting-text' },
+	          _react2.default.createElement(
+	            'p',
+	            { className: 'card-text' },
+	            'Caution : ',
+	            this.props.caution
+	          ),
+	          emprunte ? _react2.default.createElement(
+	            'p',
+	            { className: 'card-text' },
+	            'Empruntée par ',
+	            emprunt(index).nom,
+	            ' le ',
+	            emprunt(index).date,
+	            _react2.default.createElement('br', null),
+	            'Responsable : ',
+	            emprunt(index).responsable
+	          ) : null,
+	          reserve ? _react2.default.createElement(
+	            'p',
+	            { className: 'card-text' },
+	            'Réservée par ',
+	            emprunt(index).nom,
+	            ' le ',
+	            emprunt(index).date
+	          ) : null,
+	          !emprunteOuReserve ? _react2.default.createElement(
+	            'p',
+	            { className: 'card-text materielDispo' },
+	            'Disponible'
+	          ) : null
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'mdl-card__actions mdl-card--border' },
+	          emprunte ? _react2.default.createElement(
+	            'button',
+	            { className: 'mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect' },
+	            'Rendre'
+	          ) : null,
+	          reserve ? _react2.default.createElement(
+	            'button',
+	            { className: 'mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect', onClick: this.validerReservation },
+	            'Valider réservation'
+	          ) : null,
+	          reserve ? _react2.default.createElement(
+	            'button',
+	            { className: 'mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect', onClick: this.closeReservation },
+	            'Annuler réservation'
+	          ) : null,
+	          !emprunteOuReserve ? _react2.default.createElement(
+	            'button',
+	            { className: 'mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect', onClick: this.openReservation },
+	            'Réserver'
+	          ) : null
+	        ),
+	        cardDescription
 	      );
 	    }
 	  }]);
@@ -47379,7 +51518,7 @@
 	}(_react2.default.Component);
 	
 	Camera.defaultProps = {
-	  thumbUrl: '/defaults/gopro_4.jpg',
+	  thumbUrl: '/defaults/gopro_4.png',
 	  name: 'Clara - GoPro Hero 4',
 	  description: 'Caméra CTN',
 	  caution: '300€',
@@ -47445,732 +51584,16 @@
 	exports.default = MatosList;
 
 /***/ },
-/* 314 */,
-/* 315 */
-/*!*****************************************************!*\
-  !*** ./~/react/lib/ReactCSSTransitionGroupChild.js ***!
-  \*****************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactCSSTransitionGroupChild
-	 */
-	
-	'use strict';
-	
-	var React = __webpack_require__(/*! ./React */ 16);
-	var ReactDOM = __webpack_require__(/*! ./ReactDOM */ 48);
-	
-	var CSSCore = __webpack_require__(/*! fbjs/lib/CSSCore */ 316);
-	var ReactTransitionEvents = __webpack_require__(/*! ./ReactTransitionEvents */ 317);
-	
-	var onlyChild = __webpack_require__(/*! ./onlyChild */ 46);
-	
-	var TICK = 17;
-	
-	var ReactCSSTransitionGroupChild = React.createClass({
-	  displayName: 'ReactCSSTransitionGroupChild',
-	
-	  propTypes: {
-	    name: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.shape({
-	      enter: React.PropTypes.string,
-	      leave: React.PropTypes.string,
-	      active: React.PropTypes.string
-	    }), React.PropTypes.shape({
-	      enter: React.PropTypes.string,
-	      enterActive: React.PropTypes.string,
-	      leave: React.PropTypes.string,
-	      leaveActive: React.PropTypes.string,
-	      appear: React.PropTypes.string,
-	      appearActive: React.PropTypes.string
-	    })]).isRequired,
-	
-	    // Once we require timeouts to be specified, we can remove the
-	    // boolean flags (appear etc.) and just accept a number
-	    // or a bool for the timeout flags (appearTimeout etc.)
-	    appear: React.PropTypes.bool,
-	    enter: React.PropTypes.bool,
-	    leave: React.PropTypes.bool,
-	    appearTimeout: React.PropTypes.number,
-	    enterTimeout: React.PropTypes.number,
-	    leaveTimeout: React.PropTypes.number
-	  },
-	
-	  transition: function (animationType, finishCallback, userSpecifiedDelay) {
-	    var node = ReactDOM.findDOMNode(this);
-	
-	    if (!node) {
-	      if (finishCallback) {
-	        finishCallback();
-	      }
-	      return;
-	    }
-	
-	    var className = this.props.name[animationType] || this.props.name + '-' + animationType;
-	    var activeClassName = this.props.name[animationType + 'Active'] || className + '-active';
-	    var timeout = null;
-	
-	    var endListener = function (e) {
-	      if (e && e.target !== node) {
-	        return;
-	      }
-	
-	      clearTimeout(timeout);
-	
-	      CSSCore.removeClass(node, className);
-	      CSSCore.removeClass(node, activeClassName);
-	
-	      ReactTransitionEvents.removeEndEventListener(node, endListener);
-	
-	      // Usually this optional callback is used for informing an owner of
-	      // a leave animation and telling it to remove the child.
-	      if (finishCallback) {
-	        finishCallback();
-	      }
-	    };
-	
-	    CSSCore.addClass(node, className);
-	
-	    // Need to do this to actually trigger a transition.
-	    this.queueClassAndNode(activeClassName, node);
-	
-	    // If the user specified a timeout delay.
-	    if (userSpecifiedDelay) {
-	      // Clean-up the animation after the specified delay
-	      timeout = setTimeout(endListener, userSpecifiedDelay);
-	      this.transitionTimeouts.push(timeout);
-	    } else {
-	      // DEPRECATED: this listener will be removed in a future version of react
-	      ReactTransitionEvents.addEndEventListener(node, endListener);
-	    }
-	  },
-	
-	  queueClassAndNode: function (className, node) {
-	    this.classNameAndNodeQueue.push({
-	      className: className,
-	      node: node
-	    });
-	
-	    if (!this.timeout) {
-	      this.timeout = setTimeout(this.flushClassNameAndNodeQueue, TICK);
-	    }
-	  },
-	
-	  flushClassNameAndNodeQueue: function () {
-	    if (this.isMounted()) {
-	      this.classNameAndNodeQueue.forEach(function (obj) {
-	        CSSCore.addClass(obj.node, obj.className);
-	      });
-	    }
-	    this.classNameAndNodeQueue.length = 0;
-	    this.timeout = null;
-	  },
-	
-	  componentWillMount: function () {
-	    this.classNameAndNodeQueue = [];
-	    this.transitionTimeouts = [];
-	  },
-	
-	  componentWillUnmount: function () {
-	    if (this.timeout) {
-	      clearTimeout(this.timeout);
-	    }
-	    this.transitionTimeouts.forEach(function (timeout) {
-	      clearTimeout(timeout);
-	    });
-	
-	    this.classNameAndNodeQueue.length = 0;
-	  },
-	
-	  componentWillAppear: function (done) {
-	    if (this.props.appear) {
-	      this.transition('appear', done, this.props.appearTimeout);
-	    } else {
-	      done();
-	    }
-	  },
-	
-	  componentWillEnter: function (done) {
-	    if (this.props.enter) {
-	      this.transition('enter', done, this.props.enterTimeout);
-	    } else {
-	      done();
-	    }
-	  },
-	
-	  componentWillLeave: function (done) {
-	    if (this.props.leave) {
-	      this.transition('leave', done, this.props.leaveTimeout);
-	    } else {
-	      done();
-	    }
-	  },
-	
-	  render: function () {
-	    return onlyChild(this.props.children);
-	  }
-	});
-	
-	module.exports = ReactCSSTransitionGroupChild;
-
-/***/ },
-/* 316 */
-/*!*******************************!*\
-  !*** ./~/fbjs/lib/CSSCore.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
-	
-	/**
-	 * Copyright (c) 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @typechecks
-	 */
-	
-	var invariant = __webpack_require__(/*! ./invariant */ 22);
-	
-	/**
-	 * The CSSCore module specifies the API (and implements most of the methods)
-	 * that should be used when dealing with the display of elements (via their
-	 * CSS classes and visibility on screen. It is an API focused on mutating the
-	 * display and not reading it as no logical state should be encoded in the
-	 * display of elements.
-	 */
-	
-	/* Slow implementation for browsers that don't natively support .matches() */
-	function matchesSelector_SLOW(element, selector) {
-	  var root = element;
-	  while (root.parentNode) {
-	    root = root.parentNode;
-	  }
-	
-	  var all = root.querySelectorAll(selector);
-	  return Array.prototype.indexOf.call(all, element) !== -1;
-	}
-	
-	var CSSCore = {
-	
-	  /**
-	   * Adds the class passed in to the element if it doesn't already have it.
-	   *
-	   * @param {DOMElement} element the element to set the class on
-	   * @param {string} className the CSS className
-	   * @return {DOMElement} the element passed in
-	   */
-	  addClass: function addClass(element, className) {
-	    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSSCore.addClass takes only a single class name. "%s" contains ' + 'multiple classes.', className) : invariant(false) : void 0;
-	
-	    if (className) {
-	      if (element.classList) {
-	        element.classList.add(className);
-	      } else if (!CSSCore.hasClass(element, className)) {
-	        element.className = element.className + ' ' + className;
-	      }
-	    }
-	    return element;
-	  },
-	
-	  /**
-	   * Removes the class passed in from the element
-	   *
-	   * @param {DOMElement} element the element to set the class on
-	   * @param {string} className the CSS className
-	   * @return {DOMElement} the element passed in
-	   */
-	  removeClass: function removeClass(element, className) {
-	    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSSCore.removeClass takes only a single class name. "%s" contains ' + 'multiple classes.', className) : invariant(false) : void 0;
-	
-	    if (className) {
-	      if (element.classList) {
-	        element.classList.remove(className);
-	      } else if (CSSCore.hasClass(element, className)) {
-	        element.className = element.className.replace(new RegExp('(^|\\s)' + className + '(?:\\s|$)', 'g'), '$1').replace(/\s+/g, ' ') // multiple spaces to one
-	        .replace(/^\s*|\s*$/g, ''); // trim the ends
-	      }
-	    }
-	    return element;
-	  },
-	
-	  /**
-	   * Helper to add or remove a class from an element based on a condition.
-	   *
-	   * @param {DOMElement} element the element to set the class on
-	   * @param {string} className the CSS className
-	   * @param {*} bool condition to whether to add or remove the class
-	   * @return {DOMElement} the element passed in
-	   */
-	  conditionClass: function conditionClass(element, className, bool) {
-	    return (bool ? CSSCore.addClass : CSSCore.removeClass)(element, className);
-	  },
-	
-	  /**
-	   * Tests whether the element has the class specified.
-	   *
-	   * @param {DOMNode|DOMWindow} element the element to check the class on
-	   * @param {string} className the CSS className
-	   * @return {boolean} true if the element has the class, false if not
-	   */
-	  hasClass: function hasClass(element, className) {
-	    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSS.hasClass takes only a single class name.') : invariant(false) : void 0;
-	    if (element.classList) {
-	      return !!className && element.classList.contains(className);
-	    }
-	    return (' ' + element.className + ' ').indexOf(' ' + className + ' ') > -1;
-	  },
-	
-	  /**
-	   * Tests whether the element matches the selector specified
-	   *
-	   * @param {DOMNode|DOMWindow} element the element that we are querying
-	   * @param {string} selector the CSS selector
-	   * @return {boolean} true if the element matches the selector, false if not
-	   */
-	  matchesSelector: function matchesSelector(element, selector) {
-	    var matchesImpl = element.matches || element.webkitMatchesSelector || element.mozMatchesSelector || element.msMatchesSelector || function (s) {
-	      return matchesSelector_SLOW(element, s);
-	    };
-	    return matchesImpl.call(element, selector);
-	  }
-	
-	};
-	
-	module.exports = CSSCore;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 17)))
-
-/***/ },
-/* 317 */
-/*!**********************************************!*\
-  !*** ./~/react/lib/ReactTransitionEvents.js ***!
-  \**********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactTransitionEvents
-	 */
-	
-	'use strict';
-	
-	var ExecutionEnvironment = __webpack_require__(/*! fbjs/lib/ExecutionEnvironment */ 62);
-	
-	var getVendorPrefixedEventName = __webpack_require__(/*! ./getVendorPrefixedEventName */ 125);
-	
-	var endEvents = [];
-	
-	function detectEvents() {
-	  var animEnd = getVendorPrefixedEventName('animationend');
-	  var transEnd = getVendorPrefixedEventName('transitionend');
-	
-	  if (animEnd) {
-	    endEvents.push(animEnd);
-	  }
-	
-	  if (transEnd) {
-	    endEvents.push(transEnd);
-	  }
-	}
-	
-	if (ExecutionEnvironment.canUseDOM) {
-	  detectEvents();
-	}
-	
-	// We use the raw {add|remove}EventListener() call because EventListener
-	// does not know how to remove event listeners and we really should
-	// clean up. Also, these events are not triggered in older browsers
-	// so we should be A-OK here.
-	
-	function addEventListener(node, eventName, eventListener) {
-	  node.addEventListener(eventName, eventListener, false);
-	}
-	
-	function removeEventListener(node, eventName, eventListener) {
-	  node.removeEventListener(eventName, eventListener, false);
-	}
-	
-	var ReactTransitionEvents = {
-	  addEndEventListener: function (node, eventListener) {
-	    if (endEvents.length === 0) {
-	      // If CSS transitions are not supported, trigger an "end animation"
-	      // event immediately.
-	      window.setTimeout(eventListener, 0);
-	      return;
-	    }
-	    endEvents.forEach(function (endEvent) {
-	      addEventListener(node, endEvent, eventListener);
-	    });
-	  },
-	
-	  removeEndEventListener: function (node, eventListener) {
-	    if (endEvents.length === 0) {
-	      return;
-	    }
-	    endEvents.forEach(function (endEvent) {
-	      removeEventListener(node, endEvent, eventListener);
-	    });
-	  }
-	};
-	
-	module.exports = ReactTransitionEvents;
-
-/***/ },
-/* 318 */
-/*!******************************************!*\
-  !*** ./browser/scripts/video_player.jsx ***!
-  \******************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(/*! react */ 15);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _moment = __webpack_require__(/*! moment */ 209);
-	
-	var moment = _interopRequireWildcard(_moment);
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var VideoPlayer = function (_React$Component) {
-	  _inherits(VideoPlayer, _React$Component);
-	
-	  function VideoPlayer(props) {
-	    _classCallCheck(this, VideoPlayer);
-	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(VideoPlayer).call(this, props));
-	  }
-	
-	  _createClass(VideoPlayer, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'videoPlayer container' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'row' },
-	          _react2.default.createElement('video', { poster: this.props.thumbUrl, src: this.props.videoUrl, controls: 'true' })
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'row videoDetails' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'col-md-8' },
-	            _react2.default.createElement(
-	              'h3',
-	              null,
-	              this.props.title
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'col-md-4' },
-	            _react2.default.createElement(
-	              'p',
-	              null,
-	              'Mis en ligne le ',
-	              this.props.uploadDate,
-	              ' par ',
-	              this.props.uploader,
-	              _react2.default.createElement('br', null),
-	              _react2.default.createElement(
-	                'small',
-	                null,
-	                this.props.views,
-	                ' vues'
-	              )
-	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'row videoDescription' },
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            this.props.description
-	          )
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return VideoPlayer;
-	}(_react2.default.Component);
-	
-	VideoPlayer.defaultProps = {
-	  thumbUrl: '/defaults/no_video.png',
-	  videoUrl: '/defaults/no_video.mp4',
-	  title: 'Titre',
-	  uploadDate: "26/06/2016",
-	  uploader: 'CTN',
-	  description: 'Vidéo Mediapiston',
-	  views: 0
-	};
-	
-	exports.default = VideoPlayer;
-
-/***/ },
-/* 319 */
-/*!***********************************!*\
-  !*** ./browser/styles/cards.sass ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./cards.sass */ 320);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 192)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./cards.sass", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./cards.sass");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 320 */
-/*!*************************************************************************************!*\
-  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/cards.sass ***!
-  \*************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 191)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "#videosList, #matosList {\n  text-align: center; }\n\n.videoList, .matosList {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 80%;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  margin: auto;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center; }\n\n.videoList .card {\n  margin: 20px;\n  -webkit-box-flex: 2;\n      -ms-flex-positive: 2;\n          flex-grow: 2;\n  -ms-flex-preferred-size: 400px;\n      flex-basis: 400px; }\n\n.matosList .cardWrapper {\n  margin: 20px;\n  -webkit-box-flex: 4;\n      -ms-flex-positive: 4;\n          flex-grow: 4;\n  -ms-flex-negative: 0;\n      flex-shrink: 0;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex; }\n\n.cardWrapper > .card {\n  -webkit-box-flex: 0;\n      -ms-flex-positive: 0;\n          flex-grow: 0;\n  -ms-flex-negative: 0;\n      flex-shrink: 0;\n  padding-bottom: 50px; }\n\n.cardWrapper > .card:nth-child(2) {\n  -webkit-box-flex: 3;\n      -ms-flex-positive: 3;\n          flex-grow: 3;\n  -ms-flex-preferred-size: 500px;\n      flex-basis: 500px; }\n\n.cardHidden {\n  border: none; }\n\n.cardHidden .card {\n  width: 500px;\n  height: 100%; }\n\n.card-img-top {\n  max-width: 300px;\n  height: auto; }\n\n.link {\n  cursor: pointer; }\n\n.openDescription {\n  border-top: 1px #d4d4d4 solid;\n  height: 50px;\n  line-height: 10px;\n  position: absolute;\n  bottom: 0;\n  width: 100%; }\n\na.cardLink, a.cardLink:hover {\n  text-decoration: none;\n  color: black; }\n\n.materielDispo {\n  color: #3c763d; }\n\n.videoPlayer {\n  margin-top: 20px; }\n\n.videoDetails {\n  margin-top: 1em; }\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 321 */
-/*!************************************!*\
-  !*** ./browser/styles/search.sass ***!
-  \************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./search.sass */ 322);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 192)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./search.sass", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./search.sass");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 322 */
-/*!**************************************************************************************!*\
-  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/search.sass ***!
-  \**************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 191)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, ".nav.nav-center {\n  margin: 0;\n  float: none;\n  display: inline-block;\n  left: 0;\n  right: 0; }\n\n.navbar {\n  text-align: center; }\n\n#searchBox input {\n  width: 300px; }\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 323 */
-/*!*****************************!*\
-  !*** ./~/plyr/dist/plyr.js ***!
-  \*****************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_RESULT__;!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.exports=t(e,document): true?!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){t(e,document)}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):e.plyr=t(e,document)}("undefined"!=typeof window?window:this,function(e,t){"use strict";function n(){var e,n,r,a=navigator.userAgent,s=navigator.appName,o=""+parseFloat(navigator.appVersion),i=parseInt(navigator.appVersion,10),l=!1,u=!1,c=!1,p=!1;return-1!==navigator.appVersion.indexOf("Windows NT")&&-1!==navigator.appVersion.indexOf("rv:11")?(l=!0,s="IE",o="11"):-1!==(n=a.indexOf("MSIE"))?(l=!0,s="IE",o=a.substring(n+5)):-1!==(n=a.indexOf("Chrome"))?(c=!0,s="Chrome",o=a.substring(n+7)):-1!==(n=a.indexOf("Safari"))?(p=!0,s="Safari",o=a.substring(n+7),-1!==(n=a.indexOf("Version"))&&(o=a.substring(n+8))):-1!==(n=a.indexOf("Firefox"))?(u=!0,s="Firefox",o=a.substring(n+8)):(e=a.lastIndexOf(" ")+1)<(n=a.lastIndexOf("/"))&&(s=a.substring(e,n),o=a.substring(n+1),s.toLowerCase()==s.toUpperCase()&&(s=navigator.appName)),-1!==(r=o.indexOf(";"))&&(o=o.substring(0,r)),-1!==(r=o.indexOf(" "))&&(o=o.substring(0,r)),i=parseInt(""+o,10),isNaN(i)&&(o=""+parseFloat(navigator.appVersion),i=parseInt(navigator.appVersion,10)),{name:s,version:i,isIE:l,isFirefox:u,isChrome:c,isSafari:p,isIos:/(iPad|iPhone|iPod)/g.test(navigator.platform),isTouch:"ontouchstart"in t.documentElement}}function r(e,t){var n=e.media;if("video"==e.type)switch(t){case"video/webm":return!(!n.canPlayType||!n.canPlayType('video/webm; codecs="vp8, vorbis"').replace(/no/,""));case"video/mp4":return!(!n.canPlayType||!n.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/,""));case"video/ogg":return!(!n.canPlayType||!n.canPlayType('video/ogg; codecs="theora"').replace(/no/,""))}else if("audio"==e.type)switch(t){case"audio/mpeg":return!(!n.canPlayType||!n.canPlayType("audio/mpeg;").replace(/no/,""));case"audio/ogg":return!(!n.canPlayType||!n.canPlayType('audio/ogg; codecs="vorbis"').replace(/no/,""));case"audio/wav":return!(!n.canPlayType||!n.canPlayType('audio/wav; codecs="1"').replace(/no/,""))}return!1}function a(e){if(!t.querySelectorAll('script[src="'+e+'"]').length){var n=t.createElement("script");n.src=e;var r=t.getElementsByTagName("script")[0];r.parentNode.insertBefore(n,r)}}function s(e,t){return Array.prototype.indexOf&&-1!=e.indexOf(t)}function o(e,t,n){return e.replace(new RegExp(t.replace(/([.*+?\^=!:${}()|\[\]\/\\])/g,"\\$1"),"g"),n)}function i(e,t){e.length||(e=[e]);for(var n=e.length-1;n>=0;n--){var r=n>0?t.cloneNode(!0):t,a=e[n],s=a.parentNode,o=a.nextSibling;return r.appendChild(a),o?s.insertBefore(r,o):s.appendChild(r),r}}function l(e){for(var t=e.parentNode;e.firstChild;)t.insertBefore(e.firstChild,e);t.removeChild(e)}function u(e){e&&e.parentNode.removeChild(e)}function c(e,t){e.insertBefore(t,e.firstChild)}function p(e,t){for(var n in t)e.setAttribute(n,"boolean"==typeof t[n]&&t[n]?"":t[n])}function d(e,n,r){var a=t.createElement(e);p(a,r),c(n,a)}function A(e){return e.replace(".","")}function m(e,t,n){if(e)if(e.classList)e.classList[n?"add":"remove"](t);else{var r=(" "+e.className+" ").replace(/\s+/g," ").replace(" "+t+" ","");e.className=r+(n?" "+t:"")}}function f(e,t){return e?e.classList?e.classList.contains(t):new RegExp("(\\s|^)"+t+"(\\s|$)").test(e.className):!1}function y(e,n){var r=Element.prototype,a=r.matches||r.webkitMatchesSelector||r.mozMatchesSelector||r.msMatchesSelector||function(e){return-1!==[].indexOf.call(t.querySelectorAll(e),this)};return a.call(e,n)}function b(e,t,n,r){e&&h(e,t,n,!0,r)}function v(e,t,n,r){e&&h(e,t,n,!1,r)}function g(e,t,n,r,a){b(e,t,function(t){n&&n.apply(e,[t]),r.apply(e,[t])},a)}function h(e,t,n,r,a){var s=t.split(" ");if("boolean"!=typeof a&&(a=!1),e instanceof NodeList)for(var o=0;o<e.length;o++)e[o]instanceof Node&&h(e[o],arguments[1],arguments[2],arguments[3]);else for(var i=0;i<s.length;i++)e[r?"addEventListener":"removeEventListener"](s[i],n,a)}function k(e,t,n,r){if(e&&t){"boolean"!=typeof n&&(n=!1);var a=new CustomEvent(t,{bubbles:n,detail:r});e.dispatchEvent(a)}}function w(e,t){return e?(t="boolean"==typeof t?t:!e.getAttribute("aria-pressed"),e.setAttribute("aria-pressed",t),t):void 0}function x(e,t){return 0===e||0===t||isNaN(e)||isNaN(t)?0:(e/t*100).toFixed(2)}function T(){var e=arguments;if(e.length){if(1==e.lenth)return e[0];for(var t=Array.prototype.shift.call(e),n=e.length,r=0;n>r;r++){var a=e[r];for(var s in a)a[s]&&a[s].constructor&&a[s].constructor===Object?(t[s]=t[s]||{},T(t[s],a[s])):t[s]=a[s]}return t}}function E(){var e={supportsFullScreen:!1,isFullScreen:function(){return!1},requestFullScreen:function(){},cancelFullScreen:function(){},fullScreenEventName:"",element:null,prefix:""},n="webkit moz o ms khtml".split(" ");if("undefined"!=typeof t.cancelFullScreen)e.supportsFullScreen=!0;else for(var r=0,a=n.length;a>r;r++){if(e.prefix=n[r],"undefined"!=typeof t[e.prefix+"CancelFullScreen"]){e.supportsFullScreen=!0;break}if("undefined"!=typeof t.msExitFullscreen&&t.msFullscreenEnabled){e.prefix="ms",e.supportsFullScreen=!0;break}}return e.supportsFullScreen&&(e.fullScreenEventName="ms"==e.prefix?"MSFullscreenChange":e.prefix+"fullscreenchange",e.isFullScreen=function(e){switch("undefined"==typeof e&&(e=t.body),this.prefix){case"":return t.fullscreenElement==e;case"moz":return t.mozFullScreenElement==e;default:return t[this.prefix+"FullscreenElement"]==e}},e.requestFullScreen=function(e){return"undefined"==typeof e&&(e=t.body),""===this.prefix?e.requestFullScreen():e[this.prefix+("ms"==this.prefix?"RequestFullscreen":"RequestFullScreen")]()},e.cancelFullScreen=function(){return""===this.prefix?t.cancelFullScreen():t[this.prefix+("ms"==this.prefix?"ExitFullscreen":"CancelFullScreen")]()},e.element=function(){return""===this.prefix?t.fullscreenElement:t[this.prefix+"FullscreenElement"]}),e}function _(){var t={supported:function(){if(!("localStorage"in e))return!1;try{e.localStorage.setItem("___test","OK");var t=e.localStorage.getItem("___test");return e.localStorage.removeItem("___test"),"OK"===t}catch(n){return!1}return!1}()};return t}function C(y,h){function T(){h.debug&&e.console&&console.log.apply(console,arguments)}function C(){h.debug&&e.console&&console.warn.apply(console,arguments)}function I(){return{url:h.iconUrl,absolute:0===h.iconUrl.indexOf("http")||Oe.browser.isIE}}function P(){var e=[],t=I(),n=(t.absolute?"":t.url)+"#"+h.iconPrefix;return s(h.controls,"play-large")&&e.push('<button type="button" data-plyr="play" class="plyr__play-large">','<svg><use xlink:href="'+n+'-play" /></svg>','<span class="plyr__sr-only">'+h.i18n.play+"</span>","</button>"),e.push('<div class="plyr__controls">'),s(h.controls,"restart")&&e.push('<button type="button" data-plyr="restart">','<svg><use xlink:href="'+n+'-restart" /></svg>','<span class="plyr__sr-only">'+h.i18n.restart+"</span>","</button>"),s(h.controls,"rewind")&&e.push('<button type="button" data-plyr="rewind">','<svg><use xlink:href="'+n+'-rewind" /></svg>','<span class="plyr__sr-only">'+h.i18n.rewind+"</span>","</button>"),s(h.controls,"play")&&e.push('<button type="button" data-plyr="play">','<svg><use xlink:href="'+n+'-play" /></svg>','<span class="plyr__sr-only">'+h.i18n.play+"</span>","</button>",'<button type="button" data-plyr="pause">','<svg><use xlink:href="'+n+'-pause" /></svg>','<span class="plyr__sr-only">'+h.i18n.pause+"</span>","</button>"),s(h.controls,"fast-forward")&&e.push('<button type="button" data-plyr="fast-forward">','<svg><use xlink:href="'+n+'-fast-forward" /></svg>','<span class="plyr__sr-only">'+h.i18n.forward+"</span>","</button>"),s(h.controls,"progress")&&(e.push('<span class="plyr__progress">','<label for="seek{id}" class="plyr__sr-only">Seek</label>','<input id="seek{id}" class="plyr__progress--seek" type="range" min="0" max="100" step="0.1" value="0" data-plyr="seek">','<progress class="plyr__progress--played" max="100" value="0" role="presentation"></progress>','<progress class="plyr__progress--buffer" max="100" value="0">',"<span>0</span>% "+h.i18n.buffered,"</progress>"),h.tooltips.seek&&e.push('<span class="plyr__tooltip">00:00</span>'),e.push("</span>")),s(h.controls,"current-time")&&e.push('<span class="plyr__time">','<span class="plyr__sr-only">'+h.i18n.currentTime+"</span>",'<span class="plyr__time--current">00:00</span>',"</span>"),s(h.controls,"duration")&&e.push('<span class="plyr__time">','<span class="plyr__sr-only">'+h.i18n.duration+"</span>",'<span class="plyr__time--duration">00:00</span>',"</span>"),s(h.controls,"mute")&&e.push('<button type="button" data-plyr="mute">','<svg class="icon--muted"><use xlink:href="'+n+'-muted" /></svg>','<svg><use xlink:href="'+n+'-volume" /></svg>','<span class="plyr__sr-only">'+h.i18n.toggleMute+"</span>","</button>"),s(h.controls,"volume")&&e.push('<span class="plyr__volume">','<label for="volume{id}" class="plyr__sr-only">'+h.i18n.volume+"</label>",'<input id="volume{id}" class="plyr__volume--input" type="range" min="'+h.volumeMin+'" max="'+h.volumeMax+'" value="'+h.volume+'" data-plyr="volume">','<progress class="plyr__volume--display" max="'+h.volumeMax+'" value="'+h.volumeMin+'" role="presentation"></progress>',"</span>"),s(h.controls,"captions")&&e.push('<button type="button" data-plyr="captions">','<svg class="icon--captions-on"><use xlink:href="'+n+'-captions-on" /></svg>','<svg><use xlink:href="'+n+'-captions-off" /></svg>','<span class="plyr__sr-only">'+h.i18n.toggleCaptions+"</span>","</button>"),s(h.controls,"fullscreen")&&e.push('<button type="button" data-plyr="fullscreen">','<svg class="icon--exit-fullscreen"><use xlink:href="'+n+'-exit-fullscreen" /></svg>','<svg><use xlink:href="'+n+'-enter-fullscreen" /></svg>','<span class="plyr__sr-only">'+h.i18n.toggleFullscreen+"</span>","</button>"),e.push("</div>"),e.join("")}function R(){if(Oe.supported.full&&("audio"!=Oe.type||h.fullscreen.allowAudio)&&h.fullscreen.enabled){var e=M.supportsFullScreen;e||h.fullscreen.fallback&&!W()?(T((e?"Native":"Fallback")+" fullscreen enabled"),m(Oe.container,h.classes.fullscreen.enabled,!0)):T("Fullscreen not supported and fallback disabled"),w(Oe.buttons.fullscreen,!1),Y()}}function L(){if("video"===Oe.type){G(h.selectors.captions)||Oe.videoContainer.insertAdjacentHTML("afterbegin",'<div class="'+A(h.selectors.captions)+'"></div>'),Oe.usingTextTracks=!1,Oe.media.textTracks&&(Oe.usingTextTracks=!0);for(var e,t="",n=Oe.media.childNodes,r=0;r<n.length;r++)"track"===n[r].nodeName.toLowerCase()&&(e=n[r].kind,"captions"!==e&&"subtitles"!==e||(t=n[r].getAttribute("src")));if(Oe.captionExists=!0,""===t?(Oe.captionExists=!1,T("No caption track found")):T("Caption track found; URI: "+t),Oe.captionExists){for(var a=Oe.media.textTracks,s=0;s<a.length;s++)a[s].mode="hidden";if(H(Oe),(Oe.browser.isIE&&Oe.browser.version>=10||Oe.browser.isFirefox&&Oe.browser.version>=31)&&(T("Detected browser with known TextTrack issues - using manual fallback"),Oe.usingTextTracks=!1),Oe.usingTextTracks){T("TextTracks supported");for(var o=0;o<a.length;o++){var i=a[o];"captions"!==i.kind&&"subtitles"!==i.kind||b(i,"cuechange",function(){this.activeCues[0]&&"text"in this.activeCues[0]?B(this.activeCues[0].getCueAsHTML()):B()})}}else if(T("TextTracks not supported so rendering captions manually"),Oe.currentCaption="",Oe.captions=[],""!==t){var l=new XMLHttpRequest;l.onreadystatechange=function(){if(4===l.readyState)if(200===l.status){var e,t=[],n=l.responseText;t=n.split("\n\n");for(var r=0;r<t.length;r++){e=t[r],Oe.captions[r]=[];var a=e.split("\n"),s=0;-1===a[s].indexOf(":")&&(s=1),Oe.captions[r]=[a[s],a[s+1]]}Oe.captions.shift(),T("Successfully loaded the caption file via AJAX")}else C("There was a problem loading the caption file via AJAX")},l.open("get",t,!0),l.send()}}else m(Oe.container,h.classes.captions.enabled)}}function B(e){var n=G(h.selectors.captions),r=t.createElement("span");n.innerHTML="","undefined"==typeof e&&(e=""),"string"==typeof e?r.innerHTML=e.trim():r.appendChild(e),n.appendChild(r);n.offsetHeight}function O(e){function t(e,t){var n=[];n=e.split(" --> ");for(var r=0;r<n.length;r++)n[r]=n[r].replace(/(\d+:\d+:\d+\.\d+).*/,"$1");return a(n[t])}function n(e){return t(e,0)}function r(e){return t(e,1)}function a(e){if(null===e||void 0===e)return 0;var t,n=[],r=[];return n=e.split(","),r=n[0].split(":"),t=Math.floor(60*r[0]*60)+Math.floor(60*r[1])+Math.floor(r[2])}if(!Oe.usingTextTracks&&"video"===Oe.type&&Oe.supported.full&&(Oe.subcount=0,e="number"==typeof e?e:Oe.media.currentTime,Oe.captions[Oe.subcount])){for(;r(Oe.captions[Oe.subcount][0])<e.toFixed(1);)if(Oe.subcount++,Oe.subcount>Oe.captions.length-1){Oe.subcount=Oe.captions.length-1;break}Oe.media.currentTime.toFixed(1)>=n(Oe.captions[Oe.subcount][0])&&Oe.media.currentTime.toFixed(1)<=r(Oe.captions[Oe.subcount][0])?(Oe.currentCaption=Oe.captions[Oe.subcount][1],B(Oe.currentCaption)):B()}}function H(){Oe.buttons.captions&&(m(Oe.container,h.classes.captions.enabled,!0),h.captions.defaultActive&&(m(Oe.container,h.classes.captions.active,!0),w(Oe.buttons.captions,!0)))}function V(e){return Oe.container.querySelectorAll(e)}function G(e){return V(e)[0]}function W(){try{return e.self!==e.top}catch(t){return!0}}function Y(){function e(e){9===e.which&&Oe.isFullscreen&&(e.target!==r||e.shiftKey?e.target===n&&e.shiftKey&&(e.preventDefault(),r.focus()):(e.preventDefault(),n.focus()))}var t=V("input:not([disabled]), button:not([disabled])"),n=t[0],r=t[t.length-1];b(Oe.container,"keydown",e)}function q(e,t){if("string"==typeof t)d(e,Oe.media,{src:t});else if(t.constructor===Array)for(var n=t.length-1;n>=0;n--)d(e,Oe.media,t[n])}function X(){if(h.loadSprite){var e=I();e.absolute?(T("AJAX loading absolute SVG sprite"+(Oe.browser.isIE?" (due to IE)":"")),S(e.url,"sprite-plyr")):T("Sprite will be used as external resource directly")}var n=h.html;T("Injecting custom controls"),n||(n=P()),n=o(n,"{seektime}",h.seekTime),n=o(n,"{id}",Math.floor(1e4*Math.random()));var r;if(null!==h.selectors.controls.container&&(r=h.selectors.controls.container,"string"==typeof selector&&(r=t.querySelector(r))),r instanceof HTMLElement||(r=Oe.container),r.insertAdjacentHTML("beforeend",n),h.tooltips.controls)for(var a=V([h.selectors.controls.wrapper," ",h.selectors.labels," .",h.classes.hidden].join("")),s=a.length-1;s>=0;s--){var i=a[s];m(i,h.classes.hidden,!1),m(i,h.classes.tooltip,!0)}}function z(){try{return Oe.controls=G(h.selectors.controls.wrapper),Oe.buttons={},Oe.buttons.seek=G(h.selectors.buttons.seek),Oe.buttons.play=V(h.selectors.buttons.play),Oe.buttons.pause=G(h.selectors.buttons.pause),Oe.buttons.restart=G(h.selectors.buttons.restart),Oe.buttons.rewind=G(h.selectors.buttons.rewind),Oe.buttons.forward=G(h.selectors.buttons.forward),Oe.buttons.fullscreen=G(h.selectors.buttons.fullscreen),Oe.buttons.mute=G(h.selectors.buttons.mute),Oe.buttons.captions=G(h.selectors.buttons.captions),Oe.progress={},Oe.progress.container=G(h.selectors.progress.container),Oe.progress.buffer={},Oe.progress.buffer.bar=G(h.selectors.progress.buffer),Oe.progress.buffer.text=Oe.progress.buffer.bar&&Oe.progress.buffer.bar.getElementsByTagName("span")[0],Oe.progress.played=G(h.selectors.progress.played),Oe.progress.tooltip=Oe.progress.container&&Oe.progress.container.querySelector("."+h.classes.tooltip),Oe.volume={},Oe.volume.input=G(h.selectors.volume.input),Oe.volume.display=G(h.selectors.volume.display),Oe.duration=G(h.selectors.duration),Oe.currentTime=G(h.selectors.currentTime),Oe.seekTime=V(h.selectors.seekTime),!0}catch(e){return C("It looks like there is a problem with your controls HTML"),Q(!0),!1}}function D(){m(Oe.container,h.selectors.container.replace(".",""),Oe.supported.full)}function Q(e){e&&s(h.types.html5,Oe.type)?Oe.media.setAttribute("controls",""):Oe.media.removeAttribute("controls")}function j(e){var t=h.i18n.play;if("undefined"!=typeof h.title&&h.title.length&&(t+=", "+h.title),Oe.supported.full&&Oe.buttons.play)for(var n=Oe.buttons.play.length-1;n>=0;n--)Oe.buttons.play[n].setAttribute("aria-label",t);e instanceof HTMLElement&&e.setAttribute("title",h.i18n.frameTitle.replace("{title}",h.title))}function U(){if(!Oe.media)return void C("No media element found!");if(Oe.supported.full&&(m(Oe.container,h.classes.type.replace("{0}",Oe.type),!0),s(h.types.embed,Oe.type)&&m(Oe.container,h.classes.type.replace("{0}","video"),!0),m(Oe.container,h.classes.stopped,h.autoplay),m(Oe.container,h.classes.isIos,Oe.browser.isIos),m(Oe.container,h.classes.isTouch,Oe.browser.isTouch),"video"===Oe.type)){var e=t.createElement("div");e.setAttribute("class",h.classes.videoWrapper),i(Oe.media,e),Oe.videoContainer=e}s(h.types.embed,Oe.type)&&(Z(),Oe.embedId=null)}function Z(){for(var n=t.createElement("div"),r=Oe.embedId,s=Oe.type+"-"+Math.floor(1e4*Math.random()),o=V('[id^="'+Oe.type+'-"]'),i=o.length-1;i>=0;i--)u(o[i]);if(m(Oe.media,h.classes.videoWrapper,!0),m(Oe.media,h.classes.embedWrapper,!0),"youtube"===Oe.type)Oe.media.appendChild(n),n.setAttribute("id",s),"object"==typeof YT?J(r,n):(a(h.urls.youtube.api),e.onYouTubeReadyCallbacks=e.onYouTubeReadyCallbacks||[],e.onYouTubeReadyCallbacks.push(function(){J(r,n)}),e.onYouTubeIframeAPIReady=function(){e.onYouTubeReadyCallbacks.forEach(function(e){e()})});else if("vimeo"===Oe.type){var l=t.createElement("iframe");l.loaded=!1,b(l,"load",function(){l.loaded=!0}),p(l,{src:"https://player.vimeo.com/video/"+r+"?player_id="+s+"&api=1&badge=0&byline=0&portrait=0&title=0",id:s,allowfullscreen:"",frameborder:0}),Oe.supported.full?(n.appendChild(l),Oe.media.appendChild(n)):Oe.media.appendChild(l),"$f"in e||a(h.urls.vimeo.api);var c=e.setInterval(function(){"$f"in e&&l.loaded&&(e.clearInterval(c),K.call(l))},50)}else if("soundcloud"===Oe.type){var d=t.createElement("iframe");d.loaded=!1,b(d,"load",function(){d.loaded=!0}),p(d,{src:"https://w.soundcloud.com/player/?url=https://api.soundcloud.com/tracks/"+r,id:s}),n.appendChild(d),Oe.media.appendChild(n),e.SC||a(h.urls.soundcloud.api);var A=e.setInterval(function(){e.SC&&d.loaded&&(e.clearInterval(A),ee.call(d))},50)}}function $(){Oe.container.plyr.embed=Oe.embed,Oe.supported.full&&Be(),j(G("iframe"))}function J(t,n){"timer"in Oe||(Oe.timer={}),Oe.embed=new YT.Player(n.id,{videoId:t,playerVars:{autoplay:h.autoplay?1:0,controls:Oe.supported.full?0:1,rel:0,showinfo:0,iv_load_policy:3,cc_load_policy:h.captions.defaultActive?1:0,cc_lang_pref:"en",wmode:"transparent",modestbranding:1,disablekb:1,origin:"*"},events:{onError:function(e){k(Oe.container,"error",!0,{code:e.data,embed:e.target})},onReady:function(t){var n=t.target;Oe.media.play=function(){n.playVideo(),Oe.media.paused=!1},Oe.media.pause=function(){n.pauseVideo(),Oe.media.paused=!0},Oe.media.stop=function(){n.stopVideo(),Oe.media.paused=!0},Oe.media.duration=n.getDuration(),Oe.media.paused=!0,Oe.media.currentTime=n.getCurrentTime(),Oe.media.muted=n.isMuted(),h.title=n.getVideoData().title,k(Oe.media,"timeupdate"),e.clearInterval(Oe.timer.buffering),Oe.timer.buffering=e.setInterval(function(){Oe.media.buffered=n.getVideoLoadedFraction(),k(Oe.media,"progress"),1===Oe.media.buffered&&(e.clearInterval(Oe.timer.buffering),k(Oe.media,"canplaythrough"))},200),$(),xe()},onStateChange:function(t){var n=t.target;switch(e.clearInterval(Oe.timer.playing),t.data){case 0:Oe.media.paused=!0,k(Oe.media,"ended");break;case 1:Oe.media.paused=!1,Oe.media.seeking=!1,k(Oe.media,"play"),k(Oe.media,"playing"),Oe.timer.playing=e.setInterval(function(){Oe.media.currentTime=n.getCurrentTime(),k(Oe.media,"timeupdate")},100);break;case 2:Oe.media.paused=!0,k(Oe.media,"pause")}k(Oe.container,"statechange",!1,{code:t.data})}}})}function K(){Oe.embed=$f(this),Oe.embed.addEvent("ready",function(){Oe.media.play=function(){Oe.embed.api("play"),Oe.media.paused=!1},Oe.media.pause=function(){Oe.embed.api("pause"),Oe.media.paused=!0},Oe.media.stop=function(){Oe.embed.api("stop"),Oe.media.paused=!0},Oe.media.paused=!0,Oe.media.currentTime=0,$(),Oe.embed.api("getCurrentTime",function(e){Oe.media.currentTime=e,k(Oe.media,"timeupdate")}),Oe.embed.api("getDuration",function(e){Oe.media.duration=e,xe()}),Oe.embed.addEvent("play",function(){Oe.media.paused=!1,k(Oe.media,"play"),k(Oe.media,"playing")}),Oe.embed.addEvent("pause",function(){Oe.media.paused=!0,k(Oe.media,"pause")}),Oe.embed.addEvent("playProgress",function(e){Oe.media.seeking=!1,Oe.media.currentTime=e.seconds,k(Oe.media,"timeupdate")}),Oe.embed.addEvent("loadProgress",function(e){Oe.media.buffered=e.percent,k(Oe.media,"progress"),1===parseInt(e.percent)&&k(Oe.media,"canplaythrough")}),Oe.embed.addEvent("finish",function(){Oe.media.paused=!0,k(Oe.media,"ended")}),h.autoplay&&Oe.embed.api("play")})}function ee(){Oe.embed=e.SC.Widget(this),Oe.embed.bind(e.SC.Widget.Events.READY,function(){Oe.media.play=function(){Oe.embed.play(),Oe.media.paused=!1},Oe.media.pause=function(){Oe.embed.pause(),Oe.media.paused=!0},Oe.media.stop=function(){Oe.embed.seekTo(0),Oe.embed.pause(),Oe.media.paused=!0},Oe.media.paused=!0,Oe.media.currentTime=0,$(),Oe.embed.getPosition(function(e){Oe.media.currentTime=e,k(Oe.media,"timeupdate")}),Oe.embed.getDuration(function(e){Oe.media.duration=e/1e3,xe()}),Oe.embed.bind(e.SC.Widget.Events.PLAY,function(){Oe.media.paused=!1,k(Oe.media,"play"),k(Oe.media,"playing")}),Oe.embed.bind(e.SC.Widget.Events.PAUSE,function(){Oe.media.paused=!0,k(Oe.media,"pause")}),Oe.embed.bind(e.SC.Widget.Events.PLAY_PROGRESS,function(e){Oe.media.seeking=!1,Oe.media.currentTime=e.currentPosition/1e3,k(Oe.media,"timeupdate")}),Oe.embed.bind(e.SC.Widget.Events.LOAD_PROGRESS,function(e){Oe.media.buffered=e.loadProgress,k(Oe.media,"progress"),1===parseInt(e.loadProgress)&&k(Oe.media,"canplaythrough")}),Oe.embed.bind(e.SC.Widget.Events.FINISH,function(){Oe.media.paused=!0,k(Oe.media,"ended")}),h.autoplay&&Oe.embed.play()})}function te(){"play"in Oe.media&&Oe.media.play()}function ne(){"pause"in Oe.media&&Oe.media.pause()}function re(e){e===!0?te():e===!1?ne():Oe.media[Oe.media.paused?"play":"pause"]()}function ae(e){"number"!=typeof e&&(e=h.seekTime),oe(Oe.media.currentTime-e)}function se(e){"number"!=typeof e&&(e=h.seekTime),oe(Oe.media.currentTime+e)}function oe(e){var t=0,n=Oe.media.paused,r=ie();"number"==typeof e?t=e:e.type&&s(["input","change"],e.type)&&(t=e.target.value/e.target.max*r),0>t?t=0:t>r&&(t=r),Ee(t);try{Oe.media.currentTime=t.toFixed(4)}catch(a){}if(s(h.types.embed,Oe.type)){switch(Oe.type){case"youtube":Oe.embed.seekTo(t);break;case"vimeo":Oe.embed.api("seekTo",t.toFixed(0));break;case"soundcloud":Oe.embed.seekTo(1e3*t)}n&&ne(),k(Oe.media,"timeupdate"),Oe.media.seeking=!0}T("Seeking to "+Oe.media.currentTime+" seconds"),O(t)}function ie(){var e=parseInt(h.duration),t=0;return null===Oe.media.duration||isNaN(Oe.media.duration)||(t=Oe.media.duration),isNaN(e)?t:e}function le(){m(Oe.container,h.classes.playing,!Oe.media.paused),m(Oe.container,h.classes.stopped,Oe.media.paused),Ce(Oe.media.paused)}function ue(){N={x:e.pageXOffset||0,y:e.pageYOffset||0}}function ce(){e.scrollTo(N.x,N.y)}function pe(e){var n=M.supportsFullScreen;e&&e.type===M.fullScreenEventName?Oe.isFullscreen=M.isFullScreen(Oe.container):n?(M.isFullScreen(Oe.container)?M.cancelFullScreen():(ue(),M.requestFullScreen(Oe.container)),Oe.isFullscreen=M.isFullScreen(Oe.container)):(Oe.isFullscreen=!Oe.isFullscreen,Oe.isFullscreen?(b(t,"keyup",de),t.body.style.overflow="hidden"):(v(t,"keyup",de),t.body.style.overflow="")),m(Oe.container,h.classes.fullscreen.active,Oe.isFullscreen),Oe.isFullscreen?Oe.container.setAttribute("tabindex","-1"):Oe.container.removeAttribute("tabindex"),Y(Oe.isFullscreen),w(Oe.buttons.fullscreen,Oe.isFullscreen),k(Oe.container,Oe.isFullscreen?"enterfullscreen":"exitfullscreen",!0),!Oe.isFullscreen&&n&&ce()}function de(e){27===(e.which||e.charCode||e.keyCode)&&Oe.isFullscreen&&pe()}function Ae(e){if("boolean"!=typeof e&&(e=!Oe.media.muted),w(Oe.buttons.mute,e),Oe.media.muted=e,0===Oe.media.volume&&me(h.volume),s(h.types.embed,Oe.type)){switch(Oe.type){case"youtube":Oe.embed[Oe.media.muted?"mute":"unMute"]();break;case"vimeo":Oe.embed.api("setVolume",Oe.media.muted?0:parseFloat(h.volume/h.volumeMax));break;case"soundcloud":Oe.embed.setVolume(Oe.media.muted?0:parseFloat(h.volume/h.volumeMax))}k(Oe.media,"volumechange")}}function me(t){var n=h.volumeMax,r=h.volumeMin;if("undefined"==typeof t&&(t=h.volume,h.storage.enabled&&_().supported&&(t=e.localStorage.getItem(h.storage.key),e.localStorage.removeItem("plyr-volume"))),(null===t||isNaN(t))&&(t=h.volume),t>n&&(t=n),r>t&&(t=r),Oe.media.volume=parseFloat(t/n),Oe.volume.display&&(Oe.volume.display.value=t),s(h.types.embed,Oe.type)){switch(Oe.type){case"youtube":Oe.embed.setVolume(100*Oe.media.volume);break;case"vimeo":Oe.embed.api("setVolume",Oe.media.volume);break;case"soundcloud":Oe.embed.setVolume(Oe.media.volume)}k(Oe.media,"volumechange")}Oe.media.muted&&t>0&&Ae()}function fe(){var e=Oe.media.muted?0:Oe.media.volume*h.volumeMax;me(e+h.volumeStep/5)}function ye(){var e=Oe.media.muted?0:Oe.media.volume*h.volumeMax;me(e-h.volumeStep/5)}function be(){var t=Oe.media.muted?0:Oe.media.volume*h.volumeMax;Oe.supported.full&&(Oe.volume.input&&(Oe.volume.input.value=t),Oe.volume.display&&(Oe.volume.display.value=t)),h.storage.enabled&&_().supported&&!isNaN(t)&&e.localStorage.setItem(h.storage.key,t),m(Oe.container,h.classes.muted,0===t),Oe.supported.full&&Oe.buttons.mute&&w(Oe.buttons.mute,0===t)}function ve(e){Oe.supported.full&&Oe.buttons.captions&&("boolean"!=typeof e&&(e=-1===Oe.container.className.indexOf(h.classes.captions.active)),Oe.captionsEnabled=e,w(Oe.buttons.captions,Oe.captionsEnabled),m(Oe.container,h.classes.captions.active,Oe.captionsEnabled),k(Oe.container,Oe.captionsEnabled?"captionsenabled":"captionsdisabled",!0))}function ge(e){var t="waiting"===e.type;clearTimeout(Oe.timers.loading),Oe.timers.loading=setTimeout(function(){m(Oe.container,h.classes.loading,t)},t?250:0)}function he(e){if(Oe.supported.full){var t=Oe.progress.played,n=0,r=ie();if(e)switch(e.type){case"timeupdate":case"seeking":if(Oe.controls.pressed)return;n=x(Oe.media.currentTime,r),"timeupdate"==e.type&&Oe.buttons.seek&&(Oe.buttons.seek.value=n);break;case"playing":case"progress":t=Oe.progress.buffer,n=function(){var e=Oe.media.buffered;return e&&e.length?x(e.end(0),r):"number"==typeof e?100*e:0}()}ke(t,n)}}function ke(e,t){if(Oe.supported.full){if("undefined"==typeof t&&(t=0),"undefined"==typeof e){if(!Oe.progress||!Oe.progress.buffer)return;e=Oe.progress.buffer}e instanceof HTMLElement?e.value=t:e&&(e.bar&&(e.bar.value=t),e.text&&(e.text.innerHTML=t))}}function we(e,t){if(t){isNaN(e)&&(e=0),Oe.secs=parseInt(e%60),Oe.mins=parseInt(e/60%60),Oe.hours=parseInt(e/60/60%60);var n=parseInt(ie()/60/60%60)>0;Oe.secs=("0"+Oe.secs).slice(-2),Oe.mins=("0"+Oe.mins).slice(-2),t.innerHTML=(n?Oe.hours+":":"")+Oe.mins+":"+Oe.secs}}function xe(){if(Oe.supported.full){var e=ie()||0;!Oe.duration&&h.displayDuration&&Oe.media.paused&&we(e,Oe.currentTime),Oe.duration&&we(e,Oe.duration),_e()}}function Te(e){we(Oe.media.currentTime,Oe.currentTime),e&&"timeupdate"==e.type&&Oe.media.seeking||he(e)}function Ee(e){"number"!=typeof e&&(e=0);var t=ie(),n=x(e,t);Oe.progress&&Oe.progress.played&&(Oe.progress.played.value=n),Oe.buttons&&Oe.buttons.seek&&(Oe.buttons.seek.value=n)}function _e(e){var t=ie();if(h.tooltips.seek&&Oe.progress.container&&0!==t){var n=Oe.progress.container.getBoundingClientRect(),r=0,a=h.classes.tooltip+"--visible";if(e)r=100/n.width*(e.pageX-n.left);else{if(!f(Oe.progress.tooltip,a))return;r=Oe.progress.tooltip.style.left.replace("%","")}0>r?r=0:r>100&&(r=100),we(t/100*r,Oe.progress.tooltip),Oe.progress.tooltip.style.left=r+"%",e&&s(["mouseenter","mouseleave"],e.type)&&m(Oe.progress.tooltip,a,"mouseenter"===e.type)}}function Ce(t){if(h.hideControls&&"audio"!==Oe.type){var n=0,r=!1,a=t;if("boolean"!=typeof t&&(t&&t.type?(r="enterfullscreen"===t.type,a=s(["mousemove","touchstart","mouseenter","focus"],t.type),s(["mousemove","touchmove"],t.type)&&(n=2e3),"focus"===t.type&&(n=3e3)):a=f(Oe.container,h.classes.hideControls)),e.clearTimeout(Oe.timers.hover),a||Oe.media.paused){if(m(Oe.container,h.classes.hideControls,!1),Oe.media.paused)return;Oe.browser.isTouch&&(n=3e3)}a&&Oe.media.paused||(Oe.timers.hover=e.setTimeout(function(){(!Oe.controls.pressed&&!Oe.controls.hover||r)&&m(Oe.container,h.classes.hideControls,!0)},n))}}function Se(e){if("undefined"!=typeof e)return void Fe(e);var t;switch(Oe.type){case"youtube":t=Oe.embed.getVideoUrl();break;case"vimeo":Oe.embed.api("getVideoUrl",function(e){t=e});break;case"soundcloud":Oe.embed.getCurrentSound(function(e){t=e.permalink_url});break;default:t=Oe.media.currentSrc}return t||""}function Fe(n){if(!("undefined"!=typeof n&&"sources"in n&&n.sources.length))return void C("Invalid source format");if(ne(),Ee(),ke(),Pe(),"youtube"===Oe.type?(Oe.embed.destroy(),e.clearInterval(Oe.timer.buffering),e.clearInterval(Oe.timer.playing)):"video"===Oe.type&&Oe.videoContainer&&u(Oe.videoContainer),Oe.embed=null,u(Oe.media),"type"in n&&(Oe.type=n.type,"video"===Oe.type)){var r=n.sources[0];"type"in r&&s(h.types.embed,r.type)&&(Oe.type=r.type)}switch(Oe.supported=F(Oe.type),Oe.type){case"video":Oe.media=t.createElement("video");break;case"audio":Oe.media=t.createElement("audio");break;case"youtube":case"vimeo":case"soundcloud":Oe.media=t.createElement("div"),Oe.embedId=n.sources[0].src}c(Oe.container,Oe.media),"undefined"!=typeof n.autoplay&&(h.autoplay=n.autoplay),s(h.types.html5,Oe.type)&&(h.crossorigin&&Oe.media.setAttribute("crossorigin",""),h.autoplay&&Oe.media.setAttribute("autoplay",""),"poster"in n&&Oe.media.setAttribute("poster",n.poster),h.loop&&Oe.media.setAttribute("loop","")),Oe.container.className=Oe.originalClassName,m(Oe.container,h.classes.fullscreen.active,Oe.isFullscreen),m(Oe.container,h.classes.captions.active,Oe.captionsEnabled),D(),s(h.types.html5,Oe.type)&&q("source",n.sources),U(),s(h.types.html5,Oe.type)?("tracks"in n&&q("track",n.tracks),Oe.media.load(),Be(),xe()):s(h.types.embed,Oe.type)&&!Oe.supported.full&&Be(),h.title=n.title,j(),Oe.container.plyr.media=Oe.media}function Ie(e){"video"===Oe.type&&Oe.media.setAttribute("poster",e)}function Me(){function n(){var e=Oe.media.paused;e?te():ne();var t=Oe.buttons[e?"play":"pause"],n=Oe.buttons[e?"pause":"play"];if(n=n&&n.length>1?n[n.length-1]:n[0]){var r=f(t,h.classes.tabFocus);setTimeout(function(){n.focus(),r&&(m(t,h.classes.tabFocus,!1),m(n,h.classes.tabFocus,!0))},100)}}function r(){var e=t.activeElement;e&&e!=t.body?t.querySelector&&(e=t.querySelector(":focus")):e=null;for(var n in Oe.buttons){var r=Oe.buttons[n];if(r instanceof NodeList)for(var a=0;a<r.length;a++)m(r[a],h.classes.tabFocus,r[a]===e);else m(r,h.classes.tabFocus,r===e)}}var a=Oe.browser.isIE?"change":"input";b(e,"keyup",function(e){var t=e.keyCode?e.keyCode:e.which;9==t&&r()}),b(t.body,"click",function(){m(G("."+h.classes.tabFocus),h.classes.tabFocus,!1)});for(var o in Oe.buttons){var i=Oe.buttons[o];b(i,"blur",function(){m(i,"tab-focus",!1)})}g(Oe.buttons.play,"click",h.listeners.play,n),g(Oe.buttons.pause,"click",h.listeners.pause,n),g(Oe.buttons.restart,"click",h.listeners.restart,oe),g(Oe.buttons.rewind,"click",h.listeners.rewind,ae),g(Oe.buttons.forward,"click",h.listeners.forward,se),g(Oe.buttons.seek,a,h.listeners.seek,oe),g(Oe.volume.input,a,h.listeners.volume,function(){me(Oe.volume.input.value)}),g(Oe.buttons.mute,"click",h.listeners.mute,Ae),g(Oe.buttons.fullscreen,"click",h.listeners.fullscreen,pe),M.supportsFullScreen&&b(t,M.fullScreenEventName,pe),b(Oe.buttons.captions,"click",ve),b(Oe.progress.container,"mouseenter mouseleave mousemove",_e),h.hideControls&&(b(Oe.container,"mouseenter mouseleave mousemove touchstart touchend touchcancel touchmove enterfullscreen",Ce),b(Oe.controls,"mouseenter mouseleave",function(e){Oe.controls.hover="mouseenter"===e.type}),b(Oe.controls,"mousedown mouseup touchstart touchend touchcancel",function(e){Oe.controls.pressed=s(["mousedown","touchstart"],e.type)}),b(Oe.controls,"focus blur",Ce,!0)),b(Oe.volume.input,"wheel",function(e){e.preventDefault();
-	var t=e.webkitDirectionInvertedFromDevice;(e.deltaY<0||e.deltaX>0)&&(t?ye():fe()),(e.deltaY>0||e.deltaX<0)&&(t?fe():ye())})}function Ne(){if(b(Oe.media,"timeupdate seeking",Te),b(Oe.media,"timeupdate",O),b(Oe.media,"durationchange loadedmetadata",xe),b(Oe.media,"ended",function(){"video"===Oe.type&&B(),le(),oe(0),xe(),"video"===Oe.type&&h.showPosterOnEnd&&Oe.media.load()}),b(Oe.media,"progress playing",he),b(Oe.media,"volumechange",be),b(Oe.media,"play pause",le),b(Oe.media,"waiting canplay seeked",ge),h.clickToPlay&&"audio"!==Oe.type){var e=G("."+h.classes.videoWrapper);if(!e)return;e.style.cursor="pointer",b(e,"click",function(){Oe.browser.isTouch&&!Oe.media.paused||(Oe.media.paused?te():Oe.media.ended?(oe(),te()):ne())})}h.disableContextMenu&&b(Oe.media,"contextmenu",function(e){e.preventDefault()}),b(Oe.media,h.events.join(" "),function(e){k(Oe.container,e.type,!0)})}function Pe(){if(s(h.types.html5,Oe.type)){for(var e=Oe.media.querySelectorAll("source"),t=0;t<e.length;t++)u(e[t]);Oe.media.setAttribute("src","data:video/mp4;base64,AAAAHGZ0eXBpc29tAAACAGlzb21pc28ybXA0MQAAAAhmcmVlAAAAGm1kYXQAAAGzABAHAAABthBgUYI9t+8AAAMNbW9vdgAAAGxtdmhkAAAAAMXMvvrFzL76AAAD6AAAACoAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAABhpb2RzAAAAABCAgIAHAE/////+/wAAAiF0cmFrAAAAXHRraGQAAAAPxcy++sXMvvoAAAABAAAAAAAAACoAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAgAAAAIAAAAAAG9bWRpYQAAACBtZGhkAAAAAMXMvvrFzL76AAAAGAAAAAEVxwAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAABaG1pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAAShzdGJsAAAAxHN0c2QAAAAAAAAAAQAAALRtcDR2AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAgACABIAAAASAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGP//AAAAXmVzZHMAAAAAA4CAgE0AAQAEgICAPyARAAAAAAMNQAAAAAAFgICALQAAAbABAAABtYkTAAABAAAAASAAxI2IAMUARAEUQwAAAbJMYXZjNTMuMzUuMAaAgIABAgAAABhzdHRzAAAAAAAAAAEAAAABAAAAAQAAABxzdHNjAAAAAAAAAAEAAAABAAAAAQAAAAEAAAAUc3RzegAAAAAAAAASAAAAAQAAABRzdGNvAAAAAAAAAAEAAAAsAAAAYHVkdGEAAABYbWV0YQAAAAAAAAAhaGRscgAAAAAAAAAAbWRpcmFwcGwAAAAAAAAAAAAAAAAraWxzdAAAACOpdG9vAAAAG2RhdGEAAAABAAAAAExhdmY1My4yMS4x"),Oe.media.load(),T("Cancelled network requests for old media")}}function Re(){if(!Oe.init)return null;if(Oe.container.setAttribute("class",A(h.selectors.container)),Oe.init=!1,u(G(h.selectors.controls.wrapper)),"youtube"===Oe.type)return void Oe.embed.destroy();"video"===Oe.type&&(u(G(h.selectors.captions)),l(Oe.videoContainer)),Q(!0);var e=Oe.media.cloneNode(!0);Oe.media.parentNode.replaceChild(e,Oe.media)}function Le(){if(Oe.init)return null;if(M=E(),Oe.browser=n(),Oe.media=Oe.container.querySelectorAll("audio, video")[0],Oe.media||(Oe.media=Oe.container.querySelectorAll("[data-type]")[0]),Oe.media){Oe.originalClassName=Oe.container.className;var e=Oe.media.tagName.toLowerCase();if("div"===e?(Oe.type=Oe.media.getAttribute("data-type"),Oe.embedId=Oe.media.getAttribute("data-video-id"),Oe.media.removeAttribute("data-type"),Oe.media.removeAttribute("data-video-id")):(Oe.type=e,h.crossorigin=null!==Oe.media.getAttribute("crossorigin"),h.autoplay=h.autoplay||null!==Oe.media.getAttribute("autoplay"),h.loop=h.loop||null!==Oe.media.getAttribute("loop")),Oe.supported=F(Oe.type),D(),!Oe.supported.basic)return!1;if(T(Oe.browser.name+" "+Oe.browser.version),U(),s(h.types.html5,Oe.type)){if(!Oe.supported.full)return void(Oe.init=!0);Be(),j(),h.autoplay&&te()}else s(h.types.embed,Oe.type)&&!Oe.supported.full&&Be();Oe.init=!0}}function Be(){if(!Oe.supported.full)return C("No full support for this media type ("+Oe.type+")"),u(G(h.selectors.controls.wrapper)),u(G(h.selectors.buttons.play)),void Q(!0);var e=!V(h.selectors.controls.wrapper).length;e&&X(),z()&&(e&&Me(),Ne(),Q(),R(),L(),me(),be(),Te(),le(),xe(),k(Oe.container,"ready",!0))}var Oe=this;return Oe.container=y,Oe.timers={},T(h),Le(),Oe.init?{media:Oe.media,play:te,pause:ne,restart:oe,rewind:ae,forward:se,seek:oe,source:Se,poster:Ie,setVolume:me,togglePlay:re,toggleMute:Ae,toggleCaptions:ve,toggleFullscreen:pe,toggleControls:Ce,isFullscreen:function(){return Oe.isFullscreen||!1},support:function(e){return r(Oe,e)},destroy:Re,restore:Le}:{}}function S(e,n){var r=new XMLHttpRequest;"string"==typeof n&&null!==t.querySelector("#"+n)||"withCredentials"in r&&(r.open("GET",e,!0),r.onload=function(){var e=t.createElement("div");e.setAttribute("hidden",""),"string"==typeof n&&e.setAttribute("id",n),e.innerHTML=r.responseText,t.body.insertBefore(e,t.body.childNodes[0])},r.send())}function F(e){var r,a,s=n(),o=s.isIE&&s.version<=9,i=s.isIos,l=/iPhone|iPod/i.test(navigator.userAgent),u=!!t.createElement("audio").canPlayType,c=!!t.createElement("video").canPlayType;switch(e){case"video":r=c,a=r&&!o&&!l;break;case"audio":r=u,a=r&&!o;break;case"vimeo":case"youtube":case"soundcloud":r=!0,a=!o&&!i;break;default:r=u&&c,a=r&&!o}return{basic:r,full:a}}function I(e,n){var r=[],a=[],s=[P.selectors.html5,P.selectors.embed].join(",");if("string"==typeof e?e=t.querySelectorAll(e):e instanceof HTMLElement?e=[e]:e instanceof NodeList||"string"==typeof e||("undefined"==typeof n&&"object"==typeof e&&(n=e),e=t.querySelectorAll(s)),!F().basic||!e.length)return!1;e instanceof NodeList&&(e=Array.prototype.slice.call(e));for(var o=0;o<e.length;o++){var l=e[o],u=l.querySelectorAll(s);if(u.length>1)for(var c=0;c<u.length;c++)a.push({element:i(u[c],t.createElement("div")),original:l});else a.push({element:l})}for(var p in a){var d=a[p].element,A=a[p].original||d;if(y(d,s)&&(d=i(d,t.createElement("div"))),!("plyr"in d)){var m=T({},P,n,JSON.parse(A.getAttribute("data-plyr")));if(!m.enabled)return null;var f=new C(d,m);d.plyr=Object.keys(f).length?f:!1,k(A,"setup",!0,{plyr:d.plyr})}r.push(d)}return r}var M,N={x:0,y:0},P={enabled:!0,debug:!1,autoplay:!1,loop:!1,seekTime:10,volume:5,volumeMin:0,volumeMax:10,volumeStep:1,duration:null,displayDuration:!0,loadSprite:!0,iconPrefix:"plyr",iconUrl:"https://cdn.plyr.io/1.8.6/plyr.svg",clickToPlay:!0,hideControls:!0,showPosterOnEnd:!1,disableContextMenu:!0,tooltips:{controls:!1,seek:!0},selectors:{html5:"video, audio",embed:"[data-type]",container:".plyr",controls:{container:null,wrapper:".plyr__controls"},labels:"[data-plyr]",buttons:{seek:'[data-plyr="seek"]',play:'[data-plyr="play"]',pause:'[data-plyr="pause"]',restart:'[data-plyr="restart"]',rewind:'[data-plyr="rewind"]',forward:'[data-plyr="fast-forward"]',mute:'[data-plyr="mute"]',captions:'[data-plyr="captions"]',fullscreen:'[data-plyr="fullscreen"]'},volume:{input:'[data-plyr="volume"]',display:".plyr__volume--display"},progress:{container:".plyr__progress",buffer:".plyr__progress--buffer",played:".plyr__progress--played"},captions:".plyr__captions",currentTime:".plyr__time--current",duration:".plyr__time--duration"},classes:{videoWrapper:"plyr__video-wrapper",embedWrapper:"plyr__video-embed",type:"plyr--{0}",stopped:"plyr--stopped",playing:"plyr--playing",muted:"plyr--muted",loading:"plyr--loading",hover:"plyr--hover",tooltip:"plyr__tooltip",hidden:"plyr__sr-only",hideControls:"plyr--hide-controls",isIos:"plyr--is-ios",isTouch:"plyr--is-touch",captions:{enabled:"plyr--captions-enabled",active:"plyr--captions-active"},fullscreen:{enabled:"plyr--fullscreen-enabled",active:"plyr--fullscreen-active"},tabFocus:"tab-focus"},captions:{defaultActive:!1},fullscreen:{enabled:!0,fallback:!0,allowAudio:!1},storage:{enabled:!0,key:"plyr"},controls:["play-large","play","progress","current-time","mute","volume","captions","fullscreen"],i18n:{restart:"Restart",rewind:"Rewind {seektime} secs",play:"Play",pause:"Pause",forward:"Forward {seektime} secs",played:"played",buffered:"buffered",currentTime:"Current time",duration:"Duration",volume:"Volume",toggleMute:"Toggle Mute",toggleCaptions:"Toggle Captions",toggleFullscreen:"Toggle Fullscreen",frameTitle:"Player for {title}"},types:{embed:["youtube","vimeo","soundcloud"],html5:["video","audio"]},urls:{vimeo:{api:"https://cdn.plyr.io/froogaloop/1.0.1/plyr.froogaloop.js"},youtube:{api:"https://www.youtube.com/iframe_api"},soundcloud:{api:"https://w.soundcloud.com/player/api.js"}},listeners:{seek:null,play:null,pause:null,restart:null,rewind:null,forward:null,mute:null,volume:null,captions:null,fullscreen:null},events:["ended","progress","stalled","playing","waiting","canplay","canplaythrough","loadstart","loadeddata","loadedmetadata","timeupdate","volumechange","play","pause","error","seeking","emptied"]};return{setup:I,supported:F,loadSprite:S}}),function(){function e(e,t){t=t||{bubbles:!1,cancelable:!1,detail:void 0};var n=document.createEvent("CustomEvent");return n.initCustomEvent(e,t.bubbles,t.cancelable,t.detail),n}return"function"==typeof window.CustomEvent?!1:(e.prototype=window.Event.prototype,void(window.CustomEvent=e))}();
-
-/***/ },
 /* 324 */
-/*!***********************************!*\
-  !*** ./~/plyr/src/scss/plyr.scss ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(/*! !./../../../css-loader!./../../../postcss-loader!./../../../sass-loader!./plyr.scss */ 325);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../../style-loader/addStyles.js */ 192)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../css-loader/index.js!./../../../postcss-loader/index.js!./../../../sass-loader/index.js!./plyr.scss", function() {
-				var newContent = require("!!./../../../css-loader/index.js!./../../../postcss-loader/index.js!./../../../sass-loader/index.js!./plyr.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 325 */
-/*!*************************************************************************************!*\
-  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./~/plyr/src/scss/plyr.scss ***!
-  \*************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(/*! ./../../../css-loader/lib/css-base.js */ 191)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "@-webkit-keyframes plyr-progress {\n  to {\n    background-position: 25px 0; } }\n\n@keyframes plyr-progress {\n  to {\n    background-position: 25px 0; } }\n\n.plyr {\n  position: relative;\n  max-width: 100%;\n  min-width: 200px;\n  font-family: \"San Francisco\", -apple-system, BlinkMacSystemFont, \".SFNSText-Regular\", Avenir, \"Avenir Next\", \"Helvetica Neue\", \"Segoe UI\", Helvetica, Arial, sans-serif;\n  direction: ltr; }\n  .plyr,\n  .plyr *,\n  .plyr *::after,\n  .plyr *::before {\n    box-sizing: border-box; }\n  .plyr a, .plyr button, .plyr input, .plyr label {\n    -ms-touch-action: manipulation;\n        touch-action: manipulation; }\n  .plyr video,\n  .plyr audio {\n    width: 100%;\n    height: auto;\n    vertical-align: middle;\n    border-radius: inherit; }\n  .plyr input[type='range'] {\n    display: block;\n    height: 20px;\n    width: 100%;\n    margin: 0;\n    padding: 0;\n    vertical-align: middle;\n    -webkit-appearance: none;\n       -moz-appearance: none;\n            appearance: none;\n    cursor: pointer;\n    border: none;\n    background: transparent; }\n    .plyr input[type='range']::-webkit-slider-runnable-track {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      border-radius: 4px;\n      -webkit-user-select: none;\n              user-select: none; }\n    .plyr input[type='range']::-webkit-slider-thumb {\n      -webkit-appearance: none;\n      margin-top: -4px;\n      position: relative;\n      height: 16px;\n      width: 16px;\n      background: #fff;\n      border: 2px solid transparent;\n      border-radius: 100%;\n      -webkit-transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease, -webkit-transform .2s ease;\n      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);\n      box-sizing: border-box; }\n    .plyr input[type='range']::-moz-range-track {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      border-radius: 4px;\n      -moz-user-select: none;\n           user-select: none; }\n    .plyr input[type='range']::-moz-range-thumb {\n      position: relative;\n      height: 16px;\n      width: 16px;\n      background: #fff;\n      border: 2px solid transparent;\n      border-radius: 100%;\n      -webkit-transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease, -webkit-transform .2s ease;\n      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);\n      box-sizing: border-box; }\n    .plyr input[type='range']::-ms-track {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      color: transparent; }\n    .plyr input[type='range']::-ms-fill-upper {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      border-radius: 4px;\n      -ms-user-select: none;\n          user-select: none; }\n    .plyr input[type='range']::-ms-fill-lower {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      border-radius: 4px;\n      -ms-user-select: none;\n          user-select: none;\n      background: #3498db; }\n    .plyr input[type='range']::-ms-thumb {\n      position: relative;\n      height: 16px;\n      width: 16px;\n      background: #fff;\n      border: 2px solid transparent;\n      border-radius: 100%;\n      -webkit-transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease, -webkit-transform .2s ease;\n      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);\n      box-sizing: border-box;\n      margin-top: 0; }\n    .plyr input[type='range']::-ms-tooltip {\n      display: none; }\n    .plyr input[type='range']:focus {\n      outline: 0; }\n    .plyr input[type='range']::-moz-focus-outer {\n      border: 0; }\n    .plyr input[type='range'].tab-focus:focus {\n      outline-offset: 3px; }\n    .plyr input[type='range']:active::-webkit-slider-thumb {\n      background: #3498db;\n      border-color: #fff;\n      -webkit-transform: scale(1.25);\n              transform: scale(1.25); }\n    .plyr input[type='range']:active::-moz-range-thumb {\n      background: #3498db;\n      border-color: #fff;\n      transform: scale(1.25); }\n    .plyr input[type='range']:active::-ms-thumb {\n      background: #3498db;\n      border-color: #fff;\n      transform: scale(1.25); }\n\n.plyr--video input[type='range'].tab-focus:focus {\n  outline: 1px dotted rgba(255, 255, 255, 0.5); }\n\n.plyr--audio input[type='range'].tab-focus:focus {\n  outline: 1px dotted rgba(86, 93, 100, 0.5); }\n\n.plyr__sr-only {\n  clip: rect(1px, 1px, 1px, 1px);\n  overflow: hidden;\n  position: absolute !important;\n  padding: 0 !important;\n  border: 0 !important;\n  height: 1px !important;\n  width: 1px !important; }\n\n.plyr__video-wrapper {\n  position: relative;\n  background: #000;\n  border-radius: inherit;\n  -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC); }\n\n.plyr__video-embed {\n  padding-bottom: 56.25%;\n  /* 16:9 */\n  height: 0;\n  overflow: hidden;\n  border-radius: inherit; }\n  .plyr__video-embed iframe {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    border: 0;\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none; }\n  .plyr__video-embed > div {\n    position: relative;\n    padding-bottom: 200%;\n    -webkit-transform: translateY(-35.95%);\n            transform: translateY(-35.95%); }\n\n.plyr .plyr__video-embed iframe {\n  pointer-events: none; }\n\n.plyr video::-webkit-media-text-track-container {\n  display: none; }\n\n.plyr__captions {\n  display: none;\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  padding: 20px;\n  -webkit-transform: translateY(-60px);\n          transform: translateY(-60px);\n  -webkit-transition: -webkit-transform .3s ease;\n  transition: -webkit-transform .3s ease;\n  transition: transform .3s ease;\n  transition: transform .3s ease, -webkit-transform .3s ease;\n  color: #fff;\n  font-size: 16px;\n  text-align: center;\n  font-weight: 400; }\n  .plyr__captions span {\n    border-radius: 2px;\n    padding: 3px 10px;\n    background: rgba(0, 0, 0, 0.7); }\n  .plyr__captions span:empty {\n    display: none; }\n  @media (min-width: 768px) {\n    .plyr__captions {\n      font-size: 24px; } }\n\n.plyr--captions-active .plyr__captions {\n  display: block; }\n\n.plyr--fullscreen-active .plyr__captions {\n  font-size: 32px; }\n\n.plyr--hide-controls .plyr__captions {\n  -webkit-transform: translateY(-20px);\n          transform: translateY(-20px); }\n\n.plyr ::-webkit-media-controls {\n  display: none; }\n\n.plyr__controls {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  line-height: 1;\n  text-align: center; }\n  .plyr__controls > button,\n  .plyr__controls .plyr__progress,\n  .plyr__controls .plyr__time {\n    margin-left: 5px; }\n    .plyr__controls > button:first-child,\n    .plyr__controls .plyr__progress:first-child,\n    .plyr__controls .plyr__time:first-child {\n      margin-left: 0; }\n  .plyr__controls .plyr__volume {\n    margin-left: 5px; }\n  .plyr__controls [data-plyr=\"pause\"] {\n    margin-left: 0; }\n  .plyr__controls button {\n    position: relative;\n    display: inline-block;\n    -ms-flex-negative: 0;\n        flex-shrink: 0;\n    overflow: visible;\n    vertical-align: middle;\n    padding: 7px;\n    border: 0;\n    background: transparent;\n    border-radius: 3px;\n    cursor: pointer;\n    -webkit-transition: background .3s ease, color .3s ease, opacity .3s ease;\n    transition: background .3s ease, color .3s ease, opacity .3s ease;\n    color: inherit; }\n    .plyr__controls button svg {\n      width: 18px;\n      height: 18px;\n      display: block;\n      fill: currentColor; }\n    .plyr__controls button:focus {\n      outline: 0; }\n  .plyr__controls .icon--exit-fullscreen,\n  .plyr__controls .icon--muted,\n  .plyr__controls .icon--captions-on {\n    display: none; }\n  @media (min-width: 480px) {\n    .plyr__controls > button,\n    .plyr__controls .plyr__progress,\n    .plyr__controls .plyr__time {\n      margin-left: 10px; } }\n\n.plyr--hide-controls .plyr__controls {\n  opacity: 0;\n  pointer-events: none; }\n\n.plyr--video .plyr__controls {\n  position: absolute;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  padding: 50px 10px 10px;\n  background: -webkit-linear-gradient(transparent, rgba(0, 0, 0, 0.5));\n  background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));\n  border-bottom-left-radius: inherit;\n  border-bottom-right-radius: inherit;\n  color: #fff;\n  -webkit-transition: opacity .3s ease;\n  transition: opacity .3s ease; }\n  .plyr--video .plyr__controls button.tab-focus:focus, .plyr--video .plyr__controls button:hover {\n    background: #3498db;\n    color: #fff; }\n\n.plyr--audio .plyr__controls {\n  padding: 10px;\n  border-radius: inherit;\n  background: #fff;\n  border: 1px solid #dbe3e8;\n  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);\n  color: #565D64; }\n  .plyr--audio .plyr__controls button.tab-focus:focus, .plyr--audio .plyr__controls button:hover {\n    background: #3498db;\n    color: #fff; }\n\n.plyr__play-large {\n  display: none;\n  position: absolute;\n  z-index: 1;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  padding: 10px;\n  background: #3498db;\n  border: 4px solid currentColor;\n  border-radius: 100%;\n  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);\n  color: #fff;\n  -webkit-transition: all .3s ease;\n  transition: all .3s ease; }\n  .plyr__play-large svg {\n    position: relative;\n    left: 2px;\n    width: 20px;\n    height: 20px;\n    display: block;\n    fill: currentColor; }\n  .plyr__play-large:focus {\n    outline: 1px dotted rgba(255, 255, 255, 0.5); }\n\n.plyr .plyr__play-large {\n  display: inline-block; }\n\n.plyr--audio .plyr__play-large {\n  display: none; }\n\n.plyr--playing .plyr__play-large {\n  opacity: 0;\n  visibility: hidden; }\n\n.plyr__controls [data-plyr='pause'],\n.plyr--playing .plyr__controls [data-plyr='play'] {\n  display: none; }\n\n.plyr--playing .plyr__controls [data-plyr='pause'] {\n  display: inline-block; }\n\n.plyr--fullscreen-active .icon--exit-fullscreen,\n.plyr--muted .plyr__controls .icon--muted,\n.plyr--captions-active .plyr__controls .icon--captions-on {\n  display: block; }\n  .plyr--fullscreen-active .icon--exit-fullscreen + svg,\n  .plyr--muted .plyr__controls .icon--muted + svg,\n  .plyr--captions-active .plyr__controls .icon--captions-on + svg {\n    display: none; }\n\n.plyr [data-plyr='captions'],\n.plyr [data-plyr='fullscreen'] {\n  display: none; }\n\n.plyr--captions-enabled [data-plyr='captions'],\n.plyr--fullscreen-enabled [data-plyr='fullscreen'] {\n  display: inline-block; }\n\n.plyr__tooltip {\n  position: absolute;\n  z-index: 2;\n  bottom: 100%;\n  margin-bottom: 10px;\n  padding: 5px 7.5px;\n  pointer-events: none;\n  opacity: 0;\n  background: rgba(0, 0, 0, 0.7);\n  border-radius: 3px;\n  color: #fff;\n  font-size: 14px;\n  line-height: 1.3;\n  -webkit-transform: translate(-50%, 10px) scale(0.8);\n          transform: translate(-50%, 10px) scale(0.8);\n  -webkit-transform-origin: 50% 100%;\n          transform-origin: 50% 100%;\n  -webkit-transition: opacity .2s .1s ease, -webkit-transform .2s .1s ease;\n  transition: opacity .2s .1s ease, -webkit-transform .2s .1s ease;\n  transition: transform .2s .1s ease, opacity .2s .1s ease;\n  transition: transform .2s .1s ease, opacity .2s .1s ease, -webkit-transform .2s .1s ease; }\n  .plyr__tooltip::before {\n    content: '';\n    position: absolute;\n    width: 0;\n    height: 0;\n    left: 50%;\n    -webkit-transform: translateX(-50%);\n            transform: translateX(-50%);\n    bottom: -4px;\n    border-right: 4px solid transparent;\n    border-top: 4px solid rgba(0, 0, 0, 0.7);\n    border-left: 4px solid transparent;\n    z-index: 2; }\n\n.plyr button:hover .plyr__tooltip,\n.plyr button.tab-focus:focus .plyr__tooltip,\n.plyr__tooltip--visible {\n  opacity: 1;\n  -webkit-transform: translate(-50%, 0) scale(1);\n          transform: translate(-50%, 0) scale(1); }\n\n.plyr button:hover .plyr__tooltip {\n  z-index: 3; }\n\n.plyr__controls button:first-child .plyr__tooltip {\n  left: 0;\n  -webkit-transform: translate(0, 10px) scale(0.8);\n          transform: translate(0, 10px) scale(0.8);\n  -webkit-transform-origin: 0 100%;\n          transform-origin: 0 100%; }\n  .plyr__controls button:first-child .plyr__tooltip::before {\n    left: 16px; }\n\n.plyr__controls button:last-child .plyr__tooltip {\n  right: 0;\n  -webkit-transform: translate(0, 10px) scale(0.8);\n          transform: translate(0, 10px) scale(0.8);\n  -webkit-transform-origin: 100% 100%;\n          transform-origin: 100% 100%; }\n  .plyr__controls button:last-child .plyr__tooltip::before {\n    left: auto;\n    right: 16px;\n    -webkit-transform: translateX(50%);\n            transform: translateX(50%); }\n\n.plyr__controls button:first-child:hover .plyr__tooltip,\n.plyr__controls button:first-child.tab-focus:focus .plyr__tooltip,\n.plyr__controls button:first-child .plyr__tooltip--visible,\n.plyr__controls button:last-child:hover .plyr__tooltip,\n.plyr__controls button:last-child.tab-focus:focus .plyr__tooltip,\n.plyr__controls button:last-child .plyr__tooltip--visible {\n  -webkit-transform: translate(0, 0) scale(1);\n          transform: translate(0, 0) scale(1); }\n\n.plyr__progress {\n  display: none;\n  position: relative;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1; }\n  .plyr__progress input[type=\"range\"] {\n    position: relative;\n    z-index: 2; }\n    .plyr__progress input[type=\"range\"]::-webkit-slider-runnable-track {\n      background: transparent; }\n    .plyr__progress input[type=\"range\"]::-moz-range-track {\n      background: transparent; }\n    .plyr__progress input[type=\"range\"]::-ms-fill-upper {\n      background: transparent; }\n  .plyr__progress .plyr__tooltip {\n    left: 0; }\n\n.plyr .plyr__progress {\n  display: inline-block; }\n\n.plyr__progress--buffer,\n.plyr__progress--played,\n.plyr__volume--display {\n  position: absolute;\n  left: 0;\n  top: 50%;\n  width: 100%;\n  height: 8px;\n  margin: -4px 0 0;\n  padding: 0;\n  vertical-align: top;\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  border: none;\n  border-radius: 100px; }\n  .plyr__progress--buffer::-webkit-progress-bar,\n  .plyr__progress--played::-webkit-progress-bar,\n  .plyr__volume--display::-webkit-progress-bar {\n    background: transparent; }\n  .plyr__progress--buffer::-webkit-progress-value,\n  .plyr__progress--played::-webkit-progress-value,\n  .plyr__volume--display::-webkit-progress-value {\n    background: currentColor;\n    border-radius: 100px;\n    min-width: 8px; }\n  .plyr__progress--buffer::-moz-progress-bar,\n  .plyr__progress--played::-moz-progress-bar,\n  .plyr__volume--display::-moz-progress-bar {\n    background: currentColor;\n    border-radius: 100px;\n    min-width: 8px; }\n  .plyr__progress--buffer::-ms-fill,\n  .plyr__progress--played::-ms-fill,\n  .plyr__volume--display::-ms-fill {\n    border-radius: 100px; }\n\n.plyr__progress--played,\n.plyr__volume--display {\n  z-index: 1;\n  color: #3498db;\n  background: transparent;\n  -webkit-transition: none;\n  transition: none; }\n  .plyr__progress--played::-webkit-progress-value,\n  .plyr__volume--display::-webkit-progress-value {\n    min-width: 8px;\n    max-width: 99%;\n    border-top-right-radius: 0;\n    border-bottom-right-radius: 0;\n    -webkit-transition: none;\n    transition: none; }\n  .plyr__progress--played::-moz-progress-bar,\n  .plyr__volume--display::-moz-progress-bar {\n    min-width: 8px;\n    max-width: 99%;\n    border-top-right-radius: 0;\n    border-bottom-right-radius: 0;\n    -webkit-transition: none;\n    transition: none; }\n  .plyr__progress--played::-ms-fill,\n  .plyr__volume--display::-ms-fill {\n    display: none; }\n\n.plyr__progress--buffer::-webkit-progress-value {\n  -webkit-transition: width .2s ease;\n  transition: width .2s ease; }\n\n.plyr__progress--buffer::-moz-progress-bar {\n  -webkit-transition: width .2s ease;\n  transition: width .2s ease; }\n\n.plyr__progress--buffer::-ms-fill {\n  -webkit-transition: width .2s ease;\n  transition: width .2s ease; }\n\n.plyr--video .plyr__progress--buffer,\n.plyr--video .plyr__volume--display {\n  background: rgba(255, 255, 255, 0.25); }\n\n.plyr--video .plyr__progress--buffer {\n  color: rgba(255, 255, 255, 0.25); }\n\n.plyr--audio .plyr__progress--buffer,\n.plyr--audio .plyr__volume--display {\n  background: rgba(198, 214, 219, 0.67); }\n\n.plyr--audio .plyr__progress--buffer {\n  color: rgba(198, 214, 219, 0.67); }\n\n.plyr--loading .plyr__progress--buffer {\n  -webkit-animation: plyr-progress 1s linear infinite;\n          animation: plyr-progress 1s linear infinite;\n  background-size: 25px 25px;\n  background-repeat: repeat-x;\n  background-image: -webkit-linear-gradient(135deg, rgba(0, 0, 0, 0.15) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0.15) 75%, transparent 75%, transparent);\n  background-image: linear-gradient(-45deg, rgba(0, 0, 0, 0.15) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0.15) 75%, transparent 75%, transparent);\n  color: transparent; }\n\n.plyr--video.plyr--loading .plyr__progress--buffer {\n  background-color: rgba(255, 255, 255, 0.25); }\n\n.plyr--audio.plyr--loading .plyr__progress--buffer {\n  background-color: rgba(198, 214, 219, 0.67); }\n\n.plyr__time {\n  display: inline-block;\n  vertical-align: middle;\n  font-size: 14px; }\n\n.plyr__time + .plyr__time {\n  display: none; }\n  @media (min-width: 768px) {\n    .plyr__time + .plyr__time {\n      display: inline-block; } }\n  .plyr__time + .plyr__time::before {\n    content: '\\2044';\n    margin-right: 10px; }\n\n.plyr__volume {\n  display: none; }\n\n.plyr .plyr__volume {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  position: relative; }\n  .plyr .plyr__volume input[type=\"range\"] {\n    position: relative;\n    z-index: 2; }\n  @media (min-width: 480px) {\n    .plyr .plyr__volume {\n      display: block;\n      max-width: 60px; } }\n  @media (min-width: 768px) {\n    .plyr .plyr__volume {\n      max-width: 100px; } }\n\n.plyr--is-ios .plyr__volume,\n.plyr--is-ios [data-plyr='mute'] {\n  display: none !important; }\n\n.plyr--fullscreen,\n.plyr--fullscreen-active {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  height: 100%;\n  width: 100%;\n  z-index: 10000000;\n  background: #000;\n  border-radius: 0; }\n  .plyr--fullscreen video,\n  .plyr--fullscreen-active video {\n    height: 100%; }\n  .plyr--fullscreen .plyr__video-wrapper,\n  .plyr--fullscreen-active .plyr__video-wrapper {\n    height: 100%;\n    width: 100%; }\n  .plyr--fullscreen .plyr__controls,\n  .plyr--fullscreen-active .plyr__controls {\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    right: 0; }\n  .plyr--fullscreen.plyr--vimeo .plyr__video-wrapper,\n  .plyr--fullscreen-active.plyr--vimeo .plyr__video-wrapper {\n    height: 0;\n    top: 50%;\n    -webkit-transform: translateY(-50%);\n            transform: translateY(-50%); }\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 326 */
-/*!**********************************************!*\
-  !*** ./browser/scripts/videoplayer_setup.js ***!
-  \**********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	module.exports = function (plyr) {
-	  return plyr.setup({ iconUrl: __webpack_require__(/*! ~/~/plyr/dist/plyr.svg */ 327) });
-	};
-
-/***/ },
-/* 327 */
-/*!******************************!*\
-  !*** ./~/plyr/dist/plyr.svg ***!
-  \******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "plyr.svg";
-
-/***/ },
-/* 328 */
-/*!**********************************************!*\
-  !*** ./browser/styles/cards_animations.sass ***!
-  \**********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./cards_animations.sass */ 329);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 192)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./cards_animations.sass", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./cards_animations.sass");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 329 */
-/*!************************************************************************************************!*\
-  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/cards_animations.sass ***!
-  \************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 191)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, ".cardDescription-enter {\n  -webkit-transform: scale3d(0, 1, 1);\n          transform: scale3d(0, 1, 1);\n  display: none;\n  width: 0px;\n  -ms-flex-preferred-size: 0px;\n      flex-basis: 0px; }\n\n.cardDescription-enter.cardDescription-enter-active {\n  display: block;\n  -webkit-animation: openDescription 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) forwards;\n          animation: openDescription 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) forwards;\n  -webkit-transform-origin: left;\n          transform-origin: left; }\n\n.cardDescription-leave.cardDescription-leave-active {\n  -webkit-animation: openDescription 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) reverse forwards;\n          animation: openDescription 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) reverse forwards;\n  -webkit-transform-origin: left;\n          transform-origin: left; }\n\n@-webkit-keyframes openDescription {\n  0% {\n    -webkit-transform: scale3d(0, 1, 1);\n            transform: scale3d(0, 1, 1);\n    display: none;\n    opacity: 0;\n    width: 0px;\n    flex-basis: 0px; }\n  100% {\n    opacity: 1;\n    display: block;\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n    width: 500px;\n    flex-basis: 500px; } }\n\n@keyframes openDescription {\n  0% {\n    -webkit-transform: scale3d(0, 1, 1);\n            transform: scale3d(0, 1, 1);\n    display: none;\n    opacity: 0;\n    width: 0px;\n    -ms-flex-preferred-size: 0px;\n        flex-basis: 0px; }\n  100% {\n    opacity: 1;\n    display: block;\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n    width: 500px;\n    -ms-flex-preferred-size: 500px;\n        flex-basis: 500px; } }\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 330 */
 /*!******************************************************!*\
   !*** ./~/react-addons-css-transition-group/index.js ***!
   \******************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(/*! react/lib/ReactCSSTransitionGroup */ 331);
+	module.exports = __webpack_require__(/*! react/lib/ReactCSSTransitionGroup */ 325);
 
 /***/ },
-/* 331 */
+/* 325 */
 /*!************************************************!*\
   !*** ./~/react/lib/ReactCSSTransitionGroup.js ***!
   \************************************************/
@@ -48193,8 +51616,8 @@
 	
 	var React = __webpack_require__(/*! ./React */ 16);
 	
-	var ReactTransitionGroup = __webpack_require__(/*! ./ReactTransitionGroup */ 332);
-	var ReactCSSTransitionGroupChild = __webpack_require__(/*! ./ReactCSSTransitionGroupChild */ 315);
+	var ReactTransitionGroup = __webpack_require__(/*! ./ReactTransitionGroup */ 326);
+	var ReactCSSTransitionGroupChild = __webpack_require__(/*! ./ReactCSSTransitionGroupChild */ 328);
 	
 	function createTransitionTimeoutPropValidator(transitionType) {
 	  var timeoutPropName = 'transition' + transitionType + 'Timeout';
@@ -48265,7 +51688,7 @@
 	module.exports = ReactCSSTransitionGroup;
 
 /***/ },
-/* 332 */
+/* 326 */
 /*!*********************************************!*\
   !*** ./~/react/lib/ReactTransitionGroup.js ***!
   \*********************************************/
@@ -48288,7 +51711,7 @@
 	
 	var React = __webpack_require__(/*! ./React */ 16);
 	var ReactInstanceMap = __webpack_require__(/*! ./ReactInstanceMap */ 135);
-	var ReactTransitionChildMapping = __webpack_require__(/*! ./ReactTransitionChildMapping */ 333);
+	var ReactTransitionChildMapping = __webpack_require__(/*! ./ReactTransitionChildMapping */ 327);
 	
 	var emptyFunction = __webpack_require__(/*! fbjs/lib/emptyFunction */ 26);
 	
@@ -48520,7 +51943,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 17)))
 
 /***/ },
-/* 333 */
+/* 327 */
 /*!****************************************************!*\
   !*** ./~/react/lib/ReactTransitionChildMapping.js ***!
   \****************************************************/
@@ -48630,6 +52053,721 @@
 	
 	module.exports = ReactTransitionChildMapping;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 17)))
+
+/***/ },
+/* 328 */
+/*!*****************************************************!*\
+  !*** ./~/react/lib/ReactCSSTransitionGroupChild.js ***!
+  \*****************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactCSSTransitionGroupChild
+	 */
+	
+	'use strict';
+	
+	var React = __webpack_require__(/*! ./React */ 16);
+	var ReactDOM = __webpack_require__(/*! ./ReactDOM */ 48);
+	
+	var CSSCore = __webpack_require__(/*! fbjs/lib/CSSCore */ 329);
+	var ReactTransitionEvents = __webpack_require__(/*! ./ReactTransitionEvents */ 330);
+	
+	var onlyChild = __webpack_require__(/*! ./onlyChild */ 46);
+	
+	var TICK = 17;
+	
+	var ReactCSSTransitionGroupChild = React.createClass({
+	  displayName: 'ReactCSSTransitionGroupChild',
+	
+	  propTypes: {
+	    name: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.shape({
+	      enter: React.PropTypes.string,
+	      leave: React.PropTypes.string,
+	      active: React.PropTypes.string
+	    }), React.PropTypes.shape({
+	      enter: React.PropTypes.string,
+	      enterActive: React.PropTypes.string,
+	      leave: React.PropTypes.string,
+	      leaveActive: React.PropTypes.string,
+	      appear: React.PropTypes.string,
+	      appearActive: React.PropTypes.string
+	    })]).isRequired,
+	
+	    // Once we require timeouts to be specified, we can remove the
+	    // boolean flags (appear etc.) and just accept a number
+	    // or a bool for the timeout flags (appearTimeout etc.)
+	    appear: React.PropTypes.bool,
+	    enter: React.PropTypes.bool,
+	    leave: React.PropTypes.bool,
+	    appearTimeout: React.PropTypes.number,
+	    enterTimeout: React.PropTypes.number,
+	    leaveTimeout: React.PropTypes.number
+	  },
+	
+	  transition: function (animationType, finishCallback, userSpecifiedDelay) {
+	    var node = ReactDOM.findDOMNode(this);
+	
+	    if (!node) {
+	      if (finishCallback) {
+	        finishCallback();
+	      }
+	      return;
+	    }
+	
+	    var className = this.props.name[animationType] || this.props.name + '-' + animationType;
+	    var activeClassName = this.props.name[animationType + 'Active'] || className + '-active';
+	    var timeout = null;
+	
+	    var endListener = function (e) {
+	      if (e && e.target !== node) {
+	        return;
+	      }
+	
+	      clearTimeout(timeout);
+	
+	      CSSCore.removeClass(node, className);
+	      CSSCore.removeClass(node, activeClassName);
+	
+	      ReactTransitionEvents.removeEndEventListener(node, endListener);
+	
+	      // Usually this optional callback is used for informing an owner of
+	      // a leave animation and telling it to remove the child.
+	      if (finishCallback) {
+	        finishCallback();
+	      }
+	    };
+	
+	    CSSCore.addClass(node, className);
+	
+	    // Need to do this to actually trigger a transition.
+	    this.queueClassAndNode(activeClassName, node);
+	
+	    // If the user specified a timeout delay.
+	    if (userSpecifiedDelay) {
+	      // Clean-up the animation after the specified delay
+	      timeout = setTimeout(endListener, userSpecifiedDelay);
+	      this.transitionTimeouts.push(timeout);
+	    } else {
+	      // DEPRECATED: this listener will be removed in a future version of react
+	      ReactTransitionEvents.addEndEventListener(node, endListener);
+	    }
+	  },
+	
+	  queueClassAndNode: function (className, node) {
+	    this.classNameAndNodeQueue.push({
+	      className: className,
+	      node: node
+	    });
+	
+	    if (!this.timeout) {
+	      this.timeout = setTimeout(this.flushClassNameAndNodeQueue, TICK);
+	    }
+	  },
+	
+	  flushClassNameAndNodeQueue: function () {
+	    if (this.isMounted()) {
+	      this.classNameAndNodeQueue.forEach(function (obj) {
+	        CSSCore.addClass(obj.node, obj.className);
+	      });
+	    }
+	    this.classNameAndNodeQueue.length = 0;
+	    this.timeout = null;
+	  },
+	
+	  componentWillMount: function () {
+	    this.classNameAndNodeQueue = [];
+	    this.transitionTimeouts = [];
+	  },
+	
+	  componentWillUnmount: function () {
+	    if (this.timeout) {
+	      clearTimeout(this.timeout);
+	    }
+	    this.transitionTimeouts.forEach(function (timeout) {
+	      clearTimeout(timeout);
+	    });
+	
+	    this.classNameAndNodeQueue.length = 0;
+	  },
+	
+	  componentWillAppear: function (done) {
+	    if (this.props.appear) {
+	      this.transition('appear', done, this.props.appearTimeout);
+	    } else {
+	      done();
+	    }
+	  },
+	
+	  componentWillEnter: function (done) {
+	    if (this.props.enter) {
+	      this.transition('enter', done, this.props.enterTimeout);
+	    } else {
+	      done();
+	    }
+	  },
+	
+	  componentWillLeave: function (done) {
+	    if (this.props.leave) {
+	      this.transition('leave', done, this.props.leaveTimeout);
+	    } else {
+	      done();
+	    }
+	  },
+	
+	  render: function () {
+	    return onlyChild(this.props.children);
+	  }
+	});
+	
+	module.exports = ReactCSSTransitionGroupChild;
+
+/***/ },
+/* 329 */
+/*!*******************************!*\
+  !*** ./~/fbjs/lib/CSSCore.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	
+	/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @typechecks
+	 */
+	
+	var invariant = __webpack_require__(/*! ./invariant */ 22);
+	
+	/**
+	 * The CSSCore module specifies the API (and implements most of the methods)
+	 * that should be used when dealing with the display of elements (via their
+	 * CSS classes and visibility on screen. It is an API focused on mutating the
+	 * display and not reading it as no logical state should be encoded in the
+	 * display of elements.
+	 */
+	
+	/* Slow implementation for browsers that don't natively support .matches() */
+	function matchesSelector_SLOW(element, selector) {
+	  var root = element;
+	  while (root.parentNode) {
+	    root = root.parentNode;
+	  }
+	
+	  var all = root.querySelectorAll(selector);
+	  return Array.prototype.indexOf.call(all, element) !== -1;
+	}
+	
+	var CSSCore = {
+	
+	  /**
+	   * Adds the class passed in to the element if it doesn't already have it.
+	   *
+	   * @param {DOMElement} element the element to set the class on
+	   * @param {string} className the CSS className
+	   * @return {DOMElement} the element passed in
+	   */
+	  addClass: function addClass(element, className) {
+	    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSSCore.addClass takes only a single class name. "%s" contains ' + 'multiple classes.', className) : invariant(false) : void 0;
+	
+	    if (className) {
+	      if (element.classList) {
+	        element.classList.add(className);
+	      } else if (!CSSCore.hasClass(element, className)) {
+	        element.className = element.className + ' ' + className;
+	      }
+	    }
+	    return element;
+	  },
+	
+	  /**
+	   * Removes the class passed in from the element
+	   *
+	   * @param {DOMElement} element the element to set the class on
+	   * @param {string} className the CSS className
+	   * @return {DOMElement} the element passed in
+	   */
+	  removeClass: function removeClass(element, className) {
+	    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSSCore.removeClass takes only a single class name. "%s" contains ' + 'multiple classes.', className) : invariant(false) : void 0;
+	
+	    if (className) {
+	      if (element.classList) {
+	        element.classList.remove(className);
+	      } else if (CSSCore.hasClass(element, className)) {
+	        element.className = element.className.replace(new RegExp('(^|\\s)' + className + '(?:\\s|$)', 'g'), '$1').replace(/\s+/g, ' ') // multiple spaces to one
+	        .replace(/^\s*|\s*$/g, ''); // trim the ends
+	      }
+	    }
+	    return element;
+	  },
+	
+	  /**
+	   * Helper to add or remove a class from an element based on a condition.
+	   *
+	   * @param {DOMElement} element the element to set the class on
+	   * @param {string} className the CSS className
+	   * @param {*} bool condition to whether to add or remove the class
+	   * @return {DOMElement} the element passed in
+	   */
+	  conditionClass: function conditionClass(element, className, bool) {
+	    return (bool ? CSSCore.addClass : CSSCore.removeClass)(element, className);
+	  },
+	
+	  /**
+	   * Tests whether the element has the class specified.
+	   *
+	   * @param {DOMNode|DOMWindow} element the element to check the class on
+	   * @param {string} className the CSS className
+	   * @return {boolean} true if the element has the class, false if not
+	   */
+	  hasClass: function hasClass(element, className) {
+	    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSS.hasClass takes only a single class name.') : invariant(false) : void 0;
+	    if (element.classList) {
+	      return !!className && element.classList.contains(className);
+	    }
+	    return (' ' + element.className + ' ').indexOf(' ' + className + ' ') > -1;
+	  },
+	
+	  /**
+	   * Tests whether the element matches the selector specified
+	   *
+	   * @param {DOMNode|DOMWindow} element the element that we are querying
+	   * @param {string} selector the CSS selector
+	   * @return {boolean} true if the element matches the selector, false if not
+	   */
+	  matchesSelector: function matchesSelector(element, selector) {
+	    var matchesImpl = element.matches || element.webkitMatchesSelector || element.mozMatchesSelector || element.msMatchesSelector || function (s) {
+	      return matchesSelector_SLOW(element, s);
+	    };
+	    return matchesImpl.call(element, selector);
+	  }
+	
+	};
+	
+	module.exports = CSSCore;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 17)))
+
+/***/ },
+/* 330 */
+/*!**********************************************!*\
+  !*** ./~/react/lib/ReactTransitionEvents.js ***!
+  \**********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactTransitionEvents
+	 */
+	
+	'use strict';
+	
+	var ExecutionEnvironment = __webpack_require__(/*! fbjs/lib/ExecutionEnvironment */ 62);
+	
+	var getVendorPrefixedEventName = __webpack_require__(/*! ./getVendorPrefixedEventName */ 125);
+	
+	var endEvents = [];
+	
+	function detectEvents() {
+	  var animEnd = getVendorPrefixedEventName('animationend');
+	  var transEnd = getVendorPrefixedEventName('transitionend');
+	
+	  if (animEnd) {
+	    endEvents.push(animEnd);
+	  }
+	
+	  if (transEnd) {
+	    endEvents.push(transEnd);
+	  }
+	}
+	
+	if (ExecutionEnvironment.canUseDOM) {
+	  detectEvents();
+	}
+	
+	// We use the raw {add|remove}EventListener() call because EventListener
+	// does not know how to remove event listeners and we really should
+	// clean up. Also, these events are not triggered in older browsers
+	// so we should be A-OK here.
+	
+	function addEventListener(node, eventName, eventListener) {
+	  node.addEventListener(eventName, eventListener, false);
+	}
+	
+	function removeEventListener(node, eventName, eventListener) {
+	  node.removeEventListener(eventName, eventListener, false);
+	}
+	
+	var ReactTransitionEvents = {
+	  addEndEventListener: function (node, eventListener) {
+	    if (endEvents.length === 0) {
+	      // If CSS transitions are not supported, trigger an "end animation"
+	      // event immediately.
+	      window.setTimeout(eventListener, 0);
+	      return;
+	    }
+	    endEvents.forEach(function (endEvent) {
+	      addEventListener(node, endEvent, eventListener);
+	    });
+	  },
+	
+	  removeEndEventListener: function (node, eventListener) {
+	    if (endEvents.length === 0) {
+	      return;
+	    }
+	    endEvents.forEach(function (endEvent) {
+	      removeEventListener(node, endEvent, eventListener);
+	    });
+	  }
+	};
+	
+	module.exports = ReactTransitionEvents;
+
+/***/ },
+/* 331 */
+/*!******************************************!*\
+  !*** ./browser/scripts/video_player.jsx ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 15);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _moment = __webpack_require__(/*! moment */ 219);
+	
+	var moment = _interopRequireWildcard(_moment);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var VideoPlayer = function (_React$Component) {
+	  _inherits(VideoPlayer, _React$Component);
+	
+	  function VideoPlayer(props) {
+	    _classCallCheck(this, VideoPlayer);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(VideoPlayer).call(this, props));
+	  }
+	
+	  _createClass(VideoPlayer, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'videoPlayer container' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row' },
+	          _react2.default.createElement('video', { poster: this.props.thumbUrl, src: this.props.videoUrl, controls: 'true' })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row videoDetails' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-md-8' },
+	            _react2.default.createElement(
+	              'h3',
+	              null,
+	              this.props.title
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-md-4' },
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              'Mis en ligne le ',
+	              this.props.uploadDate,
+	              ' par ',
+	              this.props.uploader,
+	              _react2.default.createElement('br', null),
+	              _react2.default.createElement(
+	                'small',
+	                null,
+	                this.props.views,
+	                ' vues'
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row videoDescription' },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            this.props.description
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return VideoPlayer;
+	}(_react2.default.Component);
+	
+	VideoPlayer.defaultProps = {
+	  thumbUrl: '/defaults/no_video.png',
+	  videoUrl: '/defaults/no_video.mp4',
+	  title: 'Titre',
+	  uploadDate: "26/06/2016",
+	  uploader: 'CTN',
+	  description: 'Vidéo Mediapiston',
+	  views: 0
+	};
+	
+	exports.default = VideoPlayer;
+
+/***/ },
+/* 332 */
+/*!***********************************!*\
+  !*** ./browser/styles/cards.sass ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./cards.sass */ 333);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 192)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./cards.sass", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./cards.sass");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 333 */
+/*!*************************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/cards.sass ***!
+  \*************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 191)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "#videosList, #matosList {\n  text-align: center; }\n\n.mdl-card {\n  display: inline-block;\n  width: 512px;\n  margin-right: 10px; }\n\n.mdl-card > .mdl-card__title {\n  height: 300px;\n  background-position: bottom left;\n  background-size: auto 100%;\n  background-repeat: no-repeat;\n  background-color: #46B6AC;\n  padding: 0; }\n\n.mdl-card > .mdl-card__title > .mdl-card__title-text {\n  background-color: rgba(0, 0, 0, 0.6);\n  color: white;\n  width: 100%;\n  padding: 12px 12px; }\n\n.materielDispo {\n  color: #3c763d; }\n\n.videoPlayer {\n  margin-top: 20px; }\n\n.videoDetails {\n  margin-top: 1em; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 334 */
+/*!************************************!*\
+  !*** ./browser/styles/search.sass ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./search.sass */ 335);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 192)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./search.sass", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./search.sass");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 335 */
+/*!**************************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/search.sass ***!
+  \**************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 191)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".nav.nav-center {\n  margin: 0;\n  float: none;\n  display: inline-block;\n  left: 0;\n  right: 0; }\n\n.navbar {\n  text-align: center; }\n\n#searchBox input {\n  width: 300px; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 336 */
+/*!*****************************!*\
+  !*** ./~/plyr/dist/plyr.js ***!
+  \*****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.exports=t(e,document): true?!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){t(e,document)}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):e.plyr=t(e,document)}("undefined"!=typeof window?window:this,function(e,t){"use strict";function n(){var e,n,r,a=navigator.userAgent,s=navigator.appName,o=""+parseFloat(navigator.appVersion),i=parseInt(navigator.appVersion,10),l=!1,u=!1,c=!1,p=!1;return-1!==navigator.appVersion.indexOf("Windows NT")&&-1!==navigator.appVersion.indexOf("rv:11")?(l=!0,s="IE",o="11"):-1!==(n=a.indexOf("MSIE"))?(l=!0,s="IE",o=a.substring(n+5)):-1!==(n=a.indexOf("Chrome"))?(c=!0,s="Chrome",o=a.substring(n+7)):-1!==(n=a.indexOf("Safari"))?(p=!0,s="Safari",o=a.substring(n+7),-1!==(n=a.indexOf("Version"))&&(o=a.substring(n+8))):-1!==(n=a.indexOf("Firefox"))?(u=!0,s="Firefox",o=a.substring(n+8)):(e=a.lastIndexOf(" ")+1)<(n=a.lastIndexOf("/"))&&(s=a.substring(e,n),o=a.substring(n+1),s.toLowerCase()==s.toUpperCase()&&(s=navigator.appName)),-1!==(r=o.indexOf(";"))&&(o=o.substring(0,r)),-1!==(r=o.indexOf(" "))&&(o=o.substring(0,r)),i=parseInt(""+o,10),isNaN(i)&&(o=""+parseFloat(navigator.appVersion),i=parseInt(navigator.appVersion,10)),{name:s,version:i,isIE:l,isFirefox:u,isChrome:c,isSafari:p,isIos:/(iPad|iPhone|iPod)/g.test(navigator.platform),isTouch:"ontouchstart"in t.documentElement}}function r(e,t){var n=e.media;if("video"==e.type)switch(t){case"video/webm":return!(!n.canPlayType||!n.canPlayType('video/webm; codecs="vp8, vorbis"').replace(/no/,""));case"video/mp4":return!(!n.canPlayType||!n.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/,""));case"video/ogg":return!(!n.canPlayType||!n.canPlayType('video/ogg; codecs="theora"').replace(/no/,""))}else if("audio"==e.type)switch(t){case"audio/mpeg":return!(!n.canPlayType||!n.canPlayType("audio/mpeg;").replace(/no/,""));case"audio/ogg":return!(!n.canPlayType||!n.canPlayType('audio/ogg; codecs="vorbis"').replace(/no/,""));case"audio/wav":return!(!n.canPlayType||!n.canPlayType('audio/wav; codecs="1"').replace(/no/,""))}return!1}function a(e){if(!t.querySelectorAll('script[src="'+e+'"]').length){var n=t.createElement("script");n.src=e;var r=t.getElementsByTagName("script")[0];r.parentNode.insertBefore(n,r)}}function s(e,t){return Array.prototype.indexOf&&-1!=e.indexOf(t)}function o(e,t,n){return e.replace(new RegExp(t.replace(/([.*+?\^=!:${}()|\[\]\/\\])/g,"\\$1"),"g"),n)}function i(e,t){e.length||(e=[e]);for(var n=e.length-1;n>=0;n--){var r=n>0?t.cloneNode(!0):t,a=e[n],s=a.parentNode,o=a.nextSibling;return r.appendChild(a),o?s.insertBefore(r,o):s.appendChild(r),r}}function l(e){for(var t=e.parentNode;e.firstChild;)t.insertBefore(e.firstChild,e);t.removeChild(e)}function u(e){e&&e.parentNode.removeChild(e)}function c(e,t){e.insertBefore(t,e.firstChild)}function p(e,t){for(var n in t)e.setAttribute(n,"boolean"==typeof t[n]&&t[n]?"":t[n])}function d(e,n,r){var a=t.createElement(e);p(a,r),c(n,a)}function A(e){return e.replace(".","")}function m(e,t,n){if(e)if(e.classList)e.classList[n?"add":"remove"](t);else{var r=(" "+e.className+" ").replace(/\s+/g," ").replace(" "+t+" ","");e.className=r+(n?" "+t:"")}}function f(e,t){return e?e.classList?e.classList.contains(t):new RegExp("(\\s|^)"+t+"(\\s|$)").test(e.className):!1}function y(e,n){var r=Element.prototype,a=r.matches||r.webkitMatchesSelector||r.mozMatchesSelector||r.msMatchesSelector||function(e){return-1!==[].indexOf.call(t.querySelectorAll(e),this)};return a.call(e,n)}function b(e,t,n,r){e&&h(e,t,n,!0,r)}function v(e,t,n,r){e&&h(e,t,n,!1,r)}function g(e,t,n,r,a){b(e,t,function(t){n&&n.apply(e,[t]),r.apply(e,[t])},a)}function h(e,t,n,r,a){var s=t.split(" ");if("boolean"!=typeof a&&(a=!1),e instanceof NodeList)for(var o=0;o<e.length;o++)e[o]instanceof Node&&h(e[o],arguments[1],arguments[2],arguments[3]);else for(var i=0;i<s.length;i++)e[r?"addEventListener":"removeEventListener"](s[i],n,a)}function k(e,t,n,r){if(e&&t){"boolean"!=typeof n&&(n=!1);var a=new CustomEvent(t,{bubbles:n,detail:r});e.dispatchEvent(a)}}function w(e,t){return e?(t="boolean"==typeof t?t:!e.getAttribute("aria-pressed"),e.setAttribute("aria-pressed",t),t):void 0}function x(e,t){return 0===e||0===t||isNaN(e)||isNaN(t)?0:(e/t*100).toFixed(2)}function T(){var e=arguments;if(e.length){if(1==e.lenth)return e[0];for(var t=Array.prototype.shift.call(e),n=e.length,r=0;n>r;r++){var a=e[r];for(var s in a)a[s]&&a[s].constructor&&a[s].constructor===Object?(t[s]=t[s]||{},T(t[s],a[s])):t[s]=a[s]}return t}}function E(){var e={supportsFullScreen:!1,isFullScreen:function(){return!1},requestFullScreen:function(){},cancelFullScreen:function(){},fullScreenEventName:"",element:null,prefix:""},n="webkit moz o ms khtml".split(" ");if("undefined"!=typeof t.cancelFullScreen)e.supportsFullScreen=!0;else for(var r=0,a=n.length;a>r;r++){if(e.prefix=n[r],"undefined"!=typeof t[e.prefix+"CancelFullScreen"]){e.supportsFullScreen=!0;break}if("undefined"!=typeof t.msExitFullscreen&&t.msFullscreenEnabled){e.prefix="ms",e.supportsFullScreen=!0;break}}return e.supportsFullScreen&&(e.fullScreenEventName="ms"==e.prefix?"MSFullscreenChange":e.prefix+"fullscreenchange",e.isFullScreen=function(e){switch("undefined"==typeof e&&(e=t.body),this.prefix){case"":return t.fullscreenElement==e;case"moz":return t.mozFullScreenElement==e;default:return t[this.prefix+"FullscreenElement"]==e}},e.requestFullScreen=function(e){return"undefined"==typeof e&&(e=t.body),""===this.prefix?e.requestFullScreen():e[this.prefix+("ms"==this.prefix?"RequestFullscreen":"RequestFullScreen")]()},e.cancelFullScreen=function(){return""===this.prefix?t.cancelFullScreen():t[this.prefix+("ms"==this.prefix?"ExitFullscreen":"CancelFullScreen")]()},e.element=function(){return""===this.prefix?t.fullscreenElement:t[this.prefix+"FullscreenElement"]}),e}function _(){var t={supported:function(){if(!("localStorage"in e))return!1;try{e.localStorage.setItem("___test","OK");var t=e.localStorage.getItem("___test");return e.localStorage.removeItem("___test"),"OK"===t}catch(n){return!1}return!1}()};return t}function C(y,h){function T(){h.debug&&e.console&&console.log.apply(console,arguments)}function C(){h.debug&&e.console&&console.warn.apply(console,arguments)}function I(){return{url:h.iconUrl,absolute:0===h.iconUrl.indexOf("http")||Oe.browser.isIE}}function P(){var e=[],t=I(),n=(t.absolute?"":t.url)+"#"+h.iconPrefix;return s(h.controls,"play-large")&&e.push('<button type="button" data-plyr="play" class="plyr__play-large">','<svg><use xlink:href="'+n+'-play" /></svg>','<span class="plyr__sr-only">'+h.i18n.play+"</span>","</button>"),e.push('<div class="plyr__controls">'),s(h.controls,"restart")&&e.push('<button type="button" data-plyr="restart">','<svg><use xlink:href="'+n+'-restart" /></svg>','<span class="plyr__sr-only">'+h.i18n.restart+"</span>","</button>"),s(h.controls,"rewind")&&e.push('<button type="button" data-plyr="rewind">','<svg><use xlink:href="'+n+'-rewind" /></svg>','<span class="plyr__sr-only">'+h.i18n.rewind+"</span>","</button>"),s(h.controls,"play")&&e.push('<button type="button" data-plyr="play">','<svg><use xlink:href="'+n+'-play" /></svg>','<span class="plyr__sr-only">'+h.i18n.play+"</span>","</button>",'<button type="button" data-plyr="pause">','<svg><use xlink:href="'+n+'-pause" /></svg>','<span class="plyr__sr-only">'+h.i18n.pause+"</span>","</button>"),s(h.controls,"fast-forward")&&e.push('<button type="button" data-plyr="fast-forward">','<svg><use xlink:href="'+n+'-fast-forward" /></svg>','<span class="plyr__sr-only">'+h.i18n.forward+"</span>","</button>"),s(h.controls,"progress")&&(e.push('<span class="plyr__progress">','<label for="seek{id}" class="plyr__sr-only">Seek</label>','<input id="seek{id}" class="plyr__progress--seek" type="range" min="0" max="100" step="0.1" value="0" data-plyr="seek">','<progress class="plyr__progress--played" max="100" value="0" role="presentation"></progress>','<progress class="plyr__progress--buffer" max="100" value="0">',"<span>0</span>% "+h.i18n.buffered,"</progress>"),h.tooltips.seek&&e.push('<span class="plyr__tooltip">00:00</span>'),e.push("</span>")),s(h.controls,"current-time")&&e.push('<span class="plyr__time">','<span class="plyr__sr-only">'+h.i18n.currentTime+"</span>",'<span class="plyr__time--current">00:00</span>',"</span>"),s(h.controls,"duration")&&e.push('<span class="plyr__time">','<span class="plyr__sr-only">'+h.i18n.duration+"</span>",'<span class="plyr__time--duration">00:00</span>',"</span>"),s(h.controls,"mute")&&e.push('<button type="button" data-plyr="mute">','<svg class="icon--muted"><use xlink:href="'+n+'-muted" /></svg>','<svg><use xlink:href="'+n+'-volume" /></svg>','<span class="plyr__sr-only">'+h.i18n.toggleMute+"</span>","</button>"),s(h.controls,"volume")&&e.push('<span class="plyr__volume">','<label for="volume{id}" class="plyr__sr-only">'+h.i18n.volume+"</label>",'<input id="volume{id}" class="plyr__volume--input" type="range" min="'+h.volumeMin+'" max="'+h.volumeMax+'" value="'+h.volume+'" data-plyr="volume">','<progress class="plyr__volume--display" max="'+h.volumeMax+'" value="'+h.volumeMin+'" role="presentation"></progress>',"</span>"),s(h.controls,"captions")&&e.push('<button type="button" data-plyr="captions">','<svg class="icon--captions-on"><use xlink:href="'+n+'-captions-on" /></svg>','<svg><use xlink:href="'+n+'-captions-off" /></svg>','<span class="plyr__sr-only">'+h.i18n.toggleCaptions+"</span>","</button>"),s(h.controls,"fullscreen")&&e.push('<button type="button" data-plyr="fullscreen">','<svg class="icon--exit-fullscreen"><use xlink:href="'+n+'-exit-fullscreen" /></svg>','<svg><use xlink:href="'+n+'-enter-fullscreen" /></svg>','<span class="plyr__sr-only">'+h.i18n.toggleFullscreen+"</span>","</button>"),e.push("</div>"),e.join("")}function R(){if(Oe.supported.full&&("audio"!=Oe.type||h.fullscreen.allowAudio)&&h.fullscreen.enabled){var e=M.supportsFullScreen;e||h.fullscreen.fallback&&!W()?(T((e?"Native":"Fallback")+" fullscreen enabled"),m(Oe.container,h.classes.fullscreen.enabled,!0)):T("Fullscreen not supported and fallback disabled"),w(Oe.buttons.fullscreen,!1),Y()}}function L(){if("video"===Oe.type){G(h.selectors.captions)||Oe.videoContainer.insertAdjacentHTML("afterbegin",'<div class="'+A(h.selectors.captions)+'"></div>'),Oe.usingTextTracks=!1,Oe.media.textTracks&&(Oe.usingTextTracks=!0);for(var e,t="",n=Oe.media.childNodes,r=0;r<n.length;r++)"track"===n[r].nodeName.toLowerCase()&&(e=n[r].kind,"captions"!==e&&"subtitles"!==e||(t=n[r].getAttribute("src")));if(Oe.captionExists=!0,""===t?(Oe.captionExists=!1,T("No caption track found")):T("Caption track found; URI: "+t),Oe.captionExists){for(var a=Oe.media.textTracks,s=0;s<a.length;s++)a[s].mode="hidden";if(H(Oe),(Oe.browser.isIE&&Oe.browser.version>=10||Oe.browser.isFirefox&&Oe.browser.version>=31)&&(T("Detected browser with known TextTrack issues - using manual fallback"),Oe.usingTextTracks=!1),Oe.usingTextTracks){T("TextTracks supported");for(var o=0;o<a.length;o++){var i=a[o];"captions"!==i.kind&&"subtitles"!==i.kind||b(i,"cuechange",function(){this.activeCues[0]&&"text"in this.activeCues[0]?B(this.activeCues[0].getCueAsHTML()):B()})}}else if(T("TextTracks not supported so rendering captions manually"),Oe.currentCaption="",Oe.captions=[],""!==t){var l=new XMLHttpRequest;l.onreadystatechange=function(){if(4===l.readyState)if(200===l.status){var e,t=[],n=l.responseText;t=n.split("\n\n");for(var r=0;r<t.length;r++){e=t[r],Oe.captions[r]=[];var a=e.split("\n"),s=0;-1===a[s].indexOf(":")&&(s=1),Oe.captions[r]=[a[s],a[s+1]]}Oe.captions.shift(),T("Successfully loaded the caption file via AJAX")}else C("There was a problem loading the caption file via AJAX")},l.open("get",t,!0),l.send()}}else m(Oe.container,h.classes.captions.enabled)}}function B(e){var n=G(h.selectors.captions),r=t.createElement("span");n.innerHTML="","undefined"==typeof e&&(e=""),"string"==typeof e?r.innerHTML=e.trim():r.appendChild(e),n.appendChild(r);n.offsetHeight}function O(e){function t(e,t){var n=[];n=e.split(" --> ");for(var r=0;r<n.length;r++)n[r]=n[r].replace(/(\d+:\d+:\d+\.\d+).*/,"$1");return a(n[t])}function n(e){return t(e,0)}function r(e){return t(e,1)}function a(e){if(null===e||void 0===e)return 0;var t,n=[],r=[];return n=e.split(","),r=n[0].split(":"),t=Math.floor(60*r[0]*60)+Math.floor(60*r[1])+Math.floor(r[2])}if(!Oe.usingTextTracks&&"video"===Oe.type&&Oe.supported.full&&(Oe.subcount=0,e="number"==typeof e?e:Oe.media.currentTime,Oe.captions[Oe.subcount])){for(;r(Oe.captions[Oe.subcount][0])<e.toFixed(1);)if(Oe.subcount++,Oe.subcount>Oe.captions.length-1){Oe.subcount=Oe.captions.length-1;break}Oe.media.currentTime.toFixed(1)>=n(Oe.captions[Oe.subcount][0])&&Oe.media.currentTime.toFixed(1)<=r(Oe.captions[Oe.subcount][0])?(Oe.currentCaption=Oe.captions[Oe.subcount][1],B(Oe.currentCaption)):B()}}function H(){Oe.buttons.captions&&(m(Oe.container,h.classes.captions.enabled,!0),h.captions.defaultActive&&(m(Oe.container,h.classes.captions.active,!0),w(Oe.buttons.captions,!0)))}function V(e){return Oe.container.querySelectorAll(e)}function G(e){return V(e)[0]}function W(){try{return e.self!==e.top}catch(t){return!0}}function Y(){function e(e){9===e.which&&Oe.isFullscreen&&(e.target!==r||e.shiftKey?e.target===n&&e.shiftKey&&(e.preventDefault(),r.focus()):(e.preventDefault(),n.focus()))}var t=V("input:not([disabled]), button:not([disabled])"),n=t[0],r=t[t.length-1];b(Oe.container,"keydown",e)}function q(e,t){if("string"==typeof t)d(e,Oe.media,{src:t});else if(t.constructor===Array)for(var n=t.length-1;n>=0;n--)d(e,Oe.media,t[n])}function X(){if(h.loadSprite){var e=I();e.absolute?(T("AJAX loading absolute SVG sprite"+(Oe.browser.isIE?" (due to IE)":"")),S(e.url,"sprite-plyr")):T("Sprite will be used as external resource directly")}var n=h.html;T("Injecting custom controls"),n||(n=P()),n=o(n,"{seektime}",h.seekTime),n=o(n,"{id}",Math.floor(1e4*Math.random()));var r;if(null!==h.selectors.controls.container&&(r=h.selectors.controls.container,"string"==typeof selector&&(r=t.querySelector(r))),r instanceof HTMLElement||(r=Oe.container),r.insertAdjacentHTML("beforeend",n),h.tooltips.controls)for(var a=V([h.selectors.controls.wrapper," ",h.selectors.labels," .",h.classes.hidden].join("")),s=a.length-1;s>=0;s--){var i=a[s];m(i,h.classes.hidden,!1),m(i,h.classes.tooltip,!0)}}function z(){try{return Oe.controls=G(h.selectors.controls.wrapper),Oe.buttons={},Oe.buttons.seek=G(h.selectors.buttons.seek),Oe.buttons.play=V(h.selectors.buttons.play),Oe.buttons.pause=G(h.selectors.buttons.pause),Oe.buttons.restart=G(h.selectors.buttons.restart),Oe.buttons.rewind=G(h.selectors.buttons.rewind),Oe.buttons.forward=G(h.selectors.buttons.forward),Oe.buttons.fullscreen=G(h.selectors.buttons.fullscreen),Oe.buttons.mute=G(h.selectors.buttons.mute),Oe.buttons.captions=G(h.selectors.buttons.captions),Oe.progress={},Oe.progress.container=G(h.selectors.progress.container),Oe.progress.buffer={},Oe.progress.buffer.bar=G(h.selectors.progress.buffer),Oe.progress.buffer.text=Oe.progress.buffer.bar&&Oe.progress.buffer.bar.getElementsByTagName("span")[0],Oe.progress.played=G(h.selectors.progress.played),Oe.progress.tooltip=Oe.progress.container&&Oe.progress.container.querySelector("."+h.classes.tooltip),Oe.volume={},Oe.volume.input=G(h.selectors.volume.input),Oe.volume.display=G(h.selectors.volume.display),Oe.duration=G(h.selectors.duration),Oe.currentTime=G(h.selectors.currentTime),Oe.seekTime=V(h.selectors.seekTime),!0}catch(e){return C("It looks like there is a problem with your controls HTML"),Q(!0),!1}}function D(){m(Oe.container,h.selectors.container.replace(".",""),Oe.supported.full)}function Q(e){e&&s(h.types.html5,Oe.type)?Oe.media.setAttribute("controls",""):Oe.media.removeAttribute("controls")}function j(e){var t=h.i18n.play;if("undefined"!=typeof h.title&&h.title.length&&(t+=", "+h.title),Oe.supported.full&&Oe.buttons.play)for(var n=Oe.buttons.play.length-1;n>=0;n--)Oe.buttons.play[n].setAttribute("aria-label",t);e instanceof HTMLElement&&e.setAttribute("title",h.i18n.frameTitle.replace("{title}",h.title))}function U(){if(!Oe.media)return void C("No media element found!");if(Oe.supported.full&&(m(Oe.container,h.classes.type.replace("{0}",Oe.type),!0),s(h.types.embed,Oe.type)&&m(Oe.container,h.classes.type.replace("{0}","video"),!0),m(Oe.container,h.classes.stopped,h.autoplay),m(Oe.container,h.classes.isIos,Oe.browser.isIos),m(Oe.container,h.classes.isTouch,Oe.browser.isTouch),"video"===Oe.type)){var e=t.createElement("div");e.setAttribute("class",h.classes.videoWrapper),i(Oe.media,e),Oe.videoContainer=e}s(h.types.embed,Oe.type)&&(Z(),Oe.embedId=null)}function Z(){for(var n=t.createElement("div"),r=Oe.embedId,s=Oe.type+"-"+Math.floor(1e4*Math.random()),o=V('[id^="'+Oe.type+'-"]'),i=o.length-1;i>=0;i--)u(o[i]);if(m(Oe.media,h.classes.videoWrapper,!0),m(Oe.media,h.classes.embedWrapper,!0),"youtube"===Oe.type)Oe.media.appendChild(n),n.setAttribute("id",s),"object"==typeof YT?J(r,n):(a(h.urls.youtube.api),e.onYouTubeReadyCallbacks=e.onYouTubeReadyCallbacks||[],e.onYouTubeReadyCallbacks.push(function(){J(r,n)}),e.onYouTubeIframeAPIReady=function(){e.onYouTubeReadyCallbacks.forEach(function(e){e()})});else if("vimeo"===Oe.type){var l=t.createElement("iframe");l.loaded=!1,b(l,"load",function(){l.loaded=!0}),p(l,{src:"https://player.vimeo.com/video/"+r+"?player_id="+s+"&api=1&badge=0&byline=0&portrait=0&title=0",id:s,allowfullscreen:"",frameborder:0}),Oe.supported.full?(n.appendChild(l),Oe.media.appendChild(n)):Oe.media.appendChild(l),"$f"in e||a(h.urls.vimeo.api);var c=e.setInterval(function(){"$f"in e&&l.loaded&&(e.clearInterval(c),K.call(l))},50)}else if("soundcloud"===Oe.type){var d=t.createElement("iframe");d.loaded=!1,b(d,"load",function(){d.loaded=!0}),p(d,{src:"https://w.soundcloud.com/player/?url=https://api.soundcloud.com/tracks/"+r,id:s}),n.appendChild(d),Oe.media.appendChild(n),e.SC||a(h.urls.soundcloud.api);var A=e.setInterval(function(){e.SC&&d.loaded&&(e.clearInterval(A),ee.call(d))},50)}}function $(){Oe.container.plyr.embed=Oe.embed,Oe.supported.full&&Be(),j(G("iframe"))}function J(t,n){"timer"in Oe||(Oe.timer={}),Oe.embed=new YT.Player(n.id,{videoId:t,playerVars:{autoplay:h.autoplay?1:0,controls:Oe.supported.full?0:1,rel:0,showinfo:0,iv_load_policy:3,cc_load_policy:h.captions.defaultActive?1:0,cc_lang_pref:"en",wmode:"transparent",modestbranding:1,disablekb:1,origin:"*"},events:{onError:function(e){k(Oe.container,"error",!0,{code:e.data,embed:e.target})},onReady:function(t){var n=t.target;Oe.media.play=function(){n.playVideo(),Oe.media.paused=!1},Oe.media.pause=function(){n.pauseVideo(),Oe.media.paused=!0},Oe.media.stop=function(){n.stopVideo(),Oe.media.paused=!0},Oe.media.duration=n.getDuration(),Oe.media.paused=!0,Oe.media.currentTime=n.getCurrentTime(),Oe.media.muted=n.isMuted(),h.title=n.getVideoData().title,k(Oe.media,"timeupdate"),e.clearInterval(Oe.timer.buffering),Oe.timer.buffering=e.setInterval(function(){Oe.media.buffered=n.getVideoLoadedFraction(),k(Oe.media,"progress"),1===Oe.media.buffered&&(e.clearInterval(Oe.timer.buffering),k(Oe.media,"canplaythrough"))},200),$(),xe()},onStateChange:function(t){var n=t.target;switch(e.clearInterval(Oe.timer.playing),t.data){case 0:Oe.media.paused=!0,k(Oe.media,"ended");break;case 1:Oe.media.paused=!1,Oe.media.seeking=!1,k(Oe.media,"play"),k(Oe.media,"playing"),Oe.timer.playing=e.setInterval(function(){Oe.media.currentTime=n.getCurrentTime(),k(Oe.media,"timeupdate")},100);break;case 2:Oe.media.paused=!0,k(Oe.media,"pause")}k(Oe.container,"statechange",!1,{code:t.data})}}})}function K(){Oe.embed=$f(this),Oe.embed.addEvent("ready",function(){Oe.media.play=function(){Oe.embed.api("play"),Oe.media.paused=!1},Oe.media.pause=function(){Oe.embed.api("pause"),Oe.media.paused=!0},Oe.media.stop=function(){Oe.embed.api("stop"),Oe.media.paused=!0},Oe.media.paused=!0,Oe.media.currentTime=0,$(),Oe.embed.api("getCurrentTime",function(e){Oe.media.currentTime=e,k(Oe.media,"timeupdate")}),Oe.embed.api("getDuration",function(e){Oe.media.duration=e,xe()}),Oe.embed.addEvent("play",function(){Oe.media.paused=!1,k(Oe.media,"play"),k(Oe.media,"playing")}),Oe.embed.addEvent("pause",function(){Oe.media.paused=!0,k(Oe.media,"pause")}),Oe.embed.addEvent("playProgress",function(e){Oe.media.seeking=!1,Oe.media.currentTime=e.seconds,k(Oe.media,"timeupdate")}),Oe.embed.addEvent("loadProgress",function(e){Oe.media.buffered=e.percent,k(Oe.media,"progress"),1===parseInt(e.percent)&&k(Oe.media,"canplaythrough")}),Oe.embed.addEvent("finish",function(){Oe.media.paused=!0,k(Oe.media,"ended")}),h.autoplay&&Oe.embed.api("play")})}function ee(){Oe.embed=e.SC.Widget(this),Oe.embed.bind(e.SC.Widget.Events.READY,function(){Oe.media.play=function(){Oe.embed.play(),Oe.media.paused=!1},Oe.media.pause=function(){Oe.embed.pause(),Oe.media.paused=!0},Oe.media.stop=function(){Oe.embed.seekTo(0),Oe.embed.pause(),Oe.media.paused=!0},Oe.media.paused=!0,Oe.media.currentTime=0,$(),Oe.embed.getPosition(function(e){Oe.media.currentTime=e,k(Oe.media,"timeupdate")}),Oe.embed.getDuration(function(e){Oe.media.duration=e/1e3,xe()}),Oe.embed.bind(e.SC.Widget.Events.PLAY,function(){Oe.media.paused=!1,k(Oe.media,"play"),k(Oe.media,"playing")}),Oe.embed.bind(e.SC.Widget.Events.PAUSE,function(){Oe.media.paused=!0,k(Oe.media,"pause")}),Oe.embed.bind(e.SC.Widget.Events.PLAY_PROGRESS,function(e){Oe.media.seeking=!1,Oe.media.currentTime=e.currentPosition/1e3,k(Oe.media,"timeupdate")}),Oe.embed.bind(e.SC.Widget.Events.LOAD_PROGRESS,function(e){Oe.media.buffered=e.loadProgress,k(Oe.media,"progress"),1===parseInt(e.loadProgress)&&k(Oe.media,"canplaythrough")}),Oe.embed.bind(e.SC.Widget.Events.FINISH,function(){Oe.media.paused=!0,k(Oe.media,"ended")}),h.autoplay&&Oe.embed.play()})}function te(){"play"in Oe.media&&Oe.media.play()}function ne(){"pause"in Oe.media&&Oe.media.pause()}function re(e){e===!0?te():e===!1?ne():Oe.media[Oe.media.paused?"play":"pause"]()}function ae(e){"number"!=typeof e&&(e=h.seekTime),oe(Oe.media.currentTime-e)}function se(e){"number"!=typeof e&&(e=h.seekTime),oe(Oe.media.currentTime+e)}function oe(e){var t=0,n=Oe.media.paused,r=ie();"number"==typeof e?t=e:e.type&&s(["input","change"],e.type)&&(t=e.target.value/e.target.max*r),0>t?t=0:t>r&&(t=r),Ee(t);try{Oe.media.currentTime=t.toFixed(4)}catch(a){}if(s(h.types.embed,Oe.type)){switch(Oe.type){case"youtube":Oe.embed.seekTo(t);break;case"vimeo":Oe.embed.api("seekTo",t.toFixed(0));break;case"soundcloud":Oe.embed.seekTo(1e3*t)}n&&ne(),k(Oe.media,"timeupdate"),Oe.media.seeking=!0}T("Seeking to "+Oe.media.currentTime+" seconds"),O(t)}function ie(){var e=parseInt(h.duration),t=0;return null===Oe.media.duration||isNaN(Oe.media.duration)||(t=Oe.media.duration),isNaN(e)?t:e}function le(){m(Oe.container,h.classes.playing,!Oe.media.paused),m(Oe.container,h.classes.stopped,Oe.media.paused),Ce(Oe.media.paused)}function ue(){N={x:e.pageXOffset||0,y:e.pageYOffset||0}}function ce(){e.scrollTo(N.x,N.y)}function pe(e){var n=M.supportsFullScreen;e&&e.type===M.fullScreenEventName?Oe.isFullscreen=M.isFullScreen(Oe.container):n?(M.isFullScreen(Oe.container)?M.cancelFullScreen():(ue(),M.requestFullScreen(Oe.container)),Oe.isFullscreen=M.isFullScreen(Oe.container)):(Oe.isFullscreen=!Oe.isFullscreen,Oe.isFullscreen?(b(t,"keyup",de),t.body.style.overflow="hidden"):(v(t,"keyup",de),t.body.style.overflow="")),m(Oe.container,h.classes.fullscreen.active,Oe.isFullscreen),Oe.isFullscreen?Oe.container.setAttribute("tabindex","-1"):Oe.container.removeAttribute("tabindex"),Y(Oe.isFullscreen),w(Oe.buttons.fullscreen,Oe.isFullscreen),k(Oe.container,Oe.isFullscreen?"enterfullscreen":"exitfullscreen",!0),!Oe.isFullscreen&&n&&ce()}function de(e){27===(e.which||e.charCode||e.keyCode)&&Oe.isFullscreen&&pe()}function Ae(e){if("boolean"!=typeof e&&(e=!Oe.media.muted),w(Oe.buttons.mute,e),Oe.media.muted=e,0===Oe.media.volume&&me(h.volume),s(h.types.embed,Oe.type)){switch(Oe.type){case"youtube":Oe.embed[Oe.media.muted?"mute":"unMute"]();break;case"vimeo":Oe.embed.api("setVolume",Oe.media.muted?0:parseFloat(h.volume/h.volumeMax));break;case"soundcloud":Oe.embed.setVolume(Oe.media.muted?0:parseFloat(h.volume/h.volumeMax))}k(Oe.media,"volumechange")}}function me(t){var n=h.volumeMax,r=h.volumeMin;if("undefined"==typeof t&&(t=h.volume,h.storage.enabled&&_().supported&&(t=e.localStorage.getItem(h.storage.key),e.localStorage.removeItem("plyr-volume"))),(null===t||isNaN(t))&&(t=h.volume),t>n&&(t=n),r>t&&(t=r),Oe.media.volume=parseFloat(t/n),Oe.volume.display&&(Oe.volume.display.value=t),s(h.types.embed,Oe.type)){switch(Oe.type){case"youtube":Oe.embed.setVolume(100*Oe.media.volume);break;case"vimeo":Oe.embed.api("setVolume",Oe.media.volume);break;case"soundcloud":Oe.embed.setVolume(Oe.media.volume)}k(Oe.media,"volumechange")}Oe.media.muted&&t>0&&Ae()}function fe(){var e=Oe.media.muted?0:Oe.media.volume*h.volumeMax;me(e+h.volumeStep/5)}function ye(){var e=Oe.media.muted?0:Oe.media.volume*h.volumeMax;me(e-h.volumeStep/5)}function be(){var t=Oe.media.muted?0:Oe.media.volume*h.volumeMax;Oe.supported.full&&(Oe.volume.input&&(Oe.volume.input.value=t),Oe.volume.display&&(Oe.volume.display.value=t)),h.storage.enabled&&_().supported&&!isNaN(t)&&e.localStorage.setItem(h.storage.key,t),m(Oe.container,h.classes.muted,0===t),Oe.supported.full&&Oe.buttons.mute&&w(Oe.buttons.mute,0===t)}function ve(e){Oe.supported.full&&Oe.buttons.captions&&("boolean"!=typeof e&&(e=-1===Oe.container.className.indexOf(h.classes.captions.active)),Oe.captionsEnabled=e,w(Oe.buttons.captions,Oe.captionsEnabled),m(Oe.container,h.classes.captions.active,Oe.captionsEnabled),k(Oe.container,Oe.captionsEnabled?"captionsenabled":"captionsdisabled",!0))}function ge(e){var t="waiting"===e.type;clearTimeout(Oe.timers.loading),Oe.timers.loading=setTimeout(function(){m(Oe.container,h.classes.loading,t)},t?250:0)}function he(e){if(Oe.supported.full){var t=Oe.progress.played,n=0,r=ie();if(e)switch(e.type){case"timeupdate":case"seeking":if(Oe.controls.pressed)return;n=x(Oe.media.currentTime,r),"timeupdate"==e.type&&Oe.buttons.seek&&(Oe.buttons.seek.value=n);break;case"playing":case"progress":t=Oe.progress.buffer,n=function(){var e=Oe.media.buffered;return e&&e.length?x(e.end(0),r):"number"==typeof e?100*e:0}()}ke(t,n)}}function ke(e,t){if(Oe.supported.full){if("undefined"==typeof t&&(t=0),"undefined"==typeof e){if(!Oe.progress||!Oe.progress.buffer)return;e=Oe.progress.buffer}e instanceof HTMLElement?e.value=t:e&&(e.bar&&(e.bar.value=t),e.text&&(e.text.innerHTML=t))}}function we(e,t){if(t){isNaN(e)&&(e=0),Oe.secs=parseInt(e%60),Oe.mins=parseInt(e/60%60),Oe.hours=parseInt(e/60/60%60);var n=parseInt(ie()/60/60%60)>0;Oe.secs=("0"+Oe.secs).slice(-2),Oe.mins=("0"+Oe.mins).slice(-2),t.innerHTML=(n?Oe.hours+":":"")+Oe.mins+":"+Oe.secs}}function xe(){if(Oe.supported.full){var e=ie()||0;!Oe.duration&&h.displayDuration&&Oe.media.paused&&we(e,Oe.currentTime),Oe.duration&&we(e,Oe.duration),_e()}}function Te(e){we(Oe.media.currentTime,Oe.currentTime),e&&"timeupdate"==e.type&&Oe.media.seeking||he(e)}function Ee(e){"number"!=typeof e&&(e=0);var t=ie(),n=x(e,t);Oe.progress&&Oe.progress.played&&(Oe.progress.played.value=n),Oe.buttons&&Oe.buttons.seek&&(Oe.buttons.seek.value=n)}function _e(e){var t=ie();if(h.tooltips.seek&&Oe.progress.container&&0!==t){var n=Oe.progress.container.getBoundingClientRect(),r=0,a=h.classes.tooltip+"--visible";if(e)r=100/n.width*(e.pageX-n.left);else{if(!f(Oe.progress.tooltip,a))return;r=Oe.progress.tooltip.style.left.replace("%","")}0>r?r=0:r>100&&(r=100),we(t/100*r,Oe.progress.tooltip),Oe.progress.tooltip.style.left=r+"%",e&&s(["mouseenter","mouseleave"],e.type)&&m(Oe.progress.tooltip,a,"mouseenter"===e.type)}}function Ce(t){if(h.hideControls&&"audio"!==Oe.type){var n=0,r=!1,a=t;if("boolean"!=typeof t&&(t&&t.type?(r="enterfullscreen"===t.type,a=s(["mousemove","touchstart","mouseenter","focus"],t.type),s(["mousemove","touchmove"],t.type)&&(n=2e3),"focus"===t.type&&(n=3e3)):a=f(Oe.container,h.classes.hideControls)),e.clearTimeout(Oe.timers.hover),a||Oe.media.paused){if(m(Oe.container,h.classes.hideControls,!1),Oe.media.paused)return;Oe.browser.isTouch&&(n=3e3)}a&&Oe.media.paused||(Oe.timers.hover=e.setTimeout(function(){(!Oe.controls.pressed&&!Oe.controls.hover||r)&&m(Oe.container,h.classes.hideControls,!0)},n))}}function Se(e){if("undefined"!=typeof e)return void Fe(e);var t;switch(Oe.type){case"youtube":t=Oe.embed.getVideoUrl();break;case"vimeo":Oe.embed.api("getVideoUrl",function(e){t=e});break;case"soundcloud":Oe.embed.getCurrentSound(function(e){t=e.permalink_url});break;default:t=Oe.media.currentSrc}return t||""}function Fe(n){if(!("undefined"!=typeof n&&"sources"in n&&n.sources.length))return void C("Invalid source format");if(ne(),Ee(),ke(),Pe(),"youtube"===Oe.type?(Oe.embed.destroy(),e.clearInterval(Oe.timer.buffering),e.clearInterval(Oe.timer.playing)):"video"===Oe.type&&Oe.videoContainer&&u(Oe.videoContainer),Oe.embed=null,u(Oe.media),"type"in n&&(Oe.type=n.type,"video"===Oe.type)){var r=n.sources[0];"type"in r&&s(h.types.embed,r.type)&&(Oe.type=r.type)}switch(Oe.supported=F(Oe.type),Oe.type){case"video":Oe.media=t.createElement("video");break;case"audio":Oe.media=t.createElement("audio");break;case"youtube":case"vimeo":case"soundcloud":Oe.media=t.createElement("div"),Oe.embedId=n.sources[0].src}c(Oe.container,Oe.media),"undefined"!=typeof n.autoplay&&(h.autoplay=n.autoplay),s(h.types.html5,Oe.type)&&(h.crossorigin&&Oe.media.setAttribute("crossorigin",""),h.autoplay&&Oe.media.setAttribute("autoplay",""),"poster"in n&&Oe.media.setAttribute("poster",n.poster),h.loop&&Oe.media.setAttribute("loop","")),Oe.container.className=Oe.originalClassName,m(Oe.container,h.classes.fullscreen.active,Oe.isFullscreen),m(Oe.container,h.classes.captions.active,Oe.captionsEnabled),D(),s(h.types.html5,Oe.type)&&q("source",n.sources),U(),s(h.types.html5,Oe.type)?("tracks"in n&&q("track",n.tracks),Oe.media.load(),Be(),xe()):s(h.types.embed,Oe.type)&&!Oe.supported.full&&Be(),h.title=n.title,j(),Oe.container.plyr.media=Oe.media}function Ie(e){"video"===Oe.type&&Oe.media.setAttribute("poster",e)}function Me(){function n(){var e=Oe.media.paused;e?te():ne();var t=Oe.buttons[e?"play":"pause"],n=Oe.buttons[e?"pause":"play"];if(n=n&&n.length>1?n[n.length-1]:n[0]){var r=f(t,h.classes.tabFocus);setTimeout(function(){n.focus(),r&&(m(t,h.classes.tabFocus,!1),m(n,h.classes.tabFocus,!0))},100)}}function r(){var e=t.activeElement;e&&e!=t.body?t.querySelector&&(e=t.querySelector(":focus")):e=null;for(var n in Oe.buttons){var r=Oe.buttons[n];if(r instanceof NodeList)for(var a=0;a<r.length;a++)m(r[a],h.classes.tabFocus,r[a]===e);else m(r,h.classes.tabFocus,r===e)}}var a=Oe.browser.isIE?"change":"input";b(e,"keyup",function(e){var t=e.keyCode?e.keyCode:e.which;9==t&&r()}),b(t.body,"click",function(){m(G("."+h.classes.tabFocus),h.classes.tabFocus,!1)});for(var o in Oe.buttons){var i=Oe.buttons[o];b(i,"blur",function(){m(i,"tab-focus",!1)})}g(Oe.buttons.play,"click",h.listeners.play,n),g(Oe.buttons.pause,"click",h.listeners.pause,n),g(Oe.buttons.restart,"click",h.listeners.restart,oe),g(Oe.buttons.rewind,"click",h.listeners.rewind,ae),g(Oe.buttons.forward,"click",h.listeners.forward,se),g(Oe.buttons.seek,a,h.listeners.seek,oe),g(Oe.volume.input,a,h.listeners.volume,function(){me(Oe.volume.input.value)}),g(Oe.buttons.mute,"click",h.listeners.mute,Ae),g(Oe.buttons.fullscreen,"click",h.listeners.fullscreen,pe),M.supportsFullScreen&&b(t,M.fullScreenEventName,pe),b(Oe.buttons.captions,"click",ve),b(Oe.progress.container,"mouseenter mouseleave mousemove",_e),h.hideControls&&(b(Oe.container,"mouseenter mouseleave mousemove touchstart touchend touchcancel touchmove enterfullscreen",Ce),b(Oe.controls,"mouseenter mouseleave",function(e){Oe.controls.hover="mouseenter"===e.type}),b(Oe.controls,"mousedown mouseup touchstart touchend touchcancel",function(e){Oe.controls.pressed=s(["mousedown","touchstart"],e.type)}),b(Oe.controls,"focus blur",Ce,!0)),b(Oe.volume.input,"wheel",function(e){e.preventDefault();
+	var t=e.webkitDirectionInvertedFromDevice;(e.deltaY<0||e.deltaX>0)&&(t?ye():fe()),(e.deltaY>0||e.deltaX<0)&&(t?fe():ye())})}function Ne(){if(b(Oe.media,"timeupdate seeking",Te),b(Oe.media,"timeupdate",O),b(Oe.media,"durationchange loadedmetadata",xe),b(Oe.media,"ended",function(){"video"===Oe.type&&B(),le(),oe(0),xe(),"video"===Oe.type&&h.showPosterOnEnd&&Oe.media.load()}),b(Oe.media,"progress playing",he),b(Oe.media,"volumechange",be),b(Oe.media,"play pause",le),b(Oe.media,"waiting canplay seeked",ge),h.clickToPlay&&"audio"!==Oe.type){var e=G("."+h.classes.videoWrapper);if(!e)return;e.style.cursor="pointer",b(e,"click",function(){Oe.browser.isTouch&&!Oe.media.paused||(Oe.media.paused?te():Oe.media.ended?(oe(),te()):ne())})}h.disableContextMenu&&b(Oe.media,"contextmenu",function(e){e.preventDefault()}),b(Oe.media,h.events.join(" "),function(e){k(Oe.container,e.type,!0)})}function Pe(){if(s(h.types.html5,Oe.type)){for(var e=Oe.media.querySelectorAll("source"),t=0;t<e.length;t++)u(e[t]);Oe.media.setAttribute("src","data:video/mp4;base64,AAAAHGZ0eXBpc29tAAACAGlzb21pc28ybXA0MQAAAAhmcmVlAAAAGm1kYXQAAAGzABAHAAABthBgUYI9t+8AAAMNbW9vdgAAAGxtdmhkAAAAAMXMvvrFzL76AAAD6AAAACoAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAABhpb2RzAAAAABCAgIAHAE/////+/wAAAiF0cmFrAAAAXHRraGQAAAAPxcy++sXMvvoAAAABAAAAAAAAACoAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAgAAAAIAAAAAAG9bWRpYQAAACBtZGhkAAAAAMXMvvrFzL76AAAAGAAAAAEVxwAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAABaG1pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAAShzdGJsAAAAxHN0c2QAAAAAAAAAAQAAALRtcDR2AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAgACABIAAAASAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGP//AAAAXmVzZHMAAAAAA4CAgE0AAQAEgICAPyARAAAAAAMNQAAAAAAFgICALQAAAbABAAABtYkTAAABAAAAASAAxI2IAMUARAEUQwAAAbJMYXZjNTMuMzUuMAaAgIABAgAAABhzdHRzAAAAAAAAAAEAAAABAAAAAQAAABxzdHNjAAAAAAAAAAEAAAABAAAAAQAAAAEAAAAUc3RzegAAAAAAAAASAAAAAQAAABRzdGNvAAAAAAAAAAEAAAAsAAAAYHVkdGEAAABYbWV0YQAAAAAAAAAhaGRscgAAAAAAAAAAbWRpcmFwcGwAAAAAAAAAAAAAAAAraWxzdAAAACOpdG9vAAAAG2RhdGEAAAABAAAAAExhdmY1My4yMS4x"),Oe.media.load(),T("Cancelled network requests for old media")}}function Re(){if(!Oe.init)return null;if(Oe.container.setAttribute("class",A(h.selectors.container)),Oe.init=!1,u(G(h.selectors.controls.wrapper)),"youtube"===Oe.type)return void Oe.embed.destroy();"video"===Oe.type&&(u(G(h.selectors.captions)),l(Oe.videoContainer)),Q(!0);var e=Oe.media.cloneNode(!0);Oe.media.parentNode.replaceChild(e,Oe.media)}function Le(){if(Oe.init)return null;if(M=E(),Oe.browser=n(),Oe.media=Oe.container.querySelectorAll("audio, video")[0],Oe.media||(Oe.media=Oe.container.querySelectorAll("[data-type]")[0]),Oe.media){Oe.originalClassName=Oe.container.className;var e=Oe.media.tagName.toLowerCase();if("div"===e?(Oe.type=Oe.media.getAttribute("data-type"),Oe.embedId=Oe.media.getAttribute("data-video-id"),Oe.media.removeAttribute("data-type"),Oe.media.removeAttribute("data-video-id")):(Oe.type=e,h.crossorigin=null!==Oe.media.getAttribute("crossorigin"),h.autoplay=h.autoplay||null!==Oe.media.getAttribute("autoplay"),h.loop=h.loop||null!==Oe.media.getAttribute("loop")),Oe.supported=F(Oe.type),D(),!Oe.supported.basic)return!1;if(T(Oe.browser.name+" "+Oe.browser.version),U(),s(h.types.html5,Oe.type)){if(!Oe.supported.full)return void(Oe.init=!0);Be(),j(),h.autoplay&&te()}else s(h.types.embed,Oe.type)&&!Oe.supported.full&&Be();Oe.init=!0}}function Be(){if(!Oe.supported.full)return C("No full support for this media type ("+Oe.type+")"),u(G(h.selectors.controls.wrapper)),u(G(h.selectors.buttons.play)),void Q(!0);var e=!V(h.selectors.controls.wrapper).length;e&&X(),z()&&(e&&Me(),Ne(),Q(),R(),L(),me(),be(),Te(),le(),xe(),k(Oe.container,"ready",!0))}var Oe=this;return Oe.container=y,Oe.timers={},T(h),Le(),Oe.init?{media:Oe.media,play:te,pause:ne,restart:oe,rewind:ae,forward:se,seek:oe,source:Se,poster:Ie,setVolume:me,togglePlay:re,toggleMute:Ae,toggleCaptions:ve,toggleFullscreen:pe,toggleControls:Ce,isFullscreen:function(){return Oe.isFullscreen||!1},support:function(e){return r(Oe,e)},destroy:Re,restore:Le}:{}}function S(e,n){var r=new XMLHttpRequest;"string"==typeof n&&null!==t.querySelector("#"+n)||"withCredentials"in r&&(r.open("GET",e,!0),r.onload=function(){var e=t.createElement("div");e.setAttribute("hidden",""),"string"==typeof n&&e.setAttribute("id",n),e.innerHTML=r.responseText,t.body.insertBefore(e,t.body.childNodes[0])},r.send())}function F(e){var r,a,s=n(),o=s.isIE&&s.version<=9,i=s.isIos,l=/iPhone|iPod/i.test(navigator.userAgent),u=!!t.createElement("audio").canPlayType,c=!!t.createElement("video").canPlayType;switch(e){case"video":r=c,a=r&&!o&&!l;break;case"audio":r=u,a=r&&!o;break;case"vimeo":case"youtube":case"soundcloud":r=!0,a=!o&&!i;break;default:r=u&&c,a=r&&!o}return{basic:r,full:a}}function I(e,n){var r=[],a=[],s=[P.selectors.html5,P.selectors.embed].join(",");if("string"==typeof e?e=t.querySelectorAll(e):e instanceof HTMLElement?e=[e]:e instanceof NodeList||"string"==typeof e||("undefined"==typeof n&&"object"==typeof e&&(n=e),e=t.querySelectorAll(s)),!F().basic||!e.length)return!1;e instanceof NodeList&&(e=Array.prototype.slice.call(e));for(var o=0;o<e.length;o++){var l=e[o],u=l.querySelectorAll(s);if(u.length>1)for(var c=0;c<u.length;c++)a.push({element:i(u[c],t.createElement("div")),original:l});else a.push({element:l})}for(var p in a){var d=a[p].element,A=a[p].original||d;if(y(d,s)&&(d=i(d,t.createElement("div"))),!("plyr"in d)){var m=T({},P,n,JSON.parse(A.getAttribute("data-plyr")));if(!m.enabled)return null;var f=new C(d,m);d.plyr=Object.keys(f).length?f:!1,k(A,"setup",!0,{plyr:d.plyr})}r.push(d)}return r}var M,N={x:0,y:0},P={enabled:!0,debug:!1,autoplay:!1,loop:!1,seekTime:10,volume:5,volumeMin:0,volumeMax:10,volumeStep:1,duration:null,displayDuration:!0,loadSprite:!0,iconPrefix:"plyr",iconUrl:"https://cdn.plyr.io/1.8.6/plyr.svg",clickToPlay:!0,hideControls:!0,showPosterOnEnd:!1,disableContextMenu:!0,tooltips:{controls:!1,seek:!0},selectors:{html5:"video, audio",embed:"[data-type]",container:".plyr",controls:{container:null,wrapper:".plyr__controls"},labels:"[data-plyr]",buttons:{seek:'[data-plyr="seek"]',play:'[data-plyr="play"]',pause:'[data-plyr="pause"]',restart:'[data-plyr="restart"]',rewind:'[data-plyr="rewind"]',forward:'[data-plyr="fast-forward"]',mute:'[data-plyr="mute"]',captions:'[data-plyr="captions"]',fullscreen:'[data-plyr="fullscreen"]'},volume:{input:'[data-plyr="volume"]',display:".plyr__volume--display"},progress:{container:".plyr__progress",buffer:".plyr__progress--buffer",played:".plyr__progress--played"},captions:".plyr__captions",currentTime:".plyr__time--current",duration:".plyr__time--duration"},classes:{videoWrapper:"plyr__video-wrapper",embedWrapper:"plyr__video-embed",type:"plyr--{0}",stopped:"plyr--stopped",playing:"plyr--playing",muted:"plyr--muted",loading:"plyr--loading",hover:"plyr--hover",tooltip:"plyr__tooltip",hidden:"plyr__sr-only",hideControls:"plyr--hide-controls",isIos:"plyr--is-ios",isTouch:"plyr--is-touch",captions:{enabled:"plyr--captions-enabled",active:"plyr--captions-active"},fullscreen:{enabled:"plyr--fullscreen-enabled",active:"plyr--fullscreen-active"},tabFocus:"tab-focus"},captions:{defaultActive:!1},fullscreen:{enabled:!0,fallback:!0,allowAudio:!1},storage:{enabled:!0,key:"plyr"},controls:["play-large","play","progress","current-time","mute","volume","captions","fullscreen"],i18n:{restart:"Restart",rewind:"Rewind {seektime} secs",play:"Play",pause:"Pause",forward:"Forward {seektime} secs",played:"played",buffered:"buffered",currentTime:"Current time",duration:"Duration",volume:"Volume",toggleMute:"Toggle Mute",toggleCaptions:"Toggle Captions",toggleFullscreen:"Toggle Fullscreen",frameTitle:"Player for {title}"},types:{embed:["youtube","vimeo","soundcloud"],html5:["video","audio"]},urls:{vimeo:{api:"https://cdn.plyr.io/froogaloop/1.0.1/plyr.froogaloop.js"},youtube:{api:"https://www.youtube.com/iframe_api"},soundcloud:{api:"https://w.soundcloud.com/player/api.js"}},listeners:{seek:null,play:null,pause:null,restart:null,rewind:null,forward:null,mute:null,volume:null,captions:null,fullscreen:null},events:["ended","progress","stalled","playing","waiting","canplay","canplaythrough","loadstart","loadeddata","loadedmetadata","timeupdate","volumechange","play","pause","error","seeking","emptied"]};return{setup:I,supported:F,loadSprite:S}}),function(){function e(e,t){t=t||{bubbles:!1,cancelable:!1,detail:void 0};var n=document.createEvent("CustomEvent");return n.initCustomEvent(e,t.bubbles,t.cancelable,t.detail),n}return"function"==typeof window.CustomEvent?!1:(e.prototype=window.Event.prototype,void(window.CustomEvent=e))}();
+
+/***/ },
+/* 337 */
+/*!***********************************!*\
+  !*** ./~/plyr/src/scss/plyr.scss ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../../css-loader!./../../../postcss-loader!./../../../sass-loader!./plyr.scss */ 338);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../../style-loader/addStyles.js */ 192)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../css-loader/index.js!./../../../postcss-loader/index.js!./../../../sass-loader/index.js!./plyr.scss", function() {
+				var newContent = require("!!./../../../css-loader/index.js!./../../../postcss-loader/index.js!./../../../sass-loader/index.js!./plyr.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 338 */
+/*!*************************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./~/plyr/src/scss/plyr.scss ***!
+  \*************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../../css-loader/lib/css-base.js */ 191)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "@-webkit-keyframes plyr-progress {\n  to {\n    background-position: 25px 0; } }\n\n@keyframes plyr-progress {\n  to {\n    background-position: 25px 0; } }\n\n.plyr {\n  position: relative;\n  max-width: 100%;\n  min-width: 200px;\n  font-family: \"San Francisco\", -apple-system, BlinkMacSystemFont, \".SFNSText-Regular\", Avenir, \"Avenir Next\", \"Helvetica Neue\", \"Segoe UI\", Helvetica, Arial, sans-serif;\n  direction: ltr; }\n  .plyr,\n  .plyr *,\n  .plyr *::after,\n  .plyr *::before {\n    box-sizing: border-box; }\n  .plyr a, .plyr button, .plyr input, .plyr label {\n    -ms-touch-action: manipulation;\n        touch-action: manipulation; }\n  .plyr video,\n  .plyr audio {\n    width: 100%;\n    height: auto;\n    vertical-align: middle;\n    border-radius: inherit; }\n  .plyr input[type='range'] {\n    display: block;\n    height: 20px;\n    width: 100%;\n    margin: 0;\n    padding: 0;\n    vertical-align: middle;\n    -webkit-appearance: none;\n       -moz-appearance: none;\n            appearance: none;\n    cursor: pointer;\n    border: none;\n    background: transparent; }\n    .plyr input[type='range']::-webkit-slider-runnable-track {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      border-radius: 4px;\n      -webkit-user-select: none;\n              user-select: none; }\n    .plyr input[type='range']::-webkit-slider-thumb {\n      -webkit-appearance: none;\n      margin-top: -4px;\n      position: relative;\n      height: 16px;\n      width: 16px;\n      background: #fff;\n      border: 2px solid transparent;\n      border-radius: 100%;\n      -webkit-transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease, -webkit-transform .2s ease;\n      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);\n      box-sizing: border-box; }\n    .plyr input[type='range']::-moz-range-track {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      border-radius: 4px;\n      -moz-user-select: none;\n           user-select: none; }\n    .plyr input[type='range']::-moz-range-thumb {\n      position: relative;\n      height: 16px;\n      width: 16px;\n      background: #fff;\n      border: 2px solid transparent;\n      border-radius: 100%;\n      -webkit-transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease, -webkit-transform .2s ease;\n      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);\n      box-sizing: border-box; }\n    .plyr input[type='range']::-ms-track {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      color: transparent; }\n    .plyr input[type='range']::-ms-fill-upper {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      border-radius: 4px;\n      -ms-user-select: none;\n          user-select: none; }\n    .plyr input[type='range']::-ms-fill-lower {\n      height: 8px;\n      background: transparent;\n      border: 0;\n      border-radius: 4px;\n      -ms-user-select: none;\n          user-select: none;\n      background: #3498db; }\n    .plyr input[type='range']::-ms-thumb {\n      position: relative;\n      height: 16px;\n      width: 16px;\n      background: #fff;\n      border: 2px solid transparent;\n      border-radius: 100%;\n      -webkit-transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, -webkit-transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease;\n      transition: background .2s ease, border .2s ease, transform .2s ease, -webkit-transform .2s ease;\n      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);\n      box-sizing: border-box;\n      margin-top: 0; }\n    .plyr input[type='range']::-ms-tooltip {\n      display: none; }\n    .plyr input[type='range']:focus {\n      outline: 0; }\n    .plyr input[type='range']::-moz-focus-outer {\n      border: 0; }\n    .plyr input[type='range'].tab-focus:focus {\n      outline-offset: 3px; }\n    .plyr input[type='range']:active::-webkit-slider-thumb {\n      background: #3498db;\n      border-color: #fff;\n      -webkit-transform: scale(1.25);\n              transform: scale(1.25); }\n    .plyr input[type='range']:active::-moz-range-thumb {\n      background: #3498db;\n      border-color: #fff;\n      transform: scale(1.25); }\n    .plyr input[type='range']:active::-ms-thumb {\n      background: #3498db;\n      border-color: #fff;\n      transform: scale(1.25); }\n\n.plyr--video input[type='range'].tab-focus:focus {\n  outline: 1px dotted rgba(255, 255, 255, 0.5); }\n\n.plyr--audio input[type='range'].tab-focus:focus {\n  outline: 1px dotted rgba(86, 93, 100, 0.5); }\n\n.plyr__sr-only {\n  clip: rect(1px, 1px, 1px, 1px);\n  overflow: hidden;\n  position: absolute !important;\n  padding: 0 !important;\n  border: 0 !important;\n  height: 1px !important;\n  width: 1px !important; }\n\n.plyr__video-wrapper {\n  position: relative;\n  background: #000;\n  border-radius: inherit;\n  -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC); }\n\n.plyr__video-embed {\n  padding-bottom: 56.25%;\n  /* 16:9 */\n  height: 0;\n  overflow: hidden;\n  border-radius: inherit; }\n  .plyr__video-embed iframe {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    border: 0;\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none; }\n  .plyr__video-embed > div {\n    position: relative;\n    padding-bottom: 200%;\n    -webkit-transform: translateY(-35.95%);\n            transform: translateY(-35.95%); }\n\n.plyr .plyr__video-embed iframe {\n  pointer-events: none; }\n\n.plyr video::-webkit-media-text-track-container {\n  display: none; }\n\n.plyr__captions {\n  display: none;\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  padding: 20px;\n  -webkit-transform: translateY(-60px);\n          transform: translateY(-60px);\n  -webkit-transition: -webkit-transform .3s ease;\n  transition: -webkit-transform .3s ease;\n  transition: transform .3s ease;\n  transition: transform .3s ease, -webkit-transform .3s ease;\n  color: #fff;\n  font-size: 16px;\n  text-align: center;\n  font-weight: 400; }\n  .plyr__captions span {\n    border-radius: 2px;\n    padding: 3px 10px;\n    background: rgba(0, 0, 0, 0.7); }\n  .plyr__captions span:empty {\n    display: none; }\n  @media (min-width: 768px) {\n    .plyr__captions {\n      font-size: 24px; } }\n\n.plyr--captions-active .plyr__captions {\n  display: block; }\n\n.plyr--fullscreen-active .plyr__captions {\n  font-size: 32px; }\n\n.plyr--hide-controls .plyr__captions {\n  -webkit-transform: translateY(-20px);\n          transform: translateY(-20px); }\n\n.plyr ::-webkit-media-controls {\n  display: none; }\n\n.plyr__controls {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  line-height: 1;\n  text-align: center; }\n  .plyr__controls > button,\n  .plyr__controls .plyr__progress,\n  .plyr__controls .plyr__time {\n    margin-left: 5px; }\n    .plyr__controls > button:first-child,\n    .plyr__controls .plyr__progress:first-child,\n    .plyr__controls .plyr__time:first-child {\n      margin-left: 0; }\n  .plyr__controls .plyr__volume {\n    margin-left: 5px; }\n  .plyr__controls [data-plyr=\"pause\"] {\n    margin-left: 0; }\n  .plyr__controls button {\n    position: relative;\n    display: inline-block;\n    -ms-flex-negative: 0;\n        flex-shrink: 0;\n    overflow: visible;\n    vertical-align: middle;\n    padding: 7px;\n    border: 0;\n    background: transparent;\n    border-radius: 3px;\n    cursor: pointer;\n    -webkit-transition: background .3s ease, color .3s ease, opacity .3s ease;\n    transition: background .3s ease, color .3s ease, opacity .3s ease;\n    color: inherit; }\n    .plyr__controls button svg {\n      width: 18px;\n      height: 18px;\n      display: block;\n      fill: currentColor; }\n    .plyr__controls button:focus {\n      outline: 0; }\n  .plyr__controls .icon--exit-fullscreen,\n  .plyr__controls .icon--muted,\n  .plyr__controls .icon--captions-on {\n    display: none; }\n  @media (min-width: 480px) {\n    .plyr__controls > button,\n    .plyr__controls .plyr__progress,\n    .plyr__controls .plyr__time {\n      margin-left: 10px; } }\n\n.plyr--hide-controls .plyr__controls {\n  opacity: 0;\n  pointer-events: none; }\n\n.plyr--video .plyr__controls {\n  position: absolute;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  padding: 50px 10px 10px;\n  background: -webkit-linear-gradient(transparent, rgba(0, 0, 0, 0.5));\n  background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));\n  border-bottom-left-radius: inherit;\n  border-bottom-right-radius: inherit;\n  color: #fff;\n  -webkit-transition: opacity .3s ease;\n  transition: opacity .3s ease; }\n  .plyr--video .plyr__controls button.tab-focus:focus, .plyr--video .plyr__controls button:hover {\n    background: #3498db;\n    color: #fff; }\n\n.plyr--audio .plyr__controls {\n  padding: 10px;\n  border-radius: inherit;\n  background: #fff;\n  border: 1px solid #dbe3e8;\n  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);\n  color: #565D64; }\n  .plyr--audio .plyr__controls button.tab-focus:focus, .plyr--audio .plyr__controls button:hover {\n    background: #3498db;\n    color: #fff; }\n\n.plyr__play-large {\n  display: none;\n  position: absolute;\n  z-index: 1;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  padding: 10px;\n  background: #3498db;\n  border: 4px solid currentColor;\n  border-radius: 100%;\n  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);\n  color: #fff;\n  -webkit-transition: all .3s ease;\n  transition: all .3s ease; }\n  .plyr__play-large svg {\n    position: relative;\n    left: 2px;\n    width: 20px;\n    height: 20px;\n    display: block;\n    fill: currentColor; }\n  .plyr__play-large:focus {\n    outline: 1px dotted rgba(255, 255, 255, 0.5); }\n\n.plyr .plyr__play-large {\n  display: inline-block; }\n\n.plyr--audio .plyr__play-large {\n  display: none; }\n\n.plyr--playing .plyr__play-large {\n  opacity: 0;\n  visibility: hidden; }\n\n.plyr__controls [data-plyr='pause'],\n.plyr--playing .plyr__controls [data-plyr='play'] {\n  display: none; }\n\n.plyr--playing .plyr__controls [data-plyr='pause'] {\n  display: inline-block; }\n\n.plyr--fullscreen-active .icon--exit-fullscreen,\n.plyr--muted .plyr__controls .icon--muted,\n.plyr--captions-active .plyr__controls .icon--captions-on {\n  display: block; }\n  .plyr--fullscreen-active .icon--exit-fullscreen + svg,\n  .plyr--muted .plyr__controls .icon--muted + svg,\n  .plyr--captions-active .plyr__controls .icon--captions-on + svg {\n    display: none; }\n\n.plyr [data-plyr='captions'],\n.plyr [data-plyr='fullscreen'] {\n  display: none; }\n\n.plyr--captions-enabled [data-plyr='captions'],\n.plyr--fullscreen-enabled [data-plyr='fullscreen'] {\n  display: inline-block; }\n\n.plyr__tooltip {\n  position: absolute;\n  z-index: 2;\n  bottom: 100%;\n  margin-bottom: 10px;\n  padding: 5px 7.5px;\n  pointer-events: none;\n  opacity: 0;\n  background: rgba(0, 0, 0, 0.7);\n  border-radius: 3px;\n  color: #fff;\n  font-size: 14px;\n  line-height: 1.3;\n  -webkit-transform: translate(-50%, 10px) scale(0.8);\n          transform: translate(-50%, 10px) scale(0.8);\n  -webkit-transform-origin: 50% 100%;\n          transform-origin: 50% 100%;\n  -webkit-transition: opacity .2s .1s ease, -webkit-transform .2s .1s ease;\n  transition: opacity .2s .1s ease, -webkit-transform .2s .1s ease;\n  transition: transform .2s .1s ease, opacity .2s .1s ease;\n  transition: transform .2s .1s ease, opacity .2s .1s ease, -webkit-transform .2s .1s ease; }\n  .plyr__tooltip::before {\n    content: '';\n    position: absolute;\n    width: 0;\n    height: 0;\n    left: 50%;\n    -webkit-transform: translateX(-50%);\n            transform: translateX(-50%);\n    bottom: -4px;\n    border-right: 4px solid transparent;\n    border-top: 4px solid rgba(0, 0, 0, 0.7);\n    border-left: 4px solid transparent;\n    z-index: 2; }\n\n.plyr button:hover .plyr__tooltip,\n.plyr button.tab-focus:focus .plyr__tooltip,\n.plyr__tooltip--visible {\n  opacity: 1;\n  -webkit-transform: translate(-50%, 0) scale(1);\n          transform: translate(-50%, 0) scale(1); }\n\n.plyr button:hover .plyr__tooltip {\n  z-index: 3; }\n\n.plyr__controls button:first-child .plyr__tooltip {\n  left: 0;\n  -webkit-transform: translate(0, 10px) scale(0.8);\n          transform: translate(0, 10px) scale(0.8);\n  -webkit-transform-origin: 0 100%;\n          transform-origin: 0 100%; }\n  .plyr__controls button:first-child .plyr__tooltip::before {\n    left: 16px; }\n\n.plyr__controls button:last-child .plyr__tooltip {\n  right: 0;\n  -webkit-transform: translate(0, 10px) scale(0.8);\n          transform: translate(0, 10px) scale(0.8);\n  -webkit-transform-origin: 100% 100%;\n          transform-origin: 100% 100%; }\n  .plyr__controls button:last-child .plyr__tooltip::before {\n    left: auto;\n    right: 16px;\n    -webkit-transform: translateX(50%);\n            transform: translateX(50%); }\n\n.plyr__controls button:first-child:hover .plyr__tooltip,\n.plyr__controls button:first-child.tab-focus:focus .plyr__tooltip,\n.plyr__controls button:first-child .plyr__tooltip--visible,\n.plyr__controls button:last-child:hover .plyr__tooltip,\n.plyr__controls button:last-child.tab-focus:focus .plyr__tooltip,\n.plyr__controls button:last-child .plyr__tooltip--visible {\n  -webkit-transform: translate(0, 0) scale(1);\n          transform: translate(0, 0) scale(1); }\n\n.plyr__progress {\n  display: none;\n  position: relative;\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1; }\n  .plyr__progress input[type=\"range\"] {\n    position: relative;\n    z-index: 2; }\n    .plyr__progress input[type=\"range\"]::-webkit-slider-runnable-track {\n      background: transparent; }\n    .plyr__progress input[type=\"range\"]::-moz-range-track {\n      background: transparent; }\n    .plyr__progress input[type=\"range\"]::-ms-fill-upper {\n      background: transparent; }\n  .plyr__progress .plyr__tooltip {\n    left: 0; }\n\n.plyr .plyr__progress {\n  display: inline-block; }\n\n.plyr__progress--buffer,\n.plyr__progress--played,\n.plyr__volume--display {\n  position: absolute;\n  left: 0;\n  top: 50%;\n  width: 100%;\n  height: 8px;\n  margin: -4px 0 0;\n  padding: 0;\n  vertical-align: top;\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  border: none;\n  border-radius: 100px; }\n  .plyr__progress--buffer::-webkit-progress-bar,\n  .plyr__progress--played::-webkit-progress-bar,\n  .plyr__volume--display::-webkit-progress-bar {\n    background: transparent; }\n  .plyr__progress--buffer::-webkit-progress-value,\n  .plyr__progress--played::-webkit-progress-value,\n  .plyr__volume--display::-webkit-progress-value {\n    background: currentColor;\n    border-radius: 100px;\n    min-width: 8px; }\n  .plyr__progress--buffer::-moz-progress-bar,\n  .plyr__progress--played::-moz-progress-bar,\n  .plyr__volume--display::-moz-progress-bar {\n    background: currentColor;\n    border-radius: 100px;\n    min-width: 8px; }\n  .plyr__progress--buffer::-ms-fill,\n  .plyr__progress--played::-ms-fill,\n  .plyr__volume--display::-ms-fill {\n    border-radius: 100px; }\n\n.plyr__progress--played,\n.plyr__volume--display {\n  z-index: 1;\n  color: #3498db;\n  background: transparent;\n  -webkit-transition: none;\n  transition: none; }\n  .plyr__progress--played::-webkit-progress-value,\n  .plyr__volume--display::-webkit-progress-value {\n    min-width: 8px;\n    max-width: 99%;\n    border-top-right-radius: 0;\n    border-bottom-right-radius: 0;\n    -webkit-transition: none;\n    transition: none; }\n  .plyr__progress--played::-moz-progress-bar,\n  .plyr__volume--display::-moz-progress-bar {\n    min-width: 8px;\n    max-width: 99%;\n    border-top-right-radius: 0;\n    border-bottom-right-radius: 0;\n    -webkit-transition: none;\n    transition: none; }\n  .plyr__progress--played::-ms-fill,\n  .plyr__volume--display::-ms-fill {\n    display: none; }\n\n.plyr__progress--buffer::-webkit-progress-value {\n  -webkit-transition: width .2s ease;\n  transition: width .2s ease; }\n\n.plyr__progress--buffer::-moz-progress-bar {\n  -webkit-transition: width .2s ease;\n  transition: width .2s ease; }\n\n.plyr__progress--buffer::-ms-fill {\n  -webkit-transition: width .2s ease;\n  transition: width .2s ease; }\n\n.plyr--video .plyr__progress--buffer,\n.plyr--video .plyr__volume--display {\n  background: rgba(255, 255, 255, 0.25); }\n\n.plyr--video .plyr__progress--buffer {\n  color: rgba(255, 255, 255, 0.25); }\n\n.plyr--audio .plyr__progress--buffer,\n.plyr--audio .plyr__volume--display {\n  background: rgba(198, 214, 219, 0.67); }\n\n.plyr--audio .plyr__progress--buffer {\n  color: rgba(198, 214, 219, 0.67); }\n\n.plyr--loading .plyr__progress--buffer {\n  -webkit-animation: plyr-progress 1s linear infinite;\n          animation: plyr-progress 1s linear infinite;\n  background-size: 25px 25px;\n  background-repeat: repeat-x;\n  background-image: -webkit-linear-gradient(135deg, rgba(0, 0, 0, 0.15) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0.15) 75%, transparent 75%, transparent);\n  background-image: linear-gradient(-45deg, rgba(0, 0, 0, 0.15) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0.15) 75%, transparent 75%, transparent);\n  color: transparent; }\n\n.plyr--video.plyr--loading .plyr__progress--buffer {\n  background-color: rgba(255, 255, 255, 0.25); }\n\n.plyr--audio.plyr--loading .plyr__progress--buffer {\n  background-color: rgba(198, 214, 219, 0.67); }\n\n.plyr__time {\n  display: inline-block;\n  vertical-align: middle;\n  font-size: 14px; }\n\n.plyr__time + .plyr__time {\n  display: none; }\n  @media (min-width: 768px) {\n    .plyr__time + .plyr__time {\n      display: inline-block; } }\n  .plyr__time + .plyr__time::before {\n    content: '\\2044';\n    margin-right: 10px; }\n\n.plyr__volume {\n  display: none; }\n\n.plyr .plyr__volume {\n  -webkit-box-flex: 1;\n      -ms-flex: 1;\n          flex: 1;\n  position: relative; }\n  .plyr .plyr__volume input[type=\"range\"] {\n    position: relative;\n    z-index: 2; }\n  @media (min-width: 480px) {\n    .plyr .plyr__volume {\n      display: block;\n      max-width: 60px; } }\n  @media (min-width: 768px) {\n    .plyr .plyr__volume {\n      max-width: 100px; } }\n\n.plyr--is-ios .plyr__volume,\n.plyr--is-ios [data-plyr='mute'] {\n  display: none !important; }\n\n.plyr--fullscreen,\n.plyr--fullscreen-active {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  height: 100%;\n  width: 100%;\n  z-index: 10000000;\n  background: #000;\n  border-radius: 0; }\n  .plyr--fullscreen video,\n  .plyr--fullscreen-active video {\n    height: 100%; }\n  .plyr--fullscreen .plyr__video-wrapper,\n  .plyr--fullscreen-active .plyr__video-wrapper {\n    height: 100%;\n    width: 100%; }\n  .plyr--fullscreen .plyr__controls,\n  .plyr--fullscreen-active .plyr__controls {\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    right: 0; }\n  .plyr--fullscreen.plyr--vimeo .plyr__video-wrapper,\n  .plyr--fullscreen-active.plyr--vimeo .plyr__video-wrapper {\n    height: 0;\n    top: 50%;\n    -webkit-transform: translateY(-50%);\n            transform: translateY(-50%); }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 339 */
+/*!**********************************************!*\
+  !*** ./browser/scripts/videoplayer_setup.js ***!
+  \**********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	module.exports = function (plyr) {
+	  return plyr.setup({ iconUrl: __webpack_require__(/*! ~/~/plyr/dist/plyr.svg */ 340) });
+	};
+
+/***/ },
+/* 340 */
+/*!******************************!*\
+  !*** ./~/plyr/dist/plyr.svg ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "plyr.svg";
+
+/***/ },
+/* 341 */
+/*!**********************************************!*\
+  !*** ./browser/styles/cards_animations.sass ***!
+  \**********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./cards_animations.sass */ 342);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 192)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./cards_animations.sass", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./cards_animations.sass");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 342 */
+/*!************************************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/cards_animations.sass ***!
+  \************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 191)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".cardDescription-enter {\n  -webkit-transform: scale3d(0, 1, 1);\n          transform: scale3d(0, 1, 1);\n  display: none;\n  width: 0px;\n  -ms-flex-preferred-size: 0px;\n      flex-basis: 0px; }\n\n.cardDescription-enter.cardDescription-enter-active {\n  display: block;\n  -webkit-animation: openDescription 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) forwards;\n          animation: openDescription 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) forwards;\n  -webkit-transform-origin: left;\n          transform-origin: left; }\n\n.cardDescription-leave.cardDescription-leave-active {\n  -webkit-animation: openDescription 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) reverse forwards;\n          animation: openDescription 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) reverse forwards;\n  -webkit-transform-origin: left;\n          transform-origin: left; }\n\n@-webkit-keyframes openDescription {\n  0% {\n    -webkit-transform: scale3d(0, 1, 1);\n            transform: scale3d(0, 1, 1);\n    display: none;\n    opacity: 0;\n    width: 0px;\n    flex-basis: 0px; }\n  100% {\n    opacity: 1;\n    display: block;\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n    width: 400px;\n    flex-basis: 400px; } }\n\n@keyframes openDescription {\n  0% {\n    -webkit-transform: scale3d(0, 1, 1);\n            transform: scale3d(0, 1, 1);\n    display: none;\n    opacity: 0;\n    width: 0px;\n    -ms-flex-preferred-size: 0px;\n        flex-basis: 0px; }\n  100% {\n    opacity: 1;\n    display: block;\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n    width: 400px;\n    -ms-flex-preferred-size: 400px;\n        flex-basis: 400px; } }\n", ""]);
+	
+	// exports
+
 
 /***/ }
 /******/ ]);
