@@ -61,7 +61,7 @@ router.get('/mediapiston/update/:id', isAdmin, (req, res) => {
   res.render('mediapiston_upload', {update: true});
 });
 
-router.get('/pret-matos',  (req, res) => {
+router.get('/pret-matos', loggedIn, (req, res) => {
   res.render('materiel');
 });
 

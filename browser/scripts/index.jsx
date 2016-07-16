@@ -14,6 +14,7 @@ import Header from "./header.jsx";
 import VideoList from "./video.jsx";
 import MatosList from "./materiel.jsx";
 import VideoPlayer from "./video_player.jsx";
+import AdminFeatures from "./admin_features.jsx";
 
 
 $.get('/ajax/header', (data) => {
@@ -24,6 +25,11 @@ if (window.location.pathname === '/mediapiston' | window.location.pathname === '
   require('~/browser/styles/cards.sass');
   require('~/browser/styles/search.sass');
 
+  $.get('/ajax/mediapiston/adminFeatures', (data) => {
+    // Fonctions Admin
+    if (data.length > 0) require('~/browser/styles/admin_features.sass');
+    render(<AdminFeatures links={data} />, document.getElementById('adminFeatures'));
+  });
   render(<VideoList />, document.getElementById('videosList'));
   // Récupération liste des vidéos
   /*$.get('/ajax/videoList', (data) => {
@@ -52,6 +58,12 @@ if (window.location.pathname === '/pret-matos' | window.location.pathname === '/
   require('~/browser/styles/cards.sass');
   require('~/browser/styles/search.sass');
   require('~/browser/styles/cards_animations.sass');
+
+  $.get('/ajax/pret-matos/adminFeatures', (data) => {
+    // Fonctions Admin
+    if (data.length > 0) require('~/browser/styles/admin_features.sass');
+    render(<AdminFeatures links={data} />, document.getElementById('adminFeatures'));
+  });
 
   render(<MatosList />, document.getElementById('matosList'));
 }

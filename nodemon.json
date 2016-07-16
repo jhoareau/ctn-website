@@ -1,0 +1,7 @@
+{
+  "verbose": true,
+  "ignore": ["browser/*", "views/*", "public/*"],
+  "env": {
+    "NODE_ENV": "development"
+  }
+}

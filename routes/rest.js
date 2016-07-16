@@ -42,6 +42,21 @@ router.get('/header', (req, res) => {
           { title: "Déconnexion", href: '/logout', logout: true },
         ]);
 });
+router.get('/mediapiston/adminFeatures', loggedIn, (req, res) => {
+  if (req.user.admin)
+    return res.json([
+            { title: "Ajouter une vidéo", href: '/mediapiston/upload' }
+                    ]);
+  res.json([]);
+});
+router.get('/pret-matos/adminFeatures', loggedIn, (req, res) => {
+  if (req.user.admin)
+    return res.json([
+            { title: "Ajouter un matériel", href: '/pret-matos/add' },
+            { title: "Gérer le matériel", href: '/pret-matos/admin' }
+                    ]);
+  res.json([]);
+});
 
 router.get('/videoList', loggedIn, (req, res) => {
   mongodb.returnListVideos(null, data => {
@@ -68,25 +83,25 @@ router.put('/video/add', isAdmin, (req, res) => {
   mongodb.addVideo(request, answer => res.json(answer));
 });
 
-router.get('/matosList/public', loggedIn, (req, res) => {
+router.get('/pret-matos/public', loggedIn, (req, res) => {
   mongodb.returnListMateriel(null, data => {
     if (data === null) data = [];
     return res.json(data);
   });
 });
 
-router.get('/matosList/admin', isAdmin, (req, res) => {
+router.get('/pret-matos/admin', isAdmin, (req, res) => {
   mongodb.returnListMateriel(true, data => {
     if (data === null) data = [];
     return res.json(data);
   });
 });
 
-router.post('/matosList/:id/update', isAdmin, (req, res) => {
+router.post('/pret-matos/:id/update', isAdmin, (req, res) => {
   mongodb.updateMateriel(req.params.id, req.body, answer => res.json(answer));
 });
 
-router.put('/matosList/add', isAdmin, (req, res) => {
+router.put('/pret-matos/add', isAdmin, (req, res) => {
   mongodb.addMateriel(req.body, answer => res.json(answer));
 });
 

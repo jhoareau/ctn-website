@@ -8,10 +8,8 @@ class Historique extends React.Component {
 
   render() {
     return (
-      <p>
         <p>Empruntée par {this.props.emprunteur} le {this.props.date_emprunt} avec {this.props.responsable_emprunt}<br/>
         Rendu le {this.props.date_rendu} avec {this.props.reponsable_rendu}</p>
-      </p>
     );
   }
 }

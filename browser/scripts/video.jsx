@@ -15,7 +15,7 @@ class Video extends React.Component {
         </div>
         <div className="mdl-card__supporting-text">
           {description}<br/>
-          <small class="text-muted">Mis en ligne le {this.props.uploadDate} par {this.props.uploader}</small>
+        <small className="text-muted">Mis en ligne le {this.props.uploadDate} par {this.props.uploader}</small>
         </div>
       </div>
     );
