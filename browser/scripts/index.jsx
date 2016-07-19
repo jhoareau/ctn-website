@@ -11,6 +11,7 @@ import '~/browser/styles/global.sass';
 
 /* Components */
 import Header from "./header.jsx";
+import Carousel from "./carousel.jsx";
 import VideoList from "./video.jsx";
 import MatosList from "./materiel.jsx";
 import VideoPlayer from "./video_player.jsx";
@@ -20,6 +21,11 @@ import AdminFeatures from "./admin_features.jsx";
 $.get('/ajax/header', (data) => {
   render(<Header links={data} />, document.getElementById('reactHeader'));
 });
+if (window.location.pathname === '/') {
+  require('~/browser/styles/carousel.sass');
+
+  render(<Carousel />, document.getElementById('mainCarousel'));
+}
 
 if (window.location.pathname === '/mediapiston' | window.location.pathname === '/mediapiston/') {
   require('~/browser/styles/cards.sass');

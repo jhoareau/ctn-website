@@ -25,7 +25,6 @@ class Camera extends React.Component {
   }
   switchDescription() {
     this.setState({description: !this.state.description});
-    this.forceUpdate();
   }
   validerReservation() {
 

@@ -8,7 +8,7 @@ class CarouselItem extends React.Component {
 
   render() {
     return (
-      <div style={{backgroundImage: this.props.imageUrl}} className="carouselItem">
+      <div style={{backgroundImage: 'url(' + this.props.imageUrl + ')'}} className="carouselItem">
         <div className="carouselText">
           <h3>{this.props.title}</h3>
           <p>{this.props.description}</p>
@@ -31,10 +31,9 @@ class CarouselThumb extends React.Component {
 
   render() {
     return (
-      <div style={{backgroundImage: this.props.imageUrl}} className="carouselItem">
-        <div className="carouselText">
-          <h3>{this.props.title}</h3>
-          <p>{this.props.description}</p>
+      <div style={{backgroundImage: 'url(' + this.props.imageUrl + ')'}} className="carouselThumb" onClick={this.props.clickHandler}>
+        <div className="carouselText carouselThumbText">
+          {this.props.title}
         </div>
       </div>
     );
@@ -49,22 +48,29 @@ CarouselThumb.defaultProps = {
 class Carousel extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {openedCarouselItem: 0};
+  }
+
+  openCarouselItem(index) {
+    this.setState({openedCarouselItem: index});
   }
 
   render() {
+    let carouselIndex = this.state.openedCarouselItem;
     return (
       <div className="carousel">
         <div className="carouselContainer">
-          {
-            this.props.carouselList.map(item => {
-              return <CarouselItem {...item} key={JSON.stringify(item)} />
-            })
-          }
+          <ReactCSSTransitionReplace transitionEnterTimeout={600} transitionLeaveTimeout={600} transitionName="carouselReplace">
+            {
+                <CarouselItem {...this.props.carouselList[carouselIndex]} key={carouselIndex} />
+            }
+          </ReactCSSTransitionReplace>
         </div>
         <div className="carouselNavigator">
           {
-            this.props.carouselList.map(item => {
-              return <CarouselThumb {...item} key={JSON.stringify(item)} />
+            this.props.carouselList.map((item, index) => {
+              return <CarouselThumb {...item} key={index} clickHandler={this.openCarouselItem.bind(this, index)} />
             })
           }
         </div>
@@ -72,3 +78,11 @@ class Carousel extends React.Component {
     );
   }
 }
+
+Carousel.defaultProps = {
+  carouselList: [
+    {}, {}, {}, {}
+  ]
+};
+
+export default Carousel;
