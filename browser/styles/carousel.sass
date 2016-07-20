@@ -1,3 +1,6 @@
+.carousel
+  margin-top: 10px
+
 .carouselNavigator
   width: 100%
   text-align: center
@@ -22,3 +25,29 @@
 .carouselThumbText
   font-size: 14px
   padding-left: 0.5em
+
+.carouselContainer
+  height: 50vh
+  width: 80%
+  margin-left: auto
+  margin-right: auto
+
+.carouselReplace-enter
+  animation: openCarousel 0.5s cubic-bezier(0.255, 0.255, 0.53, 1) forwards
+
+.carouselReplace-leave
+  animation: openCarousel 0.5s cubic-bezier(0.255, 0.255, 0.53, 1) forwards reverse
+
+@keyframes openCarousel
+  0%
+    transform: translate3d(0, 100%, 0)
+    opacity: 0
+
+  100%
+    opacity: 1
+    transform: translate3d(0, 0, 0)
+
+.carouselItem
+  height: 100%
+  width: 100%
+  background-size: cover
