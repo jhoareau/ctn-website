@@ -54,6 +54,7 @@ class Carousel extends React.Component {
 
   openCarouselItem(index) {
     this.setState({openedCarouselItem: index});
+    this.forceUpdate();
   }
 
   render() {
@@ -81,7 +82,7 @@ class Carousel extends React.Component {
 
 Carousel.defaultProps = {
   carouselList: [
-    {}, {}, {}, {}
+    {}, {title: "Titre Carousel 2"}, {title: "Titre Carousel 3"}, {title: "Titre Carousel 4"}
   ]
 };
 

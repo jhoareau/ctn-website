@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  form.form-horizontal
+    fieldset.form-group.mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+      label.mdl-textfield__label(for='videoTitle') Titre de la vidéo
+      input.mdl-textfield__input#videoTitle(type='text' name='videoTitle' required)
+      span.mdl-textfield__error Titre requis !
+    fieldset.form-group.mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+      label.mdl-textfield__label(for='videoDesc') Description de la vidéo
+      textarea#videoDesc.mdl-textfield__input(name='videoDesc' required)
+      span.mdl-textfield__error Description requise !
+    fieldset.form-group
+      .col-sm-offset-2.col-sm-10
+        fieldset#dragdrop
+          legend Vidéo (Drag & Drop)
+          #upload-box
+            | Impossible de contacter le serveur d'upload.
+          output#fileName
+          input#fileNameHidden(type='text', style='display: none;', name='fileNameHidden', required='')
+    fieldset.form-group
+      label.col-sm-2.control-label(for='thumbnail') Miniature
+      .col-sm-10
+        input#thumbnail(type='file', name='thumbnail', required='')
+        p.help-block N'oubliez pas de remplir ce champ !
+    fieldset.form-group
+      button.mdl-button.mdl-js-button.mdl-button--raised(type='submit') Upload

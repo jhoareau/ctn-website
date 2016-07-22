@@ -171,6 +171,14 @@
 	  __webpack_require__(/*! ./videoplayer_setup */ 346)(Plyr);
 	}
 	
+	if (window.location.pathname.indexOf('/mediapiston/upload') > -1) {
+	  __webpack_require__(/*! ~/browser/styles/forms.sass */ 350);
+	}
+	
+	/*if(window.location.pathname.match(/pret-matos/gi)) {
+	
+	}*/
+	
 	if (window.location.pathname === '/pret-matos' | window.location.pathname === '/pret-matos/') {
 	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 337);
 	  __webpack_require__(/*! ~/browser/styles/search.sass */ 339);
@@ -36968,6 +36976,7 @@
 	    key: 'openCarouselItem',
 	    value: function openCarouselItem(index) {
 	      this.setState({ openedCarouselItem: index });
+	      this.forceUpdate();
 	    }
 	  }, {
 	    key: 'render',
@@ -37002,7 +37011,7 @@
 	}(_react2.default.Component);
 	
 	Carousel.defaultProps = {
-	  carouselList: [{}, {}, {}, {}]
+	  carouselList: [{}, { title: "Titre Carousel 2" }, { title: "Titre Carousel 3" }, { title: "Titre Carousel 4" }]
 	};
 	
 	exports.default = Carousel;
@@ -53491,6 +53500,52 @@
 	
 	// module
 	exports.push([module.id, ".cardDescription-enter {\n  -webkit-animation: openDescription 0.5s cubic-bezier(0.255, 0.255, 0.53, 1) forwards;\n          animation: openDescription 0.5s cubic-bezier(0.255, 0.255, 0.53, 1) forwards; }\n\n.cardDescription-leave {\n  -webkit-animation: openDescription 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) reverse forwards;\n          animation: openDescription 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) reverse forwards; }\n\n@-webkit-keyframes openDescription {\n  0% {\n    -webkit-transform: scale3d(1, 0, 1);\n            transform: scale3d(1, 0, 1);\n    opacity: 0;\n    line-height: 0px;\n    height: 0px; }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n    line-height: inherit;\n    height: auto; } }\n\n@keyframes openDescription {\n  0% {\n    -webkit-transform: scale3d(1, 0, 1);\n            transform: scale3d(1, 0, 1);\n    opacity: 0;\n    line-height: 0px;\n    height: 0px; }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n    line-height: inherit;\n    height: auto; } }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 350 */
+/*!***********************************!*\
+  !*** ./browser/styles/forms.sass ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./forms.sass */ 351);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 192)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./forms.sass", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./forms.sass");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 351 */
+/*!*************************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/forms.sass ***!
+  \*************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 191)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "label {\n  margin-bottom: 0px; }\n", ""]);
 	
 	// exports
 

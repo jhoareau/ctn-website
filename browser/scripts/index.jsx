@@ -60,6 +60,14 @@ if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
   require('./videoplayer_setup')(Plyr);
 }
 
+if (window.location.pathname.indexOf('/mediapiston/upload') > -1) {
+  require('~/browser/styles/forms.sass');
+}
+
+/*if(window.location.pathname.match(/pret-matos/gi)) {
+
+}*/
+
 if (window.location.pathname === '/pret-matos' | window.location.pathname === '/pret-matos/') {
   require('~/browser/styles/cards.sass');
   require('~/browser/styles/search.sass');
