@@ -120,18 +120,24 @@
 	
 	var _admin_features2 = _interopRequireDefault(_admin_features);
 	
+	var _upload = __webpack_require__(/*! ./upload.jsx */ 352);
+	
+	var _upload2 = _interopRequireDefault(_upload);
+	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	/* Components */
-	// Custom variables needed
+	// Google material-design-lite V1 workaround
+	/* React & libraries & style */
 	
 	
 	_jquery2.default.get('/ajax/header', function (data) {
 	  (0, _reactDom.render)(_react2.default.createElement(_header2.default, { links: data }), document.getElementById('reactHeader'));
-	}); // Google material-design-lite V1 workaround
-	/* React & libraries & style */
+	});
+	
+	/* Components */
+	// Custom variables needed
 	
 	if (window.location.pathname === '/') {
 	  __webpack_require__(/*! ~/browser/styles/carousel.sass */ 335);
@@ -172,7 +178,9 @@
 	}
 	
 	if (window.location.pathname.indexOf('/mediapiston/upload') > -1) {
-	  __webpack_require__(/*! ~/browser/styles/forms.sass */ 350);
+	  __webpack_require__(/*! ~/browser/styles/forms.sass */ 348);
+	
+	  (0, _reactDom.render)(_react2.default.createElement(_upload2.default, null), document.getElementById('uploadSnippet'));
 	}
 	
 	/*if(window.location.pathname.match(/pret-matos/gi)) {
@@ -182,7 +190,7 @@
 	if (window.location.pathname === '/pret-matos' | window.location.pathname === '/pret-matos/') {
 	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 337);
 	  __webpack_require__(/*! ~/browser/styles/search.sass */ 339);
-	  __webpack_require__(/*! ~/browser/styles/cards_animations.sass */ 348);
+	  __webpack_require__(/*! ~/browser/styles/cards_animations.sass */ 350);
 	
 	  _jquery2.default.get('/ajax/pret-matos/adminFeatures', function (data) {
 	    // Fonctions Admin
@@ -36777,7 +36785,7 @@
 	
 	
 	// module
-	exports.push([module.id, "body, html {\n  height: 100%; }\n\n#mainContainer {\n  min-height: 100%;\n  position: relative; }\n\nfooter {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n  height: 60px;\n  line-height: 60px;\n  background-color: #f5f5f5; }\n\nfooter a {\n  display: inline-block;\n  margin-left: 15px;\n  text-decoration: none;\n  color: black; }\n\n.container-fluid {\n  padding-bottom: 100px; }\n", ""]);
+	exports.push([module.id, "body, html {\n  height: 100%; }\n\n#mainContainer {\n  min-height: 100%;\n  position: relative; }\n\nfooter {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n  height: 60px;\n  line-height: 60px;\n  background-color: #f5f5f5; }\n\nfooter a {\n  display: inline-block;\n  margin-left: 15px;\n  text-decoration: none;\n  color: black; }\n\n.container-fluid {\n  padding-bottom: 100px; }\n\nh2.mdl-typography--display-4 {\n  font-size: 4em;\n  padding-top: 5px;\n  padding-bottom: 10px; }\n", ""]);
 	
 	// exports
 
@@ -53460,52 +53468,6 @@
 
 /***/ },
 /* 348 */
-/*!**********************************************!*\
-  !*** ./browser/styles/cards_animations.sass ***!
-  \**********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./cards_animations.sass */ 349);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 192)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./cards_animations.sass", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./cards_animations.sass");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 349 */
-/*!************************************************************************************************!*\
-  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/cards_animations.sass ***!
-  \************************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 191)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, ".cardDescription-enter {\n  -webkit-animation: openDescription 0.5s cubic-bezier(0.255, 0.255, 0.53, 1) forwards;\n          animation: openDescription 0.5s cubic-bezier(0.255, 0.255, 0.53, 1) forwards; }\n\n.cardDescription-leave {\n  -webkit-animation: openDescription 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) reverse forwards;\n          animation: openDescription 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) reverse forwards; }\n\n@-webkit-keyframes openDescription {\n  0% {\n    -webkit-transform: scale3d(1, 0, 1);\n            transform: scale3d(1, 0, 1);\n    opacity: 0;\n    line-height: 0px;\n    height: 0px; }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n    line-height: inherit;\n    height: auto; } }\n\n@keyframes openDescription {\n  0% {\n    -webkit-transform: scale3d(1, 0, 1);\n            transform: scale3d(1, 0, 1);\n    opacity: 0;\n    line-height: 0px;\n    height: 0px; }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n    line-height: inherit;\n    height: auto; } }\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 350 */
 /*!***********************************!*\
   !*** ./browser/styles/forms.sass ***!
   \***********************************/
@@ -53514,7 +53476,7 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./forms.sass */ 351);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./forms.sass */ 349);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 192)(content, {});
@@ -53534,7 +53496,7 @@
 	}
 
 /***/ },
-/* 351 */
+/* 349 */
 /*!*************************************************************************************!*\
   !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/forms.sass ***!
   \*************************************************************************************/
@@ -53545,10 +53507,112 @@
 	
 	
 	// module
-	exports.push([module.id, "label {\n  margin-bottom: 0px; }\n", ""]);
+	exports.push([module.id, "label {\n  margin-bottom: 0px; }\n\nform.form-horizontal {\n  padding-bottom: 10px;\n  width: 50%; }\n\nfieldset.mainInput {\n  width: 80%; }\n\nfieldset.mainInput input {\n  font-size: 2em; }\n\n.formTitle {\n  display: block;\n  padding-top: 10px;\n  width: 100%;\n  text-align: center;\n  font-weight: 300; }\n\nfieldset.form-submit {\n  text-align: center; }\n", ""]);
 	
 	// exports
 
+
+/***/ },
+/* 350 */
+/*!**********************************************!*\
+  !*** ./browser/styles/cards_animations.sass ***!
+  \**********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./cards_animations.sass */ 351);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 192)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./cards_animations.sass", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./cards_animations.sass");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 351 */
+/*!************************************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/cards_animations.sass ***!
+  \************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 191)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".cardDescription-enter {\n  -webkit-animation: openDescription 0.5s cubic-bezier(0.255, 0.255, 0.53, 1) forwards;\n          animation: openDescription 0.5s cubic-bezier(0.255, 0.255, 0.53, 1) forwards; }\n\n.cardDescription-leave {\n  -webkit-animation: openDescription 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) reverse forwards;\n          animation: openDescription 0.5s cubic-bezier(0.47, 0, 0.745, 0.715) reverse forwards; }\n\n@-webkit-keyframes openDescription {\n  0% {\n    -webkit-transform: scale3d(1, 0, 1);\n            transform: scale3d(1, 0, 1);\n    opacity: 0;\n    line-height: 0px;\n    height: 0px; }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n    line-height: inherit;\n    height: auto; } }\n\n@keyframes openDescription {\n  0% {\n    -webkit-transform: scale3d(1, 0, 1);\n            transform: scale3d(1, 0, 1);\n    opacity: 0;\n    line-height: 0px;\n    height: 0px; }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale3d(1, 1, 1);\n            transform: scale3d(1, 1, 1);\n    line-height: inherit;\n    height: auto; } }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 352 */
+/*!************************************!*\
+  !*** ./browser/scripts/upload.jsx ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 15);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Upload = function (_React$Component) {
+	  _inherits(Upload, _React$Component);
+	
+	  function Upload(props) {
+	    _classCallCheck(this, Upload);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Upload).call(this, props));
+	  }
+	
+	  _createClass(Upload, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "i",
+	        { className: "material-icons" },
+	        "cloud_upload"
+	      );
+	    }
+	  }]);
+	
+	  return Upload;
+	}(_react2.default.Component);
+	
+	Upload.defaultProps = {
+	  links: [{ title: "Mediapiston", href: '/mediapiston' }, { title: "Matériel", href: '/pret-matos' }, { title: "A propos", href: '/a-propos' }, { title: "Admin", href: '/ctn-asso' }, { title: "Déconnexion", href: '/logout', logout: true }]
+	};
+	
+	exports.default = Upload;
 
 /***/ }
 /******/ ]);

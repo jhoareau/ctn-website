@@ -16,7 +16,7 @@ import VideoList from "./video.jsx";
 import MatosList from "./materiel.jsx";
 import VideoPlayer from "./video_player.jsx";
 import AdminFeatures from "./admin_features.jsx";
-
+import Upload from "./upload.jsx";
 
 $.get('/ajax/header', (data) => {
   render(<Header links={data} />, document.getElementById('reactHeader'));
@@ -62,6 +62,8 @@ if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
 
 if (window.location.pathname.indexOf('/mediapiston/upload') > -1) {
   require('~/browser/styles/forms.sass');
+
+  render(<Upload />, document.getElementById('uploadSnippet'));
 }
 
 /*if(window.location.pathname.match(/pret-matos/gi)) {
