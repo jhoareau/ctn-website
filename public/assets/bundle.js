@@ -116,10 +116,6 @@
 	
 	var _video_player2 = _interopRequireDefault(_video_player);
 	
-	var _admin_features = __webpack_require__(/*! ./admin_features.jsx */ 334);
-	
-	var _admin_features2 = _interopRequireDefault(_admin_features);
-	
 	var _upload = __webpack_require__(/*! ./upload.jsx */ 352);
 	
 	var _upload2 = _interopRequireDefault(_upload);
@@ -128,32 +124,44 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// Google material-design-lite V1 workaround
-	/* React & libraries & style */
+	/* Common to all pages */
 	
 	
+	/* Components */
+	// Custom variables needed
 	_jquery2.default.get('/ajax/header', function (data) {
 	  (0, _reactDom.render)(_react2.default.createElement(_header2.default, { links: data }), document.getElementById('reactHeader'));
 	});
 	
-	/* Components */
-	// Custom variables needed
-	
+	/* Home page */
+	// Google material-design-lite V1 workaround
+	/* React & libraries & style */
 	if (window.location.pathname === '/') {
 	  __webpack_require__(/*! ~/browser/styles/carousel.sass */ 335);
 	
 	  (0, _reactDom.render)(_react2.default.createElement(_carousel2.default, null), document.getElementById('mainCarousel'));
 	}
 	
-	if (window.location.pathname === '/mediapiston' | window.location.pathname === '/mediapiston/') {
+	/* Common to other pages than Home */
+	if (window.location.pathname.indexOf('mediapiston') > -1 && window.location.pathname.indexOf('upload') < 0 || window.location.pathname.indexOf('/pret-matos') > -1) {
 	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 337);
 	  __webpack_require__(/*! ~/browser/styles/search.sass */ 339);
+	}
 	
-	  _jquery2.default.get('/ajax/mediapiston/adminFeatures', function (data) {
+	/* Pages with Admin Features */
+	if (window.location.pathname === '/mediapiston' || window.location.pathname === '/mediapiston/' || window.location.pathname === '/pret-matos' || window.location.pathname === '/pret-matos/') {
+	
+	  _jquery2.default.get('/ajax/' + window.location.pathname.match(/(mediapiston|pret-matos)/)[0] + '/adminFeatures', function (data) {
 	    // Fonctions Admin
-	    if (data.length > 0) __webpack_require__(/*! ~/browser/styles/admin_features.sass */ 341);
-	    (0, _reactDom.render)(_react2.default.createElement(_admin_features2.default, { links: data }), document.getElementById('adminFeatures'));
+	    if (data.length > 0) {
+	      var AdminFeatures = __webpack_require__(/*! ./admin_features.jsx */ 334).default;
+	      __webpack_require__(/*! ~/browser/styles/admin_features.sass */ 341);
+	      (0, _reactDom.render)(_react2.default.createElement(AdminFeatures, { links: data }), document.getElementById('adminFeatures'));
+	    }
 	  });
+	}
+	
+	if (window.location.pathname === '/mediapiston' || window.location.pathname === '/mediapiston/') {
 	  (0, _reactDom.render)(_react2.default.createElement(_video2.default, null), document.getElementById('videosList'));
 	  // Récupération liste des vidéos
 	  /*$.get('/ajax/videoList', (data) => {
@@ -162,10 +170,13 @@
 	  });*/
 	}
 	
-	if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
-	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 337);
-	  __webpack_require__(/*! ~/browser/styles/search.sass */ 339);
+	if (window.location.pathname === '/pret-matos' || window.location.pathname === '/pret-matos/') {
+	  __webpack_require__(/*! ~/browser/styles/cards_animations.sass */ 350);
 	
+	  (0, _reactDom.render)(_react2.default.createElement(_materiel2.default, null), document.getElementById('matosList'));
+	}
+	
+	if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
 	  // Lecteur Vidéo HTML5
 	  var Plyr = __webpack_require__(/*! ~/~/plyr/dist/plyr.js */ 343);
 	  __webpack_require__(/*! ~/~/plyr/src/scss/plyr.scss */ 344);
@@ -181,24 +192,6 @@
 	  __webpack_require__(/*! ~/browser/styles/forms.sass */ 348);
 	
 	  (0, _reactDom.render)(_react2.default.createElement(_upload2.default, null), document.getElementById('uploadSnippet'));
-	}
-	
-	/*if(window.location.pathname.match(/pret-matos/gi)) {
-	
-	}*/
-	
-	if (window.location.pathname === '/pret-matos' | window.location.pathname === '/pret-matos/') {
-	  __webpack_require__(/*! ~/browser/styles/cards.sass */ 337);
-	  __webpack_require__(/*! ~/browser/styles/search.sass */ 339);
-	  __webpack_require__(/*! ~/browser/styles/cards_animations.sass */ 350);
-	
-	  _jquery2.default.get('/ajax/pret-matos/adminFeatures', function (data) {
-	    // Fonctions Admin
-	    if (data.length > 0) __webpack_require__(/*! ~/browser/styles/admin_features.sass */ 341);
-	    (0, _reactDom.render)(_react2.default.createElement(_admin_features2.default, { links: data }), document.getElementById('adminFeatures'));
-	  });
-	
-	  (0, _reactDom.render)(_react2.default.createElement(_materiel2.default, null), document.getElementById('matosList'));
 	}
 	
 	MaterialComponentHandler.componentHandler.upgradeDom();
@@ -53507,7 +53500,7 @@
 	
 	
 	// module
-	exports.push([module.id, "label {\n  margin-bottom: 0px; }\n\nform.form-horizontal {\n  padding-bottom: 10px;\n  width: 50%; }\n\nfieldset.mainInput {\n  width: 80%; }\n\nfieldset.mainInput input {\n  font-size: 2em; }\n\n.formTitle {\n  display: block;\n  padding-top: 10px;\n  width: 100%;\n  text-align: center;\n  font-weight: 300; }\n\nfieldset.form-submit {\n  text-align: center; }\n", ""]);
+	exports.push([module.id, "label {\n  margin-bottom: 0px; }\n\nform.form-horizontal {\n  padding-bottom: 10px;\n  width: 50%; }\n\nfieldset {\n  width: 80%; }\n\nfieldset.mainInput input {\n  font-size: 2em; }\n\n.formTitle {\n  display: block;\n  padding-top: 10px;\n  width: 100%;\n  text-align: center;\n  font-weight: 300; }\n\nfieldset.form-submit {\n  text-align: center; }\n", ""]);
 	
 	// exports
 
