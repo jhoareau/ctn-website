@@ -26,7 +26,7 @@ fieldset.form-submit
   text-align: center
 
 .uploadBox
-  width: 150px
+  width: calc((150px * 16 / 9))
   height: 150px
   text-align: center
   border-style: dashed
@@ -36,6 +36,32 @@ fieldset.form-submit
   border-radius: 5px
   display: table-cell
   vertical-align: middle
+  user-select: none
+  position: relative
+
+.uploadBox *
+  position: relative
+  z-index: 2
+
+.uploadBox input[type="file"]
+  opacity: 0
+  position: absolute
+  width: 100%
+  height: 100%
+  top: 0
+  left: 0
+  cursor: pointer
+  z-index: 3
+
+.uploadBox canvas
+  position: absolute
+  width: 100%
+  height: 100%
+  top: 0
+  left: 0
+  cursor: pointer
+  z-index: 1
+  opacity: 0.5
 
 .upload-container
   display: table

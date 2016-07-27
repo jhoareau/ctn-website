@@ -53141,7 +53141,7 @@
   \************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -53171,32 +53171,64 @@
 	  }
 	
 	  _createClass(Upload, [{
-	    key: "render",
+	    key: 'thumbFromVideoFile',
+	    value: function thumbFromVideoFile() {
+	      var file = document.getElementById('videoFile').files[0];
+	      var videoObject = document.createElement('video');
+	      videoObject.src = URL.createObjectURL(file) + '#t=20';
+	
+	      setTimeout(function () {
+	        document.getElementById('canvasVideo').getContext('2d').drawImage(videoObject, 0, 0, videoObject.videoWidth, videoObject.videoHeight);
+	        document.getElementById('videoFileName').innerHTML = file.name;
+	      }, 1000);
+	    }
+	  }, {
+	    key: 'thumbFromThumbnailFile',
+	    value: function thumbFromThumbnailFile() {
+	      var file = document.getElementById('thumbnailFile').files[0];
+	      var imageObject = document.createElement('img');
+	      imageObject.src = URL.createObjectURL(file);
+	
+	      setTimeout(function () {
+	        document.getElementById('canvasImage').getContext('2d').drawImage(imageObject, 0, 0, imageObject.width, imageObject.height);
+	        document.getElementById('thumbnailFileName').innerHTML = file.name;
+	      }, 1000);
+	    }
+	  }, {
+	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "upload-container" },
+	        'div',
+	        { className: 'upload-container' },
 	        _react2.default.createElement(
-	          "div",
-	          { className: "uploadBox" },
+	          'div',
+	          { className: 'uploadBox' },
+	          _react2.default.createElement('input', { type: 'file', accept: 'video/mp4', id: 'videoFile', onChange: this.thumbFromVideoFile }),
 	          _react2.default.createElement(
-	            "i",
-	            { className: "material-icons" },
-	            "cloud_upload"
+	            'i',
+	            { className: 'material-icons' },
+	            'cloud_upload'
 	          ),
-	          _react2.default.createElement("br", null),
-	          "Vidéo"
+	          _react2.default.createElement('br', null),
+	          'Vidéo',
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement('span', { id: 'videoFileName' }),
+	          _react2.default.createElement('canvas', { id: 'canvasVideo' })
 	        ),
 	        _react2.default.createElement(
-	          "div",
-	          { className: "uploadBox" },
+	          'div',
+	          { className: 'uploadBox' },
+	          _react2.default.createElement('input', { type: 'file', accept: 'image/*', id: 'thumbnailFile', onChange: this.thumbFromThumbnailFile }),
 	          _react2.default.createElement(
-	            "i",
-	            { className: "material-icons" },
-	            "cloud_upload"
+	            'i',
+	            { className: 'material-icons' },
+	            'cloud_upload'
 	          ),
-	          _react2.default.createElement("br", null),
-	          "Miniature"
+	          _react2.default.createElement('br', null),
+	          'Miniature',
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement('span', { id: 'thumbnailFileName' }),
+	          _react2.default.createElement('canvas', { id: 'canvasImage' })
 	        )
 	      );
 	    }
@@ -53624,7 +53656,7 @@
 	
 	
 	// module
-	exports.push([module.id, "label {\n  margin-bottom: 0px; }\n\nform.form-horizontal {\n  padding-bottom: 10px;\n  width: 70%;\n  text-align: center; }\n\nfieldset {\n  width: 80% !important; }\n\nfieldset.mainInput input {\n  font-size: 2em; }\n\n.formTitle {\n  display: block;\n  padding-top: 10px;\n  width: 100%;\n  text-align: center;\n  font-weight: 300; }\n\nfieldset.form-submit {\n  width: 100% !important;\n  text-align: center; }\n\n.uploadBox {\n  width: 150px;\n  height: 150px;\n  text-align: center;\n  border-style: dashed;\n  border-width: medium;\n  border-color: #c8c8c8;\n  color: #c8c8c8;\n  border-radius: 5px;\n  display: table-cell;\n  vertical-align: middle; }\n\n.upload-container {\n  display: table;\n  border-collapse: separate;\n  border-spacing: 50px;\n  margin-left: auto;\n  margin-right: auto; }\n", ""]);
+	exports.push([module.id, "label {\n  margin-bottom: 0px; }\n\nform.form-horizontal {\n  padding-bottom: 10px;\n  width: 70%;\n  text-align: center; }\n\nfieldset {\n  width: 80% !important; }\n\nfieldset.mainInput input {\n  font-size: 2em; }\n\n.formTitle {\n  display: block;\n  padding-top: 10px;\n  width: 100%;\n  text-align: center;\n  font-weight: 300; }\n\nfieldset.form-submit {\n  width: 100% !important;\n  text-align: center; }\n\n.uploadBox {\n  width: calc((150px * 16 / 9));\n  height: 150px;\n  text-align: center;\n  border-style: dashed;\n  border-width: medium;\n  border-color: #c8c8c8;\n  color: #c8c8c8;\n  border-radius: 5px;\n  display: table-cell;\n  vertical-align: middle;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  position: relative; }\n\n.uploadBox * {\n  position: relative;\n  z-index: 2; }\n\n.uploadBox input[type=\"file\"] {\n  opacity: 0;\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  cursor: pointer;\n  z-index: 3; }\n\n.uploadBox canvas {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  cursor: pointer;\n  z-index: 1;\n  opacity: 0.5; }\n\n.upload-container {\n  display: table;\n  border-collapse: separate;\n  border-spacing: 50px;\n  margin-left: auto;\n  margin-right: auto; }\n", ""]);
 	
 	// exports
 
