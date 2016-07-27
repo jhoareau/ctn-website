@@ -1,12 +1,15 @@
+$upload-color: rgb(200, 200, 200)
+
 label
   margin-bottom: 0px
 
 form.form-horizontal
   padding-bottom: 10px
-  width: 50%
+  width: 70%
+  text-align: center
 
 fieldset
-  width: 80%
+  width: 80% !important
 
 fieldset.mainInput input
   font-size: 2em
@@ -19,4 +22,24 @@ fieldset.mainInput input
   font-weight: 300
 
 fieldset.form-submit
+  width: 100% !important
   text-align: center
+
+.uploadBox
+  width: 150px
+  height: 150px
+  text-align: center
+  border-style: dashed
+  border-width: medium
+  border-color: $upload-color
+  color: $upload-color
+  border-radius: 5px
+  display: table-cell
+  vertical-align: middle
+
+.upload-container
+  display: table
+  border-collapse: separate
+  border-spacing: 50px
+  margin-left: auto
+  margin-right: auto
