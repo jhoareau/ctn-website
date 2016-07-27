@@ -191,7 +191,7 @@
 	if (window.location.pathname.indexOf('/mediapiston/upload') > -1) {
 	  __webpack_require__(/*! ~/browser/styles/forms.sass */ 351);
 	
-	  (0, _reactDom.render)(_react2.default.createElement(_upload2.default, null), document.getElementById('uploadSnippet'));
+	  (0, _reactDom.render)(_react2.default.createElement(_upload2.default, null), document.getElementById('uploadForm'));
 	}
 	
 	MaterialComponentHandler.componentHandler.upgradeDom();
@@ -53161,36 +53161,55 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Upload = function (_React$Component) {
-	  _inherits(Upload, _React$Component);
+	var UploadSnippet = function (_React$Component) {
+	  _inherits(UploadSnippet, _React$Component);
 	
-	  function Upload(props) {
-	    _classCallCheck(this, Upload);
+	  function UploadSnippet(props) {
+	    _classCallCheck(this, UploadSnippet);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Upload).call(this, props));
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(UploadSnippet).call(this, props));
 	  }
 	
-	  _createClass(Upload, [{
+	  _createClass(UploadSnippet, [{
 	    key: 'thumbFromVideoFile',
 	    value: function thumbFromVideoFile() {
 	      var file = document.getElementById('videoFile').files[0];
+	      var canvas = document.getElementById('canvasVideo');
+	
+	      if (file.name.split('.').pop().toLowerCase() !== 'mp4') {
+	        document.getElementById('videoFile').value = '';
+	        document.getElementById('videoFileName').innerHTML = '';
+	        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+	        return false;
+	      }
+	
 	      var videoObject = document.createElement('video');
 	      videoObject.src = URL.createObjectURL(file) + '#t=20';
 	
 	      setTimeout(function () {
 	        document.getElementById('canvasVideo').getContext('2d').drawImage(videoObject, 0, 0, videoObject.videoWidth, videoObject.videoHeight);
 	        document.getElementById('videoFileName').innerHTML = file.name;
+	        document.querySelector('.uploadBox button').style.display = 'inherit';
 	      }, 1000);
 	    }
 	  }, {
 	    key: 'thumbFromThumbnailFile',
 	    value: function thumbFromThumbnailFile() {
 	      var file = document.getElementById('thumbnailFile').files[0];
+	      var canvas = document.getElementById('canvasImage');
+	
+	      if (['png', 'jpg', 'bmp', 'jpeg', 'gif'].indexOf(file.name.split('.').pop().toLowerCase()) < 0) {
+	        document.getElementById('thumbnailFile').value = '';
+	        document.getElementById('thumbnailFileName').innerHTML = '';
+	        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+	        return false;
+	      }
+	
 	      var imageObject = document.createElement('img');
 	      imageObject.src = URL.createObjectURL(file);
 	
 	      setTimeout(function () {
-	        document.getElementById('canvasImage').getContext('2d').drawImage(imageObject, 0, 0, imageObject.width, imageObject.height);
+	        canvas.getContext('2d').drawImage(imageObject, 0, 0, imageObject.width, imageObject.height);
 	        document.getElementById('thumbnailFileName').innerHTML = file.name;
 	      }, 1000);
 	    }
@@ -53203,46 +53222,140 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'uploadBox' },
-	          _react2.default.createElement('input', { type: 'file', accept: 'video/mp4', id: 'videoFile', onChange: this.thumbFromVideoFile }),
+	          _react2.default.createElement('input', { className: 'coverBox', type: 'file', accept: 'video/mp4', id: 'videoFile', onChange: this.thumbFromVideoFile }),
 	          _react2.default.createElement(
-	            'i',
-	            { className: 'material-icons' },
-	            'cloud_upload'
+	            'p',
+	            null,
+	            _react2.default.createElement(
+	              'i',
+	              { className: 'material-icons' },
+	              'cloud_upload'
+	            ),
+	            _react2.default.createElement('br', null),
+	            'Vidéo',
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement('span', { id: 'videoFileName' })
 	          ),
-	          _react2.default.createElement('br', null),
-	          'Vidéo',
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement('span', { id: 'videoFileName' }),
-	          _react2.default.createElement('canvas', { id: 'canvasVideo' })
+	          _react2.default.createElement('canvas', { id: 'canvasVideo', className: 'coverBox' }),
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'btn btn-success' },
+	            'Envoyer'
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'uploadBox' },
-	          _react2.default.createElement('input', { type: 'file', accept: 'image/*', id: 'thumbnailFile', onChange: this.thumbFromThumbnailFile }),
+	          _react2.default.createElement('input', { className: 'coverBox', type: 'file', accept: 'image/*', id: 'thumbnailFile', onChange: this.thumbFromThumbnailFile }),
 	          _react2.default.createElement(
-	            'i',
-	            { className: 'material-icons' },
-	            'cloud_upload'
+	            'p',
+	            null,
+	            _react2.default.createElement(
+	              'i',
+	              { className: 'material-icons' },
+	              'cloud_upload'
+	            ),
+	            _react2.default.createElement('br', null),
+	            'Miniature',
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement('span', { id: 'thumbnailFileName' })
 	          ),
-	          _react2.default.createElement('br', null),
-	          'Miniature',
-	          _react2.default.createElement('br', null),
-	          _react2.default.createElement('span', { id: 'thumbnailFileName' }),
-	          _react2.default.createElement('canvas', { id: 'canvasImage' })
+	          _react2.default.createElement('canvas', { className: 'coverBox', id: 'canvasImage' })
 	        )
 	      );
 	    }
 	  }]);
 	
-	  return Upload;
+	  return UploadSnippet;
 	}(_react2.default.Component);
 	
-	Upload.defaultProps = {
+	UploadSnippet.defaultProps = {
 	  initialVideo: [],
 	  initialThumb: []
 	};
 	
-	exports.default = Upload;
+	var UploadForm = function (_React$Component2) {
+	  _inherits(UploadForm, _React$Component2);
+	
+	  function UploadForm(props) {
+	    _classCallCheck(this, UploadForm);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(UploadForm).call(this, props));
+	  }
+	
+	  _createClass(UploadForm, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'form',
+	          { className: 'form-horizontal mdl-shadow--2dp col-md-6' },
+	          _react2.default.createElement(
+	            'h6',
+	            { className: 'mdl-typography--title formTitle' },
+	            'Détails de la vidéo'
+	          ),
+	          _react2.default.createElement(
+	            'fieldset',
+	            { className: 'form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label mainInput is-invalid is-upgraded' },
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: 'videoTitle', className: 'mdl-textfield__label' },
+	              'Titre de la vidéo'
+	            ),
+	            _react2.default.createElement('input', { id: 'videoTitle', name: 'videoTitle', required: '', className: 'mdl-textfield__input', type: 'text' }),
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'mdl-textfield__error' },
+	              'Titre requis !'
+	            )
+	          ),
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement(
+	            'fieldset',
+	            { className: 'form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-invalid is-upgraded' },
+	            _react2.default.createElement(
+	              'label',
+	              { htmlFor: 'videoDesc', className: 'mdl-textfield__label' },
+	              'Description de la vidéo'
+	            ),
+	            _react2.default.createElement('textarea', { id: 'videoDesc', name: 'videoDesc', required: '', className: 'mdl-textfield__input' }),
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'mdl-textfield__error' },
+	              'Description requise !'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'fieldset',
+	            { className: 'form-group form-submit' },
+	            _react2.default.createElement(
+	              'button',
+	              { type: 'submit', disabled: '', className: 'mdl-button mdl-js-button mdl-button--raised mdl-button--disabled' },
+	              'Upload'
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-md-6' },
+	          _react2.default.createElement(
+	            'h6',
+	            { className: 'mdl-typography--title formTitle' },
+	            'Contenu'
+	          ),
+	          _react2.default.createElement(UploadSnippet, null)
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return UploadForm;
+	}(_react2.default.Component);
+	
+	exports.default = UploadForm;
 
 /***/ },
 /* 335 */
@@ -53656,7 +53769,7 @@
 	
 	
 	// module
-	exports.push([module.id, "label {\n  margin-bottom: 0px; }\n\nform.form-horizontal {\n  padding-bottom: 10px;\n  width: 70%;\n  text-align: center; }\n\nfieldset {\n  width: 80% !important; }\n\nfieldset.mainInput input {\n  font-size: 2em; }\n\n.formTitle {\n  display: block;\n  padding-top: 10px;\n  width: 100%;\n  text-align: center;\n  font-weight: 300; }\n\nfieldset.form-submit {\n  width: 100% !important;\n  text-align: center; }\n\n.uploadBox {\n  width: calc((150px * 16 / 9));\n  height: 150px;\n  text-align: center;\n  border-style: dashed;\n  border-width: medium;\n  border-color: #c8c8c8;\n  color: #c8c8c8;\n  border-radius: 5px;\n  display: table-cell;\n  vertical-align: middle;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  position: relative; }\n\n.uploadBox * {\n  position: relative;\n  z-index: 2; }\n\n.uploadBox input[type=\"file\"] {\n  opacity: 0;\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  cursor: pointer;\n  z-index: 3; }\n\n.uploadBox canvas {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  cursor: pointer;\n  z-index: 1;\n  opacity: 0.5; }\n\n.upload-container {\n  display: table;\n  border-collapse: separate;\n  border-spacing: 50px;\n  margin-left: auto;\n  margin-right: auto; }\n", ""]);
+	exports.push([module.id, "label {\n  margin-bottom: 0px; }\n\nform.form-horizontal {\n  padding-bottom: 10px;\n  width: 70%;\n  text-align: center; }\n\nfieldset {\n  width: 80% !important; }\n\nfieldset.mainInput input {\n  font-size: 2em; }\n\n.formTitle {\n  display: block;\n  padding-top: 10px;\n  width: 100%;\n  text-align: center;\n  font-weight: 300; }\n\nfieldset.form-submit {\n  width: 100% !important;\n  text-align: center; }\n\n.uploadBox {\n  width: calc((200px * 16 / 9));\n  height: 200px;\n  text-align: center;\n  border-style: dashed;\n  border-width: medium;\n  border-color: #c8c8c8;\n  color: #323232;\n  border-radius: 5px;\n  display: table-cell;\n  vertical-align: middle;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  position: relative; }\n\n.uploadBox * {\n  position: relative;\n  z-index: 2; }\n\n.uploadBox .coverBox {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0; }\n\n.uploadBox input[type=\"file\"] {\n  opacity: 0;\n  cursor: pointer;\n  z-index: 3; }\n\n.uploadBox canvas {\n  cursor: pointer;\n  z-index: 1;\n  opacity: 0.7; }\n\n.uploadBox button {\n  position: relative;\n  z-index: 4;\n  display: none; }\n\n.uploadBox p {\n  background-color: rgba(255, 255, 255, 0.5); }\n\n.upload-container {\n  display: table;\n  border-collapse: separate;\n  border-spacing: 50px;\n  margin-left: auto;\n  margin-right: auto; }\n", ""]);
 	
 	// exports
 

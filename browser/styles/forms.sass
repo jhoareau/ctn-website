@@ -1,5 +1,3 @@
-$upload-color: rgb(200, 200, 200)
-
 label
   margin-bottom: 0px
 
@@ -26,13 +24,13 @@ fieldset.form-submit
   text-align: center
 
 .uploadBox
-  width: calc((150px * 16 / 9))
-  height: 150px
+  width: calc((200px * 16 / 9))
+  height: 200px
   text-align: center
   border-style: dashed
   border-width: medium
-  border-color: $upload-color
-  color: $upload-color
+  border-color: rgb(200, 200, 200)
+  color: rgb(50, 50, 50)
   border-radius: 5px
   display: table-cell
   vertical-align: middle
@@ -43,25 +41,30 @@ fieldset.form-submit
   position: relative
   z-index: 2
 
-.uploadBox input[type="file"]
-  opacity: 0
+.uploadBox .coverBox
   position: absolute
   width: 100%
   height: 100%
   top: 0
   left: 0
+
+.uploadBox input[type="file"]
+  opacity: 0
   cursor: pointer
   z-index: 3
 
 .uploadBox canvas
-  position: absolute
-  width: 100%
-  height: 100%
-  top: 0
-  left: 0
   cursor: pointer
   z-index: 1
-  opacity: 0.5
+  opacity: 0.7
+
+.uploadBox button
+  position: relative
+  z-index: 4
+  display: none
+
+.uploadBox p
+  background-color: rgba(255, 255, 255, 0.5)
 
 .upload-container
   display: table

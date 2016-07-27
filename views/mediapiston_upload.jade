@@ -2,20 +2,4 @@ extends layout
 
 block content
   h2.mdl-typography--display-4 Ajouter une vidéo
-  div.row
-    form.form-horizontal.mdl-shadow--2dp.col-md-6
-      h6.mdl-typography--title.formTitle Détails de la vidéo
-      fieldset.form-group.mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label.mainInput
-        label.mdl-textfield__label(for='videoTitle') Titre de la vidéo
-        input.mdl-textfield__input#videoTitle(type='text' name='videoTitle' required)
-        span.mdl-textfield__error Titre requis !
-      br
-      fieldset.form-group.mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-        label.mdl-textfield__label(for='videoDesc') Description de la vidéo
-        textarea#videoDesc.mdl-textfield__input(name='videoDesc' required)
-        span.mdl-textfield__error Description requise !
-      fieldset.form-group.form-submit
-        button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--disabled(type='submit' disabled) Upload
-    div.col-md-6
-      h6.mdl-typography--title.formTitle Contenu
-      div#uploadSnippet
+  div#uploadForm

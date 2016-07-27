@@ -15,7 +15,7 @@ import Carousel from "./carousel.jsx";
 import VideoList from "./video.jsx";
 import MatosList from "./materiel.jsx";
 import VideoPlayer from "./video_player.jsx";
-import Upload from "./upload.jsx";
+import UploadForm from "./upload.jsx";
 
 /* Common to all pages */
 $.get('/ajax/header', (data) => {
@@ -84,7 +84,7 @@ if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
 if (window.location.pathname.indexOf('/mediapiston/upload') > -1) {
   require('~/browser/styles/forms.sass');
 
-  render(<Upload />, document.getElementById('uploadSnippet'));
+  render(<UploadForm />, document.getElementById('uploadForm'));
 }
 
 MaterialComponentHandler.componentHandler.upgradeDom();
