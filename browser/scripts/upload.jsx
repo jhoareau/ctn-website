@@ -1,8 +1,13 @@
 import React from 'react';
 
+/// TODO: Bind state to component view for Pure Immutability
 class UploadSnippet extends React.Component {
   constructor(props) {
     super(props);
+
+    this.uploadVideoFile = this.uploadVideoFile.bind(this);
+    this.thumbFromVideoFile = this.thumbFromVideoFile.bind(this);
+    this.thumbFromThumbnailFile = this.thumbFromThumbnailFile.bind(this);
   }
   thumbFromVideoFile() {
     let file = document.getElementById('videoFile').files[0];
@@ -43,6 +48,9 @@ class UploadSnippet extends React.Component {
       document.getElementById('thumbnailFileName').innerHTML = file.name;
     }, 1000);
   }
+  uploadVideoFile() {
+
+  }
   render() {
     return (
       <div className="upload-container">
@@ -54,7 +62,7 @@ class UploadSnippet extends React.Component {
             <span id="videoFileName"/>
           </p>
           <canvas id='canvasVideo' className="coverBox"/>
-          <button className="btn btn-success">Envoyer</button>
+          <button className="btn btn-success" onClick={this.uploadVideoFile}>Envoyer</button>
         </div>
         <div className="uploadBox">
           <input className="coverBox" type="file" accept="image/*" id="thumbnailFile" onChange={this.thumbFromThumbnailFile}/>

@@ -53161,13 +53161,20 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
+	/// TODO: Bind state to component view for Pure Immutability
+	
 	var UploadSnippet = function (_React$Component) {
 	  _inherits(UploadSnippet, _React$Component);
 	
 	  function UploadSnippet(props) {
 	    _classCallCheck(this, UploadSnippet);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(UploadSnippet).call(this, props));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UploadSnippet).call(this, props));
+	
+	    _this.uploadVideoFile = _this.uploadVideoFile.bind(_this);
+	    _this.thumbFromVideoFile = _this.thumbFromVideoFile.bind(_this);
+	    _this.thumbFromThumbnailFile = _this.thumbFromThumbnailFile.bind(_this);
+	    return _this;
 	  }
 	
 	  _createClass(UploadSnippet, [{
@@ -53214,6 +53221,9 @@
 	      }, 1000);
 	    }
 	  }, {
+	    key: 'uploadVideoFile',
+	    value: function uploadVideoFile() {}
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -53239,7 +53249,7 @@
 	          _react2.default.createElement('canvas', { id: 'canvasVideo', className: 'coverBox' }),
 	          _react2.default.createElement(
 	            'button',
-	            { className: 'btn btn-success' },
+	            { className: 'btn btn-success', onClick: this.uploadVideoFile },
 	            'Envoyer'
 	          )
 	        ),
