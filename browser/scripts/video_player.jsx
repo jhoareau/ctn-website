@@ -6,10 +6,13 @@ class VideoPlayer extends React.Component {
     super(props);
   }
   render() {
+    let thumbUrl = '/videos/' + this.props._id + '.png';
+    let videoUrl = '/videos/' + this.props._id + '.mp4';
+
     return (
       <div className="videoPlayer container">
         <div className="row">
-          <video poster={this.props.thumbUrl} src={this.props.videoUrl} controls="true" />
+          <video poster={thumbUrl} src={videoUrl} controls="true" />
         </div>
         <div className="row videoDetails">
           <div className="col-md-8">
@@ -28,8 +31,7 @@ class VideoPlayer extends React.Component {
   }
 }
 VideoPlayer.defaultProps = {
-  thumbUrl : '/defaults/no_video.png',
-  videoUrl : '/defaults/no_video.mp4',
+  _id: 0,
   title: 'Titre',
   uploadDate: "26/06/2016",
   uploader: 'CTN',

@@ -54,12 +54,12 @@ if (window.location.pathname === '/mediapiston' || window.location.pathname === 
 
 
 if (window.location.pathname === '/mediapiston' || window.location.pathname === '/mediapiston/') {
-  render(<VideoList />, document.getElementById('videosList'));
+  //render(<VideoList />, document.getElementById('videosList'));
   // Récupération liste des vidéos
-  /*$.get('/ajax/videoList', (data) => {
+  $.get('/ajax/videoList', (data) => {
     // VideoList React
     render(<VideoList videoList={data} />, document.getElementById('videosList'));
-  });*/
+  });
 
 }
 
@@ -74,11 +74,17 @@ if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
   let Plyr = require('~/node_modules/plyr/dist/plyr.js');
   require('~/node_modules/plyr/src/scss/plyr.scss');
 
-  // VideoPlayer React
-  render(<VideoPlayer />, document.getElementById('videoContent'));
+  require('~/browser/styles/video_player.sass');
 
-  // Attacher lecteur à la balise <video>
-  require('./videoplayer_setup')(Plyr);
+  let videoID = window.location.pathname.split('/').pop();
+
+  $.get('/ajax/video/' + videoID, (data) => {
+    // VideoPlayer React
+    render(<VideoPlayer {...data} />, document.getElementById('videoContent'));
+    // Attacher lecteur à la balise <video>
+    require('./videoplayer_setup')(Plyr);
+  });
+
 }
 
 if (window.location.pathname.indexOf('/mediapiston/upload') > -1) {

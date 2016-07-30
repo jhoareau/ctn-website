@@ -162,12 +162,12 @@
 	}
 	
 	if (window.location.pathname === '/mediapiston' || window.location.pathname === '/mediapiston/') {
-	  (0, _reactDom.render)(_react2.default.createElement(_video2.default, null), document.getElementById('videosList'));
+	  //render(<VideoList />, document.getElementById('videosList'));
 	  // Récupération liste des vidéos
-	  /*$.get('/ajax/videoList', (data) => {
+	  _jquery2.default.get('/ajax/videoList', function (data) {
 	    // VideoList React
-	    render(<VideoList videoList={data} />, document.getElementById('videosList'));
-	  });*/
+	    (0, _reactDom.render)(_react2.default.createElement(_video2.default, { videoList: data }), document.getElementById('videosList'));
+	  });
 	}
 	
 	if (window.location.pathname === '/pret-matos' || window.location.pathname === '/pret-matos/') {
@@ -177,15 +177,22 @@
 	}
 	
 	if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
-	  // Lecteur Vidéo HTML5
-	  var Plyr = __webpack_require__(/*! ~/~/plyr/dist/plyr.js */ 396);
-	  __webpack_require__(/*! ~/~/plyr/src/scss/plyr.scss */ 397);
+	  (function () {
+	    // Lecteur Vidéo HTML5
+	    var Plyr = __webpack_require__(/*! ~/~/plyr/dist/plyr.js */ 396);
+	    __webpack_require__(/*! ~/~/plyr/src/scss/plyr.scss */ 397);
 	
-	  // VideoPlayer React
-	  (0, _reactDom.render)(_react2.default.createElement(_video_player2.default, null), document.getElementById('videoContent'));
+	    __webpack_require__(/*! ~/browser/styles/video_player.sass */ 403);
 	
-	  // Attacher lecteur à la balise <video>
-	  __webpack_require__(/*! ./videoplayer_setup */ 399)(Plyr);
+	    var videoID = window.location.pathname.split('/').pop();
+	
+	    _jquery2.default.get('/ajax/video/' + videoID, function (data) {
+	      // VideoPlayer React
+	      (0, _reactDom.render)(_react2.default.createElement(_video_player2.default, data), document.getElementById('videoContent'));
+	      // Attacher lecteur à la balise <video>
+	      __webpack_require__(/*! ./videoplayer_setup */ 399)(Plyr);
+	    });
+	  })();
 	}
 	
 	if (window.location.pathname.indexOf('/mediapiston/upload') > -1) {
@@ -37778,16 +37785,19 @@
 	    key: 'render',
 	    value: function render() {
 	      var description = this.props.description;
+	      var thumbUrl = '/videos/' + this.props._id + '.png';
+	      var url = '/mediapiston/watch/' + this.props._id;
 	      if (description.length > 150) description = description.substring(0, 147) + "...";
+	
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'mdl-card mdl-shadow--2dp' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'mdl-card__title', style: { backgroundImage: 'url(' + this.props.thumbUrl + ')' } },
+	          { className: 'mdl-card__title', style: { backgroundImage: 'url(' + thumbUrl + ')' } },
 	          _react2.default.createElement(
 	            'a',
-	            { href: '/mediapiston/watch/' + this.props._id },
+	            { href: url },
 	            _react2.default.createElement(
 	              'h2',
 	              { className: 'mdl-card__title-text' },
@@ -37817,12 +37827,10 @@
 	}(_react2.default.Component);
 	
 	Video.defaultProps = {
-	  thumbUrl: '/defaults/no_video.png',
 	  title: 'Titre',
 	  uploadDate: "26/06/2016",
 	  uploader: 'CTN',
 	  description: 'Vidéo Mediapiston',
-	  url: '/mediapiston/watch/null',
 	  _id: null
 	};
 	
@@ -37857,14 +37865,12 @@
 	
 	VideoList.defaultProps = {
 	  videoList: [{
-	    thumbUrl: '/defaults/no_video.png',
 	    title: 'Titre',
 	    uploadDate: "26/06/2016",
 	    uploader: 'CTN',
 	    description: 'Vidéo Mediapiston',
 	    _id: 0
 	  }, {
-	    thumbUrl: '/defaults/no_video.png',
 	    title: 'Titre 2',
 	    uploadDate: "27/06/2016",
 	    uploader: 'CTN',
@@ -53066,13 +53072,16 @@
 	  _createClass(VideoPlayer, [{
 	    key: 'render',
 	    value: function render() {
+	      var thumbUrl = '/videos/' + this.props._id + '.png';
+	      var videoUrl = '/videos/' + this.props._id + '.mp4';
+	
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'videoPlayer container' },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'row' },
-	          _react2.default.createElement('video', { poster: this.props.thumbUrl, src: this.props.videoUrl, controls: 'true' })
+	          _react2.default.createElement('video', { poster: thumbUrl, src: videoUrl, controls: 'true' })
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -53123,8 +53132,7 @@
 	}(_react2.default.Component);
 	
 	VideoPlayer.defaultProps = {
-	  thumbUrl: '/defaults/no_video.png',
-	  videoUrl: '/defaults/no_video.mp4',
+	  _id: 0,
 	  title: 'Titre',
 	  uploadDate: "26/06/2016",
 	  uploader: 'CTN',
@@ -53152,6 +53160,10 @@
 	var _react = __webpack_require__(/*! react */ 15);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 186);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -53239,11 +53251,12 @@
 	      });
 	
 	      fileUploadSocket.addEventListener('complete', function (event) {
+	        console.log(event);
 	        if (event.success && event.detail.error == "") {
 	          document.getElementById('uploadProgress').style.display = 'none';
 	          document.querySelector('.uploadBox button').style.display = 'none';
 	          document.getElementById('videoFile').style.display = 'none';
-	          document.getElementById('videoFileID').value = event.detail.filename;
+	          document.getElementById('videoFileID').value = event.detail.fileName;
 	          _this2.props.onUploadFinished();
 	        } else {
 	          alert("Erreur d'envoi de la vidéo, veuillez réessayer - " + event.detail.error);
@@ -53335,15 +53348,27 @@
 	    }
 	  }, {
 	    key: 'saveUpload',
-	    value: function saveUpload() {
+	    value: function saveUpload(event) {
+	      event.preventDefault();
 	      // S'il n'y a pas de miniature, la générer à partir du canvasVideo
 	      var uploadData = {
+	        _id: document.getElementById('videoFileID').value,
 	        title: document.getElementById('videoTitle').value,
 	        description: document.getElementById('videoDesc').value
 	      };
 	      if (document.getElementById('thumbnailFile').files.length === 0) {
 	        uploadData.thumbnail = document.getElementById('canvasVideo').toDataURL("image/png");
+	      } else {
+	        uploadData.thumbnail = document.getElementById('canvasImage').toDataURL("image/png");
 	      }
+	      _jquery2.default.ajax({
+	        url: '/ajax/video/add', method: "PUT",
+	        data: uploadData
+	      }).done(function () {
+	        return window.location = '/mediapiston';
+	      }).fail(function (err) {
+	        return console.log(err);
+	      });
 	    }
 	  }, {
 	    key: 'render',
@@ -53353,7 +53378,7 @@
 	        { className: 'row' },
 	        _react2.default.createElement(
 	          'form',
-	          { className: 'form-horizontal mdl-shadow--2dp col-md-6', method: 'POST', action: '/mediapiston/upload' },
+	          { className: 'form-horizontal mdl-shadow--2dp col-md-6', onSubmit: this.saveUpload },
 	          _react2.default.createElement(
 	            'h6',
 	            { className: 'mdl-typography--title formTitle' },
@@ -62176,6 +62201,52 @@
 	
 	// module
 	exports.push([module.id, "label {\n  margin-bottom: 0px; }\n\nform.form-horizontal {\n  padding-bottom: 10px;\n  width: 70%;\n  text-align: center; }\n\nfieldset {\n  width: 80% !important; }\n\nfieldset.mainInput input {\n  font-size: 2em; }\n\n.formTitle {\n  display: block;\n  padding-top: 10px;\n  width: 100%;\n  text-align: center;\n  font-weight: 300; }\n\nfieldset.form-submit {\n  width: 100% !important;\n  text-align: center; }\n\n.uploadBox {\n  width: calc((200px * 16 / 9));\n  height: 200px;\n  text-align: center;\n  border-style: dashed;\n  border-width: medium;\n  border-color: #c8c8c8;\n  color: #323232;\n  border-radius: 5px;\n  display: table-cell;\n  vertical-align: middle;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  position: relative; }\n\n.uploadBox * {\n  position: relative;\n  z-index: 2; }\n\n.uploadBox .coverBox {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0; }\n\n.uploadBox input[type=\"file\"] {\n  opacity: 0;\n  cursor: pointer;\n  z-index: 3; }\n\n.uploadBox canvas {\n  cursor: pointer;\n  z-index: 1;\n  opacity: 0.7; }\n\n.uploadBox button {\n  position: relative;\n  z-index: 4;\n  display: none; }\n\n.uploadBox p {\n  background-color: rgba(255, 255, 255, 0.5); }\n\n.upload-container {\n  display: table;\n  border-collapse: separate;\n  border-spacing: 50px;\n  margin-left: auto;\n  margin-right: auto; }\n\n.mdl-progress {\n  width: 100%;\n  display: none;\n  position: absolute;\n  bottom: 10px; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 403 */
+/*!******************************************!*\
+  !*** ./browser/styles/video_player.sass ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./video_player.sass */ 404);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 192)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./video_player.sass", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./video_player.sass");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 404 */
+/*!********************************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/video_player.sass ***!
+  \********************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 191)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".plyr {\n  width: 80%;\n  margin-left: auto;\n  margin-right: auto; }\n", ""]);
 	
 	// exports
 

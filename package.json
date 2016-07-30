@@ -11,10 +11,12 @@
   "author": "Julien Hoareau <jhoareau@outlook.com>",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.0.1",
     "body-parser": "^1.15.2",
     "compression": "^1.6.2",
     "express": "^4.14.0",
     "express-session": "^1.13.0",
+    "glob": "^7.0.5",
     "helmet": "^2.1.1",
     "jade": "^1.11.0",
     "jquery": "^3.0.0",

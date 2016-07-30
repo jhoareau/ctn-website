@@ -1,6 +1,8 @@
-let mongoose = require('mongoose');
-let {userSchema: userSchema, videoSchema: videoSchema, matosSchema: matosSchema} = require('./mongoose_schemas');
-let config = require('../config.secrets.json');
+const mongoose = require('mongoose');
+const {userSchema: userSchema, videoSchema: videoSchema, matosSchema: matosSchema} = require('./mongoose_schemas');
+const config = require('../config.secrets.json');
+const glob = require('glob');
+const async = require('async');
 
 mongoose.connect('mongodb://' + config.mongo.server + '/' + config.mongo.db, {
   user: config.mongo.user,
@@ -51,16 +53,16 @@ let generateVideoID = (callback) => {
 };
 
 let updateVideo = (id, data, callback) => {
+  let Video = mongoose.model('Video', videoSchema);
+
   Video.findById(id, (err, video) => {
     if (err) throw new Error('Erreur lors de la récupération de la vidéo à mettre à jour.');
     if (video === null) return callback({ok: false});
 
-    video.thumbUrl = data.thumb;
     video.title = data.title;
     video.description = data.description;
     video.date = data.date;
     video.uploader = data.session.uploader;
-    video.url = data.videoURL;
 
     video.save((err) => {
       if (err) throw new Error('Erreur lors de la mise à jour de la vidéo.');

@@ -1,6 +1,8 @@
-let express = require('express');
-let router = express.Router();
-let mongodb = require('../models/mongodb.js');
+const express = require('express');
+const router = express.Router();
+const mongodb = require('../models/mongodb.js');
+const fs = require('fs');
+const path = require('path');
 
 const loggedIn = (req, res, next) => {
   if (req.isAuthenticated())
@@ -80,7 +82,9 @@ router.put('/video/add', isAdmin, (req, res) => {
   let uploader = req.user;
   let request = req.body;
   request.session = uploader;
-  mongodb.addVideo(request, answer => res.json(answer));
+  let thumbnailData = request.thumbnail.replace(/^data:image\/png;base64,/, '');
+  fs.writeFile(path.join(__dirname, '../videos/', request._id + '.png'), thumbnailData, 'base64', err => {if (err) throw err;});
+  mongodb.updateVideo(request._id, request, answer => res.json(answer));
 });
 
 router.get('/pret-matos/public', loggedIn, (req, res) => {

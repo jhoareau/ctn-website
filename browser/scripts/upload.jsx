@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 
 /// TODO: Bind state to component view for Pure Immutability
 class UploadSnippet extends React.Component {
@@ -63,11 +64,12 @@ class UploadSnippet extends React.Component {
     });
 
     fileUploadSocket.addEventListener('complete', event => {
+      console.log(event);
       if (event.success && event.detail.error == "") {
         document.getElementById('uploadProgress').style.display = 'none';
         document.querySelector('.uploadBox button').style.display = 'none';
         document.getElementById('videoFile').style.display = 'none';
-        document.getElementById('videoFileID').value = event.detail.filename;
+        document.getElementById('videoFileID').value = event.detail.fileName;
         this.props.onUploadFinished();
       }
       else {
@@ -122,20 +124,29 @@ class UploadForm extends React.Component {
     document.querySelector('form button[type="submit"]').removeAttribute('disabled');
     document.querySelector('form button[type="submit"]').classList.remove('mdl-button--disabled');
   }
-  saveUpload() {
+  saveUpload(event) {
+    event.preventDefault();
     // S'il n'y a pas de miniature, la générer à partir du canvasVideo
     let uploadData = {
+      _id: document.getElementById('videoFileID').value,
       title: document.getElementById('videoTitle').value,
-      description: document.getElementById('videoDesc').value,
+      description: document.getElementById('videoDesc').value
     };
     if (document.getElementById('thumbnailFile').files.length === 0) {
       uploadData.thumbnail = document.getElementById('canvasVideo').toDataURL("image/png");
     }
+    else {
+      uploadData.thumbnail = document.getElementById('canvasImage').toDataURL("image/png");
+    }
+    $.ajax({
+      url: '/ajax/video/add', method: "PUT",
+      data: uploadData
+    }).done(() => window.location = '/mediapiston').fail((err) => console.log(err));
   }
   render() {
     return (
       <div className="row">
-        <form className="form-horizontal mdl-shadow--2dp col-md-6" method="POST" action="/mediapiston/upload">
+        <form className="form-horizontal mdl-shadow--2dp col-md-6" onSubmit={this.saveUpload}>
           <h6 className="mdl-typography--title formTitle">Détails de la vidéo</h6>
           <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label mainInput">
             <label htmlFor="videoTitle" className="mdl-textfield__label">Titre de la vidéo</label>
