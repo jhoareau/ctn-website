@@ -1,6 +1,6 @@
 {
   "verbose": true,
-  "ignore": ["browser/*", "views/*", "public/*"],
+  "ignore": ["browser/*", "views/*", "public/*", "webpack.config.js"],
   "env": {
     "NODE_ENV": "development"
   }

@@ -49,7 +49,33 @@ class UploadSnippet extends React.Component {
     }, 1000);
   }
   uploadVideoFile() {
+    let io = require('socket.io-client');
+    let ioFileUpload = require('~/browser/scripts/siofu_client');
+    document.getElementById('uploadProgress').style.display = 'block';
+    let socket = io.connect();
 
+    let fileUploadSocket = new ioFileUpload(socket);
+    let fileToUpload = document.getElementById('videoFile').files;
+
+    fileUploadSocket.addEventListener('progress', event => {
+      let percent = event.bytesLoaded / event.file.size * 100;
+      document.getElementById('uploadProgress').MaterialProgress.setProgress(percent);
+    });
+
+    fileUploadSocket.addEventListener('complete', event => {
+      if (event.success && event.detail.error == "") {
+        document.getElementById('uploadProgress').style.display = 'none';
+        this.props.onUploadFinished();
+      }
+      else {
+        alert("Erreur d'envoi de la vidéo, veuillez réessayer - " + event.detail.error);
+      }
+    });
+    fileUploadSocket.addEventListener('error', event => {
+      document.getElementById('uploadProgress').classList.add('mdl-progress__indeterminate');
+      alert("Erreur d'envoi de la vidéo, veuillez réessayer - " + event.error);
+    });
+    fileUploadSocket.submitFiles(fileToUpload);
   }
   render() {
     return (
@@ -63,6 +89,7 @@ class UploadSnippet extends React.Component {
           </p>
           <canvas id='canvasVideo' className="coverBox"/>
           <button className="btn btn-success" onClick={this.uploadVideoFile}>Envoyer</button>
+          <div id="uploadProgress" className="mdl-progress mdl-js-progress"></div>
         </div>
         <div className="uploadBox">
           <input className="coverBox" type="file" accept="image/*" id="thumbnailFile" onChange={this.thumbFromThumbnailFile}/>
@@ -87,6 +114,9 @@ class UploadForm extends React.Component {
   constructor(props) {
     super(props);
   }
+  allowUpload() {
+    document.querySelector('form button[type="submit"]').removeAttribute('disabled');
+  }
   render() {
     return (
       <div className="row">
@@ -106,7 +136,7 @@ class UploadForm extends React.Component {
         </form>
         <div className="col-md-6">
           <h6 className="mdl-typography--title formTitle">Contenu</h6>
-          <UploadSnippet />
+          <UploadSnippet onUploadFinished={this.allowUpload}/>
         </div>
       </div>
     );

@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
+const StringReplacePlugin = require('string-replace-webpack-plugin');
 
 let minimize = process.argv.indexOf('--minimize') !== -1;
 let pluginArray = [];

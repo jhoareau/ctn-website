@@ -3,3 +3,5 @@ npm-debug.log.*
 node_modules
 config.secrets.json
 launchMongo.bat
+videos/*
+!videos/NOT_EMPTY
