@@ -39,21 +39,14 @@ let returnVideo = (id, callback) => {
   }
 }
 
-let addVideo = (data, callback) => {
+let generateVideoID = (callback) => {
   let Video = mongoose.model('Video', videoSchema);
-  let schema = {
-    thumbUrl: data.thumb,
-    title: data.title,
-    description: data.description,
-    date: new Date(),
-    uploader: data.session.uploader,
-    url: data.videoURL
-  };
+  let schema = {};
 
   let newVideo = new Video(schema);
-  newVideo.save((err) => {
+  newVideo.save((err, importedObject) => {
     if (err) throw new Error("Erreur lors de l'ajout de la nouvelle vidéo.");
-    callback({ok: true});
+    callback(importedObject._id);
   });
 };
 
@@ -65,6 +58,8 @@ let updateVideo = (id, data, callback) => {
     video.thumbUrl = data.thumb;
     video.title = data.title;
     video.description = data.description;
+    video.date = data.date;
+    video.uploader = data.session.uploader;
     video.url = data.videoURL;
 
     video.save((err) => {
@@ -127,5 +122,8 @@ let updateMateriel = (id, data, callback) => {
   });
 };
 
-module.exports = {returnUser: returnUser, returnListVideos: returnVideo, returnVideo: returnVideo, addVideo: addVideo, updateVideo: updateVideo,
-                  returnListMateriel: returnListMateriel, addMateriel: addMateriel, updateMateriel: updateMateriel};
+module.exports = {returnUser: returnUser,
+                  returnListVideos: returnVideo, returnVideo: returnVideo,
+                  generateVideoID: generateVideoID, updateVideo: updateVideo,
+                  returnListMateriel: returnListMateriel,
+                  addMateriel: addMateriel, updateMateriel: updateMateriel};

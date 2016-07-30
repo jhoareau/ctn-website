@@ -65,6 +65,9 @@ class UploadSnippet extends React.Component {
     fileUploadSocket.addEventListener('complete', event => {
       if (event.success && event.detail.error == "") {
         document.getElementById('uploadProgress').style.display = 'none';
+        document.querySelector('.uploadBox button').style.display = 'none';
+        document.getElementById('videoFile').style.display = 'none';
+        document.getElementById('videoFileID').value = event.detail.filename;
         this.props.onUploadFinished();
       }
       else {
@@ -82,6 +85,7 @@ class UploadSnippet extends React.Component {
       <div className="upload-container">
         <div className="uploadBox">
           <input className="coverBox" type="file" accept="video/mp4" id="videoFile" onChange={this.thumbFromVideoFile}/>
+          <input type="hidden" id="videoFileID" required="required" value="undefined"/>
           <p>
             <i className="material-icons">cloud_upload</i><br/>
             Vidéo<br/>
@@ -116,22 +120,33 @@ class UploadForm extends React.Component {
   }
   allowUpload() {
     document.querySelector('form button[type="submit"]').removeAttribute('disabled');
+    document.querySelector('form button[type="submit"]').classList.remove('mdl-button--disabled');
+  }
+  saveUpload() {
+    // S'il n'y a pas de miniature, la générer à partir du canvasVideo
+    let uploadData = {
+      title: document.getElementById('videoTitle').value,
+      description: document.getElementById('videoDesc').value,
+    };
+    if (document.getElementById('thumbnailFile').files.length === 0) {
+      uploadData.thumbnail = document.getElementById('canvasVideo').toDataURL("image/png");
+    }
   }
   render() {
     return (
       <div className="row">
-        <form className="form-horizontal mdl-shadow--2dp col-md-6">
+        <form className="form-horizontal mdl-shadow--2dp col-md-6" method="POST" action="/mediapiston/upload">
           <h6 className="mdl-typography--title formTitle">Détails de la vidéo</h6>
-          <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label mainInput is-invalid is-upgraded">
+          <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label mainInput">
             <label htmlFor="videoTitle" className="mdl-textfield__label">Titre de la vidéo</label>
-            <input id="videoTitle" name="videoTitle" required="" className="mdl-textfield__input" type="text"/><span className="mdl-textfield__error">Titre requis !</span>
+            <input id="videoTitle" name="videoTitle" required="required" className="mdl-textfield__input" type="text"/><span className="mdl-textfield__error">Titre requis !</span>
           </fieldset><br />
-          <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-invalid is-upgraded">
+          <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label htmlFor="videoDesc" className="mdl-textfield__label">Description de la vidéo</label>
-            <textarea id="videoDesc" name="videoDesc" required="" className="mdl-textfield__input"></textarea><span className="mdl-textfield__error">Description requise !</span>
+            <textarea id="videoDesc" name="videoDesc" required="required" className="mdl-textfield__input"></textarea><span className="mdl-textfield__error">Description requise !</span>
           </fieldset>
           <fieldset className="form-group form-submit">
-            <button type="submit" disabled="" className="mdl-button mdl-js-button mdl-button--raised mdl-button--disabled">Upload</button>
+            <button type="submit" disabled="disabled" className="mdl-button mdl-js-button mdl-button--raised mdl-button--disabled">Upload</button>
           </fieldset>
         </form>
         <div className="col-md-6">
