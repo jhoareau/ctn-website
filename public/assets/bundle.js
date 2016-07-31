@@ -182,7 +182,7 @@
 	    var Plyr = __webpack_require__(/*! ~/~/plyr/dist/plyr.js */ 396);
 	    __webpack_require__(/*! ~/~/plyr/src/scss/plyr.scss */ 397);
 	
-	    __webpack_require__(/*! ~/browser/styles/video_player.sass */ 403);
+	    __webpack_require__(/*! ~/browser/styles/video_player.sass */ 399);
 	
 	    var videoID = window.location.pathname.split('/').pop();
 	
@@ -190,13 +190,13 @@
 	      // VideoPlayer React
 	      (0, _reactDom.render)(_react2.default.createElement(_video_player2.default, data), document.getElementById('videoContent'));
 	      // Attacher lecteur à la balise <video>
-	      __webpack_require__(/*! ./videoplayer_setup */ 399)(Plyr);
+	      __webpack_require__(/*! ./videoplayer_setup */ 401)(Plyr);
 	    });
 	  })();
 	}
 	
 	if (window.location.pathname.indexOf('/mediapiston/upload') > -1) {
-	  __webpack_require__(/*! ~/browser/styles/forms.sass */ 401);
+	  __webpack_require__(/*! ~/browser/styles/forms.sass */ 403);
 	
 	  (0, _reactDom.render)(_react2.default.createElement(_upload2.default, null), document.getElementById('uploadForm'));
 	}
@@ -53206,6 +53206,8 @@
 	      videoObject.src = URL.createObjectURL(file) + '#t=20';
 	
 	      setTimeout(function () {
+	        canvas.width = videoObject.videoWidth;
+	        canvas.height = videoObject.videoHeight;
 	        document.getElementById('canvasVideo').getContext('2d').drawImage(videoObject, 0, 0, videoObject.videoWidth, videoObject.videoHeight);
 	        document.getElementById('videoFileName').innerHTML = file.name;
 	        document.querySelector('.uploadBox button').style.display = 'inherit';
@@ -53228,6 +53230,8 @@
 	      imageObject.src = URL.createObjectURL(file);
 	
 	      setTimeout(function () {
+	        canvas.width = imageObject.width;
+	        canvas.height = imageObject.height;
 	        canvas.getContext('2d').drawImage(imageObject, 0, 0, imageObject.width, imageObject.height);
 	        document.getElementById('thumbnailFileName').innerHTML = file.name;
 	      }, 1000);
@@ -62139,74 +62143,6 @@
 
 /***/ },
 /* 399 */
-/*!**********************************************!*\
-  !*** ./browser/scripts/videoplayer_setup.js ***!
-  \**********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	module.exports = function (plyr) {
-	  return plyr.setup({ iconUrl: __webpack_require__(/*! ~/~/plyr/dist/plyr.svg */ 400) });
-	};
-
-/***/ },
-/* 400 */
-/*!******************************!*\
-  !*** ./~/plyr/dist/plyr.svg ***!
-  \******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "plyr.svg";
-
-/***/ },
-/* 401 */
-/*!***********************************!*\
-  !*** ./browser/styles/forms.sass ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./forms.sass */ 402);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 192)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./forms.sass", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./forms.sass");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 402 */
-/*!*************************************************************************************!*\
-  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/forms.sass ***!
-  \*************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 191)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "label {\n  margin-bottom: 0px; }\n\nform.form-horizontal {\n  padding-bottom: 10px;\n  width: 70%;\n  text-align: center; }\n\nfieldset {\n  width: 80% !important; }\n\nfieldset.mainInput input {\n  font-size: 2em; }\n\n.formTitle {\n  display: block;\n  padding-top: 10px;\n  width: 100%;\n  text-align: center;\n  font-weight: 300; }\n\nfieldset.form-submit {\n  width: 100% !important;\n  text-align: center; }\n\n.uploadBox {\n  width: calc((200px * 16 / 9));\n  height: 200px;\n  text-align: center;\n  border-style: dashed;\n  border-width: medium;\n  border-color: #c8c8c8;\n  color: #323232;\n  border-radius: 5px;\n  display: table-cell;\n  vertical-align: middle;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  position: relative; }\n\n.uploadBox * {\n  position: relative;\n  z-index: 2; }\n\n.uploadBox .coverBox {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0; }\n\n.uploadBox input[type=\"file\"] {\n  opacity: 0;\n  cursor: pointer;\n  z-index: 3; }\n\n.uploadBox canvas {\n  cursor: pointer;\n  z-index: 1;\n  opacity: 0.7; }\n\n.uploadBox button {\n  position: relative;\n  z-index: 4;\n  display: none; }\n\n.uploadBox p {\n  background-color: rgba(255, 255, 255, 0.5); }\n\n.upload-container {\n  display: table;\n  border-collapse: separate;\n  border-spacing: 50px;\n  margin-left: auto;\n  margin-right: auto; }\n\n.mdl-progress {\n  width: 100%;\n  display: none;\n  position: absolute;\n  bottom: 10px; }\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 403 */
 /*!******************************************!*\
   !*** ./browser/styles/video_player.sass ***!
   \******************************************/
@@ -62215,7 +62151,7 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./video_player.sass */ 404);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./video_player.sass */ 400);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 192)(content, {});
@@ -62235,7 +62171,7 @@
 	}
 
 /***/ },
-/* 404 */
+/* 400 */
 /*!********************************************************************************************!*\
   !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/video_player.sass ***!
   \********************************************************************************************/
@@ -62247,6 +62183,74 @@
 	
 	// module
 	exports.push([module.id, ".plyr {\n  width: 80%;\n  margin-left: auto;\n  margin-right: auto; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 401 */
+/*!**********************************************!*\
+  !*** ./browser/scripts/videoplayer_setup.js ***!
+  \**********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	module.exports = function (plyr) {
+	  return plyr.setup({ iconUrl: __webpack_require__(/*! ~/~/plyr/dist/plyr.svg */ 402) });
+	};
+
+/***/ },
+/* 402 */
+/*!******************************!*\
+  !*** ./~/plyr/dist/plyr.svg ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "plyr.svg";
+
+/***/ },
+/* 403 */
+/*!***********************************!*\
+  !*** ./browser/styles/forms.sass ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./forms.sass */ 404);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 192)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./forms.sass", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./forms.sass");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 404 */
+/*!*************************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/forms.sass ***!
+  \*************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 191)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "label {\n  margin-bottom: 0px; }\n\nform.form-horizontal {\n  padding-bottom: 10px;\n  width: 70%;\n  text-align: center; }\n\nfieldset {\n  width: 80% !important; }\n\nfieldset.mainInput input {\n  font-size: 2em; }\n\n.formTitle {\n  display: block;\n  padding-top: 10px;\n  width: 100%;\n  text-align: center;\n  font-weight: 300; }\n\nfieldset.form-submit {\n  width: 100% !important;\n  text-align: center; }\n\n.uploadBox {\n  width: calc((200px * 16 / 9));\n  height: 200px;\n  text-align: center;\n  border-style: dashed;\n  border-width: medium;\n  border-color: #c8c8c8;\n  color: #323232;\n  border-radius: 5px;\n  display: table-cell;\n  vertical-align: middle;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  position: relative; }\n\n.uploadBox * {\n  position: relative;\n  z-index: 2; }\n\n.uploadBox .coverBox {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0; }\n\n.uploadBox input[type=\"file\"] {\n  opacity: 0;\n  cursor: pointer;\n  z-index: 3; }\n\n.uploadBox canvas {\n  cursor: pointer;\n  z-index: 1;\n  opacity: 0.7;\n  border-radius: 5px; }\n\n.uploadBox button {\n  position: relative;\n  z-index: 4;\n  display: none; }\n\n.uploadBox p {\n  background-color: rgba(255, 255, 255, 0.5); }\n\n.upload-container {\n  display: table;\n  border-collapse: separate;\n  border-spacing: 50px;\n  margin-left: auto;\n  margin-right: auto; }\n\n.mdl-progress {\n  width: 100%;\n  display: none;\n  position: absolute;\n  bottom: 10px; }\n", ""]);
 	
 	// exports
 

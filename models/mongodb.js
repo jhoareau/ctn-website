@@ -71,6 +71,15 @@ let updateVideo = (id, data, callback) => {
   });
 };
 
+let deleteVideo = (id, callback) => {
+  let Video = mongoose.model('Video', videoSchema);
+
+  Video.findByIdAndRemove(id, err => {
+    if (err) throw new Error('Erreur lors de la suppression de la vidéo.');
+    callback({ok: true});
+  });
+};
+
 let returnListMateriel = (admin, callback) => {
   let Materiel = mongoose.model('Materiel', matosSchema);
   if (admin) {
@@ -126,6 +135,6 @@ let updateMateriel = (id, data, callback) => {
 
 module.exports = {returnUser: returnUser,
                   returnListVideos: returnVideo, returnVideo: returnVideo,
-                  generateVideoID: generateVideoID, updateVideo: updateVideo,
+                  generateVideoID: generateVideoID, updateVideo: updateVideo, deleteVideo: deleteVideo,
                   returnListMateriel: returnListMateriel,
                   addMateriel: addMateriel, updateMateriel: updateMateriel};

@@ -78,6 +78,14 @@ router.post('/video/:id/update', isAdmin, (req, res) => {
   mongodb.updateMateriel(req.params.id, req.body, answer => res.json(answer));
 });
 
+router.delete('/video/:id/delete', isAdmin, (req, res) => {
+  mongodb.deleteVideo(req.params.id, data => {
+    fs.unlink(path.join(__dirname, '../videos/', req.params.id + '.mp4'), err => {});
+    fs.unlink(path.join(__dirname, '../videos/', req.params.id + '.png'), err => {});
+    return res.json(data);
+  });
+});
+
 router.put('/video/add', isAdmin, (req, res) => {
   let uploader = req.user;
   let request = req.body;
