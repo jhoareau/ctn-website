@@ -67,6 +67,14 @@ router.get('/videoList', loggedIn, (req, res) => {
   });
 });
 
+router.get('/videoList/related/:id', loggedIn, (req, res) => {
+  // TODO vidéos liées à la vidéo en paramètre
+  mongodb.returnListVideos(null, data => {
+    if (data === null) data = [];
+    return res.json(data.slice(0, 5));
+  });
+});
+
 router.get('/video/:id', loggedIn, (req, res) => {
   mongodb.returnListVideos(req.params.id, data => {
     if (data === null) data = {};
@@ -90,6 +98,7 @@ router.put('/video/add', isAdmin, (req, res) => {
   let uploader = req.user;
   let request = req.body;
   request.session = uploader;
+  request.date = new Date();
   let thumbnailData = request.thumbnail.replace(/^data:image\/png;base64,/, '');
   fs.writeFile(path.join(__dirname, '../videos/', request._id + '.png'), thumbnailData, 'base64', err => {if (err) throw err;});
   mongodb.updateVideo(request._id, request, answer => res.json(answer));

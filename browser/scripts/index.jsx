@@ -85,7 +85,7 @@ if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
     // Attacher lecteur à la balise <video>
     require('./videoplayer_setup')(Plyr);
   });
-  $.get('/ajax/videoList', (data) => {
+  $.get('/ajax/videoList/related/' + videoID, (data) => {
     // RelatedVideoList React
     render(<RelatedVideoList videoList={data} />, document.getElementById('relatedContent'));
   });

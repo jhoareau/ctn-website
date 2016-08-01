@@ -62,7 +62,7 @@ let updateVideo = (id, data, callback) => {
     video.title = data.title;
     video.description = data.description;
     video.date = data.date;
-    video.uploader = data.session.uploader;
+    video.uploader = data.session.surname;
 
     video.save((err) => {
       if (err) throw new Error('Erreur lors de la mise à jour de la vidéo.');
