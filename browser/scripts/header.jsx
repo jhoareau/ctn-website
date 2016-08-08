@@ -1,8 +1,14 @@
 import React from 'react';
+import InlineSVG from 'svg-inline-react';
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
+    let urlArray = ['admin', 'apropos', 'ctn', 'mediapiston', 'pret'];
+    this.svgMap = new Map();
+    urlArray.forEach(url => {
+      this.svgMap.set(url, <InlineSVG src={require('svg-inline!~/public/defaults/' + url + '.svg')} />);
+    });
   }
   render() {
     return (
@@ -11,9 +17,18 @@ class Header extends React.Component {
             let active = window.location.pathname.indexOf(link.href) != -1;
             let className = active ? 'nav-link active' : 'nav-link';
             if (link.logout) className += " text-danger";
-            return (<li className="nav-item" key={link.href}>
-                      <a href={link.href} className={className}>{link.title}</a>
-                    </li>);
+            if (typeof link.src === 'undefined')
+              return (<li className="nav-item" key={link.href}>
+                        <a href={link.href} className={className}>{link.title}</a>
+                      </li>);
+            else {
+              let svgContent = this.svgMap.get(link.src);
+              return (<li className="nav-item" key={link.href}>
+                        <a href={link.href} className={className}>
+                          {svgContent}
+                        </a>
+                      </li>);
+            }
           })
         }</ul>
     );

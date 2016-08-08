@@ -5,3 +5,6 @@ config.secrets.json
 launchMongo.bat
 videos/*
 !videos/NOT_EMPTY
+public/assets/*
+!public/assets/bundle.js
+!public/assets/bundle.js.map

@@ -3,8 +3,8 @@ doctype html
 html
   meta(charset='utf-8')
   title Mediapiston
-  script(data-pace-options='{ "ajax":false, "restartOnPushState":false, "restartOnRequestAfter":false }' src="/assets/pace.min.js")
-  link(href="/assets/pace-theme.css" rel="stylesheet")
+  script(data-pace-options='{ "ajax":false, "restartOnPushState":false, "restartOnRequestAfter":false }' src="/defaults/pace.min.js")
+  link(href="/defaults/pace-theme.css" rel="stylesheet")
   style.
     // Page load using Pace.js
     body > :not(.pace), body::before, body::after {
@@ -18,7 +18,7 @@ html
       header
         nav.navbar.navbar-light.bg-faded.navbar-full
           a.navbar-brand(href='/')
-            img(src='/defaults/logo-ctn.jpg' width='50' height='50')
+            img(src='/defaults/ctn.svg')
           block search
           div#reactHeader.pull-xs-right
       section.container-fluid
