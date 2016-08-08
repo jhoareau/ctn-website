@@ -55,7 +55,7 @@ class Camera extends React.Component {
     };
 
     return (
-        <div className="mdl-card mdl-shadow--2dp" data-id={this.props._id}>
+        <div className="mdl-card display_card mdl-shadow--2dp" data-id={this.props._id}>
           <div className="mdl-card__title" style={{backgroundImage: 'url(' + this.props.thumbUrl + ')'}}>
             <h2 className="mdl-card__title-text">{this.props.name}</h2>
           </div>

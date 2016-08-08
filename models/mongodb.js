@@ -62,12 +62,21 @@ let updateVideo = (id, data, callback) => {
     video.title = data.title;
     video.description = data.description;
     video.date = data.date;
-    video.uploader = data.session.uploader;
+    video.uploader = data.session.surname;
 
     video.save((err) => {
       if (err) throw new Error('Erreur lors de la mise à jour de la vidéo.');
       callback({ok: true});
     });
+  });
+};
+
+let deleteVideo = (id, callback) => {
+  let Video = mongoose.model('Video', videoSchema);
+
+  Video.findByIdAndRemove(id, err => {
+    if (err) throw new Error('Erreur lors de la suppression de la vidéo.');
+    callback({ok: true});
   });
 };
 
@@ -126,6 +135,6 @@ let updateMateriel = (id, data, callback) => {
 
 module.exports = {returnUser: returnUser,
                   returnListVideos: returnVideo, returnVideo: returnVideo,
-                  generateVideoID: generateVideoID, updateVideo: updateVideo,
+                  generateVideoID: generateVideoID, updateVideo: updateVideo, deleteVideo: deleteVideo,
                   returnListMateriel: returnListMateriel,
                   addMateriel: addMateriel, updateMateriel: updateMateriel};

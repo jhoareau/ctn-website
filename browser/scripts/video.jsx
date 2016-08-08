@@ -10,9 +10,9 @@ class Video extends React.Component {
     let thumbUrl = '/videos/' + this.props._id + '.png';
     let url = '/mediapiston/watch/' + this.props._id;
     if (description.length > 150) description = description.substring(0, 147) + "...";
-    
+
     return (
-      <div className="mdl-card mdl-shadow--2dp">
+      <div className="mdl-card display_card mdl-shadow--2dp">
         <div className="mdl-card__title" style={{backgroundImage: 'url(' + thumbUrl + ')'}}>
           <a href={url}><h2 className="mdl-card__title-text">{this.props.title}</h2></a>
         </div>
@@ -32,7 +32,7 @@ Video.defaultProps = {
   _id: null
 };
 
-class VideoList extends React.Component {
+export class VideoList extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -80,5 +80,40 @@ VideoList.defaultProps = {
             ]
 };
 
+class RelatedVideo extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    let thumbUrl = '/videos/' + this.props._id + '.png';
+    let url = '/mediapiston/watch/' + this.props._id;
 
-export default VideoList;
+    return (
+      <div className="mdl-card mdl-shadow--2dp" style={{backgroundImage: 'url(' + thumbUrl + ')'}}>
+        <div className="mdl-card__title mdl-card--expand"></div>
+        <div className="mdl-card__actions">
+          <a href={url}><h2 className="mdl-card__title-text">{this.props.title}</h2></a>
+        </div>
+      </div>
+    );
+  }
+}
+RelatedVideo.defaultProps = Video.defaultProps;
+
+export class RelatedVideoList extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    if (this.props.videoList.length > 0)
+      return (
+        <div className="relatedVideoList">
+          <h4 className="display-1">Vidéos suggérées</h4>
+          {this.props.videoList.map((videoObject) => {
+            return <RelatedVideo {...videoObject} key={videoObject._id} />
+          })}
+        </div>
+      );
+  }
+}
+RelatedVideoList.defaultProps = VideoList.defaultProps;

@@ -12,7 +12,7 @@ import '~/browser/styles/global.sass';
 /* Components */
 import Header from "./header.jsx";
 import Carousel from "./carousel.jsx";
-import VideoList from "./video.jsx";
+import {VideoList, RelatedVideoList} from "./video.jsx";
 import MatosList from "./materiel.jsx";
 import VideoPlayer from "./video_player.jsx";
 import UploadForm from "./upload.jsx";
@@ -75,6 +75,7 @@ if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
   require('~/node_modules/plyr/src/scss/plyr.scss');
 
   require('~/browser/styles/video_player.sass');
+  require('~/browser/styles/mediapiston.sass');
 
   let videoID = window.location.pathname.split('/').pop();
 
@@ -83,6 +84,10 @@ if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
     render(<VideoPlayer {...data} />, document.getElementById('videoContent'));
     // Attacher lecteur à la balise <video>
     require('./videoplayer_setup')(Plyr);
+  });
+  $.get('/ajax/videoList/related/' + videoID, (data) => {
+    // RelatedVideoList React
+    render(<RelatedVideoList videoList={data} />, document.getElementById('relatedContent'));
   });
 
 }

@@ -25,6 +25,8 @@ class UploadSnippet extends React.Component {
     videoObject.src = URL.createObjectURL(file) + '#t=20';
 
     setTimeout(() => {
+      canvas.width = videoObject.videoWidth;
+      canvas.height = videoObject.videoHeight;
       document.getElementById('canvasVideo').getContext('2d').drawImage(videoObject, 0, 0, videoObject.videoWidth, videoObject.videoHeight);
       document.getElementById('videoFileName').innerHTML = file.name;
       document.querySelector('.uploadBox button').style.display = 'inherit';
@@ -45,6 +47,8 @@ class UploadSnippet extends React.Component {
     imageObject.src = URL.createObjectURL(file);
 
     setTimeout(() => {
+      canvas.width = imageObject.width;
+      canvas.height = imageObject.height;
       canvas.getContext('2d').drawImage(imageObject, 0, 0, imageObject.width, imageObject.height);
       document.getElementById('thumbnailFileName').innerHTML = file.name;
     }, 1000);
