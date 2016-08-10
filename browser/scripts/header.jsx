@@ -7,7 +7,7 @@ class Header extends React.Component {
     let urlArray = ['admin', 'apropos', 'ctn', 'mediapiston', 'pret'];
     this.svgMap = new Map();
     urlArray.forEach(url => {
-      this.svgMap.set(url, <InlineSVG src={require('svg-inline!~/public/defaults/' + url + '.svg')} />);
+      this.svgMap.set(url, <InlineSVG className="navbarSvg" src={require('svg-inline!~/public/defaults/' + url + '.svg')} />);
     });
   }
   render() {
@@ -19,7 +19,7 @@ class Header extends React.Component {
             if (link.logout) className += " text-danger";
             if (typeof link.src === 'undefined')
               return (<li className="nav-item" key={link.href}>
-                        <a href={link.href} className={className}>{link.title}</a>
+                        <a href={link.href} className={className + ' textLink'}>{link.title}</a>
                       </li>);
             else {
               let svgContent = this.svgMap.get(link.src);
