@@ -74,21 +74,26 @@ class Header extends React.Component {
     let pretSvgCardColor = document.querySelector('.svg_pret svg #Calque_2 *:first-child');
     let pretSvgCard = document.querySelector('.svg_pret svg #Calque_2');
     pretSvg.addEventListener('mouseenter', () => {
+      TweenMax.CSSPlugin.useSVGTransformAttr = false; // 3D SVG Transforms for animatePret
       TweenMax.to(pretSvgCardColor, 1, {
         css: {
           fill: 'rgb(204, 214, 90)',
         },
         ease: TweenMax.Power3.easeOut
       });
+
       TweenMax.to(pretSvgCard, 1, {
         css: {
-          rotation: 360,
+          rotationY: -180,
           transformOrigin: "50% 50%",
         },
         ease: TweenMax.Power3.easeOut
       });
+      setTimeout(() => {TweenMax.CSSPlugin.useSVGTransformAttr = true;}, 2000); // Reset SVG transforms for performance
+
     });
     pretSvg.addEventListener('mouseleave', () => {
+      TweenMax.CSSPlugin.useSVGTransformAttr = false; // 3D SVG Transforms for animatePret
       TweenMax.to(pretSvgCardColor, 1, {
         css: {
           fill: '#fff',
@@ -97,11 +102,12 @@ class Header extends React.Component {
       });
       TweenMax.to(pretSvgCard, 1, {
         css: {
-          rotation: 0,
+          rotationY: 0,
           transformOrigin: "50% 50%",
         },
         ease: TweenMax.Power3.easeOut
       });
+      setTimeout(() => {TweenMax.CSSPlugin.useSVGTransformAttr = true;}, 2000); // Reset SVG transforms for performance
     });
   }
   bindAnimateAdmin(TweenMax) {
@@ -178,12 +184,11 @@ class Header extends React.Component {
     let TweenMax = require('gsap');
     // Attach animation event handlers
     if (this.props.links.length > 2) {
-      this.bindAnimateMediapiston(TweenMax);
       this.bindAnimatePret(TweenMax);
+      this.bindAnimateMediapiston(TweenMax);
     }
     this.bindAnimateApropos(TweenMax);
-    if (this.props.links.length === 5)
-      this.bindAnimateAdmin(TweenMax);
+    if (this.props.links.length === 5) this.bindAnimateAdmin(TweenMax);
   }
 }
 Header.defaultProps = {
