@@ -81,6 +81,8 @@ router.get('/videoList/related/:id', loggedIn, (req, res) => {
 router.get('/video/:id', loggedIn, (req, res) => {
   mongodb.returnListVideos(req.params.id, data => {
     if (data === null) data = {};
+    if (data.length !== 0) data = data.toObject();
+    data.isAdmin = req.user.admin;
     return res.json(data);
   });
 });

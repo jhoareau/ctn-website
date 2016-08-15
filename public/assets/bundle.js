@@ -33245,8 +33245,8 @@
 	
 	      var ev;
 	      if ('CustomEvent' in window && typeof window.CustomEvent === 'function') {
-	        ev = new Event('mdl-componentupgraded', {
-	          'bubbles': true, 'cancelable': false
+	        ev = new CustomEvent('mdl-componentupgraded', {
+	          bubbles: true, cancelable: false
 	        });
 	      } else {
 	        ev = document.createEvent('Events');
@@ -33264,10 +33264,10 @@
 	   */
 	  function upgradeElementsInternal(elements) {
 	    if (!Array.isArray(elements)) {
-	      if (typeof elements.item === 'function') {
-	        elements = Array.prototype.slice.call(/** @type {Array} */ (elements));
-	      } else {
+	      if (elements instanceof Element) {
 	        elements = [elements];
+	      } else {
+	        elements = Array.prototype.slice.call(elements);
 	      }
 	    }
 	    for (var i = 0, n = elements.length, element; i < n; i++) {
@@ -33376,13 +33376,14 @@
 	
 	      var ev;
 	      if ('CustomEvent' in window && typeof window.CustomEvent === 'function') {
-	        ev = new Event('mdl-componentdowngraded', {
-	          'bubbles': true, 'cancelable': false
+	        ev = new CustomEvent('mdl-componentdowngraded', {
+	          bubbles: true, cancelable: false
 	        });
 	      } else {
 	        ev = document.createEvent('Events');
 	        ev.initEvent('mdl-componentdowngraded', true, true);
 	      }
+	      component.element_.dispatchEvent(ev);
 	    }
 	  }
 	
@@ -34806,7 +34807,7 @@
 	   */
 	MaterialRadio.prototype.check = function () {
 	    this.btnElement_.checked = true;
-	    this.updateClasses_();
+	    this.onChange_(null);
 	};
 	MaterialRadio.prototype['check'] = MaterialRadio.prototype.check;
 	/**
@@ -34816,7 +34817,7 @@
 	   */
 	MaterialRadio.prototype.uncheck = function () {
 	    this.btnElement_.checked = false;
-	    this.updateClasses_();
+	    this.onChange_(null);
 	};
 	MaterialRadio.prototype['uncheck'] = MaterialRadio.prototype.uncheck;
 	/**
@@ -36062,16 +36063,16 @@
 	    if (this.element_.classList.contains(this.CssClasses_.LEFT) || this.element_.classList.contains(this.CssClasses_.RIGHT)) {
 	        left = props.width / 2;
 	        if (top + marginTop < 0) {
-	            this.element_.style.top = 0;
-	            this.element_.style.marginTop = 0;
+	            this.element_.style.top = '0';
+	            this.element_.style.marginTop = '0';
 	        } else {
 	            this.element_.style.top = top + 'px';
 	            this.element_.style.marginTop = marginTop + 'px';
 	        }
 	    } else {
 	        if (left + marginLeft < 0) {
-	            this.element_.style.left = 0;
-	            this.element_.style.marginLeft = 0;
+	            this.element_.style.left = '0';
+	            this.element_.style.marginLeft = '0';
 	        } else {
 	            this.element_.style.left = left + 'px';
 	            this.element_.style.marginLeft = marginLeft + 'px';
@@ -36089,11 +36090,11 @@
 	    this.element_.classList.add(this.CssClasses_.IS_ACTIVE);
 	};
 	/**
-	   * Handle mouseleave for tooltip.
+	   * Hide tooltip on mouseleave or scroll
 	   *
 	   * @private
 	   */
-	MaterialTooltip.prototype.handleMouseLeave_ = function () {
+	MaterialTooltip.prototype.hideTooltip_ = function () {
 	    this.element_.classList.remove(this.CssClasses_.IS_ACTIVE);
 	};
 	/**
@@ -36101,7 +36102,7 @@
 	   */
 	MaterialTooltip.prototype.init = function () {
 	    if (this.element_) {
-	        var forElId = this.element_.getAttribute('for');
+	        var forElId = this.element_.getAttribute('for') || this.element_.getAttribute('data-mdl-for');
 	        if (forElId) {
 	            this.forElement_ = document.getElementById(forElId);
 	        }
@@ -36111,11 +36112,12 @@
 	                this.forElement_.setAttribute('tabindex', '0');
 	            }
 	            this.boundMouseEnterHandler = this.handleMouseEnter_.bind(this);
-	            this.boundMouseLeaveHandler = this.handleMouseLeave_.bind(this);
+	            this.boundMouseLeaveAndScrollHandler = this.hideTooltip_.bind(this);
 	            this.forElement_.addEventListener('mouseenter', this.boundMouseEnterHandler, false);
 	            this.forElement_.addEventListener('touchend', this.boundMouseEnterHandler, false);
-	            this.forElement_.addEventListener('mouseleave', this.boundMouseLeaveHandler, false);
-	            window.addEventListener('touchstart', this.boundMouseLeaveHandler);
+	            this.forElement_.addEventListener('mouseleave', this.boundMouseLeaveAndScrollHandler, false);
+	            window.addEventListener('scroll', this.boundMouseLeaveAndScrollHandler, true);
+	            window.addEventListener('touchstart', this.boundMouseLeaveAndScrollHandler);
 	        }
 	    }
 	};
@@ -37171,7 +37173,7 @@
 	
 	
 	// module
-	exports.push([module.id, "body, html {\n  height: 100%; }\n\n#mainContainer {\n  min-height: 100%;\n  position: relative; }\n\nfooter {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n  height: 60px;\n  line-height: 60px;\n  background-color: #f5f5f5; }\n\nfooter a {\n  display: inline-block;\n  margin-left: 15px;\n  text-decoration: none;\n  color: black; }\n\nheader > nav {\n  background-color: #040836; }\n\n.navbar-brand img {\n  height: 80px;\n  width: auto; }\n\n.navbarSvg svg {\n  height: 80px;\n  width: auto; }\n\n.textLink {\n  padding-top: 35px !important;\n  padding-bottom: 35px !important;\n  color: white !important; }\n\n.container-fluid {\n  padding-bottom: 100px; }\n\nh2.mdl-typography--display-4 {\n  font-size: 4em;\n  padding-top: 5px;\n  padding-bottom: 10px; }\n", ""]);
+	exports.push([module.id, "body, html {\n  height: 100%; }\n\n#mainContainer {\n  min-height: 100%;\n  position: relative; }\n\nfooter {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n  height: 60px;\n  line-height: 60px;\n  background-color: #f5f5f5; }\n\nfooter a {\n  display: inline-block;\n  margin-left: 15px;\n  text-decoration: none;\n  color: black; }\n\nheader > nav {\n  background-color: #040836; }\n\n.navbar-brand img {\n  height: 60px;\n  width: auto; }\n\n.navbarSvg svg {\n  height: 60px;\n  width: auto; }\n\n.textLink {\n  padding-top: 25px !important;\n  padding-bottom: 25px !important;\n  color: white !important; }\n\n.navbar-nav .nav-item + .nav-item {\n  margin-left: 0;\n  margin-right: 5px; }\n\n.container-fluid {\n  padding-bottom: 100px; }\n\nh2.mdl-typography--display-4 {\n  font-size: 4em;\n  padding-top: 5px;\n  padding-bottom: 10px; }\n", ""]);
 	
 	// exports
 
@@ -37313,17 +37315,13 @@
 	
 	        TweenMax.to(pretSvgCard, 1, {
 	          css: {
-	            rotationY: -180,
+	            rotation: 20,
 	            transformOrigin: "50% 50%"
 	          },
-	          ease: TweenMax.Power3.easeOut
+	          ease: TweenMax.Back.easeOut.config(5)
 	        });
-	        setTimeout(function () {
-	          TweenMax.CSSPlugin.useSVGTransformAttr = true;
-	        }, 2000); // Reset SVG transforms for performance
 	      });
 	      pretSvg.addEventListener('mouseleave', function () {
-	        TweenMax.CSSPlugin.useSVGTransformAttr = false; // 3D SVG Transforms for animatePret
 	        TweenMax.to(pretSvgCardColor, 1, {
 	          css: {
 	            fill: '#fff'
@@ -37332,14 +37330,11 @@
 	        });
 	        TweenMax.to(pretSvgCard, 1, {
 	          css: {
-	            rotationY: 0,
+	            rotation: 0,
 	            transformOrigin: "50% 50%"
 	          },
-	          ease: TweenMax.Power3.easeOut
+	          ease: TweenMax.Back.easeOut.config(5)
 	        });
-	        setTimeout(function () {
-	          TweenMax.CSSPlugin.useSVGTransformAttr = true;
-	        }, 2000); // Reset SVG transforms for performance
 	      });
 	    }
 	  }, {
@@ -61764,6 +61759,10 @@
 	
 	var moment = _interopRequireWildcard(_moment);
 	
+	var _jquery = __webpack_require__(/*! jquery */ 189);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -61780,19 +61779,56 @@
 	  function VideoPlayer(props) {
 	    _classCallCheck(this, VideoPlayer);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(VideoPlayer).call(this, props));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(VideoPlayer).call(this, props));
+	
+	    _this.deleteVideoConfirm = _this.deleteVideoConfirm.bind(_this);
+	    return _this;
 	  }
 	
 	  _createClass(VideoPlayer, [{
+	    key: 'deleteVideoConfirm',
+	    value: function deleteVideoConfirm() {
+	      if (confirm('Voulez vous vraiment supprimer cette vidéo ?')) {
+	        _jquery2.default.ajax({
+	          url: '/ajax/video/' + this.props._id + '/delete',
+	          method: 'DELETE',
+	          success: function success() {
+	            window.location = '/mediapiston';
+	          },
+	          error: function error() {
+	            alert('Une erreur est survenue.');
+	          }
+	        });
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var thumbUrl = '/videos/' + this.props._id + '.png';
 	      var videoUrl = '/videos/' + this.props._id + '.mp4';
+	      var modifyUrl = '/videos/' + this.props._id;
+	
+	      var videoControls = null;
+	      if (this.props.isAdmin) videoControls = _react2.default.createElement(
+	        'div',
+	        { className: 'videoControls' },
+	        _react2.default.createElement(
+	          'a',
+	          { className: 'mdl-button mdl-js-button mdl-button--raised', href: modifyUrl },
+	          _react2.default.createElement('i', { className: 'fa fa-pencil', 'aria-hidden': 'true' })
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          { className: 'mdl-button mdl-js-button mdl-button--raised', onClick: this.deleteVideoConfirm },
+	          _react2.default.createElement('i', { className: 'fa fa-trash-o', 'aria-hidden': 'true' })
+	        )
+	      );
 	
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'videoPlayer container' },
 	        _react2.default.createElement('video', { poster: thumbUrl, src: videoUrl, controls: 'true' }),
+	        videoControls,
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'videoDetails mdl-shadow--2dp' },
@@ -61851,7 +61887,8 @@
 	  uploadDate: "26/06/2016",
 	  uploader: 'CTN',
 	  description: 'Vidéo Mediapiston',
-	  views: 0
+	  views: 0,
+	  isAdmin: false
 	};
 	
 	exports.default = VideoPlayer;
@@ -70430,7 +70467,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".nav.nav-center {\n  margin: 0;\n  float: none;\n  display: inline-block;\n  left: 0;\n  right: 0; }\n\n.navbar {\n  text-align: center; }\n\n#searchBox input {\n  width: 500px;\n  border-radius: 2px; }\n", ""]);
+	exports.push([module.id, ".nav.nav-center {\n  margin: 0;\n  display: inline-block;\n  line-height: 68px; }\n\n.navbar {\n  text-align: center; }\n\n@media (max-width: 600px) {\n  #searchBox {\n    width: 100vw;\n    height: auto;\n    text-align: left; } }\n\n#searchBox > * {\n  display: inline-block;\n  vertical-align: middle; }\n\n#searchBox input {\n  width: 500px;\n  border-radius: 2px; }\n  @media (max-width: 600px) {\n    #searchBox input {\n      width: calc(100vw - 100px); } }\n", ""]);
 	
 	// exports
 
@@ -70687,7 +70724,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".plyr {\n  width: 100%; }\n\n.videoDetails {\n  display: block;\n  background-color: #fbfbfb;\n  padding: 10px; }\n", ""]);
+	exports.push([module.id, ".plyr {\n  width: 100%; }\n\n.videoControls {\n  margin-top: 10px;\n  text-align: right; }\n\n.videoControls > * {\n  display: inline-block;\n  margin-left: 5px; }\n\n.videoDetails {\n  display: block;\n  background-color: #fbfbfb;\n  padding: 10px; }\n", ""]);
 	
 	// exports
 
@@ -70792,7 +70829,7 @@
 	
 	
 	// module
-	exports.push([module.id, "label {\n  margin-bottom: 0px; }\n\nform.form-horizontal {\n  padding-bottom: 10px;\n  width: 70%;\n  text-align: center; }\n\nfieldset {\n  width: 80% !important; }\n\nfieldset.mainInput input {\n  font-size: 2em; }\n\n.formTitle {\n  display: block;\n  padding-top: 10px;\n  width: 100%;\n  text-align: center;\n  font-weight: 300; }\n\nfieldset.form-submit {\n  width: 100% !important;\n  text-align: center; }\n\n.uploadBox {\n  width: calc((200px * 16 / 9));\n  height: 200px;\n  text-align: center;\n  border-style: dashed;\n  border-width: medium;\n  border-color: #c8c8c8;\n  color: #323232;\n  border-radius: 5px;\n  display: table-cell;\n  vertical-align: middle;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  position: relative; }\n\n.uploadBox * {\n  position: relative;\n  z-index: 2; }\n\n.uploadBox .coverBox {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0; }\n\n.uploadBox input[type=\"file\"] {\n  opacity: 0;\n  cursor: pointer;\n  z-index: 3; }\n\n.uploadBox canvas {\n  cursor: pointer;\n  z-index: 1;\n  opacity: 0.7;\n  border-radius: 5px; }\n\n.uploadBox button {\n  position: relative;\n  z-index: 4;\n  display: none; }\n\n.uploadBox p {\n  background-color: rgba(255, 255, 255, 0.5); }\n\n.upload-container {\n  display: table;\n  border-collapse: separate;\n  border-spacing: 50px;\n  margin-left: auto;\n  margin-right: auto; }\n\n.mdl-progress {\n  width: 100%;\n  display: none;\n  position: absolute;\n  bottom: 10px; }\n", ""]);
+	exports.push([module.id, "label {\n  margin-bottom: 0px; }\n\nform.form-horizontal {\n  padding-bottom: 10px;\n  width: 100%;\n  text-align: center; }\n\nfieldset {\n  width: 80% !important; }\n\nfieldset.mainInput input {\n  font-size: 2em; }\n\n.formTitle {\n  display: block;\n  padding-top: 10px;\n  width: 100%;\n  text-align: center;\n  font-weight: 300; }\n\nfieldset.form-submit {\n  width: 100% !important;\n  text-align: center; }\n\n.uploadBox {\n  width: calc((200px * 16 / 9));\n  height: 200px;\n  text-align: center;\n  border-style: dashed;\n  border-width: medium;\n  border-color: #c8c8c8;\n  color: #323232;\n  border-radius: 5px;\n  display: table-cell;\n  vertical-align: middle;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  position: relative; }\n\n.uploadBox * {\n  position: relative;\n  z-index: 2; }\n\n.uploadBox .coverBox {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0; }\n\n.uploadBox input[type=\"file\"] {\n  opacity: 0;\n  cursor: pointer;\n  z-index: 3; }\n\n.uploadBox canvas {\n  cursor: pointer;\n  z-index: 1;\n  opacity: 0.7;\n  border-radius: 5px; }\n\n.uploadBox button {\n  position: relative;\n  z-index: 4;\n  display: none; }\n\n.uploadBox p {\n  background-color: rgba(255, 255, 255, 0.5); }\n\n.upload-container {\n  display: table;\n  border-collapse: separate;\n  border-spacing: 50px;\n  margin-left: auto;\n  margin-right: auto; }\n\n.mdl-progress {\n  width: 100%;\n  display: none;\n  position: absolute;\n  bottom: 10px; }\n", ""]);
 	
 	// exports
 

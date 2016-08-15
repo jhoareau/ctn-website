@@ -21,7 +21,7 @@ footer a
 header > nav
   background-color: #040836
 
-$navbar-img-size: 80px
+$navbar-img-size: 60px
 
 .navbar-brand img
   height: $navbar-img-size
@@ -32,9 +32,14 @@ $navbar-img-size: 80px
   width: auto
 
 .textLink
-  padding-top: 115px - $navbar-img-size !important
-  padding-bottom: 115px - $navbar-img-size !important
+  padding-top: -5px + $navbar-img-size / 2 !important
+  padding-bottom: -5px + $navbar-img-size / 2 !important
   color: white !important
+
+// Override Bootstrap
+.navbar-nav .nav-item + .nav-item
+  margin-left: 0
+  margin-right: 5px
 
 .container-fluid
   padding-bottom: 100px
