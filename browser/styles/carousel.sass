@@ -1,5 +1,6 @@
 .carousel
-  margin-top: 10px
+  margin-top: 5px
+  margin-bottom: 0px
 
 .carouselNavigator
   width: 100%
@@ -8,18 +9,25 @@
 .carouselThumb
   cursor: pointer
   border: 1px solid black
-  width: 150px
-  height: 100px
+  opacity: 0.59
+  transition: opacity .6s ease-out
+  width: 200px
+  height: 120px
+  position: relative
+  top : -140px
   display: inline-block
   margin-right: 100px
   text-align: left
   background-size: cover
 
+.carouselThumb:hover
+  opacity: 1
+
 .carouselText
   background-color: rgba(255, 255, 255, 0.9)
   color: black
   position: relative
-  top: 100%
+  top: 100px
   transform: translate3d(0, -100%, 0)
 
 .carouselThumbText
@@ -27,8 +35,8 @@
   padding-left: 0.5em
 
 .carouselContainer
-  height: 50vh
-  width: 80%
+  height: 90vh
+  width: 100%
   margin-left: auto
   margin-right: auto
 
