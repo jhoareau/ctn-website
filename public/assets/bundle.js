@@ -70328,7 +70328,7 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./../../node_modules/sass-loader/index.js!./carousel.sass\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/sass-loader!./carousel.sass */ 395);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 195)(content, {});
@@ -70348,7 +70348,23 @@
 	}
 
 /***/ },
-/* 395 */,
+/* 395 */
+/*!****************************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./~/sass-loader!./browser/styles/carousel.sass ***!
+  \****************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 194)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".carousel {\n  margin-top: 10px;\n  height: 100%; }\n\n.carouselNavigator {\n  width: 100%;\n  text-align: center;\n  position: absolute;\n  bottom: 50px; }\n\n.carouselThumb {\n  cursor: pointer;\n  border: 1px solid black;\n  width: 200px;\n  height: 120px;\n  display: inline-block;\n  margin-right: 100px;\n  text-align: left;\n  background-size: cover;\n  opacity: 0.6;\n  -webkit-transition: opacity .4s ease-out;\n  transition: opacity .4s ease-out; }\n\n.carouselThumb:hover {\n  opacity: 1;\n  -webkit-transition: opacity .4s ease-out;\n  transition: opacity .4s ease-out; }\n\n.carouselThumb:hover {\n  opacity: 1; }\n\n.carouselText {\n  background-color: rgba(255, 255, 255, 0.9);\n  color: black;\n  position: relative;\n  top: 50%;\n  -webkit-transform: translate3d(0, -100%, 0);\n          transform: translate3d(0, -100%, 0); }\n\n.carouselThumbText {\n  font-size: 14px;\n  padding-left: 0.5em; }\n\n.carouselContainer {\n  height: calc(100vh - 120px);\n  width: 100%;\n  margin-left: auto;\n  margin-right: auto; }\n\n.carouselReplace-enter {\n  -webkit-animation: openCarousel 0.5s cubic-bezier(0.255, 0.255, 0.53, 1) forwards;\n          animation: openCarousel 0.5s cubic-bezier(0.255, 0.255, 0.53, 1) forwards; }\n\n.carouselReplace-leave {\n  -webkit-animation: openCarousel 0.5s cubic-bezier(0.255, 0.255, 0.53, 1) forwards reverse;\n          animation: openCarousel 0.5s cubic-bezier(0.255, 0.255, 0.53, 1) forwards reverse; }\n\n@-webkit-keyframes openCarousel {\n  0% {\n    -webkit-transform: translate3d(0, 100%, 0);\n            transform: translate3d(0, 100%, 0);\n    opacity: 0; }\n  100% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0); } }\n\n@keyframes openCarousel {\n  0% {\n    -webkit-transform: translate3d(0, 100%, 0);\n            transform: translate3d(0, 100%, 0);\n    opacity: 0; }\n  100% {\n    opacity: 1;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0); } }\n\n.carouselItem {\n  height: 100%;\n  width: 100%;\n  background-size: cover; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
 /* 396 */
 /*!***********************************!*\
   !*** ./browser/styles/cards.sass ***!
