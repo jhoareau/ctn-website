@@ -47,6 +47,7 @@ router.get('/header', (req, res) => {
           { title: "Déconnexion", href: '/logout', logout: true }
         ]);
 });
+
 router.get('/mediapiston/adminFeatures', loggedIn, (req, res) => {
   if (req.user.admin)
     return res.json([
@@ -54,6 +55,7 @@ router.get('/mediapiston/adminFeatures', loggedIn, (req, res) => {
                     ]);
   res.json([]);
 });
+
 router.get('/pret-matos/adminFeatures', loggedIn, (req, res) => {
   if (req.user.admin)
     return res.json([
