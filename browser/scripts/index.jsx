@@ -98,4 +98,15 @@ if (window.location.pathname.indexOf('/mediapiston/upload') > -1) {
   render(<UploadForm />, document.getElementById('uploadForm'));
 }
 
+if (window.location.pathname.indexOf('/mediapiston/update') > -1) {
+  require('~/browser/styles/forms.sass');
+
+  let videoID = window.location.pathname.split('/').pop();
+
+  $.get('/ajax/video/' + videoID, (data) => {
+    // UploadForm update mode
+    render(<UploadForm update={true} {...data} />, document.getElementById('uploadForm'));
+  });
+}
+
 MaterialComponentHandler.componentHandler.upgradeDom();

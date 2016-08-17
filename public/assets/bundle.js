@@ -72,6 +72,14 @@
 
 	'use strict';
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /* React & libraries & style */
+	// Google material-design-lite V1 workaround
+	// Custom variables needed
+	
+	
+	/* Components */
+	
+	
 	var _react = __webpack_require__(/*! react */ 15);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -123,17 +131,11 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	/* Common to all pages */
-	
-	
-	/* Components */
-	// Custom variables needed
 	_jquery2.default.get('/ajax/header', function (data) {
 	  (0, _reactDom.render)(_react2.default.createElement(_header2.default, { links: data }), document.getElementById('reactHeader'));
 	});
 	
 	/* Home page */
-	// Google material-design-lite V1 workaround
-	/* React & libraries & style */
 	if (window.location.pathname === '/') {
 	  __webpack_require__(/*! ~/browser/styles/carousel.sass */ 394);
 	
@@ -202,6 +204,17 @@
 	  __webpack_require__(/*! ~/browser/styles/forms.sass */ 413);
 	
 	  (0, _reactDom.render)(_react2.default.createElement(_upload2.default, null), document.getElementById('uploadForm'));
+	}
+	
+	if (window.location.pathname.indexOf('/mediapiston/update') > -1) {
+	  __webpack_require__(/*! ~/browser/styles/forms.sass */ 413);
+	
+	  var _videoID = window.location.pathname.split('/').pop();
+	
+	  _jquery2.default.get('/ajax/video/' + _videoID, function (data) {
+	    // UploadForm update mode
+	    (0, _reactDom.render)(_react2.default.createElement(_upload2.default, _extends({ update: true }, data)), document.getElementById('uploadForm'));
+	  });
 	}
 	
 	MaterialComponentHandler.componentHandler.upgradeDom();
@@ -61806,7 +61819,7 @@
 	    value: function render() {
 	      var thumbUrl = '/videos/' + this.props._id + '.png';
 	      var videoUrl = '/videos/' + this.props._id + '.mp4';
-	      var modifyUrl = '/videos/' + this.props._id;
+	      var modifyUrl = '/mediapiston/update/' + this.props._id;
 	
 	      var videoControls = null;
 	      if (this.props.isAdmin) videoControls = _react2.default.createElement(
@@ -61906,6 +61919,8 @@
 	  value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(/*! react */ 15);
@@ -61936,6 +61951,7 @@
 	    _this.uploadVideoFile = _this.uploadVideoFile.bind(_this);
 	    _this.thumbFromVideoFile = _this.thumbFromVideoFile.bind(_this);
 	    _this.thumbFromThumbnailFile = _this.thumbFromThumbnailFile.bind(_this);
+	    _this.componentDidMount = _this.componentDidMount.bind(_this);
 	    return _this;
 	  }
 	
@@ -61976,15 +61992,15 @@
 	        return false;
 	      }
 	
-	      var imageObject = document.createElement('img');
+	      var imageObject = new Image();
 	      imageObject.src = URL.createObjectURL(file);
 	
-	      setTimeout(function () {
+	      imageObject.onload = function () {
 	        canvas.width = imageObject.width;
 	        canvas.height = imageObject.height;
 	        canvas.getContext('2d').drawImage(imageObject, 0, 0, imageObject.width, imageObject.height);
 	        document.getElementById('thumbnailFileName').innerHTML = file.name;
-	      }, 1000);
+	      };
 	    }
 	  }, {
 	    key: 'uploadVideoFile',
@@ -62025,35 +62041,37 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var videoFileUploadBox = null;
+	      if (!this.props.thumbOnly) videoFileUploadBox = _react2.default.createElement(
+	        'div',
+	        { className: 'uploadBox' },
+	        _react2.default.createElement('input', { className: 'coverBox', type: 'file', accept: 'video/mp4', id: 'videoFile', onChange: this.thumbFromVideoFile }),
+	        _react2.default.createElement('input', { type: 'hidden', id: 'videoFileID', required: 'required', value: 'undefined' }),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          _react2.default.createElement(
+	            'i',
+	            { className: 'material-icons' },
+	            'cloud_upload'
+	          ),
+	          _react2.default.createElement('br', null),
+	          'Vidéo',
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement('span', { id: 'videoFileName' })
+	        ),
+	        _react2.default.createElement('canvas', { id: 'canvasVideo', className: 'coverBox' }),
+	        _react2.default.createElement(
+	          'button',
+	          { className: 'btn btn-success', onClick: this.uploadVideoFile },
+	          'Envoyer'
+	        ),
+	        _react2.default.createElement('div', { id: 'uploadProgress', className: 'mdl-progress mdl-js-progress' })
+	      );
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'upload-container' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'uploadBox' },
-	          _react2.default.createElement('input', { className: 'coverBox', type: 'file', accept: 'video/mp4', id: 'videoFile', onChange: this.thumbFromVideoFile }),
-	          _react2.default.createElement('input', { type: 'hidden', id: 'videoFileID', required: 'required', value: 'undefined' }),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            _react2.default.createElement(
-	              'i',
-	              { className: 'material-icons' },
-	              'cloud_upload'
-	            ),
-	            _react2.default.createElement('br', null),
-	            'Vidéo',
-	            _react2.default.createElement('br', null),
-	            _react2.default.createElement('span', { id: 'videoFileName' })
-	          ),
-	          _react2.default.createElement('canvas', { id: 'canvasVideo', className: 'coverBox' }),
-	          _react2.default.createElement(
-	            'button',
-	            { className: 'btn btn-success', onClick: this.uploadVideoFile },
-	            'Envoyer'
-	          ),
-	          _react2.default.createElement('div', { id: 'uploadProgress', className: 'mdl-progress mdl-js-progress' })
-	        ),
+	        videoFileUploadBox,
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'uploadBox' },
@@ -62075,15 +62093,29 @@
 	        )
 	      );
 	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this3 = this;
+	
+	      if (this.props.thumbOnly) {
+	        (function () {
+	          var canvas = document.getElementById('canvasImage');
+	          var imageObject = new Image();
+	          imageObject.onload = function () {
+	            canvas.width = imageObject.width;
+	            canvas.height = imageObject.height;
+	            canvas.getContext('2d').drawImage(imageObject, 0, 0, imageObject.width, imageObject.height);
+	          };
+	          imageObject.src = '/videos/' + _this3.props._id + '.png';
+	          _this3.props.onUploadFinished();
+	        })();
+	      }
+	    }
 	  }]);
 	
 	  return UploadSnippet;
 	}(_react2.default.Component);
-	
-	UploadSnippet.defaultProps = {
-	  initialVideo: [],
-	  initialThumb: []
-	};
 	
 	var UploadForm = function (_React$Component2) {
 	  _inherits(UploadForm, _React$Component2);
@@ -62091,7 +62123,10 @@
 	  function UploadForm(props) {
 	    _classCallCheck(this, UploadForm);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(UploadForm).call(this, props));
+	    var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(UploadForm).call(this, props));
+	
+	    _this4.saveUpload = _this4.saveUpload.bind(_this4);
+	    return _this4;
 	  }
 	
 	  _createClass(UploadForm, [{
@@ -62104,18 +62139,28 @@
 	    key: 'saveUpload',
 	    value: function saveUpload(event) {
 	      event.preventDefault();
-	      // S'il n'y a pas de miniature, la générer à partir du canvasVideo
 	      var uploadData = {
-	        _id: document.getElementById('videoFileID').value,
 	        title: document.getElementById('videoTitle').value,
 	        description: document.getElementById('videoDesc').value
 	      };
-	      if (document.getElementById('thumbnailFile').files.length === 0) {
+	
+	      if (!this.props.update) uploadData._id = document.getElementById('videoFileID').value;
+	
+	      // S'il n'y a pas de miniature, la générer à partir du canvasVideo
+	      if (document.getElementById('thumbnailFile').files.length === 0 && !this.props.update) {
 	        uploadData.thumbnail = document.getElementById('canvasVideo').toDataURL("image/png");
 	      } else {
 	        uploadData.thumbnail = document.getElementById('canvasImage').toDataURL("image/png");
 	      }
-	      _jquery2.default.ajax({
+	
+	      if (this.props.update) _jquery2.default.ajax({
+	        url: '/ajax/video/' + this.props._id + '/update', method: "POST",
+	        data: uploadData
+	      }).done(function () {
+	        return window.location = '/mediapiston';
+	      }).fail(function (err) {
+	        return console.log(err);
+	      });else _jquery2.default.ajax({
 	        url: '/ajax/video/add', method: "PUT",
 	        data: uploadData
 	      }).done(function () {
@@ -62146,7 +62191,7 @@
 	              { htmlFor: 'videoTitle', className: 'mdl-textfield__label' },
 	              'Titre de la vidéo'
 	            ),
-	            _react2.default.createElement('input', { id: 'videoTitle', name: 'videoTitle', required: 'required', className: 'mdl-textfield__input', type: 'text' }),
+	            _react2.default.createElement('input', { id: 'videoTitle', name: 'videoTitle', required: 'required', className: 'mdl-textfield__input', type: 'text', defaultValue: this.props.update ? this.props.title : '' }),
 	            _react2.default.createElement(
 	              'span',
 	              { className: 'mdl-textfield__error' },
@@ -62162,7 +62207,7 @@
 	              { htmlFor: 'videoDesc', className: 'mdl-textfield__label' },
 	              'Description de la vidéo'
 	            ),
-	            _react2.default.createElement('textarea', { id: 'videoDesc', name: 'videoDesc', required: 'required', className: 'mdl-textfield__input' }),
+	            _react2.default.createElement('textarea', { id: 'videoDesc', name: 'videoDesc', required: 'required', className: 'mdl-textfield__input', defaultValue: this.props.update ? this.props.description : '' }),
 	            _react2.default.createElement(
 	              'span',
 	              { className: 'mdl-textfield__error' },
@@ -62175,7 +62220,7 @@
 	            _react2.default.createElement(
 	              'button',
 	              { type: 'submit', disabled: 'disabled', className: 'mdl-button mdl-js-button mdl-button--raised mdl-button--disabled' },
-	              'Upload'
+	              this.props.update ? 'Modifier' : 'Ajouter'
 	            )
 	          )
 	        ),
@@ -62187,7 +62232,7 @@
 	            { className: 'mdl-typography--title formTitle' },
 	            'Contenu'
 	          ),
-	          _react2.default.createElement(UploadSnippet, { onUploadFinished: this.allowUpload })
+	          _react2.default.createElement(UploadSnippet, _extends({ thumbOnly: this.props.update }, this.props, { onUploadFinished: this.allowUpload }))
 	        )
 	      );
 	    }

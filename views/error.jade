@@ -6,4 +6,5 @@ block content
       strong Erreur !
       br
       span= message
-    pre= err
+    if err
+      pre= err.stack

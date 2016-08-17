@@ -88,7 +88,12 @@ router.get('/video/:id', loggedIn, (req, res) => {
 });
 
 router.post('/video/:id/update', isAdmin, (req, res) => {
-  mongodb.updateMateriel(req.params.id, req.body, answer => res.json(answer));
+  mongodb.updateVideo(req.params.id, req.body, answer => res.json(answer));
+  let request = req.body;
+  if (request.thumbnail) {
+    let thumbnailData = request.thumbnail.replace(/^data:image\/png;base64,/, '');
+    fs.writeFile(path.join(__dirname, '../videos/', req.params.id + '.png'), thumbnailData, 'base64', err => {if (err) throw err;});
+  }
 });
 
 router.delete('/video/:id/delete', isAdmin, (req, res) => {
