@@ -1,8 +1,9 @@
 extends layout
 
 block content
-  .alert.alert-danger
-    strong Erreur !
-    br
-    span= message
-  pre= err
+  section(style="position: fixed; top: 50vh; width: 50%; left: 50vw; transform: translate(-50%, -50%)")
+    .alert.alert-danger
+      strong Erreur !
+      br
+      span= message
+    pre= err
