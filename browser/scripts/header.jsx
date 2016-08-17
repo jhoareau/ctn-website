@@ -84,16 +84,14 @@ class Header extends React.Component {
 
       TweenMax.to(pretSvgCard, 1, {
         css: {
-          rotationY: -180,
+          rotation: 20,
           transformOrigin: "50% 50%",
         },
-        ease: TweenMax.Power3.easeOut
+        ease: TweenMax.Back.easeOut.config(5)
       });
-      setTimeout(() => {TweenMax.CSSPlugin.useSVGTransformAttr = true;}, 2000); // Reset SVG transforms for performance
 
     });
     pretSvg.addEventListener('mouseleave', () => {
-      TweenMax.CSSPlugin.useSVGTransformAttr = false; // 3D SVG Transforms for animatePret
       TweenMax.to(pretSvgCardColor, 1, {
         css: {
           fill: '#fff',
@@ -102,12 +100,11 @@ class Header extends React.Component {
       });
       TweenMax.to(pretSvgCard, 1, {
         css: {
-          rotationY: 0,
+          rotation: 0,
           transformOrigin: "50% 50%",
         },
-        ease: TweenMax.Power3.easeOut
+        ease: TweenMax.Back.easeOut.config(5)
       });
-      setTimeout(() => {TweenMax.CSSPlugin.useSVGTransformAttr = true;}, 2000); // Reset SVG transforms for performance
     });
   }
   bindAnimateAdmin(TweenMax) {
