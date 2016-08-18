@@ -126,6 +126,10 @@
 	
 	var _upload2 = _interopRequireDefault(_upload);
 	
+	var _addMateriel = __webpack_require__(/*! ./addMateriel.jsx */ 415);
+	
+	var _addMateriel2 = _interopRequireDefault(_addMateriel);
+	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -176,6 +180,12 @@
 	  (0, _reactDom.render)(_react2.default.createElement(_materiel2.default, null), document.getElementById('matosList'));
 	}
 	
+	if (window.location.pathname === '/pret-matos/add' || window.location.pathname === '/pret-matos/add/') {
+	  __webpack_require__(/*! ~/browser/styles/forms.sass */ 413);
+	
+	  (0, _reactDom.render)(_react2.default.createElement(_addMateriel2.default, null), document.getElementById('matosForm'));
+	}
+	
 	if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
 	  (function () {
 	    // Lecteur Vidéo HTML5
@@ -200,7 +210,7 @@
 	  })();
 	}
 	
-	if (window.location.pathname.indexOf('/mediapiston/upload') > -1) {
+	if (window.location.pathname === '/mediapiston/upload' || window.location.pathname === '/mediapiston/upload/') {
 	  __webpack_require__(/*! ~/browser/styles/forms.sass */ 413);
 	
 	  (0, _reactDom.render)(_react2.default.createElement(_upload2.default, null), document.getElementById('uploadForm'));
@@ -62096,21 +62106,16 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      var _this3 = this;
-	
-	      if (this.props.thumbOnly) {
-	        (function () {
-	          var canvas = document.getElementById('canvasImage');
-	          var imageObject = new Image();
-	          imageObject.onload = function () {
-	            canvas.width = imageObject.width;
-	            canvas.height = imageObject.height;
-	            canvas.getContext('2d').drawImage(imageObject, 0, 0, imageObject.width, imageObject.height);
-	          };
-	          imageObject.src = '/videos/' + _this3.props._id + '.png';
-	          _this3.props.onUploadFinished();
-	        })();
-	      }
+	      if (!this.props.thumbOnly) return;
+	      var canvas = document.getElementById('canvasImage');
+	      var imageObject = new Image();
+	      imageObject.onload = function () {
+	        canvas.width = imageObject.width;
+	        canvas.height = imageObject.height;
+	        canvas.getContext('2d').drawImage(imageObject, 0, 0, imageObject.width, imageObject.height);
+	      };
+	      imageObject.src = '/videos/' + this.props._id + '.png';
+	      this.props.onUploadFinished();
 	    }
 	  }]);
 	
@@ -62123,10 +62128,10 @@
 	  function UploadForm(props) {
 	    _classCallCheck(this, UploadForm);
 	
-	    var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(UploadForm).call(this, props));
+	    var _this3 = _possibleConstructorReturn(this, Object.getPrototypeOf(UploadForm).call(this, props));
 	
-	    _this4.saveUpload = _this4.saveUpload.bind(_this4);
-	    return _this4;
+	    _this3.saveUpload = _this3.saveUpload.bind(_this3);
+	    return _this3;
 	  }
 	
 	  _createClass(UploadForm, [{
@@ -70874,10 +70879,290 @@
 	
 	
 	// module
-	exports.push([module.id, "label {\n  margin-bottom: 0px; }\n\nform.form-horizontal {\n  padding-bottom: 10px;\n  width: 100%;\n  text-align: center; }\n\nfieldset {\n  width: 80% !important; }\n\nfieldset.mainInput input {\n  font-size: 2em; }\n\n.formTitle {\n  display: block;\n  padding-top: 10px;\n  width: 100%;\n  text-align: center;\n  font-weight: 300; }\n\nfieldset.form-submit {\n  width: 100% !important;\n  text-align: center; }\n\n.uploadBox {\n  width: calc((200px * 16 / 9));\n  height: 200px;\n  text-align: center;\n  border-style: dashed;\n  border-width: medium;\n  border-color: #c8c8c8;\n  color: #323232;\n  border-radius: 5px;\n  display: table-cell;\n  vertical-align: middle;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  position: relative; }\n\n.uploadBox * {\n  position: relative;\n  z-index: 2; }\n\n.uploadBox .coverBox {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0; }\n\n.uploadBox input[type=\"file\"] {\n  opacity: 0;\n  cursor: pointer;\n  z-index: 3; }\n\n.uploadBox canvas {\n  cursor: pointer;\n  z-index: 1;\n  opacity: 0.7;\n  border-radius: 5px; }\n\n.uploadBox button {\n  position: relative;\n  z-index: 4;\n  display: none; }\n\n.uploadBox p {\n  background-color: rgba(255, 255, 255, 0.5); }\n\n.upload-container {\n  display: table;\n  border-collapse: separate;\n  border-spacing: 50px;\n  margin-left: auto;\n  margin-right: auto; }\n\n.mdl-progress {\n  width: 100%;\n  display: none;\n  position: absolute;\n  bottom: 10px; }\n", ""]);
+	exports.push([module.id, "label {\n  margin-bottom: 0px; }\n\nform.form-horizontal {\n  padding-bottom: 10px;\n  width: 100%;\n  text-align: center; }\n\nfieldset {\n  width: 80% !important;\n  position: relative; }\n\nfieldset.mainInput input {\n  font-size: 2em; }\n\n.formTitle {\n  display: block;\n  padding-top: 10px;\n  width: 100%;\n  text-align: center;\n  font-weight: 300; }\n\nfieldset.form-submit {\n  width: 100% !important;\n  text-align: center; }\n\n.uploadBox {\n  width: calc((200px * 16 / 9));\n  height: 200px;\n  text-align: center;\n  border-style: dashed;\n  border-width: medium;\n  border-color: #c8c8c8;\n  color: #323232;\n  border-radius: 5px;\n  display: table-cell;\n  vertical-align: middle;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  position: relative; }\n\n.uploadBox * {\n  position: relative;\n  z-index: 2; }\n\n.uploadBox .coverBox {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0; }\n\n.uploadBox input[type=\"file\"] {\n  opacity: 0;\n  cursor: pointer;\n  z-index: 3; }\n\n.uploadBox canvas {\n  cursor: pointer;\n  z-index: 1;\n  opacity: 0.7;\n  border-radius: 5px; }\n\n.uploadBox button {\n  position: relative;\n  z-index: 4;\n  display: none; }\n\n.uploadBox p {\n  background-color: rgba(255, 255, 255, 0.5); }\n\n.upload-container {\n  display: table;\n  border-collapse: separate;\n  border-spacing: 50px;\n  margin-left: auto;\n  margin-right: auto; }\n\n.mdl-progress {\n  width: 100%;\n  display: none;\n  position: absolute;\n  bottom: 10px; }\n\n.mdl-textfield__input {\n  position: relative;\n  z-index: 1; }\n\n.input__hint {\n  display: block;\n  position: absolute;\n  left: 0;\n  top: 40px;\n  width: 100%;\n  text-align: right;\n  font-size: 1.5rem;\n  z-index: 0;\n  font-weight: 300; }\n", ""]);
 	
 	// exports
 
+
+/***/ },
+/* 415 */
+/*!*****************************************!*\
+  !*** ./browser/scripts/addMateriel.jsx ***!
+  \*****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 15);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 189);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	/// TODO: Bind state to component view for Pure Immutability
+	var UploadSnippet = function (_React$Component) {
+	  _inherits(UploadSnippet, _React$Component);
+	
+	  function UploadSnippet(props) {
+	    _classCallCheck(this, UploadSnippet);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UploadSnippet).call(this, props));
+	
+	    _this.thumbFromThumbnailFile = _this.thumbFromThumbnailFile.bind(_this);
+	    _this.componentDidMount = _this.componentDidMount.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(UploadSnippet, [{
+	    key: 'thumbFromThumbnailFile',
+	    value: function thumbFromThumbnailFile() {
+	      var _this2 = this;
+	
+	      var file = document.getElementById('thumbnailFile').files[0];
+	      var canvas = document.getElementById('canvasImage');
+	
+	      if (['png', 'jpg', 'bmp', 'jpeg', 'gif'].indexOf(file.name.split('.').pop().toLowerCase()) < 0) {
+	        document.getElementById('thumbnailFile').value = '';
+	        document.getElementById('thumbnailFileName').innerHTML = '';
+	        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+	        return false;
+	      }
+	
+	      var imageObject = new Image();
+	      imageObject.src = URL.createObjectURL(file);
+	
+	      imageObject.onload = function () {
+	        canvas.width = imageObject.width;
+	        canvas.height = imageObject.height;
+	        canvas.getContext('2d').drawImage(imageObject, 0, 0, imageObject.width, imageObject.height);
+	        document.getElementById('thumbnailFileName').innerHTML = file.name;
+	        _this2.props.onUploadFinished();
+	      };
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'upload-container' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'uploadBox' },
+	          _react2.default.createElement('input', { className: 'coverBox', type: 'file', accept: 'image/*', id: 'thumbnailFile', onChange: this.thumbFromThumbnailFile }),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            _react2.default.createElement(
+	              'i',
+	              { className: 'material-icons' },
+	              'cloud_upload'
+	            ),
+	            _react2.default.createElement('br', null),
+	            'Miniature',
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement('span', { id: 'thumbnailFileName' })
+	          ),
+	          _react2.default.createElement('canvas', { className: 'coverBox', id: 'canvasImage' })
+	        )
+	      );
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      if (!this.props.update) return;
+	      var canvas = document.getElementById('canvasImage');
+	      var imageObject = new Image();
+	      imageObject.onload = function () {
+	        canvas.width = imageObject.width;
+	        canvas.height = imageObject.height;
+	        canvas.getContext('2d').drawImage(imageObject, 0, 0, imageObject.width, imageObject.height);
+	      };
+	      imageObject.src = '/videos/' + this.props._id + '.png';
+	      this.props.onUploadFinished();
+	    }
+	  }]);
+	
+	  return UploadSnippet;
+	}(_react2.default.Component);
+	
+	var AddMatosForm = function (_React$Component2) {
+	  _inherits(AddMatosForm, _React$Component2);
+	
+	  function AddMatosForm(props) {
+	    _classCallCheck(this, AddMatosForm);
+	
+	    var _this3 = _possibleConstructorReturn(this, Object.getPrototypeOf(AddMatosForm).call(this, props));
+	
+	    _this3.saveUpload = _this3.saveUpload.bind(_this3);
+	    return _this3;
+	  }
+	
+	  _createClass(AddMatosForm, [{
+	    key: 'allowUpload',
+	    value: function allowUpload() {
+	      document.querySelector('form button[type="submit"]').removeAttribute('disabled');
+	      document.querySelector('form button[type="submit"]').classList.remove('mdl-button--disabled');
+	    }
+	  }, {
+	    key: 'saveUpload',
+	    value: function saveUpload(event) {
+	      event.preventDefault();
+	      var uploadData = {
+	        title: document.getElementById('matosName').value,
+	        description: document.getElementById('matosDesc').value,
+	        extes: document.getElementById('matosExte').checked,
+	        caution: document.getElementById('matosCaution').value
+	      };
+	
+	      uploadData.thumbnail = document.getElementById('canvasImage').toDataURL("image/png");
+	
+	      if (this.props.update) _jquery2.default.ajax({
+	        url: '/ajax/pret-matos/' + this.props._id + '/update', method: "POST",
+	        data: uploadData
+	      }).done(function () {
+	        return window.location = '/pret-matos/admin';
+	      }).fail(function (err) {
+	        return console.log(err);
+	      });else _jquery2.default.ajax({
+	        url: '/ajax/pret-matos/add', method: "PUT",
+	        data: uploadData
+	      }).done(function () {
+	        return window.location = '/pret-matos/admin';
+	      }).fail(function (err) {
+	        return console.log(err);
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'form',
+	          { className: 'form-horizontal mdl-shadow--2dp col-md-6', onSubmit: this.saveUpload, style: { display: 'flex' } },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-xs-6' },
+	            _react2.default.createElement(
+	              'h6',
+	              { className: 'mdl-typography--title formTitle' },
+	              'Détails du matériel'
+	            ),
+	            _react2.default.createElement(
+	              'fieldset',
+	              { className: 'form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label mainInput' },
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'matosName', className: 'mdl-textfield__label' },
+	                'Nom de l\'objet'
+	              ),
+	              _react2.default.createElement('input', { id: 'matosName', name: 'matosName', required: 'required', className: 'mdl-textfield__input', type: 'text', defaultValue: this.props.update ? this.props.title : '' }),
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'mdl-textfield__error' },
+	                'Titre requis !'
+	              )
+	            ),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(
+	              'fieldset',
+	              { className: 'form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label' },
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'matosDesc', className: 'mdl-textfield__label' },
+	                'Description de l\'objet'
+	              ),
+	              _react2.default.createElement('textarea', { id: 'matosDesc', name: 'matosDesc', required: 'required', className: 'mdl-textfield__input', defaultValue: this.props.update ? this.props.description : '' }),
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'mdl-textfield__error' },
+	                'Description requise !'
+	              )
+	            ),
+	            _react2.default.createElement('br', null)
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-xs-6', style: { marginTop: '50px' } },
+	            _react2.default.createElement(
+	              'fieldset',
+	              { className: 'form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label' },
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'matosExte', className: 'mdl-textfield__label' },
+	                'Prêtable'
+	              ),
+	              _react2.default.createElement('input', { id: 'matosExte', name: 'matosExte', className: 'mdl-textfield__input', type: 'checkbox', defaultChecked: this.props.update ? this.props.extes : true })
+	            ),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(
+	              'fieldset',
+	              { className: 'form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label mainInput' },
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'matosCaution', className: 'mdl-textfield__label' },
+	                'Caution'
+	              ),
+	              _react2.default.createElement('input', { id: 'matosCaution', name: 'matosCaution', required: 'required', className: 'mdl-textfield__input', type: 'number', defaultValue: this.props.update ? this.props.caution : '' }),
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'input__hint' },
+	                '€'
+	              ),
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'mdl-textfield__error' },
+	                'Caution requise !'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'fieldset',
+	              { className: 'form-group form-submit' },
+	              _react2.default.createElement(
+	                'button',
+	                { type: 'submit', disabled: 'disabled', className: 'mdl-button mdl-js-button mdl-button--raised mdl-button--disabled' },
+	                this.props.update ? 'Modifier' : 'Ajouter'
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-md-6' },
+	          _react2.default.createElement(
+	            'h6',
+	            { className: 'mdl-typography--title formTitle' },
+	            'Contenu'
+	          ),
+	          _react2.default.createElement(UploadSnippet, _extends({ thumbOnly: this.props.update }, this.props, { onUploadFinished: this.allowUpload }))
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return AddMatosForm;
+	}(_react2.default.Component);
+	
+	exports.default = AddMatosForm;
 
 /***/ }
 /******/ ]);

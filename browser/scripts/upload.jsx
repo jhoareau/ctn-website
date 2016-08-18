@@ -119,7 +119,7 @@ class UploadSnippet extends React.Component {
     );
   }
   componentDidMount() {
-    if (this.props.thumbOnly) {
+    if (!this.props.thumbOnly) return;
       let canvas = document.getElementById('canvasImage');
       let imageObject = new Image();
       imageObject.onload = function() {
@@ -129,7 +129,6 @@ class UploadSnippet extends React.Component {
       };
       imageObject.src = '/videos/' + this.props._id + '.png';
       this.props.onUploadFinished();
-    }
   }
 }
 
