@@ -61,8 +61,8 @@ let updateVideo = (id, data, callback) => {
 
     video.title = data.title;
     video.description = data.description;
-    video.date = data.date;
-    video.uploader = data.session.surname;
+    if (data.date) video.date = data.date;
+    if (data.session) video.uploader = data.session.surname;
 
     video.save((err) => {
       if (err) throw new Error('Erreur lors de la mise à jour de la vidéo.');
@@ -115,6 +115,7 @@ let addMateriel = (data, callback) => {
 };
 
 let updateMateriel = (id, data, callback) => {
+  let Materiel = mongoose.model('Materiel', matosSchema);
   Materiel.findById(id, (err, materiel) => {
     if (err) throw new Error('Erreur lors de la récupération du matériel à mettre à jour.');
     if (materiel === null) return callback({ok: false});

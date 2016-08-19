@@ -9,6 +9,7 @@ class UploadSnippet extends React.Component {
     this.uploadVideoFile = this.uploadVideoFile.bind(this);
     this.thumbFromVideoFile = this.thumbFromVideoFile.bind(this);
     this.thumbFromThumbnailFile = this.thumbFromThumbnailFile.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
   }
   thumbFromVideoFile() {
     let file = document.getElementById('videoFile').files[0];
@@ -43,15 +44,15 @@ class UploadSnippet extends React.Component {
       return false;
     }
 
-    let imageObject = document.createElement('img');
+    let imageObject = new Image();
     imageObject.src = URL.createObjectURL(file);
 
-    setTimeout(() => {
+    imageObject.onload = () => {
       canvas.width = imageObject.width;
       canvas.height = imageObject.height;
       canvas.getContext('2d').drawImage(imageObject, 0, 0, imageObject.width, imageObject.height);
       document.getElementById('thumbnailFileName').innerHTML = file.name;
-    }, 1000);
+    };
   }
   uploadVideoFile() {
     let io = require('socket.io-client');
@@ -87,20 +88,23 @@ class UploadSnippet extends React.Component {
     fileUploadSocket.submitFiles(fileToUpload);
   }
   render() {
+    let videoFileUploadBox = null;
+    if (!this.props.thumbOnly)
+      videoFileUploadBox = (<div className="uploadBox">
+                              <input className="coverBox" type="file" accept="video/mp4" id="videoFile" onChange={this.thumbFromVideoFile}/>
+                              <input type="hidden" id="videoFileID" required="required" value="undefined"/>
+                              <p>
+                                <i className="material-icons">cloud_upload</i><br/>
+                                Vidéo<br/>
+                                <span id="videoFileName"/>
+                              </p>
+                              <canvas id='canvasVideo' className="coverBox"/>
+                              <button className="btn btn-success" onClick={this.uploadVideoFile}>Envoyer</button>
+                              <div id="uploadProgress" className="mdl-progress mdl-js-progress"></div>
+                            </div>);
     return (
       <div className="upload-container">
-        <div className="uploadBox">
-          <input className="coverBox" type="file" accept="video/mp4" id="videoFile" onChange={this.thumbFromVideoFile}/>
-          <input type="hidden" id="videoFileID" required="required" value="undefined"/>
-          <p>
-            <i className="material-icons">cloud_upload</i><br/>
-            Vidéo<br/>
-            <span id="videoFileName"/>
-          </p>
-          <canvas id='canvasVideo' className="coverBox"/>
-          <button className="btn btn-success" onClick={this.uploadVideoFile}>Envoyer</button>
-          <div id="uploadProgress" className="mdl-progress mdl-js-progress"></div>
-        </div>
+        {videoFileUploadBox}
         <div className="uploadBox">
           <input className="coverBox" type="file" accept="image/*" id="thumbnailFile" onChange={this.thumbFromThumbnailFile}/>
           <p>
@@ -114,15 +118,25 @@ class UploadSnippet extends React.Component {
       </div>
     );
   }
+  componentDidMount() {
+    if (!this.props.thumbOnly) return;
+      let canvas = document.getElementById('canvasImage');
+      let imageObject = new Image();
+      imageObject.onload = function() {
+          canvas.width = imageObject.width;
+          canvas.height = imageObject.height;
+          canvas.getContext('2d').drawImage(imageObject, 0, 0, imageObject.width, imageObject.height);
+      };
+      imageObject.src = '/videos/' + this.props._id + '.png';
+      this.props.onUploadFinished();
+  }
 }
-UploadSnippet.defaultProps = {
-  initialVideo: [],
-  initialThumb: []
-};
 
 class UploadForm extends React.Component {
   constructor(props) {
     super(props);
+
+    this.saveUpload = this.saveUpload.bind(this);
   }
   allowUpload() {
     document.querySelector('form button[type="submit"]').removeAttribute('disabled');
@@ -130,22 +144,31 @@ class UploadForm extends React.Component {
   }
   saveUpload(event) {
     event.preventDefault();
-    // S'il n'y a pas de miniature, la générer à partir du canvasVideo
     let uploadData = {
-      _id: document.getElementById('videoFileID').value,
       title: document.getElementById('videoTitle').value,
       description: document.getElementById('videoDesc').value
     };
-    if (document.getElementById('thumbnailFile').files.length === 0) {
+
+    if (!this.props.update) uploadData._id = document.getElementById('videoFileID').value;
+
+    // S'il n'y a pas de miniature, la générer à partir du canvasVideo
+    if (document.getElementById('thumbnailFile').files.length === 0 && !this.props.update) {
       uploadData.thumbnail = document.getElementById('canvasVideo').toDataURL("image/png");
     }
     else {
       uploadData.thumbnail = document.getElementById('canvasImage').toDataURL("image/png");
     }
-    $.ajax({
-      url: '/ajax/video/add', method: "PUT",
-      data: uploadData
-    }).done(() => window.location = '/mediapiston').fail((err) => console.log(err));
+
+    if (this.props.update)
+      $.ajax({
+        url: '/ajax/video/' + this.props._id + '/update', method: "POST",
+        data: uploadData
+      }).done(() => window.location = '/mediapiston').fail((err) => console.log(err));
+    else
+      $.ajax({
+        url: '/ajax/video/add', method: "PUT",
+        data: uploadData
+      }).done(() => window.location = '/mediapiston').fail((err) => console.log(err));
   }
   render() {
     return (
@@ -154,19 +177,21 @@ class UploadForm extends React.Component {
           <h6 className="mdl-typography--title formTitle">Détails de la vidéo</h6>
           <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label mainInput">
             <label htmlFor="videoTitle" className="mdl-textfield__label">Titre de la vidéo</label>
-            <input id="videoTitle" name="videoTitle" required="required" className="mdl-textfield__input" type="text"/><span className="mdl-textfield__error">Titre requis !</span>
+            <input id="videoTitle" name="videoTitle" required="required" className="mdl-textfield__input" type="text" defaultValue={this.props.update ? this.props.title : ''} />
+            <span className="mdl-textfield__error">Titre requis !</span>
           </fieldset><br />
           <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label htmlFor="videoDesc" className="mdl-textfield__label">Description de la vidéo</label>
-            <textarea id="videoDesc" name="videoDesc" required="required" className="mdl-textfield__input"></textarea><span className="mdl-textfield__error">Description requise !</span>
+            <textarea id="videoDesc" name="videoDesc" required="required" className="mdl-textfield__input" defaultValue={this.props.update ? this.props.description : ''} />
+            <span className="mdl-textfield__error">Description requise !</span>
           </fieldset>
           <fieldset className="form-group form-submit">
-            <button type="submit" disabled="disabled" className="mdl-button mdl-js-button mdl-button--raised mdl-button--disabled">Upload</button>
+            <button type="submit" disabled="disabled" className="mdl-button mdl-js-button mdl-button--raised mdl-button--disabled">{this.props.update ? 'Modifier' : 'Ajouter'}</button>
           </fieldset>
         </form>
         <div className="col-md-6">
           <h6 className="mdl-typography--title formTitle">Contenu</h6>
-          <UploadSnippet onUploadFinished={this.allowUpload}/>
+          <UploadSnippet thumbOnly={this.props.update} {...this.props} onUploadFinished={this.allowUpload}/>
         </div>
       </div>
     );

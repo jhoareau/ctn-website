@@ -16,6 +16,7 @@ import {VideoList, RelatedVideoList} from "./video.jsx";
 import MatosList from "./materiel.jsx";
 import VideoPlayer from "./video_player.jsx";
 import UploadForm from "./upload.jsx";
+import MatosForm from "./addMateriel.jsx"
 
 /* Common to all pages */
 $.get('/ajax/header', (data) => {
@@ -69,6 +70,12 @@ if (window.location.pathname === '/pret-matos' || window.location.pathname === '
   render(<MatosList />, document.getElementById('matosList'));
 }
 
+if (window.location.pathname === '/pret-matos/add' || window.location.pathname === '/pret-matos/add/') {
+  require('~/browser/styles/forms.sass');
+
+  render(<MatosForm />, document.getElementById('matosForm'));
+}
+
 if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
   // Lecteur Vidéo HTML5
   let Plyr = require('~/node_modules/plyr/dist/plyr.js');
@@ -92,10 +99,21 @@ if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
 
 }
 
-if (window.location.pathname.indexOf('/mediapiston/upload') > -1) {
+if (window.location.pathname === '/mediapiston/upload' || window.location.pathname === '/mediapiston/upload/') {
   require('~/browser/styles/forms.sass');
 
   render(<UploadForm />, document.getElementById('uploadForm'));
+}
+
+if (window.location.pathname.indexOf('/mediapiston/update') > -1) {
+  require('~/browser/styles/forms.sass');
+
+  let videoID = window.location.pathname.split('/').pop();
+
+  $.get('/ajax/video/' + videoID, (data) => {
+    // UploadForm update mode
+    render(<UploadForm update={true} {...data} />, document.getElementById('uploadForm'));
+  });
 }
 
 MaterialComponentHandler.componentHandler.upgradeDom();
