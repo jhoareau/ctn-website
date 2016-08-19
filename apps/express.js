@@ -47,10 +47,12 @@ app.use(express.static(path.join(__dirname, '../public')));
 let publicRoutes = require('../routes/public')(passportMiddleware);
 let restRoutes = require('../routes/rest');
 let videoRouter = require('../routes/videos');
+let assetsRouter = require('../routes/assets');
 
 app.use('/', publicRoutes);
 app.use('/ajax', restRoutes);
 app.use('/videos', videoRouter);
+app.use('/materiel', assetsRouter);
 
 // 404
 app.use((req, res) => {

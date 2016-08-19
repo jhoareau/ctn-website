@@ -75,7 +75,7 @@ class AddMatosForm extends React.Component {
   saveUpload(event) {
     event.preventDefault();
     let uploadData = {
-      title: document.getElementById('matosName').value,
+      name: document.getElementById('matosName').value,
       description: document.getElementById('matosDesc').value,
       extes: document.getElementById('matosExte').checked,
       caution: document.getElementById('matosCaution').value

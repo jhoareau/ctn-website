@@ -67,7 +67,10 @@ if (window.location.pathname === '/mediapiston' || window.location.pathname === 
 if (window.location.pathname === '/pret-matos' || window.location.pathname === '/pret-matos/') {
   require('~/browser/styles/cards_animations.sass');
 
-  render(<MatosList />, document.getElementById('matosList'));
+  $.get('/ajax/pret-matos/public', (data) => {
+    // VideoList React
+    render(<MatosList matosList={data} />, document.getElementById('matosList'));
+  });
 }
 
 if (window.location.pathname === '/pret-matos/add' || window.location.pathname === '/pret-matos/add/') {
