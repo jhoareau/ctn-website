@@ -14,7 +14,7 @@ let videoSchema = new mongoose.Schema({
     uploadDate: Date,
     uploader: String,
     description: String,
-    url: String
+    views: Number
 });
 
 let matosSchema = new mongoose.Schema({

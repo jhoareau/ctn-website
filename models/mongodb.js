@@ -34,7 +34,8 @@ let returnVideo = (id, callback) => {
     });
   }
   else {
-    Video.findById(id, (err, result) => {
+    // On incrémente le nombre de vues à chaque fetch quasi-unique
+    Video.findOneAndUpdate({_id: id}, {$inc: {views: 1}}, (err, result) => {
       if (err) throw new Error('Erreur lors de la récupération de la vidéo.');
       callback(result);
     });
