@@ -56,7 +56,7 @@ class Camera extends React.Component {
 
     return (
         <div className="mdl-card display_card mdl-shadow--2dp" data-id={this.props._id}>
-          <div className="mdl-card__title" style={{backgroundImage: 'url(' + this.props.thumbUrl + ')'}}>
+          <div className="mdl-card__title" style={{backgroundImage: 'url("/materiel/materiel/' + this.props._id + '.png")'}}>
             <h2 className="mdl-card__title-text">{this.props.name}</h2>
           </div>
           {
@@ -69,7 +69,7 @@ class Camera extends React.Component {
             : null
           }
           <div className="mdl-card__supporting-text">
-            <p>Caution : {this.props.caution}</p>
+            <p>Caution : {this.props.caution}€</p>
             {/* Empruntée dans le présent */}
             {emprunte && !this.props.showHistorique ? <p>Empruntée par {emprunt(index).nom} le {emprunt(index).date} avec {emprunt(index).responsable}</p> : null}
 
@@ -103,7 +103,7 @@ Camera.defaultProps = {
   thumbUrl : '/defaults/gopro_4.png',
   name: 'Clara - GoPro Hero 4',
   description: 'Caméra CTN',
-  caution: '300€',
+  caution: 300,
   disponible: true,
   historique: [],
   showHistorique: false,
@@ -115,19 +115,27 @@ class MatosList extends React.Component {
     super(props);
   }
   render() {
-    return (
-      <div className="matosList">
-        {this.props.matosList.map(cameraObject => {
-          return <Camera {...cameraObject} key={JSON.stringify(cameraObject)} />
-        })}
-      </div>
-    );
+    if (this.props.matosList.length > 0)
+      return (
+        <div className="matosList">
+          {this.props.matosList.map(cameraObject => {
+            return <Camera {...cameraObject} key={cameraObject._id} />
+          })}
+        </div>
+      );
+    else
+      return (
+        <div className="alert alert-warning" role="alert">
+          Il n'y a pas de matériel correspondant à ces critères...
+        </div>
+      );
+
   }
 }
 MatosList.defaultProps = {
   matosList: [
                 {
-                  caution: '400€',
+                  caution: 400,
                   _id: Math.random()
                 },
                 {

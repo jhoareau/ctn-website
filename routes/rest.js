@@ -135,7 +135,11 @@ router.post('/pret-matos/:id/update', isAdmin, (req, res) => {
 });
 
 router.put('/pret-matos/add', isAdmin, (req, res) => {
-  mongodb.addMateriel(req.body, answer => res.json(answer));
+  mongodb.addMateriel(req.body, answer => {
+    let thumbnailData = req.body.thumbnail.replace(/^data:image\/png;base64,/, '');
+    fs.writeFile(path.join(__dirname, '../materiel/', answer.id + '.png'), thumbnailData, 'base64', err => {if (err) throw err;});
+    return res.json({ok: true});
+  });
 });
 
 module.exports = router;

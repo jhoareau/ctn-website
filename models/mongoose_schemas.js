@@ -10,19 +10,18 @@ let userSchema = new mongoose.Schema({
 });
 
 let videoSchema = new mongoose.Schema({
-    thumbUrl : String,
     title: String,
     uploadDate: Date,
     uploader: String,
     description: String,
-    url: String
+    views: Number
 });
 
 let matosSchema = new mongoose.Schema({
-  thumbUrl : String,
   extes: Boolean,
   name: String,
-  caution: String,
+  description: String,
+  caution: Number,
   disponible: Boolean,
   historique: [{
     emprunteur: String,

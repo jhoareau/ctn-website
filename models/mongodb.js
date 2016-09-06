@@ -34,7 +34,8 @@ let returnVideo = (id, callback) => {
     });
   }
   else {
-    Video.findById(id, (err, result) => {
+    // On incrémente le nombre de vues à chaque fetch quasi-unique
+    Video.findOneAndUpdate({_id: id}, {$inc: {views: 1}}, (err, result) => {
       if (err) throw new Error('Erreur lors de la récupération de la vidéo.');
       callback(result);
     });
@@ -99,18 +100,18 @@ let returnListMateriel = (admin, callback) => {
 let addMateriel = (data, callback) => {
   let Materiel = mongoose.model('Materiel', matosSchema);
   let schema = {
-    thumbUrl: data.thumb,
     extes: data.extes,
     name: data.name,
+    description: data.description,
     caution: data.caution,
     disponible: true,
     historique: []
   };
 
   let newMateriel = new Materiel(schema);
-  newMateriel.save((err) => {
+  newMateriel.save((err, obj) => {
     if (err) throw new Error("Erreur lors de l'ajout du nouveau matériel.");
-    callback({ok: true});
+    callback({id: obj.id});
   });
 };
 
@@ -120,12 +121,12 @@ let updateMateriel = (id, data, callback) => {
     if (err) throw new Error('Erreur lors de la récupération du matériel à mettre à jour.');
     if (materiel === null) return callback({ok: false});
 
-    materiel.thumbUrl = data.thumb;
+    if (materiel.thumbUrl) materiel.thumbUrl = data.thumb;
     materiel.extes = data.extes;
     materiel.name = data.name;
     materiel.caution = data.caution;
     materiel.disponible = data.updatedDisponible;
-    materiel.historique = data.updatedHistorique;
+    if (data.updatedHistorique) materiel.historique = data.updatedHistorique;
 
     materiel.save((err) => {
       if (err) throw new Error('Erreur lors de la mise à jour du matériel.');
