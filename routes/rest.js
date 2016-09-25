@@ -47,6 +47,7 @@ router.get('/header', (req, res) => {
           { title: "Déconnexion", href: '/logout', logout: true }
         ]);
 });
+
 router.get('/mediapiston/adminFeatures', loggedIn, (req, res) => {
   if (req.user.admin)
     return res.json([
@@ -54,6 +55,7 @@ router.get('/mediapiston/adminFeatures', loggedIn, (req, res) => {
                     ]);
   res.json([]);
 });
+
 router.get('/pret-matos/adminFeatures', loggedIn, (req, res) => {
   if (req.user.admin)
     return res.json([
@@ -64,7 +66,7 @@ router.get('/pret-matos/adminFeatures', loggedIn, (req, res) => {
 });
 
 router.get('/videoList', loggedIn, (req, res) => {
-  mongodb.returnListVideos(null, data => {
+  mongodb.video.returnListVideos(null, data => {
     if (data === null) data = [];
     return res.json(data);
   });
@@ -72,14 +74,14 @@ router.get('/videoList', loggedIn, (req, res) => {
 
 router.get('/videoList/related/:id', loggedIn, (req, res) => {
   // TODO vidéos liées à la vidéo en paramètre
-  mongodb.returnListVideos(null, data => {
+  mongodb.video.returnListVideos(null, data => {
     if (data === null) data = [];
     return res.json(data.slice(0, 5));
   });
 });
 
 router.get('/video/:id', loggedIn, (req, res) => {
-  mongodb.returnListVideos(req.params.id, data => {
+  mongodb.video.returnListVideos(req.params.id, data => {
     if (data === null) data = {};
     if (data.length !== 0) data = data.toObject();
     data.isAdmin = req.user.admin;
@@ -88,7 +90,7 @@ router.get('/video/:id', loggedIn, (req, res) => {
 });
 
 router.post('/video/:id/update', isAdmin, (req, res) => {
-  mongodb.updateVideo(req.params.id, req.body, answer => res.json(answer));
+  mongodb.video.updateVideo(req.params.id, req.body, answer => res.json(answer));
   let request = req.body;
   if (request.thumbnail) {
     let thumbnailData = request.thumbnail.replace(/^data:image\/png;base64,/, '');
@@ -97,7 +99,7 @@ router.post('/video/:id/update', isAdmin, (req, res) => {
 });
 
 router.delete('/video/:id/delete', isAdmin, (req, res) => {
-  mongodb.deleteVideo(req.params.id, data => {
+  mongodb.video.deleteVideo(req.params.id, data => {
     fs.unlink(path.join(__dirname, '../videos/', req.params.id + '.mp4'), err => {});
     fs.unlink(path.join(__dirname, '../videos/', req.params.id + '.png'), err => {});
     return res.json(data);
@@ -111,29 +113,29 @@ router.put('/video/add', isAdmin, (req, res) => {
   request.date = new Date();
   let thumbnailData = request.thumbnail.replace(/^data:image\/png;base64,/, '');
   fs.writeFile(path.join(__dirname, '../videos/', request._id + '.png'), thumbnailData, 'base64', err => {if (err) throw err;});
-  mongodb.updateVideo(request._id, request, answer => res.json(answer));
+  mongodb.video.updateVideo(request._id, request, answer => res.json(answer));
 });
 
 router.get('/pret-matos/public', loggedIn, (req, res) => {
-  mongodb.returnListMateriel(null, data => {
+  mongodb.materiel.returnListMateriel(null, data => {
     if (data === null) data = [];
     return res.json(data);
   });
 });
 
 router.get('/pret-matos/admin', isAdmin, (req, res) => {
-  mongodb.returnListMateriel(true, data => {
+  mongodb.materiel.returnListMateriel(true, data => {
     if (data === null) data = [];
     return res.json(data);
   });
 });
 
 router.post('/pret-matos/:id/update', isAdmin, (req, res) => {
-  mongodb.updateMateriel(req.params.id, req.body, answer => res.json(answer));
+  mongodb.materiel.updateMateriel(req.params.id, req.body, answer => res.json(answer));
 });
 
 router.put('/pret-matos/add', isAdmin, (req, res) => {
-  mongodb.addMateriel(req.body, answer => {
+  mongodb.materiel.addMateriel(req.body, answer => {
     let thumbnailData = req.body.thumbnail.replace(/^data:image\/png;base64,/, '');
     fs.writeFile(path.join(__dirname, '../materiel/', answer.id + '.png'), thumbnailData, 'base64', err => {if (err) throw err;});
     return res.json({ok: true});

@@ -5,7 +5,7 @@ let serializeUser = (user, done) => {
   done(null, user.username);
 }
 let deserializeUser = (username, done) => {
-  mongoDB.returnUser({username: username}, (user) => {
+  mongoDB.user.returnUser({username: username}, (user) => {
     return done(null, user);
   });
 }
@@ -18,7 +18,7 @@ let isCorrect = (username, password) => {
 
 let authenticator = (accessToken, refreshToken, profile, done) => {
   request.get('https://www.myecl.fr/api/users').set('Authorization', 'Bearer ' + accessToken).end((err, res) => {
-    mongoDB.returnUser(res.body, (user) => {
+    mongoDB.user.returnUser(res.body, (user) => {
       return done(null, user);
     });
   });
