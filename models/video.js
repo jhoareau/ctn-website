@@ -27,6 +27,21 @@ exports.returnVideo = (id, callback) => {
   }
 }
 
+exports.returnVideoList = exports.returnVideo.bind(this, null);
+
+exports.returnRelatedVideos = (id, callback) => {
+  Video.findOne({_id: id}, (err, result) => {
+    if (err) throw new Error('Erreur lors de la récupération de la vidéo.');
+    title = result.title;
+    Video.find({}, (err, allVideos) => {
+      if (err) throw new Error('Erreur lors de la récupération de la liste des vidéos.');
+      relatedVideos = require('fuzzy').filter(title, allVideos, {extract: video => video.title}).map(e => e.original);
+      console.log(relatedVideos);
+      callback(relatedVideos);
+    });
+  });
+}
+
 exports.generateVideoID = (callback) => {
   let schema = {};
 
