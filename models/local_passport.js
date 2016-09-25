@@ -10,7 +10,7 @@ let serializeUser = (user, done) => {
   done(null, user.username);
 }
 let deserializeUser = (username, done) => {
-  mongoDB.returnUser(username, (user) => {
+  mongoDB.user.returnUser(username, (user) => {
     return done(null, user);
   });
 }
@@ -25,7 +25,7 @@ let authenticator = (req, username, password, done) => {
   let accountExists = isCorrect(username, password);
   if (!accountExists) return done(null, false);
   else {
-    mongoDB.returnUser(username, (user) => {
+    mongoDB.user.returnUser(username, (user) => {
       return done(null, user);
     });
   }
