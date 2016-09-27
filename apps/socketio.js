@@ -2,7 +2,7 @@ let SocketIOFileUpload = require('./socketio-fileupload'),
     socketio           = require('socket.io'),
     fs                 = require('fs'),
     path               = require('path'),
-    mongoModel         = require('../models/mongodb');
+    mongodb            = require('../models/mongodb');
 
 let handler = http => {
   var io = socketio.listen(http);
@@ -37,7 +37,7 @@ let handler = http => {
             return;
           }
 
-          mongoModel.generateVideoID(id => {
+          mongodb.video.generateVideoID(id => {
             event.file.clientDetail.fileName = id;
             fs.rename(event.file.pathName, path.join(__dirname, '..', '/videos/') + id + '.mp4', err => {
               if(err) {

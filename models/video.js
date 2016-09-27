@@ -13,15 +13,21 @@ exports.model = Video;
 
 exports.returnVideo = (id, callback) => {
   if (id === null) {
-    Video.find({}, (err, result) => {
+    Video.find({}).populate('uploader').exec((err, result) => {
       if (err) throw new Error('Erreur lors de la récupération de la liste des vidéos.');
+      result = result.toObject().map(obj => {
+        obj.uploader = obj.uploader.surname;
+        return obj;
+      });
       callback(result);
     });
   }
   else {
     // On incrémente le nombre de vues à chaque fetch quasi-unique
-    Video.findByIdAndUpdate(id, {$inc: {views: 1}}, (err, result) => {
+    Video.findByIdAndUpdate(id, {$inc: {views: 1}}).populate('uploader').exec((err, result) => {
       if (err) throw new Error('Erreur lors de la récupération de la vidéo.');
+      result = result.toObject();
+      if (typeof result.uploader !== 'undefined') result.uploader = result.uploader.surname;
       callback(result);
     });
   }
@@ -43,9 +49,7 @@ exports.returnRelatedVideos = (id, callback) => {
 }
 
 exports.generateVideoID = (callback) => {
-  let schema = {};
-
-  let newVideo = new Video(schema);
+  let newVideo = new Video({});
   newVideo.save((err, importedObject) => {
     if (err) throw new Error("Erreur lors de l'ajout de la nouvelle vidéo.");
     callback(importedObject._id);
