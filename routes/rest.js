@@ -66,7 +66,7 @@ router.get('/pret-matos/adminFeatures', loggedIn, (req, res) => {
 });
 
 router.get('/videoList', loggedIn, (req, res) => {
-  mongodb.video.returnListVideos(null, data => {
+  mongodb.video.returnVideoList(data => {
     if (data === null) data = [];
     return res.json(data);
   });
@@ -74,14 +74,14 @@ router.get('/videoList', loggedIn, (req, res) => {
 
 router.get('/videoList/related/:id', loggedIn, (req, res) => {
   // TODO vidéos liées à la vidéo en paramètre
-  mongodb.video.returnListVideos(null, data => {
+  mongodb.video.returnRelatedVideos(req.params.id, data => {
     if (data === null) data = [];
     return res.json(data.slice(0, 5));
   });
 });
 
 router.get('/video/:id', loggedIn, (req, res) => {
-  mongodb.video.returnListVideos(req.params.id, data => {
+  mongodb.video.returnVideo(req.params.id, data => {
     if (data === null) data = {};
     if (data.length !== 0) data = data.toObject();
     data.isAdmin = req.user.admin;
