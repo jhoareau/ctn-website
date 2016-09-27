@@ -37,7 +37,7 @@ let handler = http => {
             return;
           }
 
-          mongoModel.generateVideoID(id => {
+          mongoModel.video.generateVideoID(id => {
             event.file.clientDetail.fileName = id;
             fs.rename(event.file.pathName, path.join(__dirname, '..', '/videos/') + id + '.mp4', err => {
               if(err) {

@@ -116,6 +116,19 @@ router.put('/video/add', isAdmin, (req, res) => {
   mongodb.video.updateVideo(request._id, request, answer => res.json(answer));
 });
 
+router.get('/comment/:id', loggedIn, (req, res) => {
+  mongodb.comment.return(req.params.id, (comment) => {
+    res.send(comment);
+  });
+});
+
+router.post('/comment/add', loggedIn, (req, res) => {
+  let request = req.body;
+  mongodb.comment.create(request, (result) => {
+    res.send(comment);
+  })
+});
+
 router.get('/pret-matos/public', loggedIn, (req, res) => {
   mongodb.materiel.returnListMateriel(null, data => {
     if (data === null) data = [];
