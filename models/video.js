@@ -2,7 +2,7 @@ let mongoose = require('mongoose');
 
 let videoSchema = new mongoose.Schema({
   title: String,
-  uploadDate: Date
+  uploadDate: Date,
   uploader: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   description: String,
   views: Number
