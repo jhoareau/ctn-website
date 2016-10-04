@@ -15,20 +15,23 @@ exports.returnVideo = (id, callback) => {
   if (id === null) {
     Video.find({}).populate('uploader').exec((err, result) => {
       if (err) throw new Error('Erreur lors de la récupération de la liste des vidéos.');
-      result = result.toObject().map(obj => {
-        obj.uploader = obj.uploader.surname;
-        return obj;
+      var filteredResults = result.map(obj => {
+        var filteredObj = obj.toJSON();
+        filteredObj.uploader = obj.uploader.surname;
+        return filteredObj;
       });
-      callback(result);
+      console.log(filteredResults);
+      callback(filteredResults);
     });
   }
   else {
     // On incrémente le nombre de vues à chaque fetch quasi-unique
     Video.findByIdAndUpdate(id, {$inc: {views: 1}}).populate('uploader').exec((err, result) => {
       if (err) throw new Error('Erreur lors de la récupération de la vidéo.');
-      result = result.toObject();
-      if (typeof result.uploader !== 'undefined') result.uploader = result.uploader.surname;
-      callback(result);
+      var filteredResult = result.toJSON();
+
+      if (typeof filteredResult.uploader !== 'undefined') filteredResult.uploader = result.uploader.surname;
+      callback(filteredResult);
     });
   }
 }
