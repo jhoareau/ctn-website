@@ -89,6 +89,12 @@ router.get('/video/:id', loggedIn, (req, res) => {
   });
 });
 
+router.get('/video/:id/comments', loggedIn, (req, res) => {
+  mongodb.comment.getByVideo(req.params.id, comments => {
+    res.json(comments);
+  })
+})
+
 router.post('/video/:id/update', isAdmin, (req, res) => {
   mongodb.video.updateVideo(req.params.id, req.body, answer => res.json(answer));
   let request = req.body;
@@ -118,14 +124,14 @@ router.put('/video/add', isAdmin, (req, res) => {
 
 router.get('/comment/:id', loggedIn, (req, res) => {
   mongodb.comment.return(req.params.id, (comment) => {
-    res.send(comment);
+    res.json(comment);
   });
 });
 
 router.post('/comment/add', loggedIn, (req, res) => {
   let request = req.body;
   mongodb.comment.create(request, (result) => {
-    res.send(comment);
+    res.json(comment);
   })
 });
 

@@ -3,7 +3,8 @@ let mongoose = require('mongoose');
 let commentSchema = new mongoose.Schema({
   text: String,
   votes: {type: Number, default: 0},
-  user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+  user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+  video: {type: mongoose.Schema.Types.ObjectId, ref: 'Video'}
 });
 
 let Comment = mongoose.model('Comment', commentSchema);
@@ -41,6 +42,13 @@ exports.updateText = (id, update, callback) => {
     if (err) throw new Error('Erreur lors de la mise à jour du commentaire.');
     callback(result);
   });
+}
+
+exports.getByVideo = (videoId, callback) => {
+  Comment.find({video:videoId}, (err, comments) => {
+    if (err) throw new Error('Erreur lors de la récupération des commentaires pour la vidéo ' + videoId + '.');
+    callback(comments);
+  })
 }
 
 exports.delete = (id, callback) => {
