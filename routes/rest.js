@@ -88,6 +88,13 @@ router.get('/video/:id', loggedIn, (req, res) => {
   });
 });
 
+router.get('/video/:id/comments', loggedIn, (req, res) => {
+  mongodb.comment.getByVideo(req.params.id, data => {
+    if (data === null) data = [];
+    return res.json(data);
+  })
+})
+
 router.post('/video/:id/update', isAdmin, (req, res) => {
   mongodb.video.updateVideo(req.params.id, req.body, answer => res.json(answer));
   let request = req.body;
@@ -113,6 +120,13 @@ router.put('/video/add', isAdmin, (req, res) => {
   let thumbnailData = request.thumbnail.replace(/^data:image\/png;base64,/, '');
   fs.writeFile(path.join(__dirname, '../videos/', request._id + '.png'), thumbnailData, 'base64', err => {if (err) throw err;});
   mongodb.video.updateVideo(request._id, request, answer => res.json(answer));
+});
+
+router.put('/video/:id/comments/add', loggedIn, (req, res) => {
+  let request = req.body;
+  mongodb.comment.create(request, (result) => {
+    res.json(comment);
+  })
 });
 
 router.get('/pret-matos/public', loggedIn, (req, res) => {
