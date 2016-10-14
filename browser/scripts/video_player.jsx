@@ -1,6 +1,7 @@
 import React from 'react';
 import * as moment from 'moment';
 import $ from 'jquery';
+import CommentList from './comment.jsx';
 
 class VideoPlayer extends React.Component {
   constructor(props) {
@@ -26,6 +27,8 @@ class VideoPlayer extends React.Component {
     let thumbUrl = '/videos/' + this.props._id + '.png';
     let videoUrl = '/videos/' + this.props._id + '.mp4';
     let modifyUrl = '/mediapiston/update/' + this.props._id;
+
+    let commentsData = this.props.comments;
 
     let videoControls = null;
     if (this.props.isAdmin)
@@ -54,6 +57,10 @@ class VideoPlayer extends React.Component {
           <div className="videoDescription">
             <p>{this.props.description}</p>
           </div>
+          <div className="commentsBox">
+            {/*<CommentList commentList={commentsData}/>*/}
+            <CommentList />
+          </div>
         </div>
       </div>
     );
@@ -66,7 +73,8 @@ VideoPlayer.defaultProps = {
   uploader: 'CTN',
   description: 'Vidéo Mediapiston',
   views: 0,
-  isAdmin: false
+  isAdmin: false,
+  comments: []
 };
 
 export default VideoPlayer;

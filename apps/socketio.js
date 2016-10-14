@@ -4,7 +4,7 @@ let SocketIOFileUpload = require('./socketio-fileupload'),
     path               = require('path'),
     mongodb            = require('../models/mongodb');
 
-let handler = http => {
+let handler = (winston, http) => {
   var io = socketio.listen(http);
   io.sockets.on('connection', socket => {
       var uploader = new SocketIOFileUpload();
@@ -60,7 +60,7 @@ let handler = http => {
       });
 
       uploader.on("error", event => {
-          console.log("VideoSocketUpload", event.error);
+          winston.log("warning", "SocketIO Video Upload / " + event.error.toString());
       });
   });
 
