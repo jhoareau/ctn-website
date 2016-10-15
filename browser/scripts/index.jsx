@@ -3,7 +3,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import $ from 'jquery';
 import 'bootstrap-loader';
-import 'font-awesome-webpack/font-awesome-styles.loader';
+import 'font-awesome-webpack2';
 import * as MaterialComponentHandler from 'exports?componentHandler&MaterialRipple!material-design-lite/material'; // Google material-design-lite V1 workaround
 import '~/browser/styles/material-design-lite/material-design-lite.scss'; // Custom variables needed
 import 'webpack-material-design-icons';

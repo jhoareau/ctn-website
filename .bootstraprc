@@ -8,9 +8,6 @@ bootstrapVersion: 4
 # If Bootstrap version 4 is used - turn on/off flexbox model
 useFlexbox: true
 
-disableSassSourceMap: true
-disableResolveUrlLoader: true
-
 # Webpack loaders, order matters
 styleLoaders:
   - style

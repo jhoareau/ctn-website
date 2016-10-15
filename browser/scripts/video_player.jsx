@@ -59,7 +59,7 @@ class VideoPlayer extends React.Component {
           </div>
           <div className="commentsBox">
             {/*<CommentList commentList={commentsData}/>*/}
-            <CommentList />
+            
           </div>
         </div>
       </div>

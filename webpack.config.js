@@ -24,7 +24,10 @@ pluginArray.push(new webpack.LoaderOptionsPlugin({
     postcss: function () {
         return [autoprefixer];
     },
-    context: '/'
+    context: path.join(__dirname, 'public/assets'),
+    output: {
+      path: path.join(__dirname, 'public/assets')
+    }
   }
 }
 ));
@@ -58,7 +61,8 @@ module.exports = {
         publicPath: '/assets/'
     },
     resolve: {
-      alias: {'~': path.resolve(__dirname)}
+      alias: {'~': path.resolve(__dirname)},
+      modules: ['node_modules', 'public/assets']
     },
     module: {
         loaders: [
