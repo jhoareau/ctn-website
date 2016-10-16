@@ -10,6 +10,7 @@ import 'webpack-material-design-icons';
 import '~/browser/styles/global.sass';
 
 /* Components */
+import Error from "./error.jsx"
 import Header from "./header.jsx";
 import Carousel from "./carousel.jsx";
 import {VideoList, RelatedVideoList} from "./video.jsx";
@@ -94,10 +95,13 @@ if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
     render(<VideoPlayer {...data} />, document.getElementById('videoContent'));
     // Attacher lecteur à la balise <video>
     require('./videoplayer_setup')(Plyr);
-  });
-  $.get('/ajax/videoList/related/' + videoID, (data) => {
-    // RelatedVideoList React
-    render(<RelatedVideoList videoList={data} />, document.getElementById('relatedContent'));
+
+    $.get('/ajax/videoList/related/' + videoID, (data_related) => {
+      // RelatedVideoList React
+      render(<RelatedVideoList videoList={data_related} />, document.getElementById('relatedContent'));
+    });
+  }).fail(() => {
+    render(<Error err="Vidéo non trouvée !" />, document.getElementById('videoContent'));
   });
 
 }

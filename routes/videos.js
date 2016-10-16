@@ -13,16 +13,13 @@ const loggedIn = (req, res, next) => {
   }
 }
 
-const serveFile = (path, res) => {
-  res.sendFile(path);
-};
 
 router.get('/:id.mp4', loggedIn, (req, res) => {
   fs.stat(path.join(__dirname, '../videos/', req.params.id +'.mp4'), (err, stat) => {
     if (err && err.code == 'ENOENT') {
-      serveFile(path.join(__dirname, '../public/defaults/', 'no_video.mp4'), res)
+      res.status(404).sendFile(path.join(__dirname, '../public/defaults/', 'no_video.mp4'))
     } else {
-      serveFile(path.join(__dirname, '../videos/', req.params.id +'.mp4'), res);
+      res.sendFile(path.join(__dirname, '../videos/', req.params.id +'.mp4'));
     }
   });
 });
@@ -30,9 +27,9 @@ router.get('/:id.mp4', loggedIn, (req, res) => {
 router.get('/:id.png', loggedIn, (req, res) => {
   fs.stat(path.join(__dirname, '../videos/', req.params.id +'.png'), (err, stat) => {
     if (err && err.code == 'ENOENT') {
-      serveFile(path.join(__dirname, '../public/defaults/', 'no_video.png'), res);
+      res.status(404).sendFile(path.join(__dirname, '../public/defaults/', 'no_video.png'));
     } else {
-      serveFile(path.join(__dirname, '../videos/', req.params.id +'.png'), res);
+      res.sendFile(path.join(__dirname, '../videos/', req.params.id +'.png'));
     }
   });
 });

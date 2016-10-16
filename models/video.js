@@ -14,7 +14,9 @@ exports.model = Video;
 exports.returnVideo = (id, callback) => {
   if (id === null) {
     Video.find({}).populate('uploader').exec((err, result) => {
-      if (err) callback([], new Error('Erreur lors de la récupération de la liste des vidéos.'));
+      if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des vidéos.'));
+      if (result === null) return callback(null);
+
       var filteredResults = result.map(obj => {
         var filteredObj = obj.toJSON();
         filteredObj.uploader = obj.uploader.surname;
@@ -27,6 +29,8 @@ exports.returnVideo = (id, callback) => {
     // On incrémente le nombre de vues à chaque fetch quasi-unique
     Video.findByIdAndUpdate(id, {$inc: {views: 1}}).populate('uploader').exec((err, result) => {
       if (err) callback({}, new Error('Erreur lors de la récupération de la vidéo. ID = ' + id));
+      if (result === null) return callback(null);
+
       var filteredResult = result.toJSON();
 
       if (typeof filteredResult.uploader !== 'undefined') filteredResult.uploader = result.uploader.surname;
@@ -39,10 +43,14 @@ exports.returnVideoList = exports.returnVideo.bind(this, null);
 
 exports.returnRelatedVideos = (id, callback) => {
   Video.findOne({_id: id}, (err, result) => {
-    if (err) callback([], new Error('Erreur lors de la récupération de la vidéo. ID = ' + id));
+    if (err) callback(null, new Error('Erreur lors de la récupération de la vidéo. ID = ' + id));
+    if (result === null) return callback(null);
+
     title = result.title;
     Video.find({}, (err, allVideos) => {
-      if (err) throw new Error('Erreur lors de la récupération de la liste des vidéos liées. ID = ' + id);
+      if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des vidéos liées. ID = ' + id));
+      if (result === null) return callback(null);
+
       relatedVideos = require('fuzzy').filter(title, allVideos, {extract: video => video.title}).map(e => e.original);
       callback(relatedVideos);
     });
@@ -52,14 +60,15 @@ exports.returnRelatedVideos = (id, callback) => {
 exports.generateVideoID = (callback) => {
   let newVideo = new Video({});
   newVideo.save((err, importedObject) => {
-    if (err) callback(null, new Error("Erreur lors de l'ajout de la nouvelle vidéo."));
+    if (err) return callback(null, new Error("Erreur lors de l'ajout de la nouvelle vidéo."));
+
     callback(importedObject._id);
   });
 };
 
 exports.updateVideo = (id, data, callback) => {
   Video.findById(id, (err, video) => {
-    if (err) callback([], new Error('Erreur lors de la récupération de la vidéo à mettre à jour. ID = ' + id));
+    if (err) return callback({ok: false}, new Error('Erreur lors de la récupération de la vidéo à mettre à jour. ID = ' + id));
     if (video === null) return callback({ok: false});
 
     video.title = data.title;
@@ -68,7 +77,8 @@ exports.updateVideo = (id, data, callback) => {
     if (data.session) video.uploader = data.session._id;
 
     video.save((err) => {
-      if (err) callback({ok: false}, new Error('Erreur lors de la mise à jour de la vidéo. ID = ' + id));
+      if (err) return callback({ok: false}, new Error('Erreur lors de la mise à jour de la vidéo. ID = ' + id));
+
       callback({ok: true});
     });
   });
@@ -76,7 +86,8 @@ exports.updateVideo = (id, data, callback) => {
 
 exports.deleteVideo = (id, callback) => {
   Video.findByIdAndRemove(id, err => {
-    if (err) callback({ok: false}, new Error('Erreur lors de la suppression de la vidéo. ID = ' + id));
+    if (err) return callback({ok: false}, new Error('Erreur lors de la suppression de la vidéo. ID = ' + id));
+
     callback({ok: true});
   });
 };

@@ -61,8 +61,7 @@ module.exports = {
         publicPath: '/assets/'
     },
     resolve: {
-      alias: {'~': path.resolve(__dirname)},
-      modules: ['node_modules', 'public/assets']
+      alias: {'~': path.resolve(__dirname)}
     },
     module: {
         loaders: [
@@ -75,5 +74,6 @@ module.exports = {
             //{ test: /\.svg$/, loader: 'svg-inline' },
         ]
     },
+    devtool: 'cheap-source-map',
     plugins: pluginArray
 };

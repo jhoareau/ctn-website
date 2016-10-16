@@ -6,6 +6,7 @@
 
 /* Serveur HTTP */
 const express = require('express'), session = require('express-session');
+const RedisStore = require('connect-redis')(session);
 
 /* Gestion des liens dans le système de fichiers, pour être portable sur toutes les plateformes */
 const path = require('path');
@@ -60,7 +61,12 @@ const appWithErrorLogger = (winston) => {
     app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
     /* Gestion des sessions persistantes */
-    app.use(session({ secret: config.session.secret, resave: true, saveUninitialized: true }));
+    const redis = true;
+    if (redis)
+        app.use(session({ secret: config.session.secret, resave: true, saveUninitialized: true, store: new RedisStore() }));
+    else
+        app.use(session({ secret: config.session.secret, resave: true, saveUninitialized: true }));
+    
     app.use(passport.initialize());
     app.use(passport.session());
 

@@ -68,7 +68,7 @@ const routerWithErrorLogger = (winston) => {
 
   router.get('/videoList', loggedIn, (req, res) => {
     mongodb.video.returnVideoList((data, err) => {
-      if (err) winston.log('warning', 'VideoList / ' + err.message)
+      if (err) winston.log('warning', 'VideoList / ' + err.message);
       if (data === null) data = [];
       return res.json(data);
     });
@@ -77,7 +77,7 @@ const routerWithErrorLogger = (winston) => {
   router.get('/videoList/related/:id', loggedIn, (req, res) => {
     // TODO vidéos liées à la vidéo en paramètre
     mongodb.video.returnRelatedVideos(req.params.id, (data, err) => {
-      if (err) winston.log('warning', 'VideoList Related / ' + err.message)
+      if (err) winston.log('warning', 'VideoList Related / ' + err.message);
       if (data === null) data = [];
       return res.json(data.slice(0, 5));
     });
@@ -85,8 +85,13 @@ const routerWithErrorLogger = (winston) => {
 
   router.get('/video/:id', loggedIn, (req, res) => {
     mongodb.video.returnVideo(req.params.id, (data, err) => {
-      if (err) winston.log('warning', 'Video / ' + err.message)
-      if (data === null) data = {};
+      console.log(data);
+      if (err) winston.log('warning', 'Video / ' + err.message);
+      if (data === null || data === {}) {
+        data = {};
+        res.status(404);
+      }
+
       data.isAdmin = req.user.admin;
       return res.json(data);
     });
@@ -94,27 +99,30 @@ const routerWithErrorLogger = (winston) => {
 
   router.get('/video/:id/comments', loggedIn, (req, res) => {
     mongodb.comment.getByVideo(req.params.id, data => {
-      if (err) winston.log('warning', 'Video Comments / ' + err.message)
-      if (data === null) data = [];
+      if (err) winston.log('warning', 'Video Comments / ' + err.message);
+      if (data === null || data === []) {
+        data = [];
+        res.status(404);
+      } 
       return res.json(data);
     })
   })
 
   router.post('/video/:id/update', isAdmin, (req, res) => {
     mongodb.video.updateVideo(req.params.id, req.body, (answer, err) => {
-      if (err) winston.log('warning', 'Video Update / ' + err.message)
+      if (err) winston.log('warning', 'Video Update / ' + err.message);
       return res.json(answer);
     });
     let request = req.body;
     if (request.thumbnail) {
       let thumbnailData = request.thumbnail.replace(/^data:image\/png;base64,/, '');
-      fs.writeFile(path.join(__dirname, '../videos/', req.params.id + '.png'), thumbnailData, 'base64', err => {if (err) throw err;});
+      fs.writeFile(path.join(__dirname, '../videos/', req.params.id + '.png'), thumbnailData, 'base64', err => {if (err) winston.log('warning', 'Thumbnail IO error / ' + err.message);});
     }
   });
 
   router.delete('/video/:id/delete', isAdmin, (req, res) => {
     mongodb.video.deleteVideo(req.params.id, (data, err) => {
-      if (err) winston.log('warning', 'Video Delete / ' + err.message)
+      if (err) winston.log('warning', 'Video Delete / ' + err.message);
       fs.unlink(path.join(__dirname, '../videos/', req.params.id + '.mp4'), err => {});
       fs.unlink(path.join(__dirname, '../videos/', req.params.id + '.png'), err => {});
       return res.json(data);
@@ -127,9 +135,9 @@ const routerWithErrorLogger = (winston) => {
     request.session = uploader;
     request.date = new Date();
     let thumbnailData = request.thumbnail.replace(/^data:image\/png;base64,/, '');
-    fs.writeFile(path.join(__dirname, '../videos/', request._id + '.png'), thumbnailData, 'base64', err => {if (err) throw err;});
+    fs.writeFile(path.join(__dirname, '../videos/', request._id + '.png'), thumbnailData, 'base64', err => {if (err) winston.log('warning', 'Thumbnail IO error / ' + err.message);});
     mongodb.video.updateVideo(request._id, request, (answer, err) => {
-      if (err) winston.log('warning', 'Video Creation / ' + err.message)
+      if (err) winston.log('warning', 'Video Creation / ' + err.message);
       return res.json(answer);
     });
   });
