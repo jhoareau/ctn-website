@@ -15,8 +15,8 @@ exports.create = (infos, callback) => {
       text: infos.text,
       user: infos.user
     }
-    let newCommment = new Comment(schema);
-    newCommment.save((err, result) => {
+    let newComment = new Comment(schema);
+    newComment.save((err, result) => {
       if (err) throw new Error("Erreur lors de la création du nouveau commentaire.");
       callback(result);
     })
@@ -29,7 +29,6 @@ exports.return = (id, callback) => {
   });
 }
 
-//MOCHE, TODO regrouper les deux fct d'update en une seule
 exports.updateVotes = (id, up, callback) => {
   Comment.findByIdAndUpdate(id, {$inc: {votes: up ? 1 : -1}}, (err, result) => {
     if (err) throw new Error('Erreur lors de la mise à jour du nombre de votes du commentaire.');
@@ -45,7 +44,7 @@ exports.updateText = (id, update, callback) => {
 }
 
 exports.getByVideo = (videoId, callback) => {
-  Comment.find({video:videoId}, (err, comments) => {
+  Comment.find({video: videoId}, (err, comments) => {
     if (err) throw new Error('Erreur lors de la récupération des commentaires pour la vidéo ' + videoId + '.');
     callback(comments);
   })

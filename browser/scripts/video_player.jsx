@@ -1,6 +1,7 @@
 import React from 'react';
-import * as moment from 'moment';
+import moment from 'moment';
 import $ from 'jquery';
+import CommentList from './comment.jsx';
 
 class VideoPlayer extends React.Component {
   constructor(props) {
@@ -27,6 +28,8 @@ class VideoPlayer extends React.Component {
     let videoUrl = '/videos/' + this.props._id + '.mp4';
     let modifyUrl = '/mediapiston/update/' + this.props._id;
 
+    let commentsData = this.props.comments;
+
     let videoControls = null;
     if (this.props.isAdmin)
       videoControls = (<div className="videoControls">
@@ -37,23 +40,29 @@ class VideoPlayer extends React.Component {
           <i className="fa fa-trash-o" aria-hidden="true"/>
         </button>
       </div>);
-
+    
+    moment.locale('fr');
+    
     return (
       <div className="videoPlayer container">
         <video poster={thumbUrl} src={videoUrl} controls="true" />
         {videoControls}
-        <div className="videoDetails mdl-shadow--2dp">
+        <div className="videoDetails mdl-shadow--3dp">
           <div className="row">
             <div className="col-md-8">
               <h3>{this.props.title}</h3>
             </div>
             <div className="col-md-4">
-              <p>Mis en ligne le {this.props.uploadDate} par {this.props.uploader}<br/><small>{this.props.views} vues</small></p>
+              <p>Mis en ligne le {moment(this.props.uploadDate).format("D MMMM YYYY")} par {this.props.uploader}<br/><small>{this.props.views} vues</small></p>
             </div>
           </div>
           <div className="videoDescription">
             <p>{this.props.description}</p>
           </div>
+        </div>
+        <div className="commentsBox">
+          {/*<CommentList commentList={commentsData}/>*/}
+          <CommentList />
         </div>
       </div>
     );
@@ -66,7 +75,8 @@ VideoPlayer.defaultProps = {
   uploader: 'CTN',
   description: 'Vidéo Mediapiston',
   views: 0,
-  isAdmin: false
+  isAdmin: false,
+  comments: []
 };
 
 export default VideoPlayer;

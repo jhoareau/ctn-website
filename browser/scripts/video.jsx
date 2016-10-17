@@ -114,6 +114,9 @@ export class RelatedVideoList extends React.Component {
           })}
         </div>
       );
+    else return (<div className="relatedVideoList">
+          <h4 className="display-1">Aucune vidéo suggérée!</h4>
+        </div>);
   }
 }
 RelatedVideoList.defaultProps = VideoList.defaultProps;

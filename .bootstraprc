@@ -1,6 +1,6 @@
 ---
 # Output debugging info
-#loglevel: debug
+# loglevel: debug
 
 # Major version of Bootstrap: 3 or 4
 bootstrapVersion: 4
@@ -79,8 +79,6 @@ styles:
   card: true
   breadcrumb: true
   pagination: true
-  pager: true
-  labels: true
   jumbotron: true
   alert: true
   progress: true
@@ -88,6 +86,7 @@ styles:
   list-group: true
   responsive-embed: true
   close: true
+  tags: true
 
   # Components w/ JavaScript
   modal: true
@@ -97,20 +96,17 @@ styles:
 
   # Utility classes
   utilities: true
-  utilities-background: true
-  utilities-spacing: true
-  utilities-responsive: true
 
 ### Bootstrap scripts
 scripts:
-  alert: false
-  button: false
-  carousel: false
-  collapse: false
-  dropdown: false
-  modal: false
-  popover: false
-  scrollspy: false
-  tab: false
-  tooltip: false
-  util: false
+  alert: true
+  button: true
+  carousel: true
+  collapse: true
+  dropdown: true
+  modal: true
+  popover: true
+  scrollspy: true
+  tab: true
+  tooltip: true
+  util: true
