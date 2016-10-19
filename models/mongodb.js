@@ -10,3 +10,4 @@ exports.user = require('./user.js');
 exports.comment = require('./comment.js');
 exports.video = require('./video.js');
 exports.materiel = require('./materiel.js');
+exports.news = require('./news.js');
