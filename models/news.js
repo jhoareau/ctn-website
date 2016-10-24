@@ -34,31 +34,11 @@ exports.return = (id, callback) => {
   });
 }
 
-exports.updateText = (id, update, callback) => {
-  News.findByIdAndUpdate(id, {$set: update}, (err, result) => {
-    if (err) throw new Error('Erreur lors de la mise à jour de la news.');
-
-// return all news est où ??
-
-// faire un update global pour toutes les data d'un coup, cf updateVideo
-/* exports.updateVideo = (id, data, callback) => {
-  Video.findById(id, (err, video) => {
-    if (err) return callback({ok: false}, new Error('Erreur lors de la récupération de la vidéo à mettre à jour. ID = ' + id));
-    if (video === null || typeof video === 'undefined') return callback({ok: false});
-
-    video.title = data.title;
-    video.description = data.description;
-    if (data.date) video.date = data.date;
-    if (data.session) video.uploader = data.session._id;
-
-    video.save((err2) => {
-      if (err2) return callback({ok: false}, new Error('Erreur lors de la mise à jour de la vidéo. ID = ' + id));
-
-      callback({ok: true});
-    });
-  });
-}; */
-    callback(result);
+exports.update = (id, update, callback) => {
+  News.findByIdAndUpdate(id, {$set: update}, (err, news) => {
+    if (err) return callback({ok: false}, new Error('Erreur lors de la récupération de la news à mettre à jour. ID = ' + id));
+    if (news === null || typeof news === 'undefined') return callback({ok: false});
+    callback(news);
   });
 }
 
