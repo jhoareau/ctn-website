@@ -13,7 +13,7 @@ exports.model = Comment;
 exports.createComment = (data, callback) => {
     let schema = {
       text: data.text,
-      user: data.user
+      user: data.session._id
     };
     let newComment = new Comment(schema);
     newComment.save((err, result) => {
@@ -23,11 +23,14 @@ exports.createComment = (data, callback) => {
 }
 
 exports.returnComment = (id, callback) => {
-  Comment.findById(id, (err, result) => {
+  Comment.find({_id: id}).populate('user').exec((err, result) => {
     if (err) return callback(null, new Error('Erreur lors de la récupération du commentaire. ID = ' + id));
     if (result === null || typeof result === 'undefined') return callback(null);
 
-    callback(result);
+    let filteredResult = result.toJSON();
+
+    if (typeof filteredResult.user !== 'undefined') filteredResult.user = result.user.surname;
+    callback(filteredResult);
   });
 }
 
