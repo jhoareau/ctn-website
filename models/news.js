@@ -35,10 +35,17 @@ exports.return = (id, callback) => {
 }
 
 exports.update = (id, update, callback) => {
-  News.findByIdAndUpdate(id, {$set: update}, (err, news) => {
+  News.findById(id, (err, news) => {
     if (err) return callback({ok: false}, new Error('Erreur lors de la récupération de la news à mettre à jour. ID = ' + id));
     if (news === null || typeof news === 'undefined') return callback({ok: false});
-    callback(news);
+
+    if (update.title) news.title = update.title;
+    if (update.text) news.text = update.text;
+
+    video.save((err2) => {
+      if (err2) return callback({ok: false}, new Error('Erreur lors de la mise à jour de la news. ID = ' + id));
+      callback({ok: true});
+    });
   });
 }
 
