@@ -19,7 +19,7 @@ let matosSchema = new mongoose.Schema({
 let Materiel = mongoose.model('Materiel', matosSchema);
 exports.model = Materiel;
 
-exports.returnListMateriel = (admin, callback) => {
+exports.returnList = (admin, callback) => {
   if (admin) {
     Materiel.find({}, (err, result) => {
       if (err) throw new Error('Erreur lors de la récupération de la liste du matériel (admin).');
@@ -34,7 +34,7 @@ exports.returnListMateriel = (admin, callback) => {
   }
 };
 
-exports.addMateriel = (data, callback) => {
+exports.add = (data, callback) => {
   let schema = {
     extes: data.extes,
     name: data.name,
@@ -51,7 +51,7 @@ exports.addMateriel = (data, callback) => {
   });
 };
 
-exports.updateMateriel = (id, data, callback) => {
+exports.update = (id, data, callback) => {
   Materiel.findById(id, (err, materiel) => {
     if (err) throw new Error('Erreur lors de la récupération du matériel à mettre à jour.');
     if (materiel === null) return callback({ok: false});

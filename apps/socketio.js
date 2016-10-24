@@ -37,7 +37,7 @@ let handler = (winston, http) => {
             return;
           }
 
-          mongodb.video.generateVideoID(id => {
+          mongodb.video.generateID(id => {
             event.file.clientDetail.fileName = id;
             fs.rename(event.file.pathName, path.join(__dirname, '..', '/videos/') + id + '.mp4', err => {
               if(err) {

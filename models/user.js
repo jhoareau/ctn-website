@@ -12,7 +12,7 @@ let userSchema = new mongoose.Schema({
 let User = mongoose.model('User', userSchema);
 exports.model = User;
 
-exports.returnUser = (userObject, callback) => {
+exports.return = (userObject, callback) => {
   User.findOne({username: userObject.username}, (err, result) => {
     if (err) throw err;
     if (result == null) {
