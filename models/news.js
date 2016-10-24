@@ -42,7 +42,7 @@ exports.update = (id, update, callback) => {
     if (update.title) news.title = update.title;
     if (update.text) news.text = update.text;
 
-    video.save((err2) => {
+    news.save((err2) => {
       if (err2) return callback({ok: false}, new Error('Erreur lors de la mise à jour de la news. ID = ' + id));
       callback({ok: true});
     });
