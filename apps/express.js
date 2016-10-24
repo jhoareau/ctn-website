@@ -80,7 +80,7 @@ const appWithErrorLogger = (winston) => {
     app.use('/', publicRoutes);
     app.use('/ajax', restRoutes);
     app.use('/videos', videoRouter);
-    app.use('/materiel', assetsRouter);
+    //app.use('/materiel', assetsRouter);
 
     // Page non existante
     app.use((req, res) => {

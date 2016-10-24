@@ -36,14 +36,14 @@ const routerWithErrorLogger = (winston) => {
     if (req.user.admin)
       return res.json([
               { title: "Mediapiston", src: 'mediapiston', href: '/mediapiston' },
-              { title: "Matériel", src: 'pret', href: '/pret-matos' },
+              //{ title: "Matériel", src: 'pret', href: '/pret-matos' },
               { title: "A propos", src: 'apropos', href: '/a-propos' },
               { title: "Admin", src: 'admin', href: '/ctn-asso' },
               { title: "Déconnexion", href: '/logout', logout: true },
             ]);
     res.json([
             { title: "Mediapiston", src: 'mediapiston', href: '/mediapiston' },
-            { title: "Matériel", src: 'pret', href: '/pret-matos' },
+            //{ title: "Matériel", src: 'pret', href: '/pret-matos' },
             { title: "A propos", src: 'apropos', href: '/a-propos' },
             { title: "Déconnexion", href: '/logout', logout: true }
           ]);
@@ -57,14 +57,14 @@ const routerWithErrorLogger = (winston) => {
     res.json([]);
   });
 
-  router.get('/pret-matos/adminFeatures', loggedIn, (req, res) => {
+  /*router.get('/pret-matos/adminFeatures', loggedIn, (req, res) => {
     if (req.user.admin)
       return res.json([
               { title: "Ajouter un matériel", href: '/pret-matos/add' },
               { title: "Gérer le matériel", href: '/pret-matos/admin' }
                       ]);
     res.json([]);
-  });
+  });*/
 
   router.get('/videoList', loggedIn, (req, res) => {
     mongodb.video.returnVideoList((data, err) => {
@@ -85,11 +85,10 @@ const routerWithErrorLogger = (winston) => {
 
   router.get('/video/:id', loggedIn, (req, res) => {
     mongodb.video.returnVideo(req.params.id, (data, err) => {
-      console.log(data);
       if (err) winston.log('warning', 'Video / ' + err.message);
       if (data === null || data === {}) {
         data = {};
-        res.status(404);
+        return res.status(404).send(data);
       }
 
       data.isAdmin = req.user.admin;
@@ -98,11 +97,11 @@ const routerWithErrorLogger = (winston) => {
   });
 
   router.get('/video/:id/comments', loggedIn, (req, res) => {
-    mongodb.comment.getByVideo(req.params.id, data => {
+    mongodb.comment.getByVideo(req.params.id, (data, err) => {
       if (err) winston.log('warning', 'Video Comments / ' + err.message);
       if (data === null || data === []) {
         data = [];
-        res.status(404);
+        return res.status(404).send(data);
       } 
       return res.json(data);
     })
@@ -110,7 +109,10 @@ const routerWithErrorLogger = (winston) => {
 
   router.post('/video/:id/update', isAdmin, (req, res) => {
     mongodb.video.updateVideo(req.params.id, req.body, (answer, err) => {
-      if (err) winston.log('warning', 'Video Update / ' + err.message);
+      if (err) {
+        winston.log('warning', 'Video Update / ' + err.message);
+        return res.status(500).send(answer);
+      }
       return res.json(answer);
     });
     let request = req.body;
@@ -122,7 +124,10 @@ const routerWithErrorLogger = (winston) => {
 
   router.delete('/video/:id/delete', isAdmin, (req, res) => {
     mongodb.video.deleteVideo(req.params.id, (data, err) => {
-      if (err) winston.log('warning', 'Video Delete / ' + err.message);
+      if (err) {
+        winston.log('warning', 'Video Delete / ' + err.message);
+        return res.status(500).send(data);
+      }
       fs.unlink(path.join(__dirname, '../videos/', req.params.id + '.mp4'), err => {});
       fs.unlink(path.join(__dirname, '../videos/', req.params.id + '.png'), err => {});
       return res.json(data);
@@ -137,18 +142,26 @@ const routerWithErrorLogger = (winston) => {
     let thumbnailData = request.thumbnail.replace(/^data:image\/png;base64,/, '');
     fs.writeFile(path.join(__dirname, '../videos/', request._id + '.png'), thumbnailData, 'base64', err => {if (err) winston.log('warning', 'Thumbnail IO error / ' + err.message);});
     mongodb.video.updateVideo(request._id, request, (answer, err) => {
-      if (err) winston.log('warning', 'Video Creation / ' + err.message);
+      if (err) {
+        winston.log('warning', 'Video Creation / ' + err.message);
+        return res.status(500).send(answer);
+      }
       return res.json(answer);
     });
   });
 
   router.put('/video/:id/comments/add', loggedIn, (req, res) => {
     let request = req.body;
-    mongodb.comment.create(request, (result) => {
-      res.json(comment);
+    mongodb.comment.createComment(request, (answer, err) => {
+      if (err) {
+        winston.log('warning', 'Comment Creation / ' + err.message);
+        return res.status(500).send(answer);
+      }
+      return res.json(answer);
     })
   });
 
+/*
   router.get('/pret-matos/public', loggedIn, (req, res) => {
     mongodb.materiel.returnListMateriel(null, data => {
       if (data === null) data = [];
@@ -174,7 +187,7 @@ const routerWithErrorLogger = (winston) => {
       return res.json({ok: true});
     });
   });
-
+*/
   return router;
 }
 
