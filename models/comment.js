@@ -48,7 +48,7 @@ exports.updateText = (id, newText, callback) => {
     if (err) return callback({ok: false}, new Error('Erreur lors de la récupération du commentaire à mettre à jour. ID = ' + id));
     if (result === null || typeof result === 'undefined') return callback({ok: false});
 
-    comment.text = newText;
+    if (newText) comment.text = newText;
 
     comment.save((err2) => {
       if (err2) return callback({ok: false}, new Error('Erreur lors de la mise à jour du commentaire. ID = ' + id));
