@@ -1,9 +1,9 @@
 let mongoose = require('mongoose');
 
 let newsSchema = new mongoose.Schema({
+  title: String,
   text: String,
-  writer: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  title: String
+  writer: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 });
 
 let News = mongoose.model('News', newsSchema);
@@ -11,6 +11,7 @@ exports.model = News;
 
 exports.create = (infos, callback) => {
   let schema = {
+    title: infos.title,
     text: infos.text,
     writer: infos.session._id
   }
@@ -21,18 +22,35 @@ exports.create = (infos, callback) => {
   });
 }
 
-exports.return = (id, callback) => {
-  News.find({_id: id}).populate('writer').exec((err, result) => {
-    if (err) return callback(null, new Error('Erreur lors de la récupération de la news. ID = ' + id));
-    if (result === null || typeof result === 'undefined') return callback(null);
+exports.return = (id, callback) => {  
+  if (id === null) {
+    Video.find({}).populate('writer').exec((err, result) => {
+      if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des news.'));
+      if (result === null || typeof result === 'undefined') return callback(null);
 
-    let filteredResult = result.toJSON();
+      let filteredResults = result.map(obj => {
+        let filteredObj = obj.toJSON();
+        if (obj.writer) filteredObj.writer = obj.writer.surname;
+        return filteredObj;
+      });
+      callback(filteredResults);
+    });
+  }
+  else {
+    News.find({_id: id}).populate('writer').exec((err, result) => {
+      if (err) return callback(null, new Error('Erreur lors de la récupération de la news. ID = ' + id));
+      if (result === null || typeof result === 'undefined') return callback(null);
 
-    if (typeof filteredResult.user !== 'undefined') filteredResult.user = result.user.surname;
+      let filteredResult = result.toJSON();
 
-    callback(filteredResult);
-  });
+      if (typeof filteredResult.writer !== 'undefined') filteredResult.writer = result.writer.surname;
+
+      callback(filteredResult);
+    });
+  }
 }
+
+exports.returnList = exports.return.bind(this, null);
 
 exports.update = (id, update, callback) => {
   News.findById(id, (err, news) => {

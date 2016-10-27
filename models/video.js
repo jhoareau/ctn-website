@@ -2,7 +2,7 @@ let mongoose = require('mongoose');
 
 let videoSchema = new mongoose.Schema({
   title: String,
-  uploadDate: Date,
+  uploadDate: {type: Date, default: Date.now},
   uploader: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   description: String,
   views: Number
@@ -19,7 +19,7 @@ exports.return = (id, callback) => {
 
       let filteredResults = result.map(obj => {
         let filteredObj = obj.toJSON();
-        filteredObj.uploader = obj.uploader.surname;
+        if (obj.uploader) filteredObj.uploader = obj.uploader.surname;
         return filteredObj;
       });
       callback(filteredResults);
@@ -27,10 +27,10 @@ exports.return = (id, callback) => {
   }
   else {
     // On incrémente le nombre de vues à chaque fetch quasi-unique
-    Video.findByIdAndUpdate(id, {$inc: {views: 1}}).populate('uploader').exec((err, result) => {
+    Video.findByIdAndUpdate(id, {$inc: {views: 1}},{'new':true}).populate('uploader').exec((err, result) => {
       if (err) callback({}, new Error('Erreur lors de la récupération de la vidéo. ID = ' + id));
       if (result === null || typeof result === 'undefined') return callback(null);
-
+      
       let filteredResult = result.toJSON();
 
       if (typeof filteredResult.uploader !== 'undefined') filteredResult.uploader = result.uploader.surname;
