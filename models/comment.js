@@ -22,25 +22,37 @@ exports.create = (data, callback) => {
 }
 
 exports.return = (id, callback) => {
-  Comment.find({_id: id}).populate('user').exec((err, result) => {
-    if (err) return callback(null, new Error('Erreur lors de la récupération du commentaire. ID = ' + id));
-    if (result === null || typeof result === 'undefined') return callback(null);
 
-    let filteredResult = result.toJSON();
-
-    if (typeof filteredResult.user !== 'undefined') filteredResult.user = result.user.surname;
-    callback(filteredResult);
-  });
 }
 
-exports.updateVotes = (id, up, callback) => {
-  Comment.findByIdAndUpdate(id, {$inc: {votes: up ? 1 : -1}}, (err, result) => {
-    if (err) return callback({ok: false}, new Error('Erreur lors de la mise à jour du nombre de votes du commentaire. ID = ' + id));
-    if (result === null || typeof result === 'undefined') return callback({ok: false});
+exports.return = (id, callback) => {
+  if (id === null) {
+    Comment.find({}).populate('user').exec((err, result) => {
+      if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des commentaires.'));
+      if (result === null || typeof result === 'undefined') return callback(null);
 
-    callback({ok: true});
-  });
+      let filteredResults = result.map(obj => {
+        let filteredObj = obj.toJSON();
+        if (obj.user) filteredObj.user = obj.user.surname;
+        return filteredObj;
+      });
+      callback(filteredResults);
+    });
+  }
+  else {
+    Comment.find({_id: id}).populate('user').exec((err, result) => {
+      if (err) return callback(null, new Error('Erreur lors de la récupération du commentaire. ID = ' + id));
+      if (result === null || typeof result === 'undefined') return callback(null);
+
+      let filteredResult = result.toJSON();
+
+      if (typeof filteredResult.user !== 'undefined') filteredResult.user = result.user.surname;
+      callback(filteredResult);
+    });
+  }
 }
+
+exports.returnList = exports.return.bind(this, null);
 
 exports.updateText = (id, newText, callback) => {
   Comment.findById(id, (err, comment) => {
