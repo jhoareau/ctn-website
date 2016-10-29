@@ -22,9 +22,9 @@ exports.create = (infos, callback) => {
   });
 }
 
-exports.return = (id, callback) => {  
+exports.return = (id, callback) => {
   if (id === null) {
-    Video.find({}).populate('writer').exec((err, result) => {
+    News.find({}).populate('writer').exec((err, result) => {
       if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des news.'));
       if (result === null || typeof result === 'undefined') return callback(null);
 
