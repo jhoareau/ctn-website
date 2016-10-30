@@ -67,7 +67,7 @@ const routerWithErrorLogger = (winston) => {
   });*/
 
   router.get('/videoList', loggedIn, (req, res) => {
-    mongodb.video.returnVideoList((data, err) => {
+    mongodb.video.returnList((data, err) => {
       if (err) winston.log('warning', 'VideoList / ' + err.message);
       if (data === null) data = [];
       return res.json(data);
@@ -76,7 +76,7 @@ const routerWithErrorLogger = (winston) => {
 
   router.get('/videoList/related/:id', loggedIn, (req, res) => {
     // TODO vidéos liées à la vidéo en paramètre
-    mongodb.video.returnRelatedVideos(req.params.id, (data, err) => {
+    mongodb.video.getRelatedVideos(req.params.id, (data, err) => {
       if (err) winston.log('warning', 'VideoList Related / ' + err.message);
       if (data === null) data = [];
       return res.json(data.slice(0, 5));
@@ -84,7 +84,7 @@ const routerWithErrorLogger = (winston) => {
   });
 
   router.get('/video/:id', loggedIn, (req, res) => {
-    mongodb.video.returnVideo(req.params.id, (data, err) => {
+    mongodb.video.return(req.params.id, (data, err) => {
       if (err) winston.log('warning', 'Video / ' + err.message);
       if (data === null || data === {}) {
         data = {};
@@ -102,13 +102,13 @@ const routerWithErrorLogger = (winston) => {
       if (data === null || data === []) {
         data = [];
         return res.status(404).send(data);
-      } 
+      }
       return res.json(data);
     })
   })
 
   router.post('/video/:id/update', isAdmin, (req, res) => {
-    mongodb.video.updateVideo(req.params.id, req.body, (answer, err) => {
+    mongodb.video.update(req.params.id, req.body, (answer, err) => {
       if (err) {
         winston.log('warning', 'Video Update / ' + err.message);
         return res.status(500).send(answer);
@@ -123,7 +123,7 @@ const routerWithErrorLogger = (winston) => {
   });
 
   router.delete('/video/:id/delete', isAdmin, (req, res) => {
-    mongodb.video.deleteVideo(req.params.id, (data, err) => {
+    mongodb.video.delete(req.params.id, (data, err) => {
       if (err) {
         winston.log('warning', 'Video Delete / ' + err.message);
         return res.status(500).send(data);
@@ -141,7 +141,7 @@ const routerWithErrorLogger = (winston) => {
     request.date = new Date();
     let thumbnailData = request.thumbnail.replace(/^data:image\/png;base64,/, '');
     fs.writeFile(path.join(__dirname, '../videos/', request._id + '.png'), thumbnailData, 'base64', err => {if (err) winston.log('warning', 'Thumbnail IO error / ' + err.message);});
-    mongodb.video.updateVideo(request._id, request, (answer, err) => {
+    mongodb.video.update(request._id, request, (answer, err) => {
       if (err) {
         winston.log('warning', 'Video Creation / ' + err.message);
         return res.status(500).send(answer);
@@ -152,7 +152,7 @@ const routerWithErrorLogger = (winston) => {
 
   router.put('/video/:id/comments/add', loggedIn, (req, res) => {
     let request = req.body;
-    mongodb.comment.createComment(request, (answer, err) => {
+    mongodb.comment.create(request, (answer, err) => {
       if (err) {
         winston.log('warning', 'Comment Creation / ' + err.message);
         return res.status(500).send(answer);
@@ -163,25 +163,25 @@ const routerWithErrorLogger = (winston) => {
 
 /*
   router.get('/pret-matos/public', loggedIn, (req, res) => {
-    mongodb.materiel.returnListMateriel(null, data => {
+    mongodb.materiel.returnList(null, data => {
       if (data === null) data = [];
       return res.json(data);
     });
   });
 
   router.get('/pret-matos/admin', isAdmin, (req, res) => {
-    mongodb.materiel.returnListMateriel(true, data => {
+    mongodb.materiel.returnList(true, data => {
       if (data === null) data = [];
       return res.json(data);
     });
   });
 
   router.post('/pret-matos/:id/update', isAdmin, (req, res) => {
-    mongodb.materiel.updateMateriel(req.params.id, req.body, answer => res.json(answer));
+    mongodb.materiel.update(req.params.id, req.body, answer => res.json(answer));
   });
 
   router.put('/pret-matos/add', isAdmin, (req, res) => {
-    mongodb.materiel.addMateriel(req.body, answer => {
+    mongodb.materiel.add(req.body, answer => {
       let thumbnailData = req.body.thumbnail.replace(/^data:image\/png;base64,/, '');
       fs.writeFile(path.join(__dirname, '../materiel/', answer.id + '.png'), thumbnailData, 'base64', err => {if (err) throw err;});
       return res.json({ok: true});

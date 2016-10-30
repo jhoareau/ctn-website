@@ -61,12 +61,12 @@ const appWithErrorLogger = (winston) => {
     app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
     /* Gestion des sessions persistantes */
-    const redis = true;
+    const redis = false;
     if (redis)
         app.use(session({ secret: config.session.secret, resave: true, saveUninitialized: true, store: new RedisStore() }));
     else
         app.use(session({ secret: config.session.secret, resave: true, saveUninitialized: true }));
-    
+
     app.use(passport.initialize());
     app.use(passport.session());
 

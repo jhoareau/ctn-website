@@ -2,7 +2,7 @@ let mongoose = require('mongoose');
 
 let videoSchema = new mongoose.Schema({
   title: String,
-  uploadDate: Date,
+  uploadDate: {type: Date, default: Date.now},
   uploader: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   description: String,
   views: Number
@@ -11,7 +11,7 @@ let videoSchema = new mongoose.Schema({
 let Video = mongoose.model('Video', videoSchema);
 exports.model = Video;
 
-exports.returnVideo = (id, callback) => {
+exports.return = (id, callback) => {
   if (id === null) {
     Video.find({}).populate('uploader').exec((err, result) => {
       if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des vidéos.'));
@@ -19,7 +19,7 @@ exports.returnVideo = (id, callback) => {
 
       let filteredResults = result.map(obj => {
         let filteredObj = obj.toJSON();
-        filteredObj.uploader = obj.uploader.surname;
+        if (obj.uploader) filteredObj.uploader = obj.uploader.surname;
         return filteredObj;
       });
       callback(filteredResults);
@@ -27,10 +27,10 @@ exports.returnVideo = (id, callback) => {
   }
   else {
     // On incrémente le nombre de vues à chaque fetch quasi-unique
-    Video.findByIdAndUpdate(id, {$inc: {views: 1}}).populate('uploader').exec((err, result) => {
+    Video.findByIdAndUpdate(id, {$inc: {views: 1}},{'new':true}).populate('uploader').exec((err, result) => {
       if (err) callback({}, new Error('Erreur lors de la récupération de la vidéo. ID = ' + id));
       if (result === null || typeof result === 'undefined') return callback(null);
-
+      
       let filteredResult = result.toJSON();
 
       if (typeof filteredResult.uploader !== 'undefined') filteredResult.uploader = result.uploader.surname;
@@ -39,9 +39,9 @@ exports.returnVideo = (id, callback) => {
   }
 }
 
-exports.returnVideoList = exports.returnVideo.bind(this, null);
+exports.returnList = exports.return.bind(this, null);
 
-exports.returnRelatedVideos = (id, callback) => {
+exports.getRelatedVideos = (id, callback) => {
   Video.findOne({_id: id}, (err, result) => {
     if (err) callback(null, new Error('Erreur lors de la récupération de la vidéo. ID = ' + id));
     if (result === null || typeof result === 'undefined') return callback(null);
@@ -57,7 +57,7 @@ exports.returnRelatedVideos = (id, callback) => {
   });
 }
 
-exports.generateVideoID = (callback) => {
+exports.generateID = (callback) => {
   let newVideo = new Video({});
   newVideo.save((err, importedObject) => {
     if (err) return callback(null, new Error("Erreur lors de l'ajout de la nouvelle vidéo."));
@@ -66,7 +66,7 @@ exports.generateVideoID = (callback) => {
   });
 };
 
-exports.updateVideo = (id, data, callback) => {
+exports.update = (id, data, callback) => {
   Video.findById(id, (err, video) => {
     if (err) return callback({ok: false}, new Error('Erreur lors de la récupération de la vidéo à mettre à jour. ID = ' + id));
     if (video === null || typeof video === 'undefined') return callback({ok: false});
@@ -84,7 +84,7 @@ exports.updateVideo = (id, data, callback) => {
   });
 };
 
-exports.deleteVideo = (id, callback) => {
+exports.delete = (id, callback) => {
   Video.findByIdAndRemove(id, err => {
     if (err) return callback({ok: false}, new Error('Erreur lors de la suppression de la vidéo. ID = ' + id));
 

@@ -2,7 +2,6 @@ let mongoose = require('mongoose');
 
 let commentSchema = new mongoose.Schema({
   text: String,
-  votes: {type: Number, default: 0},
   user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   video: {type: mongoose.Schema.Types.ObjectId, ref: 'Video'}
 });
@@ -10,7 +9,7 @@ let commentSchema = new mongoose.Schema({
 let Comment = mongoose.model('Comment', commentSchema);
 exports.model = Comment;
 
-exports.createComment = (data, callback) => {
+exports.create = (data, callback) => {
     let schema = {
       text: data.text,
       user: data.session._id
@@ -22,33 +21,45 @@ exports.createComment = (data, callback) => {
     })
 }
 
-exports.returnComment = (id, callback) => {
-  Comment.find({_id: id}).populate('user').exec((err, result) => {
-    if (err) return callback(null, new Error('Erreur lors de la récupération du commentaire. ID = ' + id));
-    if (result === null || typeof result === 'undefined') return callback(null);
+exports.return = (id, callback) => {
 
-    let filteredResult = result.toJSON();
-
-    if (typeof filteredResult.user !== 'undefined') filteredResult.user = result.user.surname;
-    callback(filteredResult);
-  });
 }
 
-exports.updateVotes = (id, up, callback) => {
-  Comment.findByIdAndUpdate(id, {$inc: {votes: up ? 1 : -1}}, (err, result) => {
-    if (err) return callback({ok: false}, new Error('Erreur lors de la mise à jour du nombre de votes du commentaire. ID = ' + id));
-    if (result === null || typeof result === 'undefined') return callback({ok: false});
+exports.return = (id, callback) => {
+  if (id === null) {
+    Comment.find({}).populate('user').exec((err, result) => {
+      if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des commentaires.'));
+      if (result === null || typeof result === 'undefined') return callback(null);
 
-    callback({ok: true});
-  });
+      let filteredResults = result.map(obj => {
+        let filteredObj = obj.toJSON();
+        if (obj.user) filteredObj.user = obj.user.surname;
+        return filteredObj;
+      });
+      callback(filteredResults);
+    });
+  }
+  else {
+    Comment.find({_id: id}).populate('user').exec((err, result) => {
+      if (err) return callback(null, new Error('Erreur lors de la récupération du commentaire. ID = ' + id));
+      if (result === null || typeof result === 'undefined') return callback(null);
+
+      let filteredResult = result.toJSON();
+
+      if (typeof filteredResult.user !== 'undefined') filteredResult.user = result.user.surname;
+      callback(filteredResult);
+    });
+  }
 }
+
+exports.returnList = exports.return.bind(this, null);
 
 exports.updateText = (id, newText, callback) => {
   Comment.findById(id, (err, comment) => {
     if (err) return callback({ok: false}, new Error('Erreur lors de la récupération du commentaire à mettre à jour. ID = ' + id));
     if (result === null || typeof result === 'undefined') return callback({ok: false});
 
-    comment.text = newText;
+    if (newText) comment.text = newText;
 
     comment.save((err2) => {
       if (err2) return callback({ok: false}, new Error('Erreur lors de la mise à jour du commentaire. ID = ' + id));
@@ -68,12 +79,12 @@ exports.getByVideo = (videoId, callback) => {
         filteredObj.user = obj.user.surname;
         return filteredObj;
       });
-    
+
     callback(filteredResults);
   })
 }
 
-exports.deleteComment = (id, callback) => {
+exports.delete = (id, callback) => {
   Comment.findByIdAndRemove(id, err => {
     if (err) return callback({ok: false}, new Error('Erreur lors de la suppression du commentaire. ID = ' + id));
     callback({ok: true});
