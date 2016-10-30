@@ -6,8 +6,8 @@ const loggedIn = (req, res, next) => {
     next();
   else {
     req.session.redirectTo = req.path;
-    //res.redirect('/login');
-    res.redirect('/');
+    res.redirect('/login');
+    //res.redirect('/');
   }
 }
 
@@ -24,7 +24,8 @@ const isAdmin = (req, res, next) => {
 }
 
 router.get('/', (req, res) => {
-  res.render('index');
+  //res.render('index');
+  res.redirect('/mediapiston');
 });
 
 

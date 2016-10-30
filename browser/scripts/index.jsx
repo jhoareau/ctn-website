@@ -65,7 +65,7 @@ if (window.location.pathname === '/mediapiston' || window.location.pathname === 
 
 }
 
-if (window.location.pathname === '/pret-matos' || window.location.pathname === '/pret-matos/') {
+/*if (window.location.pathname === '/pret-matos' || window.location.pathname === '/pret-matos/') {
   require('~/browser/styles/cards_animations.sass');
 
   $.get('/ajax/pret-matos/public', (data) => {
@@ -78,7 +78,7 @@ if (window.location.pathname === '/pret-matos/add' || window.location.pathname =
   require('~/browser/styles/forms.sass');
 
   render(<MatosForm />, document.getElementById('matosForm'));
-}
+}*/
 
 if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
   // Lecteur Vidéo HTML5
