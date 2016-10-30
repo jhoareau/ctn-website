@@ -3,6 +3,8 @@ import moment from 'moment';
 import $ from 'jquery';
 import CommentList from './comment.jsx';
 
+moment.locale('fr');
+
 class VideoPlayer extends React.Component {
   constructor(props) {
     super(props);
@@ -41,7 +43,6 @@ class VideoPlayer extends React.Component {
         </button>
       </div>);
     
-    moment.locale('fr');
     
     return (
       <div className="videoPlayer container">

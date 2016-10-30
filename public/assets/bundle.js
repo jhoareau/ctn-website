@@ -42748,7 +42748,7 @@ var Header = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
 
-    var urlArray = ['admin', 'apropos', 'ctn', 'mediapiston', 'pret'];
+    var urlArray = ['admin', 'apropos', 'ctn', 'mediapiston']; //, 'pret'];
     _this.svgMap = new Map();
     urlArray.forEach(function (url) {
       _this.svgMap.set(url, _react2.default.createElement(_svgInlineReact2.default, { className: 'navbarSvg svg_' + url, src: __webpack_require__(419)("./" + url + '.svg') }));
@@ -42829,45 +42829,43 @@ var Header = function (_React$Component) {
         });
       });
     }
-  }, {
-    key: 'bindAnimatePret',
-    value: function bindAnimatePret(TweenMax) {
-      var pretSvg = document.querySelector('.svg_pret svg');
-      var pretSvgCardColor = document.querySelector('.svg_pret svg #Calque_2 *:first-child');
-      var pretSvgCard = document.querySelector('.svg_pret svg #Calque_2');
-      pretSvg.addEventListener('mouseenter', function () {
+    /*bindAnimatePret(TweenMax) {
+      let pretSvg = document.querySelector('.svg_pret svg');
+      let pretSvgCardColor = document.querySelector('.svg_pret svg #Calque_2 *:first-child');
+      let pretSvgCard = document.querySelector('.svg_pret svg #Calque_2');
+      pretSvg.addEventListener('mouseenter', () => {
         TweenMax.CSSPlugin.useSVGTransformAttr = false; // 3D SVG Transforms for animatePret
         TweenMax.to(pretSvgCardColor, 1, {
           css: {
-            fill: 'rgb(204, 214, 90)'
+            fill: 'rgb(204, 214, 90)',
           },
           ease: TweenMax.Power3.easeOut
         });
-
-        TweenMax.to(pretSvgCard, 1, {
+          TweenMax.to(pretSvgCard, 1, {
           css: {
             rotation: 20,
-            transformOrigin: "50% 50%"
+            transformOrigin: "50% 50%",
           },
           ease: TweenMax.Back.easeOut.config(5)
         });
-      });
-      pretSvg.addEventListener('mouseleave', function () {
+        });
+      pretSvg.addEventListener('mouseleave', () => {
         TweenMax.to(pretSvgCardColor, 1, {
           css: {
-            fill: '#fff'
+            fill: '#fff',
           },
           ease: TweenMax.Power3.easeOut
         });
         TweenMax.to(pretSvgCard, 1, {
           css: {
             rotation: 0,
-            transformOrigin: "50% 50%"
+            transformOrigin: "50% 50%",
           },
           ease: TweenMax.Back.easeOut.config(5)
         });
       });
-    }
+    }*/
+
   }, {
     key: 'bindAnimateAdmin',
     value: function bindAnimateAdmin(TweenMax) {
@@ -42948,7 +42946,7 @@ var Header = function (_React$Component) {
       var TweenMax = __webpack_require__(315);
       // Attach animation event handlers
       if (this.props.links.length > 2) {
-        this.bindAnimatePret(TweenMax);
+        //this.bindAnimatePret(TweenMax);
         this.bindAnimateMediapiston(TweenMax);
       }
       this.bindAnimateApropos(TweenMax);
@@ -44226,9 +44224,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _moment = __webpack_require__(0);
 
-var moment = _interopRequireWildcard(_moment);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+var _moment2 = _interopRequireDefault(_moment);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -44237,6 +44233,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+_moment2.default.locale('fr');
 
 var Video = function (_React$Component) {
   _inherits(Video, _React$Component);
@@ -44280,7 +44278,7 @@ var Video = function (_React$Component) {
             'small',
             { className: 'text-muted' },
             'Mis en ligne le ',
-            this.props.uploadDate,
+            (0, _moment2.default)(this.props.uploadDate).format("D MMMM YYYY"),
             ' par ',
             this.props.uploader
           )
@@ -44470,6 +44468,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+_moment2.default.locale('fr');
+
 var VideoPlayer = function (_React$Component) {
   _inherits(VideoPlayer, _React$Component);
 
@@ -44522,8 +44522,6 @@ var VideoPlayer = function (_React$Component) {
           _react2.default.createElement('i', { className: 'fa fa-trash-o', 'aria-hidden': 'true' })
         )
       );
-
-      _moment2.default.locale('fr');
 
       return _react2.default.createElement(
         'div',

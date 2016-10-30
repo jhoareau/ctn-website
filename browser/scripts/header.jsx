@@ -4,7 +4,7 @@ import InlineSVG from 'svg-inline-react';
 class Header extends React.Component {
   constructor(props) {
     super(props);
-    let urlArray = ['admin', 'apropos', 'ctn', 'mediapiston', 'pret'];
+    let urlArray = ['admin', 'apropos', 'ctn', 'mediapiston'];//, 'pret'];
     this.svgMap = new Map();
     urlArray.forEach(url => {
       this.svgMap.set(url, <InlineSVG className={'navbarSvg svg_' + url} src={require('svg-inline!~/public/defaults/' + url + '.svg')} />);
@@ -69,7 +69,7 @@ class Header extends React.Component {
       });
     });
   }
-  bindAnimatePret(TweenMax) {
+  /*bindAnimatePret(TweenMax) {
     let pretSvg = document.querySelector('.svg_pret svg');
     let pretSvgCardColor = document.querySelector('.svg_pret svg #Calque_2 *:first-child');
     let pretSvgCard = document.querySelector('.svg_pret svg #Calque_2');
@@ -106,7 +106,7 @@ class Header extends React.Component {
         ease: TweenMax.Back.easeOut.config(5)
       });
     });
-  }
+  }*/
   bindAnimateAdmin(TweenMax) {
     let adminSvg = document.querySelector('.svg_admin svg');
     let adminSvgKeyColor = document.querySelector('.svg_admin svg #Calque_2 *:first-child');
@@ -181,7 +181,7 @@ class Header extends React.Component {
     let TweenMax = require('gsap');
     // Attach animation event handlers
     if (this.props.links.length > 2) {
-      this.bindAnimatePret(TweenMax);
+      //this.bindAnimatePret(TweenMax);
       this.bindAnimateMediapiston(TweenMax);
     }
     this.bindAnimateApropos(TweenMax);

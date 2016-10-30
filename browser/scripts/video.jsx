@@ -1,5 +1,7 @@
 import React from 'react';
-import * as moment from 'moment';
+import moment from 'moment';
+
+moment.locale('fr');
 
 class Video extends React.Component {
   constructor(props) {
@@ -18,7 +20,7 @@ class Video extends React.Component {
         </div>
         <div className="mdl-card__supporting-text">
           {description}<br/>
-        <small className="text-muted">Mis en ligne le {this.props.uploadDate} par {this.props.uploader}</small>
+        <small className="text-muted">Mis en ligne le {moment(this.props.uploadDate).format("D MMMM YYYY")} par {this.props.uploader}</small>
         </div>
       </div>
     );
