@@ -61,7 +61,7 @@ const appWithErrorLogger = (winston) => {
     app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
     /* Gestion des sessions persistantes */
-    const redis = false;
+    const redis = true;
     if (redis)
         app.use(session({ secret: config.session.secret, resave: true, saveUninitialized: true, store: new RedisStore() }));
     else
