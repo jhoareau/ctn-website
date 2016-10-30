@@ -31,20 +31,20 @@ const routerWithErrorLogger = (winston) => {
     if (!req.isAuthenticated())
       return res.json([
         { title: "Connexion", href: '/login' },
-        { title: "A propos", src: 'apropos', href: '/a-propos' }
+        //{ title: "A propos", src: 'apropos', href: '/a-propos' }
       ]);
     if (req.user.admin)
       return res.json([
               { title: "Mediapiston", src: 'mediapiston', href: '/mediapiston' },
               //{ title: "Matériel", src: 'pret', href: '/pret-matos' },
-              { title: "A propos", src: 'apropos', href: '/a-propos' },
-              { title: "Admin", src: 'admin', href: '/ctn-asso' },
+              //{ title: "A propos", src: 'apropos', href: '/a-propos' },
+              //{ title: "Admin", src: 'admin', href: '/ctn-asso' },
               { title: "Déconnexion", href: '/logout', logout: true },
             ]);
     res.json([
             { title: "Mediapiston", src: 'mediapiston', href: '/mediapiston' },
             //{ title: "Matériel", src: 'pret', href: '/pret-matos' },
-            { title: "A propos", src: 'apropos', href: '/a-propos' },
+            //{ title: "A propos", src: 'apropos', href: '/a-propos' },
             { title: "Déconnexion", href: '/logout', logout: true }
           ]);
   });

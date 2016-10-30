@@ -12,12 +12,12 @@ import '~/browser/styles/global.sass';
 /* Components */
 import Error from "./error.jsx"
 import Header from "./header.jsx";
-import Carousel from "./carousel.jsx";
+//import Carousel from "./carousel.jsx";
 import {VideoList, RelatedVideoList} from "./video.jsx";
-import MatosList from "./materiel.jsx";
+//import MatosList from "./materiel.jsx";
 import VideoPlayer from "./video_player.jsx";
 import UploadForm from "./upload.jsx";
-import MatosForm from "./addMateriel.jsx"
+//import MatosForm from "./addMateriel.jsx"
 
 /* Common to all pages */
 $.get('/ajax/header', (data) => {
@@ -28,7 +28,7 @@ $.get('/ajax/header', (data) => {
 if (window.location.pathname === '/') {
   require('~/browser/styles/carousel.sass');
 
-  render(<Carousel />, document.getElementById('mainCarousel'));
+  //render(<Carousel />, document.getElementById('mainCarousel'));
 }
 
 /* Common to other pages than Home */
