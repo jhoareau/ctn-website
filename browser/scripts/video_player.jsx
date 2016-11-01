@@ -1,4 +1,5 @@
 import React from 'react';
+import {render} from 'react-dom';
 import moment from 'moment';
 import $ from 'jquery';
 import CommentList from './comment.jsx';
@@ -9,6 +10,18 @@ class VideoPlayer extends React.Component {
   constructor(props) {
     super(props);
     this.deleteVideoConfirm = this.deleteVideoConfirm.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+  }
+
+  componentDidMount() {
+    this.populateComments();
+  }
+
+  populateComments() {
+    $.get('/ajax/video/' + this.props._id + '/comments', (data_comments) => {
+      console.log(data_comments);
+      render(<CommentList commentList={data_comments} />, document.getElementById('comments'));
+    });
   }
 
   deleteVideoConfirm() {
@@ -61,7 +74,7 @@ class VideoPlayer extends React.Component {
             <p>{this.props.description}</p>
           </div>
         </div>
-        <div className="commentsBox">
+        <div className="commentsBox" id="comments">
           {/*<CommentList commentList={commentsData}/>*/}
           <CommentList />
         </div>
