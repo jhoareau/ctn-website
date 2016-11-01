@@ -83,6 +83,15 @@ const routerWithErrorLogger = (winston) => {
     });
   });
 
+  router.get('/videoList/search/:title', loggedIn, (req, res) => {
+    // TODO vidéos liées à la vidéo en paramètre
+    mongodb.video.searchRelatedVideos(req.params.title, (data, err) => {
+      if (err) winston.log('warning', 'VideoList Search / ' + err.message);
+      if (data === null) data = [];
+      return res.json(data);
+    });
+  });
+
   router.get('/video/:id', loggedIn, (req, res) => {
     mongodb.video.return(req.params.id, (data, err) => {
       if (err) winston.log('warning', 'Video / ' + err.message);

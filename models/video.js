@@ -42,18 +42,34 @@ exports.return = (id, callback) => {
 exports.returnList = exports.return.bind(this, null);
 
 exports.getRelatedVideos = (id, callback) => {
-  Video.findOne({_id: id}, (err, result) => {
+  Video.findOne({_id: id}, '_id title', (err, result) => {
     if (err) callback(null, new Error('Erreur lors de la récupération de la vidéo. ID = ' + id));
     if (result === null || typeof result === 'undefined') return callback(null);
 
     title = result.title;
-    Video.find({}, (err, allVideos) => {
+    Video.find({_id: {$ne: id}}, (err, allVideos) => {
       if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des vidéos liées. ID = ' + id));
       if (allVideos === null || typeof allVideos === 'undefined') return callback(null);
 
-      relatedVideos = require('fuzzy').filter(title, allVideos, {extract: video => video.title}).map(e => e.original);
+      relatedVideos = require('fuzzy').filter(title.split(' ')[0], allVideos, {extract: video => video.title}).map(e => e.original);
       callback(relatedVideos);
     });
+  });
+}
+
+exports.searchRelatedVideos = (title, callback) => {
+  Video.find({}).populate('uploader').exec((err, allVideos) => {
+    if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des vidéos pour la recherche. ID = ' + id));
+    if (allVideos === null || typeof allVideos === 'undefined') return callback(null);
+
+    let filteredResults = allVideos.map(obj => {
+      let filteredObj = obj.toJSON();
+      if (obj.uploader) filteredObj.uploader = obj.uploader.surname;
+      return filteredObj;
+    });
+
+    relatedVideos = require('fuzzy').filter(title, filteredResults, {extract: video => video.title}).map(e => e.original);
+    callback(relatedVideos);
   });
 }
 
