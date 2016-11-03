@@ -13,7 +13,7 @@ exports.model = Video;
 
 exports.return = (id, callback) => {
   if (id === null) {
-    Video.find({}).populate('uploader').exec((err, result) => {
+    Video.find({}).sort('-uploadDate').populate('uploader').exec((err, result) => {
       if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des vidéos.'));
       if (result === null || typeof result === 'undefined') return callback(null);
 

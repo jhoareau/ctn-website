@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactPaginate from 'react-paginate';
 import moment from 'moment';
 
 moment.locale('fr');
