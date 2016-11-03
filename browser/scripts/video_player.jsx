@@ -59,7 +59,7 @@ class VideoPlayer extends React.Component {
     
     return (
       <div className="videoPlayer container">
-        <video poster={thumbUrl} src={videoUrl} controls="true" />
+        <video poster={thumbUrl} src={videoUrl} controls="true" className="mdl-shadow--3dp" />
         {videoControls}
         <div className="videoDetails mdl-shadow--3dp">
           <div className="row">
