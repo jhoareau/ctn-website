@@ -12,17 +12,14 @@ exports.model = Comment;
 exports.create = (data, callback) => {
     let schema = {
       text: data.text,
-      user: data.session._id
+      user: data.session._id,
+      video: data.videoId
     };
     let newComment = new Comment(schema);
     newComment.save((err, result) => {
       if (err) return callback(null, new Error("Erreur lors de la création du nouveau commentaire."));
       callback(result._id);
     })
-}
-
-exports.return = (id, callback) => {
-
 }
 
 exports.return = (id, callback) => {

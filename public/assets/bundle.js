@@ -41469,6 +41469,10 @@ var _moment = __webpack_require__(0);
 
 var _moment2 = _interopRequireDefault(_moment);
 
+var _jquery = __webpack_require__(8);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41513,7 +41517,7 @@ var Comment = function (_React$Component) {
         _react2.default.createElement(
           'span',
           { className: 'commentText' },
-          this.props.comment
+          this.props.text
         ),
         _react2.default.createElement(
           'span',
@@ -41542,13 +41546,70 @@ var CommentBox = function (_React$Component2) {
   function CommentBox(props) {
     _classCallCheck(this, CommentBox);
 
-    return _possibleConstructorReturn(this, (CommentBox.__proto__ || Object.getPrototypeOf(CommentBox)).call(this, props));
+    var _this2 = _possibleConstructorReturn(this, (CommentBox.__proto__ || Object.getPrototypeOf(CommentBox)).call(this, props));
+
+    _this2.postComment = _this2.postComment.bind(_this2);
+    return _this2;
   }
 
   _createClass(CommentBox, [{
+    key: 'postComment',
+    value: function postComment(event) {
+      event.preventDefault();
+      var commentText = (0, _jquery2.default)('#commentText').val();
+      if (commentText === "") return;
+
+      if (this.props.update) _jquery2.default.ajax({
+        url: '/ajax/video/' + this.props.videoId + '/comments/add', method: "POST",
+        data: uploadData
+      }).done(function () {
+        return window.location.reload();
+      }).fail(function (err) {
+        return console.log(err);
+      });else _jquery2.default.ajax({
+        url: '/ajax/video/' + this.props.videoId + '/comments/add', method: "PUT",
+        data: { commentText: commentText }
+      }).done(function () {
+        return window.location.reload();
+      }).fail(function (err) {
+        return console.log(err);
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement('div', { className: 'commentBox' });
+      return _react2.default.createElement(
+        'div',
+        { className: 'commentBox' },
+        _react2.default.createElement(
+          'form',
+          { className: 'mdl-shadow--2dp', onSubmit: this.postComment },
+          _react2.default.createElement(
+            'h6',
+            { className: 'mdl-typography--title formTitle' },
+            'Poste un commentaire'
+          ),
+          _react2.default.createElement(
+            'fieldset',
+            { className: 'form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label' },
+            _react2.default.createElement(
+              'label',
+              { htmlFor: 'commentText', className: 'mdl-textfield__label' },
+              'Commentaire plein d\'amour ou de haine'
+            ),
+            _react2.default.createElement('textarea', { id: 'commentText', name: 'commentText', className: 'mdl-textfield__input', defaultValue: this.props.update ? this.props.commentText : '' })
+          ),
+          _react2.default.createElement(
+            'fieldset',
+            { className: 'form-group form-submit' },
+            _react2.default.createElement(
+              'button',
+              { type: 'submit', className: 'mdl-button mdl-js-button mdl-button--raised' },
+              this.props.update ? 'Editer' : 'Poster'
+            )
+          )
+        )
+      );
     }
   }]);
 
@@ -41575,7 +41636,7 @@ var CommentList = function (_React$Component3) {
           { className: 'commentsTitle' },
           'Commentaires'
         ),
-        _react2.default.createElement(CommentBox, null),
+        _react2.default.createElement(CommentBox, { videoId: this.props.videoId }),
         this.props.commentList.map(function (commentObject) {
           return _react2.default.createElement(Comment, _extends({}, commentObject, { key: commentObject._id }));
         })
@@ -41587,7 +41648,7 @@ var CommentList = function (_React$Component3) {
           { className: 'commentsTitle' },
           'Cette vid\xE9o n\'a pas d\xE9cha\xEEn\xE9 les foules... A toi d\'y ajouter ton commentaire!'
         ),
-        _react2.default.createElement(CommentBox, null)
+        _react2.default.createElement(CommentBox, { videoId: this.props.videoId })
       );
     }
   }]);
@@ -41598,15 +41659,16 @@ var CommentList = function (_React$Component3) {
 exports.default = CommentList;
 
 CommentList.defaultProps = {
+  videoId: 0,
   commentList: [{
     _id: 0,
-    comment: "CTN c'est un club ou une asso ?",
+    text: "CTN c'est un club ou une asso ?",
     user: "Julien Hoareau",
     date: new Date(),
     edit: true
   }, {
     _id: 1,
-    comment: "Lel.",
+    text: "Lel.",
     user: "Antonio de Jesus Montez",
     date: new Date()
   }]
@@ -43166,9 +43228,11 @@ var VideoPlayer = function (_React$Component) {
   }, {
     key: 'populateComments',
     value: function populateComments() {
+      var _this2 = this;
+
       _jquery2.default.get('/ajax/video/' + this.props._id + '/comments', function (data_comments) {
         console.log(data_comments);
-        (0, _reactDom.render)(_react2.default.createElement(_comment2.default, { commentList: data_comments }), document.getElementById('comments'));
+        (0, _reactDom.render)(_react2.default.createElement(_comment2.default, { commentList: data_comments, videoId: _this2.props._id }), document.getElementById('comments'));
       });
     }
   }, {
@@ -43265,7 +43329,7 @@ var VideoPlayer = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'commentsBox', id: 'comments' },
-          _react2.default.createElement(_comment2.default, null)
+          _react2.default.createElement(_comment2.default, { videoId: this.props._id })
         )
       );
     }
@@ -47414,7 +47478,7 @@ exports = module.exports = __webpack_require__(11)();
 
 
 // module
-exports.push([module.i, ".plyr {\n  width: 100%; }\n\n.videoControls {\n  margin-top: 10px;\n  text-align: right; }\n\n.videoControls > * {\n  display: inline-block;\n  margin-left: 5px; }\n\n.videoDetails {\n  display: block;\n  background-color: #fbfbfb;\n  padding: 10px;\n  border-radius: 2px; }\n\nvideo, .plyr, .plyr__video-wrapper {\n  border-radius: 3px; }\n\n.commentList {\n  margin-top: 1em; }\n\n.commentsTitle {\n  font-variant: small-caps;\n  font-weight: bold; }\n\n.comment {\n  margin-top: 1em;\n  padding-left: 2em;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  position: relative;\n  width: 100%;\n  min-height: 5em;\n  border-radius: 2px; }\n\n.comment span {\n  display: block; }\n\n.comment span.commentText {\n  display: block;\n  margin-right: 150px;\n  padding-top: 1em;\n  padding-bottom: 1em; }\n\n.aboutComment {\n  position: absolute;\n  right: .5em;\n  bottom: .1em;\n  color: #666666;\n  font-style: italic;\n  font-size: 0.8em; }\n\n.commentControls {\n  position: absolute;\n  top: 50%;\n  right: 5px;\n  -webkit-transform: translateY(-50%);\n          transform: translateY(-50%); }\n\n.commentControls > * {\n  display: inline-block;\n  margin-left: 5px; }\n", ""]);
+exports.push([module.i, ".plyr {\n  width: 100%; }\n\n.videoControls {\n  margin-top: 10px;\n  text-align: right; }\n\n.videoControls > * {\n  display: inline-block;\n  margin-left: 5px; }\n\n.videoDetails {\n  display: block;\n  background-color: #fbfbfb;\n  padding: 10px;\n  border-radius: 2px; }\n\nvideo, .plyr, .plyr__video-wrapper {\n  border-radius: 3px; }\n\n.commentList {\n  margin-top: 1em; }\n\n.commentsTitle {\n  font-variant: small-caps;\n  font-weight: bold; }\n\n.comment {\n  margin-top: 1em;\n  padding-left: 2em;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  position: relative;\n  width: 100%;\n  min-height: 5em;\n  border-radius: 2px; }\n\n.comment span {\n  display: block; }\n\n.comment span.commentText {\n  display: block;\n  margin-right: 150px;\n  padding-top: 1em;\n  padding-bottom: 1em; }\n\n.aboutComment {\n  position: absolute;\n  right: .5em;\n  bottom: .1em;\n  color: #666666;\n  font-style: italic;\n  font-size: 0.8em; }\n\n.commentControls {\n  position: absolute;\n  top: 50%;\n  right: 5px;\n  -webkit-transform: translateY(-50%);\n          transform: translateY(-50%); }\n\n.commentControls > * {\n  display: inline-block;\n  margin-left: 5px; }\n\n.commentBox form {\n  margin-top: 1em;\n  padding-left: 10px;\n  padding-right: 10px;\n  padding-top: 5px;\n  padding-bottom: 2px; }\n\nfieldset {\n  width: 100% !important;\n  position: relative; }\n\nfieldset.form-submit {\n  width: 100% !important;\n  text-align: center; }\n\n.mdl-textfield__input {\n  position: relative;\n  z-index: 1; }\n\nlabel {\n  margin-bottom: 0px; }\n", ""]);
 
 // exports
 

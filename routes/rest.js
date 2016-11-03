@@ -160,7 +160,7 @@ const routerWithErrorLogger = (winston) => {
   });
 
   router.put('/video/:id/comments/add', loggedIn, (req, res) => {
-    let request = req.body;
+    let request = {session: req.user, text: req.body.commentText, videoId: req.params.id};
     mongodb.comment.create(request, (answer, err) => {
       if (err) {
         winston.log('warning', 'Comment Creation / ' + err.message);

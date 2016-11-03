@@ -20,7 +20,7 @@ class VideoPlayer extends React.Component {
   populateComments() {
     $.get('/ajax/video/' + this.props._id + '/comments', (data_comments) => {
       console.log(data_comments);
-      render(<CommentList commentList={data_comments} />, document.getElementById('comments'));
+      render(<CommentList commentList={data_comments} videoId={this.props._id} />, document.getElementById('comments'));
     });
   }
 
@@ -75,8 +75,7 @@ class VideoPlayer extends React.Component {
           </div>
         </div>
         <div className="commentsBox" id="comments">
-          {/*<CommentList commentList={commentsData}/>*/}
-          <CommentList />
+          <CommentList videoId={this.props._id} />
         </div>
       </div>
     );
