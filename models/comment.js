@@ -3,7 +3,8 @@ let mongoose = require('mongoose');
 let commentSchema = new mongoose.Schema({
   text: String,
   user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  video: {type: mongoose.Schema.Types.ObjectId, ref: 'Video'}
+  video: {type: mongoose.Schema.Types.ObjectId, ref: 'Video'},
+  creationDate: {type: Date, default: Date.now}
 });
 
 let Comment = mongoose.model('Comment', commentSchema);
@@ -24,7 +25,7 @@ exports.create = (data, callback) => {
 
 exports.return = (id, callback) => {
   if (id === null) {
-    Comment.find({}).populate('user').exec((err, result) => {
+    Comment.find({}).sort('-creationDate').populate('user').exec((err, result) => {
       if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des commentaires.'));
       if (result === null || typeof result === 'undefined') return callback(null);
 
