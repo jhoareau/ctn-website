@@ -38,7 +38,7 @@ const appWithErrorLogger = (winston) => {
         tokenURL: 'https://www.myecl.fr/oauth/v2/token',
         clientID: config.oauth2.clientID,
         clientSecret: config.oauth2.clientSecret,
-        callbackURL: "http://localhost/login/callback"
+        callbackURL: config.oauth2.redirectURI
     },
     Account_OAuth.authenticator));
     passport.serializeUser(Account_OAuth.serializeUser);
