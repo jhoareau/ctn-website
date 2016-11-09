@@ -115,7 +115,7 @@ const appWithErrorLogger = (winston) => {
         });
     });
 
-    app.set('port', process.env.PORT || 80);
+    app.set('port', config.express.port);
 
     return app;
 }
