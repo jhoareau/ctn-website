@@ -93,6 +93,7 @@ module.exports = (passportMiddleware) => {
     if (typeof req.session !== 'undefined' && typeof req.session.redirectTo !== 'undefined') {
       res.redirect(req.session.redirectTo);
       delete req.session.redirectTo;
+      return;
     }
     res.redirect('/');
   });
