@@ -1879,7 +1879,7 @@ function loadLocale(name) {
             module && module.exports) {
         try {
             oldLocale = globalLocale._abbr;
-            __webpack_require__(308)("./" + name);
+            __webpack_require__(307)("./" + name);
             // because defineLocale currently also sets the global locale, we
             // want to undo that for lazy loaded locales
             getSetGlobalLocale(oldLocale);
@@ -4367,7 +4367,7 @@ return hooks;
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(74)(module)))
 
 /***/ },
 /* 1 */
@@ -15429,7 +15429,7 @@ var _assign = __webpack_require__(5);
 var ReactCurrentOwner = __webpack_require__(21);
 
 var warning = __webpack_require__(3);
-var canDefineProperty = __webpack_require__(64);
+var canDefineProperty = __webpack_require__(63);
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 // The Symbol used to tag the ReactElement type. If there is no native Symbol
@@ -15782,7 +15782,7 @@ module.exports = ReactElement;
 var debugTool = null;
 
 if (process.env.NODE_ENV !== 'production') {
-  var ReactDebugTool = __webpack_require__(347);
+  var ReactDebugTool = __webpack_require__(346);
   debugTool = ReactDebugTool;
 }
 
@@ -15796,7 +15796,7 @@ module.exports = { debugTool: debugTool };
 "use strict";
 'use strict';
 
-module.exports = __webpack_require__(326);
+module.exports = __webpack_require__(325);
 
 
 /***/ },
@@ -16669,7 +16669,7 @@ module.exports = ReactUpdates;
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(267);
+exports = module.exports = __webpack_require__(266);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -17809,15 +17809,15 @@ module.exports = DOMProperty;
  * Module dependencies.
  */
 
-var keys = __webpack_require__(274);
-var hasBinary = __webpack_require__(275);
+var keys = __webpack_require__(273);
+var hasBinary = __webpack_require__(274);
 var sliceBuffer = __webpack_require__(227);
 var after = __webpack_require__(226);
 var utf8 = __webpack_require__(412);
 
 var base64encoder;
 if (global && global.ArrayBuffer) {
-  base64encoder = __webpack_require__(238);
+  base64encoder = __webpack_require__(237);
 }
 
 /**
@@ -17875,7 +17875,7 @@ var err = { type: 'error', data: 'parser error' };
  * Create a blob api even for blob builder when vendor prefixes exist
  */
 
-var Blob = __webpack_require__(239);
+var Blob = __webpack_require__(238);
 
 /**
  * Encodes a packet.
@@ -18435,10 +18435,10 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
 
 'use strict';
 
-var DOMNamespaces = __webpack_require__(52);
+var DOMNamespaces = __webpack_require__(51);
 var setInnerHTML = __webpack_require__(44);
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(65);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(64);
 var setTextContent = __webpack_require__(216);
 
 var ELEMENT_NODE_TYPE = 1;
@@ -18559,7 +18559,7 @@ module.exports = DOMLazyTree;
 
 'use strict';
 
-var ReactRef = __webpack_require__(361);
+var ReactRef = __webpack_require__(360);
 var ReactInstrumentation = __webpack_require__(13);
 
 var warning = __webpack_require__(3);
@@ -18763,8 +18763,8 @@ module.exports = emptyObject;
 var _prodInvariant = __webpack_require__(4);
 
 var EventPluginRegistry = __webpack_require__(39);
-var EventPluginUtils = __webpack_require__(53);
-var ReactErrorUtils = __webpack_require__(59);
+var EventPluginUtils = __webpack_require__(52);
+var ReactErrorUtils = __webpack_require__(58);
 
 var accumulateInto = __webpack_require__(209);
 var forEachAccumulated = __webpack_require__(211);
@@ -19020,7 +19020,7 @@ module.exports = EventPluginHub;
 
 var EventConstants = __webpack_require__(20);
 var EventPluginHub = __webpack_require__(30);
-var EventPluginUtils = __webpack_require__(53);
+var EventPluginUtils = __webpack_require__(52);
 
 var accumulateInto = __webpack_require__(209);
 var forEachAccumulated = __webpack_require__(211);
@@ -19218,7 +19218,7 @@ module.exports = ReactInstanceMap;
 
 var SyntheticEvent = __webpack_require__(22);
 
-var getEventTarget = __webpack_require__(68);
+var getEventTarget = __webpack_require__(67);
 
 /**
  * @interface UIEvent
@@ -20071,11 +20071,11 @@ var _assign = __webpack_require__(5);
 
 var EventConstants = __webpack_require__(20);
 var EventPluginRegistry = __webpack_require__(39);
-var ReactEventEmitterMixin = __webpack_require__(350);
+var ReactEventEmitterMixin = __webpack_require__(349);
 var ViewportMetrics = __webpack_require__(208);
 
-var getVendorPrefixedEventName = __webpack_require__(383);
-var isEventSupported = __webpack_require__(70);
+var getVendorPrefixedEventName = __webpack_require__(382);
+var isEventSupported = __webpack_require__(69);
 
 /**
  * Summary of `ReactBrowserEventEmitter` event handling:
@@ -20434,7 +20434,7 @@ module.exports = ReactPropTypeLocations;
 var SyntheticUIEvent = __webpack_require__(33);
 var ViewportMetrics = __webpack_require__(208);
 
-var getEventModifierState = __webpack_require__(67);
+var getEventModifierState = __webpack_require__(66);
 
 /**
  * @interface MouseEvent
@@ -20639,12 +20639,12 @@ module.exports = escapeTextContentForBrowser;
 'use strict';
 
 var ExecutionEnvironment = __webpack_require__(8);
-var DOMNamespaces = __webpack_require__(52);
+var DOMNamespaces = __webpack_require__(51);
 
 var WHITESPACE_TEST = /^[ \r\n\t\f]/;
 var NONVISIBLE_TEST = /<(!--|link|noscript|meta|script|style)[ \r\n\t\f\/>]/;
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(65);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(64);
 
 // SVG temp container for IE lacking innerHTML
 var reusableSVGContainer;
@@ -22539,32 +22539,6 @@ return Tether;
 
 /***/ },
 /* 46 */
-/***/ function(module, exports) {
-
-module.exports = function(module) {
-	if(!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if(!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			configurable: false,
-			get: function() { return module.l; }
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			configurable: false,
-			get: function() { return module.i; }
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-}
-
-
-/***/ },
-/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 /**
@@ -22725,12 +22699,12 @@ Transport.prototype.onClose = function () {
 
 
 /***/ },
-/* 48 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {// browser shim for xmlhttprequest module
 
-var hasCORS = __webpack_require__(307);
+var hasCORS = __webpack_require__(306);
 
 module.exports = function (opts) {
   var xdomain = opts.xdomain;
@@ -22769,7 +22743,7 @@ module.exports = function (opts) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ },
-/* 49 */
+/* 48 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -22842,7 +22816,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ },
-/* 50 */
+/* 49 */
 /***/ function(module, exports) {
 
 /**
@@ -22885,7 +22859,7 @@ exports.decode = function(qs){
 
 
 /***/ },
-/* 51 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22903,12 +22877,12 @@ exports.decode = function(qs){
 'use strict';
 
 var DOMLazyTree = __webpack_require__(27);
-var Danger = __webpack_require__(321);
+var Danger = __webpack_require__(320);
 var ReactMultiChildUpdateTypes = __webpack_require__(204);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactInstrumentation = __webpack_require__(13);
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(65);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(64);
 var setInnerHTML = __webpack_require__(44);
 var setTextContent = __webpack_require__(216);
 
@@ -23086,7 +23060,7 @@ module.exports = DOMChildrenOperations;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 52 */
+/* 51 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -23112,7 +23086,7 @@ var DOMNamespaces = {
 module.exports = DOMNamespaces;
 
 /***/ },
-/* 53 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23132,7 +23106,7 @@ module.exports = DOMNamespaces;
 var _prodInvariant = __webpack_require__(4);
 
 var EventConstants = __webpack_require__(20);
-var ReactErrorUtils = __webpack_require__(59);
+var ReactErrorUtils = __webpack_require__(58);
 
 var invariant = __webpack_require__(2);
 var warning = __webpack_require__(3);
@@ -23348,7 +23322,7 @@ module.exports = EventPluginUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 54 */
+/* 53 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -23413,7 +23387,7 @@ var KeyEscapeUtils = {
 module.exports = KeyEscapeUtils;
 
 /***/ },
-/* 55 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23434,7 +23408,7 @@ var _prodInvariant = __webpack_require__(4);
 
 var ReactPropTypes = __webpack_require__(206);
 var ReactPropTypeLocations = __webpack_require__(41);
-var ReactPropTypesSecret = __webpack_require__(62);
+var ReactPropTypesSecret = __webpack_require__(61);
 
 var invariant = __webpack_require__(2);
 var warning = __webpack_require__(3);
@@ -23556,7 +23530,7 @@ module.exports = LinkedValueUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 56 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23577,7 +23551,7 @@ var PooledClass = __webpack_require__(24);
 var ReactElement = __webpack_require__(12);
 
 var emptyFunction = __webpack_require__(11);
-var traverseAllChildren = __webpack_require__(72);
+var traverseAllChildren = __webpack_require__(71);
 
 var twoArgumentPooler = PooledClass.twoArgumentPooler;
 var fourArgumentPooler = PooledClass.fourArgumentPooler;
@@ -23753,7 +23727,7 @@ var ReactChildren = {
 module.exports = ReactChildren;
 
 /***/ },
-/* 57 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23772,9 +23746,9 @@ module.exports = ReactChildren;
 
 var _prodInvariant = __webpack_require__(4);
 
-var ReactNoopUpdateQueue = __webpack_require__(60);
+var ReactNoopUpdateQueue = __webpack_require__(59);
 
-var canDefineProperty = __webpack_require__(64);
+var canDefineProperty = __webpack_require__(63);
 var emptyObject = __webpack_require__(29);
 var invariant = __webpack_require__(2);
 var warning = __webpack_require__(3);
@@ -23878,7 +23852,7 @@ module.exports = ReactComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 58 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23930,7 +23904,7 @@ module.exports = ReactComponentEnvironment;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 59 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24013,7 +23987,7 @@ module.exports = ReactErrorUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 60 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24116,7 +24090,7 @@ module.exports = ReactNoopUpdateQueue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 61 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24147,7 +24121,7 @@ module.exports = ReactPropTypeLocationNames;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 62 */
+/* 61 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -24169,7 +24143,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 module.exports = ReactPropTypesSecret;
 
 /***/ },
-/* 63 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24402,7 +24376,7 @@ module.exports = ReactUpdateQueue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 64 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24433,7 +24407,7 @@ module.exports = canDefineProperty;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 65 */
+/* 64 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -24471,7 +24445,7 @@ var createMicrosoftUnsafeLocalFunction = function (func) {
 module.exports = createMicrosoftUnsafeLocalFunction;
 
 /***/ },
-/* 66 */
+/* 65 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -24527,7 +24501,7 @@ function getEventCharCode(nativeEvent) {
 module.exports = getEventCharCode;
 
 /***/ },
-/* 67 */
+/* 66 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -24576,7 +24550,7 @@ function getEventModifierState(nativeEvent) {
 module.exports = getEventModifierState;
 
 /***/ },
-/* 68 */
+/* 67 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -24617,7 +24591,7 @@ function getEventTarget(nativeEvent) {
 module.exports = getEventTarget;
 
 /***/ },
-/* 69 */
+/* 68 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -24664,7 +24638,7 @@ function getIteratorFn(maybeIterable) {
 module.exports = getIteratorFn;
 
 /***/ },
-/* 70 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24730,7 +24704,7 @@ function isEventSupported(eventNameSuffix, capture) {
 module.exports = isEventSupported;
 
 /***/ },
-/* 71 */
+/* 70 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -24778,7 +24752,7 @@ function shouldUpdateReactComponent(prevElement, nextElement) {
 module.exports = shouldUpdateReactComponent;
 
 /***/ },
-/* 72 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24800,9 +24774,9 @@ var _prodInvariant = __webpack_require__(4);
 var ReactCurrentOwner = __webpack_require__(21);
 var ReactElement = __webpack_require__(12);
 
-var getIteratorFn = __webpack_require__(69);
+var getIteratorFn = __webpack_require__(68);
 var invariant = __webpack_require__(2);
-var KeyEscapeUtils = __webpack_require__(54);
+var KeyEscapeUtils = __webpack_require__(53);
 var warning = __webpack_require__(3);
 
 var SEPARATOR = '.';
@@ -24952,7 +24926,7 @@ module.exports = traverseAllChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 73 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25341,7 +25315,7 @@ module.exports = validateDOMNesting;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 74 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 
@@ -25350,9 +25324,9 @@ module.exports = validateDOMNesting;
  */
 
 var debug = __webpack_require__(18)('socket.io-parser');
-var json = __webpack_require__(391);
+var json = __webpack_require__(390);
 var Emitter = __webpack_require__(35);
-var binary = __webpack_require__(389);
+var binary = __webpack_require__(388);
 var isBuf = __webpack_require__(221);
 
 /**
@@ -25751,6 +25725,32 @@ function error(data){
 
 
 /***/ },
+/* 74 */
+/***/ function(module, exports) {
+
+module.exports = function(module) {
+	if(!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if(!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			configurable: false,
+			get: function() { return module.l; }
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			configurable: false,
+			get: function() { return module.i; }
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+}
+
+
+/***/ },
 /* 75 */
 /***/ function(module, exports) {
 
@@ -25787,10 +25787,10 @@ module.exports = function(obj, fn){
  * Module dependencies
  */
 
-var XMLHttpRequest = __webpack_require__(48);
-var XHR = __webpack_require__(272);
-var JSONP = __webpack_require__(271);
-var websocket = __webpack_require__(273);
+var XMLHttpRequest = __webpack_require__(47);
+var XHR = __webpack_require__(271);
+var JSONP = __webpack_require__(270);
+var websocket = __webpack_require__(272);
 
 /**
  * Export transports.
@@ -25847,8 +25847,8 @@ function polling (opts) {
  * Module dependencies.
  */
 
-var Transport = __webpack_require__(47);
-var parseqs = __webpack_require__(50);
+var Transport = __webpack_require__(46);
+var parseqs = __webpack_require__(49);
 var parser = __webpack_require__(26);
 var inherit = __webpack_require__(36);
 var yeast = __webpack_require__(224);
@@ -25865,7 +25865,7 @@ module.exports = Polling;
  */
 
 var hasXHR2 = (function () {
-  var XMLHttpRequest = __webpack_require__(48);
+  var XMLHttpRequest = __webpack_require__(47);
   var xhr = new XMLHttpRequest({ xdomain: false });
   return null != xhr.responseType;
 })();
@@ -36614,7 +36614,7 @@ module.exports = function parseuri(str) {
 "use strict";
 'use strict';
 
-module.exports = __webpack_require__(331);
+module.exports = __webpack_require__(330);
 
 
 /***/ },
@@ -36906,7 +36906,7 @@ var DOMProperty = __webpack_require__(25);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactInstrumentation = __webpack_require__(13);
 
-var quoteAttributeValueForBrowser = __webpack_require__(385);
+var quoteAttributeValueForBrowser = __webpack_require__(384);
 var warning = __webpack_require__(3);
 
 var VALID_ATTRIBUTE_NAME_REGEX = new RegExp('^[' + DOMProperty.ATTRIBUTE_NAME_START_CHAR + '][' + DOMProperty.ATTRIBUTE_NAME_CHAR + ']*$');
@@ -37133,11 +37133,11 @@ module.exports = DOMPropertyOperations;
 var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
-var ReactComponent = __webpack_require__(57);
+var ReactComponent = __webpack_require__(56);
 var ReactElement = __webpack_require__(12);
 var ReactPropTypeLocations = __webpack_require__(41);
-var ReactPropTypeLocationNames = __webpack_require__(61);
-var ReactNoopUpdateQueue = __webpack_require__(60);
+var ReactPropTypeLocationNames = __webpack_require__(60);
+var ReactNoopUpdateQueue = __webpack_require__(59);
 
 var emptyObject = __webpack_require__(29);
 var invariant = __webpack_require__(2);
@@ -37896,7 +37896,7 @@ module.exports = ReactDOMComponentFlags;
 var _assign = __webpack_require__(5);
 
 var DisabledInputUtils = __webpack_require__(38);
-var LinkedValueUtils = __webpack_require__(55);
+var LinkedValueUtils = __webpack_require__(54);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(17);
 
@@ -38115,8 +38115,8 @@ var ReactPropTypeLocations = __webpack_require__(41);
 
 var checkReactTypeSpec = __webpack_require__(210);
 
-var canDefineProperty = __webpack_require__(64);
-var getIteratorFn = __webpack_require__(69);
+var canDefineProperty = __webpack_require__(63);
+var getIteratorFn = __webpack_require__(68);
 var warning = __webpack_require__(3);
 
 function getDeclarationErrorAddendum() {
@@ -38483,9 +38483,9 @@ module.exports = ReactHostComponent;
 
 'use strict';
 
-var ReactDOMSelection = __webpack_require__(342);
+var ReactDOMSelection = __webpack_require__(341);
 
-var containsNode = __webpack_require__(281);
+var containsNode = __webpack_require__(280);
 var focusNode = __webpack_require__(79);
 var getActiveElement = __webpack_require__(80);
 
@@ -38620,22 +38620,22 @@ var DOMProperty = __webpack_require__(25);
 var ReactBrowserEventEmitter = __webpack_require__(40);
 var ReactCurrentOwner = __webpack_require__(21);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactDOMContainerInfo = __webpack_require__(334);
-var ReactDOMFeatureFlags = __webpack_require__(337);
+var ReactDOMContainerInfo = __webpack_require__(333);
+var ReactDOMFeatureFlags = __webpack_require__(336);
 var ReactElement = __webpack_require__(12);
 var ReactFeatureFlags = __webpack_require__(200);
 var ReactInstanceMap = __webpack_require__(32);
 var ReactInstrumentation = __webpack_require__(13);
-var ReactMarkupChecksum = __webpack_require__(356);
+var ReactMarkupChecksum = __webpack_require__(355);
 var ReactReconciler = __webpack_require__(28);
-var ReactUpdateQueue = __webpack_require__(63);
+var ReactUpdateQueue = __webpack_require__(62);
 var ReactUpdates = __webpack_require__(17);
 
 var emptyObject = __webpack_require__(29);
 var instantiateReactComponent = __webpack_require__(214);
 var invariant = __webpack_require__(2);
 var setInnerHTML = __webpack_require__(44);
-var shouldUpdateReactComponent = __webpack_require__(71);
+var shouldUpdateReactComponent = __webpack_require__(70);
 var warning = __webpack_require__(3);
 
 var ATTR_NAME = DOMProperty.ID_ATTRIBUTE_NAME;
@@ -39240,11 +39240,11 @@ module.exports = ReactNodeTypes;
 'use strict';
 
 var ReactElement = __webpack_require__(12);
-var ReactPropTypeLocationNames = __webpack_require__(61);
-var ReactPropTypesSecret = __webpack_require__(62);
+var ReactPropTypeLocationNames = __webpack_require__(60);
+var ReactPropTypesSecret = __webpack_require__(61);
 
 var emptyFunction = __webpack_require__(11);
-var getIteratorFn = __webpack_require__(69);
+var getIteratorFn = __webpack_require__(68);
 var warning = __webpack_require__(3);
 
 /**
@@ -39797,8 +39797,8 @@ module.exports = accumulateInto;
 
 var _prodInvariant = __webpack_require__(4);
 
-var ReactPropTypeLocationNames = __webpack_require__(61);
-var ReactPropTypesSecret = __webpack_require__(62);
+var ReactPropTypeLocationNames = __webpack_require__(60);
+var ReactPropTypesSecret = __webpack_require__(61);
 
 var invariant = __webpack_require__(2);
 var warning = __webpack_require__(3);
@@ -40004,7 +40004,7 @@ module.exports = getTextContentAccessor;
 var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
-var ReactCompositeComponent = __webpack_require__(330);
+var ReactCompositeComponent = __webpack_require__(329);
 var ReactEmptyComponent = __webpack_require__(199);
 var ReactHostComponent = __webpack_require__(201);
 
@@ -40229,15 +40229,15 @@ module.exports = setTextContent;
  * Module dependencies.
  */
 
-var eio = __webpack_require__(268);
+var eio = __webpack_require__(267);
 var Socket = __webpack_require__(219);
 var Emitter = __webpack_require__(220);
-var parser = __webpack_require__(74);
+var parser = __webpack_require__(73);
 var on = __webpack_require__(218);
 var bind = __webpack_require__(75);
 var debug = __webpack_require__(18)('socket.io-client:manager');
 var indexOf = __webpack_require__(81);
-var Backoff = __webpack_require__(237);
+var Backoff = __webpack_require__(236);
 
 /**
  * IE6+ hasOwnProperty
@@ -40825,13 +40825,13 @@ function on (obj, ev, fn) {
  * Module dependencies.
  */
 
-var parser = __webpack_require__(74);
+var parser = __webpack_require__(73);
 var Emitter = __webpack_require__(220);
 var toArray = __webpack_require__(410);
 var on = __webpack_require__(218);
 var bind = __webpack_require__(75);
 var debug = __webpack_require__(18)('socket.io-client:socket');
-var hasBin = __webpack_require__(305);
+var hasBin = __webpack_require__(304);
 
 /**
  * Module exports.
@@ -41435,7 +41435,7 @@ function isBuf(obj) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(259);
+var content = __webpack_require__(258);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(15)(content, {});
@@ -41566,11 +41566,11 @@ var _jquery = __webpack_require__(7);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-__webpack_require__(242);
+__webpack_require__(241);
 
-__webpack_require__(303);
+__webpack_require__(302);
 
-var _material = __webpack_require__(278);
+var _material = __webpack_require__(277);
 
 var MaterialComponentHandler = _interopRequireWildcard(_material);
 
@@ -41588,13 +41588,13 @@ var _header = __webpack_require__(231);
 
 var _header2 = _interopRequireDefault(_header);
 
-var _video = __webpack_require__(234);
+var _video = __webpack_require__(233);
 
-var _video_player = __webpack_require__(235);
+var _video_player = __webpack_require__(234);
 
 var _video_player2 = _interopRequireDefault(_video_player);
 
-var _upload = __webpack_require__(233);
+var _upload = __webpack_require__(232);
 
 var _upload2 = _interopRequireDefault(_upload);
 
@@ -41700,7 +41700,7 @@ if (window.location.pathname === '/pret-matos/add' || window.location.pathname =
 if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
   (function () {
     // Lecteur Vidéo HTML5
-    var Plyr = __webpack_require__(311);
+    var Plyr = __webpack_require__(310);
     __webpack_require__(401);
 
     __webpack_require__(400);
@@ -41712,7 +41712,7 @@ if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
       // VideoPlayer React
       (0, _reactDom.render)(_react2.default.createElement(_video_player2.default, data), document.getElementById('videoContent'));
       // Attacher lecteur à la balise <video>
-      __webpack_require__(236)(Plyr);
+      __webpack_require__(235)(Plyr);
 
       _jquery2.default.get('/ajax/videoList/related/' + videoID, function (data_related) {
         // RelatedVideoList React
@@ -42399,7 +42399,7 @@ var Header = function (_React$Component) {
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var TweenMax = __webpack_require__(304);
+      var TweenMax = __webpack_require__(303);
       // Attach animation event handlers
       //if (this.props.links.length > 2) {
       //this.bindAnimatePret(TweenMax);
@@ -42421,604 +42421,6 @@ exports.default = Header;
 
 /***/ },
 /* 232 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(module) {"use strict";
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-/*
- *                 Copyright (C) 2015 Shane Carr and others
- *                               X11 License
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- *
- * Except as contained in this notice, the names of the authors or copyright
- * holders shall not be used in advertising or otherwise to promote the sale,
- * use or other dealings in this Software without prior written authorization
- * from the authors or copyright holders.
- */
-
-/**
- * A client-side JavaScript object to handle file uploads to a Node.JS server
- * via Socket.IO.
- * @implements EventTarget
- * @param {SocketIO} socket The current Socket.IO connection.
- */
-(function (scope, name, factory) {
-	/*if (typeof define === "function" && define.amd) {
- 	define(name, factory);
- }
- else*/
-	if (( false ? "undefined" : _typeof(module)) === 'object' && module.exports) {
-		module.exports = factory();
-	} else {
-		scope[name] = factory();
-	}
-})(undefined, "SocketIOFileUpload", function () {
-	return function (socket) {
-		"use strict";
-
-		var self = this; // avoids context issues
-
-		// Check for compatibility
-		if (!window.File || !window.FileReader) {
-			throw new Error("Socket.IO File Upload: Browser Not Supported");
-		}
-
-		// Private and Public Variables
-		var callbacks = {},
-		    uploadedFiles = [],
-		    readyCallbacks = [],
-		    communicators = {};
-		self.fileInputElementId = "siofu_input";
-		self.resetFileInputs = true;
-		self.useText = false;
-		self.serializedOctets = false;
-		self.useBuffer = true;
-		self.chunkSize = 1024 * 100; // 100kb default chunk size
-		self.chunkDelay = 0;
-
-		/**
-   * Private method to dispatch a custom event on the instance.
-   * @param  {string} eventName  Name for which listeners can listen.
-   * @param  {object} properties An object literal with additional properties
-   *                             to be attached to the event object.
-   * @return {boolean} false if any callback returned false; true otherwise
-   */
-		var _dispatch = function _dispatch(eventName, properties) {
-			var evnt = document.createEvent("Event");
-			evnt.initEvent(eventName, false, false);
-			for (var prop in properties) {
-				if (properties.hasOwnProperty(prop)) {
-					evnt[prop] = properties[prop];
-				}
-			}
-			return self.dispatchEvent(evnt);
-		};
-
-		/**
-   * Private method to bind an event listener.  Useful to ensure that all
-   * events have been unbound.  Inspired by Backbone.js.
-   */
-		var _listenedReferences = [];
-		var _listenTo = function _listenTo(object, eventName, callback, bubble) {
-			object.addEventListener(eventName, callback, bubble);
-			_listenedReferences.push(arguments);
-		};
-		var _stopListeningTo = function _stopListeningTo(object, eventName, callback, bubble) {
-			if (object.removeEventListener) {
-				object.removeEventListener(eventName, callback, bubble);
-			}
-		};
-		var _stopListening = function _stopListening() {
-			for (var i = _listenedReferences.length - 1; i >= 0; i--) {
-				_stopListeningTo.apply(this, _listenedReferences[i]);
-			};
-			_listenedReferences = [];
-		};
-
-		/**
-   * Private closure for the _load function.
-   * @param  {File} file A W3C File object
-   * @return {void}
-   */
-		var _loadOne = function _loadOne(file) {
-			// First check for file size
-			if (self.maxFileSize !== null && file.size > self.maxFileSize) {
-				_dispatch("error", {
-					file: file,
-					message: "Attempt by client to upload file exceeding the maximum file size",
-					code: 1
-				});
-				return;
-			}
-
-			// Dispatch an event to listeners and stop now if they don't want
-			// this file to be uploaded.
-			var evntResult = _dispatch("start", {
-				file: file
-			});
-			if (!evntResult) return;
-
-			// Scope variables
-			var reader = new FileReader(),
-			    id = uploadedFiles.length,
-			    useText = self.useText,
-			    offset = 0,
-			    newName;
-			if (reader._realReader) reader = reader._realReader; // Support Android Crosswalk
-			uploadedFiles.push(file);
-
-			// An object for the outside to use to communicate with us
-			var communicator = { id: id };
-
-			// Calculate chunk size
-			var chunkSize = self.chunkSize;
-			if (chunkSize >= file.size || chunkSize <= 0) chunkSize = file.size;
-
-			// Private function to handle transmission of file data
-			var transmitPart = function transmitPart(start, end, content) {
-				var isBase64 = false;
-				if (!useText) {
-					try {
-						var uintArr = new Uint8Array(content);
-
-						// Support the transmission of serialized ArrayBuffers
-						// for experimental purposes, but default to encoding the
-						// transmission in Base 64.
-						if (self.serializedOctets) {
-							content = uintArr;
-						} else if (self.useBuffer) {
-							content = uintArr.buffer;
-						} else {
-							isBase64 = true;
-							content = _uint8ArrayToBase64(uintArr);
-						}
-					} catch (error) {
-						socket.emit("siofu_done", {
-							id: id,
-							interrupt: true
-						});
-						return;
-					}
-				}
-				socket.emit("siofu_progress", {
-					id: id,
-					size: file.size,
-					start: start,
-					end: end,
-					content: content,
-					base64: isBase64
-				});
-			};
-
-			// Callback when tranmission is complete.
-			var transmitDone = function transmitDone() {
-				socket.emit("siofu_done", {
-					id: id
-				});
-			};
-
-			// Load a "chunk" of the file from offset to offset+chunkSize.
-			//
-			// Note that FileReader has its own "progress" event.  However,
-			// it has not proven to be reliable enough for production. See
-			// Stack Overflow question #16713386.
-			//
-			// To compensate, we will manually load the file in chunks of a
-			// size specified by the user in the uploader.chunkSize property.
-			var processChunk = function processChunk() {
-				// Abort if we are told to do so.
-				if (communicator.abort) return;
-
-				var chunk = file.slice(offset, Math.min(offset + chunkSize, file.size));
-				if (useText) {
-					reader.readAsText(chunk);
-				} else {
-					reader.readAsArrayBuffer(chunk);
-				}
-			};
-
-			// Callback for when the reader has completed a load event.
-			var loadCb = function loadCb(event) {
-				// Abort if we are told to do so.
-				if (communicator.abort) return;
-
-				// Transmit the newly loaded data to the server and emit a client event
-				var bytesLoaded = Math.min(offset + chunkSize, file.size);
-				transmitPart(offset, bytesLoaded, event.target.result);
-				_dispatch("progress", {
-					file: file,
-					bytesLoaded: bytesLoaded,
-					name: newName
-				});
-
-				// Get ready to send the next chunk
-				offset += chunkSize;
-				if (offset < file.size) {
-					// Read in the next chunk
-					setTimeout(processChunk, self.chunkDelay);
-				} else {
-					// All done!
-					transmitDone();
-					_dispatch("load", {
-						file: file,
-						reader: reader,
-						name: newName
-					});
-				}
-			};
-			_listenTo(reader, "load", loadCb);
-
-			// Listen for an "error" event.  Stop the transmission if one is received.
-			_listenTo(reader, "error", function () {
-				socket.emit("siofu_done", {
-					id: id,
-					interrupt: true
-				});
-				_stopListeningTo(reader, "load", loadCb);
-			});
-
-			// Do the same for the "abort" event.
-			_listenTo(reader, "abort", function () {
-				socket.emit("siofu_done", {
-					id: id,
-					interrupt: true
-				});
-				_stopListeningTo(reader, "load", loadCb);
-			});
-
-			// Transmit the "start" message to the server.
-			socket.emit("siofu_start", {
-				name: file.name,
-				mtime: file.lastModifiedDate,
-				meta: file.meta,
-				size: file.size,
-				encoding: useText ? "text" : "octet",
-				id: id
-			});
-
-			// To avoid a race condition, we don't want to start transmitting to the
-			// server until the server says it is ready.
-			var readyCallback = function readyCallback(_newName) {
-				newName = _newName;
-				processChunk();
-			};
-			readyCallbacks.push(readyCallback);
-
-			return communicator;
-		};
-
-		/**
-   * Private function to load the file into memory using the HTML5 FileReader object
-   * and then transmit that file through Socket.IO.
-   *
-   * @param  {FileList} files An array of files
-   * @return {void}
-   */
-		var _load = function _load(files) {
-			// Iterate through the array of files.
-			for (var i = 0; i < files.length; i++) {
-				// Evaluate each file in a closure, because we will need a new
-				// instance of FileReader for each file.
-				var communicator = _loadOne(files[i]);
-				communicators[communicator.id] = communicator;
-			}
-		};
-
-		/**
-   * Private function to fetch an HTMLInputElement instance that can be used
-   * during the file selection process.
-   * @return {void}
-   */
-		var _getInputElement = function _getInputElement() {
-			var inpt = document.getElementById(self.fileInputElementId);
-			if (!inpt) {
-				inpt = document.createElement("input");
-				inpt.setAttribute("type", "file");
-				inpt.setAttribute("id", self.fileInputElementId);
-				inpt.style.display = "none";
-				document.body.appendChild(inpt);
-			}
-			return inpt;
-		};
-
-		/**
-   * Private function to remove an HTMLInputElement created by this instance
-   * of SIOFU.
-   *
-   * @return {void}
-   */
-		var _removeInputElement = function _removeInputElement() {
-			var inpt = document.getElementById(self.fileInputElementId);
-			if (inpt) {
-				inpt.parentNode.removeChild(inpt);
-			}
-		};
-
-		var _baseFileSelectCallback = function _baseFileSelectCallback(files) {
-			if (files.length === 0) return;
-
-			// Ensure existence of meta property on each file
-			for (var i = 0; i < files.length; i++) {
-				if (!files[i].meta) files[i].meta = {};
-			}
-
-			// Dispatch the "choose" event
-			var evntResult = _dispatch("choose", {
-				files: files
-			});
-
-			// If the callback didn't return false, continue with the upload
-			if (evntResult) {
-				_load(files);
-			}
-		};
-
-		/**
-   * Private function that serves as a callback on file input.
-   * @param  {Event} event The file input change event
-   * @return {void}
-   */
-		var _fileSelectCallback = function _fileSelectCallback(event) {
-			var files = event.target.files || event.dataTransfer.files;
-			event.preventDefault();
-			_baseFileSelectCallback(files);
-
-			if (self.resetFileInputs) {
-				try {
-					event.target.value = ""; //for IE11, latest Chrome/Firefox/Opera...
-				} catch (err) {}
-				if (event.target.value) {
-					//for IE5 ~ IE10
-					var form = document.createElement("form"),
-					    parentNode = event.target.parentNode,
-					    ref = event.target.nextSibling;
-					form.appendChild(event.target);
-					form.reset();
-					parentNode.insertBefore(event.target, ref);
-				}
-			}
-		};
-
-		/**
-   * Submit files at arbitrary time
-   * @param {FileList} files Files received form the input element.
-   * @return {void}
-   */
-		this.submitFiles = function (files) {
-			if (files) {
-				_baseFileSelectCallback(files);
-			}
-		};
-
-		/**
-   * Use a submitButton to upload files from the field given
-   * @param {HTMLInputElement} submitButton the button that the user has to
-   *                           click to start the upload
-   * @param {HTMLInputElement} input the field with the data to upload
-   *
-   * @return {void}
-   */
-		this.listenOnSubmit = function (submitButton, input) {
-			if (!input.files) return;
-			_listenTo(submitButton, "click", function () {
-				_baseFileSelectCallback(input.files);
-			}, false);
-		};
-
-		/**
-   * Use a submitButton to upload files from the field given
-   * @param {HTMLInputElement} submitButton the button that the user has to
-   *                           click to start the upload
-   * @param {Array} array an array of fields with the files to upload
-   *
-   * @return {void}
-   */
-		this.listenOnArraySubmit = function (submitButton, array) {
-			for (var index in array) {
-				this.listenOnSubmit(submitButton, array[index]);
-			}
-		};
-
-		/**
-   * Use a file input to activate this instance of the file uploader.
-   * @param  {HTMLInputElement} inpt The input element (e.g., as returned by
-   *                                 document.getElementById("yourId"))
-   * @return {void}
-   */
-		this.listenOnInput = function (inpt) {
-			if (!inpt.files) return;
-			_listenTo(inpt, "change", _fileSelectCallback, false);
-		};
-
-		/**
-   * Accept files dropped on an element and upload them using this instance
-   * of the file uploader.
-   * @param  {HTMLELement} div Any HTML element.  When the user drags a file
-   *                           or files onto this element, those files will
-   *                           be processed by the instance.
-   * @return {void}
-   */
-		this.listenOnDrop = function (div) {
-			// We need to preventDefault on the dragover event in order for the
-			// drag-and-drop operation to work.
-			_listenTo(div, "dragover", function (event) {
-				event.preventDefault();
-			}, false);
-
-			_listenTo(div, "drop", _fileSelectCallback);
-		};
-
-		/**
-   * Display a dialog box for the user to select a file.  The file will then
-   * be uploaded using this instance of SocketIOFileUpload.
-   *
-   * This method works in all current browsers except Firefox, though Opera
-   * requires that the input element be visible.
-   *
-   * @return {void}
-   */
-		this.prompt = function () {
-			var inpt = _getInputElement();
-
-			// Listen for the "change" event on the file input element.
-			_listenTo(inpt, "change", _fileSelectCallback, false);
-
-			// Fire a click event on the input element.  Firefox does not allow
-			// programatic clicks on input elements, but the other browsers do.
-			// Note that Opera requires that the element be visible when "clicked".
-			var evnt = document.createEvent("MouseEvents");
-			evnt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-			inpt.dispatchEvent(evnt);
-		};
-
-		/**
-   * Destroy an instance of Socket.IO file upload (i.e., unbind events and
-   * relieve memory).
-   *
-   * IMPORTANT: To finish the memory relief process, set all external
-   * references to this instance of SIOFU (including the reference used to
-   * call this destroy function) to null.
-   *
-   * @return {void}
-   */
-		this.destroy = function () {
-			_stopListening();
-			_removeInputElement();
-			for (var id in communicators) {
-				if (communicators.hasOwnProperty(id)) {
-					communicators[id].abort = true;
-				}
-			}
-			callbacks = null, uploadedFiles = null, readyCallbacks = null, communicators = null;
-		};
-
-		/**
-   * Registers an event listener.  If the callback function returns false,
-   * the file uploader will stop uploading the current file.
-   * @param  {string}   eventName Type of event for which to listen.
-   * @param  {Function} callback  Listener function.  Will be passed the
-   *                              event as an argument when the event occurs.
-   * @return {void}
-   */
-		this.addEventListener = function (eventName, callback) {
-			if (!callbacks[eventName]) callbacks[eventName] = [];
-			callbacks[eventName].push(callback);
-		};
-
-		/**
-   * Removes an event listener.
-   * @param  {string}   eventName Type of event.
-   * @param  {Function} callback  Listener function to remove.
-   * @return {boolean}            true if callback removed; false otherwise
-   */
-		this.removeEventListener = function (eventName, callback) {
-			if (!callbacks[eventName]) return false;
-			for (var i = 0; i < callbacks[eventName].length; i++) {
-				if (callbacks[eventName][i] === callback) {
-					callbacks[eventName].splice(i, 1);
-					return true;
-				}
-			}
-			return false;
-		};
-
-		/**
-   * Dispatches an event into this instance's event model.
-   * @param  {Event} evnt The event to dispatch.
-   * @return {boolean} false if any callback returned false; true otherwise
-   */
-		this.dispatchEvent = function (evnt) {
-			var eventCallbacks = callbacks[evnt.type];
-			if (!eventCallbacks) return true;
-			var retVal = true;
-			for (var i = 0; i < eventCallbacks.length; i++) {
-				var callbackResult = eventCallbacks[i](evnt);
-				if (callbackResult === false) {
-					retVal = false;
-				}
-			}
-			return retVal;
-		};
-
-		// OTHER LIBRARIES
-		/*
-   * base64-arraybuffer
-   * https://github.com/niklasvh/base64-arraybuffer
-   *
-   * Copyright (c) 2012 Niklas von Hertzen
-   * Licensed under the MIT license.
-   *
-   * Adapted for SocketIOFileUpload.
-   */
-		var _uint8ArrayToBase64 = function _uint8ArrayToBase64(bytes) {
-			var i,
-			    len = bytes.buffer.byteLength,
-			    base64 = "",
-			    chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-
-			for (i = 0; i < len; i += 3) {
-				base64 += chars[bytes[i] >> 2];
-				base64 += chars[(bytes[i] & 3) << 4 | bytes[i + 1] >> 4];
-				base64 += chars[(bytes[i + 1] & 15) << 2 | bytes[i + 2] >> 6];
-				base64 += chars[bytes[i + 2] & 63];
-			}
-
-			if (len % 3 === 2) {
-				base64 = base64.substring(0, base64.length - 1) + "=";
-			} else if (len % 3 === 1) {
-				base64 = base64.substring(0, base64.length - 2) + "==";
-			}
-
-			return base64;
-		};
-		// END OTHER LIBRARIES
-
-		// CONSTRUCTOR: Listen to the "complete", "ready", and "error" messages
-		// on the socket.
-		_listenTo(socket, "siofu_ready", function (data) {
-			readyCallbacks[data.id](data.name);
-		});
-		_listenTo(socket, "siofu_complete", function (data) {
-			_dispatch("complete", {
-				file: uploadedFiles[data.id],
-				detail: data.detail,
-				success: data.success
-			});
-		});
-		_listenTo(socket, "siofu_error", function (data) {
-			_dispatch("error", {
-				file: uploadedFiles[data.id],
-				message: data.message,
-				code: 0
-			});
-			communicators[data.id].abort = true;
-		});
-	};
-});
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)(module)))
-
-/***/ },
-/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43117,8 +42519,9 @@ var UploadSnippet = function (_React$Component) {
     value: function uploadVideoFile() {
       var _this2 = this;
 
-      var io = __webpack_require__(387);
-      var ioFileUpload = __webpack_require__(232);
+      var io = __webpack_require__(386);
+      //let ioFileUpload = require('~/browser/scripts/siofu_client');
+      var ioFileUpload = __webpack_require__(391);
       document.getElementById('uploadProgress').style.display = 'block';
       var socket = io.connect();
 
@@ -43361,7 +42764,7 @@ var UploadForm = function (_React$Component2) {
 exports.default = UploadForm;
 
 /***/ },
-/* 234 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43380,7 +42783,7 @@ var _react = __webpack_require__(14);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactPaginate = __webpack_require__(316);
+var _reactPaginate = __webpack_require__(315);
 
 var _reactPaginate2 = _interopRequireDefault(_reactPaginate);
 
@@ -43594,7 +42997,7 @@ var RelatedVideoList = exports.RelatedVideoList = function (_React$Component4) {
 RelatedVideoList.defaultProps = VideoList.defaultProps;
 
 /***/ },
-/* 235 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43779,7 +43182,7 @@ VideoPlayer.defaultProps = {
 exports.default = VideoPlayer;
 
 /***/ },
-/* 236 */
+/* 235 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -43790,7 +43193,7 @@ module.exports = function (plyr) {
 };
 
 /***/ },
-/* 237 */
+/* 236 */
 /***/ function(module, exports) {
 
 
@@ -43881,7 +43284,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ },
-/* 238 */
+/* 237 */
 /***/ function(module, exports) {
 
 /*
@@ -43954,7 +43357,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ },
-/* 239 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -44057,17 +43460,18 @@ module.exports = (function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ },
-/* 240 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports.css = __webpack_require__ (393);
-module.exports.js = __webpack_require__ (241);
+module.exports.js = __webpack_require__ (240);
 
 
 /***/ },
-/* 241 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
+__webpack_require__ (242);
 __webpack_require__ (243);
 __webpack_require__ (244);
 __webpack_require__ (245);
@@ -44078,18 +43482,17 @@ __webpack_require__ (249);
 __webpack_require__ (250);
 __webpack_require__ (251);
 __webpack_require__ (252);
-__webpack_require__ (253);
+
+
+/***/ },
+/* 241 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(239);
 
 
 /***/ },
 /* 242 */
-/***/ function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(240);
-
-
-/***/ },
-/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44289,7 +43692,7 @@ var Alert = (function ($) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(19)))
 
 /***/ },
-/* 244 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44471,7 +43874,7 @@ var Button = (function ($) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ },
-/* 245 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44961,7 +44364,7 @@ var Carousel = (function ($) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(19)))
 
 /***/ },
-/* 246 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45333,7 +44736,7 @@ var Collapse = (function ($) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(19)))
 
 /***/ },
-/* 247 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45638,7 +45041,7 @@ var Dropdown = (function ($) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(19)))
 
 /***/ },
-/* 248 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46179,7 +45582,7 @@ var Modal = (function ($) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(19)))
 
 /***/ },
-/* 249 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46385,10 +45788,10 @@ var Popover = (function ($) {
 })(jQuery);
 //# sourceMappingURL=popover.js.map
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(277)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(276)))
 
 /***/ },
-/* 250 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46717,7 +46120,7 @@ var ScrollSpy = (function ($) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(19)))
 
 /***/ },
-/* 251 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46988,7 +46391,7 @@ var Tab = (function ($) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(19)))
 
 /***/ },
-/* 252 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47615,7 +47018,7 @@ var Tooltip = (function ($) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(45), __webpack_require__(19), __webpack_require__(45)))
 
 /***/ },
-/* 253 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47785,7 +47188,7 @@ var Util = (function ($) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ },
-/* 254 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -47839,7 +47242,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 
 /***/ },
-/* 255 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)();
@@ -47847,13 +47250,13 @@ exports = module.exports = __webpack_require__(10)();
 
 
 // module
-exports.push([module.i, ".fa-border {\n  padding: .2em .25em .15em;\n  border: solid 0.08em #eee;\n  border-radius: .1em;\n}\n.fa-pull-left {\n  float: left;\n}\n.fa-pull-right {\n  float: right;\n}\n.fa.fa-pull-left {\n  margin-right: .3em;\n}\n.fa.fa-pull-right {\n  margin-left: .3em;\n}\n/* Deprecated as of 4.4.0 */\n.pull-right {\n  float: right;\n}\n.pull-left {\n  float: left;\n}\n.fa.pull-left {\n  margin-right: .3em;\n}\n.fa.pull-right {\n  margin-left: .3em;\n}\n.fa {\n  display: inline-block;\n  font: normal normal normal 14px/1 FontAwesome;\n  font-size: inherit;\n  text-rendering: auto;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n.fa-fw {\n  width: 1.28571429em;\n  text-align: center;\n}\n/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen\n   readers do not read off random characters that represent icons */\n.fa-glass:before {\n  content: \"\\F000\";\n}\n.fa-music:before {\n  content: \"\\F001\";\n}\n.fa-search:before {\n  content: \"\\F002\";\n}\n.fa-envelope-o:before {\n  content: \"\\F003\";\n}\n.fa-heart:before {\n  content: \"\\F004\";\n}\n.fa-star:before {\n  content: \"\\F005\";\n}\n.fa-star-o:before {\n  content: \"\\F006\";\n}\n.fa-user:before {\n  content: \"\\F007\";\n}\n.fa-film:before {\n  content: \"\\F008\";\n}\n.fa-th-large:before {\n  content: \"\\F009\";\n}\n.fa-th:before {\n  content: \"\\F00A\";\n}\n.fa-th-list:before {\n  content: \"\\F00B\";\n}\n.fa-check:before {\n  content: \"\\F00C\";\n}\n.fa-remove:before,\n.fa-close:before,\n.fa-times:before {\n  content: \"\\F00D\";\n}\n.fa-search-plus:before {\n  content: \"\\F00E\";\n}\n.fa-search-minus:before {\n  content: \"\\F010\";\n}\n.fa-power-off:before {\n  content: \"\\F011\";\n}\n.fa-signal:before {\n  content: \"\\F012\";\n}\n.fa-gear:before,\n.fa-cog:before {\n  content: \"\\F013\";\n}\n.fa-trash-o:before {\n  content: \"\\F014\";\n}\n.fa-home:before {\n  content: \"\\F015\";\n}\n.fa-file-o:before {\n  content: \"\\F016\";\n}\n.fa-clock-o:before {\n  content: \"\\F017\";\n}\n.fa-road:before {\n  content: \"\\F018\";\n}\n.fa-download:before {\n  content: \"\\F019\";\n}\n.fa-arrow-circle-o-down:before {\n  content: \"\\F01A\";\n}\n.fa-arrow-circle-o-up:before {\n  content: \"\\F01B\";\n}\n.fa-inbox:before {\n  content: \"\\F01C\";\n}\n.fa-play-circle-o:before {\n  content: \"\\F01D\";\n}\n.fa-rotate-right:before,\n.fa-repeat:before {\n  content: \"\\F01E\";\n}\n.fa-refresh:before {\n  content: \"\\F021\";\n}\n.fa-list-alt:before {\n  content: \"\\F022\";\n}\n.fa-lock:before {\n  content: \"\\F023\";\n}\n.fa-flag:before {\n  content: \"\\F024\";\n}\n.fa-headphones:before {\n  content: \"\\F025\";\n}\n.fa-volume-off:before {\n  content: \"\\F026\";\n}\n.fa-volume-down:before {\n  content: \"\\F027\";\n}\n.fa-volume-up:before {\n  content: \"\\F028\";\n}\n.fa-qrcode:before {\n  content: \"\\F029\";\n}\n.fa-barcode:before {\n  content: \"\\F02A\";\n}\n.fa-tag:before {\n  content: \"\\F02B\";\n}\n.fa-tags:before {\n  content: \"\\F02C\";\n}\n.fa-book:before {\n  content: \"\\F02D\";\n}\n.fa-bookmark:before {\n  content: \"\\F02E\";\n}\n.fa-print:before {\n  content: \"\\F02F\";\n}\n.fa-camera:before {\n  content: \"\\F030\";\n}\n.fa-font:before {\n  content: \"\\F031\";\n}\n.fa-bold:before {\n  content: \"\\F032\";\n}\n.fa-italic:before {\n  content: \"\\F033\";\n}\n.fa-text-height:before {\n  content: \"\\F034\";\n}\n.fa-text-width:before {\n  content: \"\\F035\";\n}\n.fa-align-left:before {\n  content: \"\\F036\";\n}\n.fa-align-center:before {\n  content: \"\\F037\";\n}\n.fa-align-right:before {\n  content: \"\\F038\";\n}\n.fa-align-justify:before {\n  content: \"\\F039\";\n}\n.fa-list:before {\n  content: \"\\F03A\";\n}\n.fa-dedent:before,\n.fa-outdent:before {\n  content: \"\\F03B\";\n}\n.fa-indent:before {\n  content: \"\\F03C\";\n}\n.fa-video-camera:before {\n  content: \"\\F03D\";\n}\n.fa-photo:before,\n.fa-image:before,\n.fa-picture-o:before {\n  content: \"\\F03E\";\n}\n.fa-pencil:before {\n  content: \"\\F040\";\n}\n.fa-map-marker:before {\n  content: \"\\F041\";\n}\n.fa-adjust:before {\n  content: \"\\F042\";\n}\n.fa-tint:before {\n  content: \"\\F043\";\n}\n.fa-edit:before,\n.fa-pencil-square-o:before {\n  content: \"\\F044\";\n}\n.fa-share-square-o:before {\n  content: \"\\F045\";\n}\n.fa-check-square-o:before {\n  content: \"\\F046\";\n}\n.fa-arrows:before {\n  content: \"\\F047\";\n}\n.fa-step-backward:before {\n  content: \"\\F048\";\n}\n.fa-fast-backward:before {\n  content: \"\\F049\";\n}\n.fa-backward:before {\n  content: \"\\F04A\";\n}\n.fa-play:before {\n  content: \"\\F04B\";\n}\n.fa-pause:before {\n  content: \"\\F04C\";\n}\n.fa-stop:before {\n  content: \"\\F04D\";\n}\n.fa-forward:before {\n  content: \"\\F04E\";\n}\n.fa-fast-forward:before {\n  content: \"\\F050\";\n}\n.fa-step-forward:before {\n  content: \"\\F051\";\n}\n.fa-eject:before {\n  content: \"\\F052\";\n}\n.fa-chevron-left:before {\n  content: \"\\F053\";\n}\n.fa-chevron-right:before {\n  content: \"\\F054\";\n}\n.fa-plus-circle:before {\n  content: \"\\F055\";\n}\n.fa-minus-circle:before {\n  content: \"\\F056\";\n}\n.fa-times-circle:before {\n  content: \"\\F057\";\n}\n.fa-check-circle:before {\n  content: \"\\F058\";\n}\n.fa-question-circle:before {\n  content: \"\\F059\";\n}\n.fa-info-circle:before {\n  content: \"\\F05A\";\n}\n.fa-crosshairs:before {\n  content: \"\\F05B\";\n}\n.fa-times-circle-o:before {\n  content: \"\\F05C\";\n}\n.fa-check-circle-o:before {\n  content: \"\\F05D\";\n}\n.fa-ban:before {\n  content: \"\\F05E\";\n}\n.fa-arrow-left:before {\n  content: \"\\F060\";\n}\n.fa-arrow-right:before {\n  content: \"\\F061\";\n}\n.fa-arrow-up:before {\n  content: \"\\F062\";\n}\n.fa-arrow-down:before {\n  content: \"\\F063\";\n}\n.fa-mail-forward:before,\n.fa-share:before {\n  content: \"\\F064\";\n}\n.fa-expand:before {\n  content: \"\\F065\";\n}\n.fa-compress:before {\n  content: \"\\F066\";\n}\n.fa-plus:before {\n  content: \"\\F067\";\n}\n.fa-minus:before {\n  content: \"\\F068\";\n}\n.fa-asterisk:before {\n  content: \"\\F069\";\n}\n.fa-exclamation-circle:before {\n  content: \"\\F06A\";\n}\n.fa-gift:before {\n  content: \"\\F06B\";\n}\n.fa-leaf:before {\n  content: \"\\F06C\";\n}\n.fa-fire:before {\n  content: \"\\F06D\";\n}\n.fa-eye:before {\n  content: \"\\F06E\";\n}\n.fa-eye-slash:before {\n  content: \"\\F070\";\n}\n.fa-warning:before,\n.fa-exclamation-triangle:before {\n  content: \"\\F071\";\n}\n.fa-plane:before {\n  content: \"\\F072\";\n}\n.fa-calendar:before {\n  content: \"\\F073\";\n}\n.fa-random:before {\n  content: \"\\F074\";\n}\n.fa-comment:before {\n  content: \"\\F075\";\n}\n.fa-magnet:before {\n  content: \"\\F076\";\n}\n.fa-chevron-up:before {\n  content: \"\\F077\";\n}\n.fa-chevron-down:before {\n  content: \"\\F078\";\n}\n.fa-retweet:before {\n  content: \"\\F079\";\n}\n.fa-shopping-cart:before {\n  content: \"\\F07A\";\n}\n.fa-folder:before {\n  content: \"\\F07B\";\n}\n.fa-folder-open:before {\n  content: \"\\F07C\";\n}\n.fa-arrows-v:before {\n  content: \"\\F07D\";\n}\n.fa-arrows-h:before {\n  content: \"\\F07E\";\n}\n.fa-bar-chart-o:before,\n.fa-bar-chart:before {\n  content: \"\\F080\";\n}\n.fa-twitter-square:before {\n  content: \"\\F081\";\n}\n.fa-facebook-square:before {\n  content: \"\\F082\";\n}\n.fa-camera-retro:before {\n  content: \"\\F083\";\n}\n.fa-key:before {\n  content: \"\\F084\";\n}\n.fa-gears:before,\n.fa-cogs:before {\n  content: \"\\F085\";\n}\n.fa-comments:before {\n  content: \"\\F086\";\n}\n.fa-thumbs-o-up:before {\n  content: \"\\F087\";\n}\n.fa-thumbs-o-down:before {\n  content: \"\\F088\";\n}\n.fa-star-half:before {\n  content: \"\\F089\";\n}\n.fa-heart-o:before {\n  content: \"\\F08A\";\n}\n.fa-sign-out:before {\n  content: \"\\F08B\";\n}\n.fa-linkedin-square:before {\n  content: \"\\F08C\";\n}\n.fa-thumb-tack:before {\n  content: \"\\F08D\";\n}\n.fa-external-link:before {\n  content: \"\\F08E\";\n}\n.fa-sign-in:before {\n  content: \"\\F090\";\n}\n.fa-trophy:before {\n  content: \"\\F091\";\n}\n.fa-github-square:before {\n  content: \"\\F092\";\n}\n.fa-upload:before {\n  content: \"\\F093\";\n}\n.fa-lemon-o:before {\n  content: \"\\F094\";\n}\n.fa-phone:before {\n  content: \"\\F095\";\n}\n.fa-square-o:before {\n  content: \"\\F096\";\n}\n.fa-bookmark-o:before {\n  content: \"\\F097\";\n}\n.fa-phone-square:before {\n  content: \"\\F098\";\n}\n.fa-twitter:before {\n  content: \"\\F099\";\n}\n.fa-facebook-f:before,\n.fa-facebook:before {\n  content: \"\\F09A\";\n}\n.fa-github:before {\n  content: \"\\F09B\";\n}\n.fa-unlock:before {\n  content: \"\\F09C\";\n}\n.fa-credit-card:before {\n  content: \"\\F09D\";\n}\n.fa-feed:before,\n.fa-rss:before {\n  content: \"\\F09E\";\n}\n.fa-hdd-o:before {\n  content: \"\\F0A0\";\n}\n.fa-bullhorn:before {\n  content: \"\\F0A1\";\n}\n.fa-bell:before {\n  content: \"\\F0F3\";\n}\n.fa-certificate:before {\n  content: \"\\F0A3\";\n}\n.fa-hand-o-right:before {\n  content: \"\\F0A4\";\n}\n.fa-hand-o-left:before {\n  content: \"\\F0A5\";\n}\n.fa-hand-o-up:before {\n  content: \"\\F0A6\";\n}\n.fa-hand-o-down:before {\n  content: \"\\F0A7\";\n}\n.fa-arrow-circle-left:before {\n  content: \"\\F0A8\";\n}\n.fa-arrow-circle-right:before {\n  content: \"\\F0A9\";\n}\n.fa-arrow-circle-up:before {\n  content: \"\\F0AA\";\n}\n.fa-arrow-circle-down:before {\n  content: \"\\F0AB\";\n}\n.fa-globe:before {\n  content: \"\\F0AC\";\n}\n.fa-wrench:before {\n  content: \"\\F0AD\";\n}\n.fa-tasks:before {\n  content: \"\\F0AE\";\n}\n.fa-filter:before {\n  content: \"\\F0B0\";\n}\n.fa-briefcase:before {\n  content: \"\\F0B1\";\n}\n.fa-arrows-alt:before {\n  content: \"\\F0B2\";\n}\n.fa-group:before,\n.fa-users:before {\n  content: \"\\F0C0\";\n}\n.fa-chain:before,\n.fa-link:before {\n  content: \"\\F0C1\";\n}\n.fa-cloud:before {\n  content: \"\\F0C2\";\n}\n.fa-flask:before {\n  content: \"\\F0C3\";\n}\n.fa-cut:before,\n.fa-scissors:before {\n  content: \"\\F0C4\";\n}\n.fa-copy:before,\n.fa-files-o:before {\n  content: \"\\F0C5\";\n}\n.fa-paperclip:before {\n  content: \"\\F0C6\";\n}\n.fa-save:before,\n.fa-floppy-o:before {\n  content: \"\\F0C7\";\n}\n.fa-square:before {\n  content: \"\\F0C8\";\n}\n.fa-navicon:before,\n.fa-reorder:before,\n.fa-bars:before {\n  content: \"\\F0C9\";\n}\n.fa-list-ul:before {\n  content: \"\\F0CA\";\n}\n.fa-list-ol:before {\n  content: \"\\F0CB\";\n}\n.fa-strikethrough:before {\n  content: \"\\F0CC\";\n}\n.fa-underline:before {\n  content: \"\\F0CD\";\n}\n.fa-table:before {\n  content: \"\\F0CE\";\n}\n.fa-magic:before {\n  content: \"\\F0D0\";\n}\n.fa-truck:before {\n  content: \"\\F0D1\";\n}\n.fa-pinterest:before {\n  content: \"\\F0D2\";\n}\n.fa-pinterest-square:before {\n  content: \"\\F0D3\";\n}\n.fa-google-plus-square:before {\n  content: \"\\F0D4\";\n}\n.fa-google-plus:before {\n  content: \"\\F0D5\";\n}\n.fa-money:before {\n  content: \"\\F0D6\";\n}\n.fa-caret-down:before {\n  content: \"\\F0D7\";\n}\n.fa-caret-up:before {\n  content: \"\\F0D8\";\n}\n.fa-caret-left:before {\n  content: \"\\F0D9\";\n}\n.fa-caret-right:before {\n  content: \"\\F0DA\";\n}\n.fa-columns:before {\n  content: \"\\F0DB\";\n}\n.fa-unsorted:before,\n.fa-sort:before {\n  content: \"\\F0DC\";\n}\n.fa-sort-down:before,\n.fa-sort-desc:before {\n  content: \"\\F0DD\";\n}\n.fa-sort-up:before,\n.fa-sort-asc:before {\n  content: \"\\F0DE\";\n}\n.fa-envelope:before {\n  content: \"\\F0E0\";\n}\n.fa-linkedin:before {\n  content: \"\\F0E1\";\n}\n.fa-rotate-left:before,\n.fa-undo:before {\n  content: \"\\F0E2\";\n}\n.fa-legal:before,\n.fa-gavel:before {\n  content: \"\\F0E3\";\n}\n.fa-dashboard:before,\n.fa-tachometer:before {\n  content: \"\\F0E4\";\n}\n.fa-comment-o:before {\n  content: \"\\F0E5\";\n}\n.fa-comments-o:before {\n  content: \"\\F0E6\";\n}\n.fa-flash:before,\n.fa-bolt:before {\n  content: \"\\F0E7\";\n}\n.fa-sitemap:before {\n  content: \"\\F0E8\";\n}\n.fa-umbrella:before {\n  content: \"\\F0E9\";\n}\n.fa-paste:before,\n.fa-clipboard:before {\n  content: \"\\F0EA\";\n}\n.fa-lightbulb-o:before {\n  content: \"\\F0EB\";\n}\n.fa-exchange:before {\n  content: \"\\F0EC\";\n}\n.fa-cloud-download:before {\n  content: \"\\F0ED\";\n}\n.fa-cloud-upload:before {\n  content: \"\\F0EE\";\n}\n.fa-user-md:before {\n  content: \"\\F0F0\";\n}\n.fa-stethoscope:before {\n  content: \"\\F0F1\";\n}\n.fa-suitcase:before {\n  content: \"\\F0F2\";\n}\n.fa-bell-o:before {\n  content: \"\\F0A2\";\n}\n.fa-coffee:before {\n  content: \"\\F0F4\";\n}\n.fa-cutlery:before {\n  content: \"\\F0F5\";\n}\n.fa-file-text-o:before {\n  content: \"\\F0F6\";\n}\n.fa-building-o:before {\n  content: \"\\F0F7\";\n}\n.fa-hospital-o:before {\n  content: \"\\F0F8\";\n}\n.fa-ambulance:before {\n  content: \"\\F0F9\";\n}\n.fa-medkit:before {\n  content: \"\\F0FA\";\n}\n.fa-fighter-jet:before {\n  content: \"\\F0FB\";\n}\n.fa-beer:before {\n  content: \"\\F0FC\";\n}\n.fa-h-square:before {\n  content: \"\\F0FD\";\n}\n.fa-plus-square:before {\n  content: \"\\F0FE\";\n}\n.fa-angle-double-left:before {\n  content: \"\\F100\";\n}\n.fa-angle-double-right:before {\n  content: \"\\F101\";\n}\n.fa-angle-double-up:before {\n  content: \"\\F102\";\n}\n.fa-angle-double-down:before {\n  content: \"\\F103\";\n}\n.fa-angle-left:before {\n  content: \"\\F104\";\n}\n.fa-angle-right:before {\n  content: \"\\F105\";\n}\n.fa-angle-up:before {\n  content: \"\\F106\";\n}\n.fa-angle-down:before {\n  content: \"\\F107\";\n}\n.fa-desktop:before {\n  content: \"\\F108\";\n}\n.fa-laptop:before {\n  content: \"\\F109\";\n}\n.fa-tablet:before {\n  content: \"\\F10A\";\n}\n.fa-mobile-phone:before,\n.fa-mobile:before {\n  content: \"\\F10B\";\n}\n.fa-circle-o:before {\n  content: \"\\F10C\";\n}\n.fa-quote-left:before {\n  content: \"\\F10D\";\n}\n.fa-quote-right:before {\n  content: \"\\F10E\";\n}\n.fa-spinner:before {\n  content: \"\\F110\";\n}\n.fa-circle:before {\n  content: \"\\F111\";\n}\n.fa-mail-reply:before,\n.fa-reply:before {\n  content: \"\\F112\";\n}\n.fa-github-alt:before {\n  content: \"\\F113\";\n}\n.fa-folder-o:before {\n  content: \"\\F114\";\n}\n.fa-folder-open-o:before {\n  content: \"\\F115\";\n}\n.fa-smile-o:before {\n  content: \"\\F118\";\n}\n.fa-frown-o:before {\n  content: \"\\F119\";\n}\n.fa-meh-o:before {\n  content: \"\\F11A\";\n}\n.fa-gamepad:before {\n  content: \"\\F11B\";\n}\n.fa-keyboard-o:before {\n  content: \"\\F11C\";\n}\n.fa-flag-o:before {\n  content: \"\\F11D\";\n}\n.fa-flag-checkered:before {\n  content: \"\\F11E\";\n}\n.fa-terminal:before {\n  content: \"\\F120\";\n}\n.fa-code:before {\n  content: \"\\F121\";\n}\n.fa-mail-reply-all:before,\n.fa-reply-all:before {\n  content: \"\\F122\";\n}\n.fa-star-half-empty:before,\n.fa-star-half-full:before,\n.fa-star-half-o:before {\n  content: \"\\F123\";\n}\n.fa-location-arrow:before {\n  content: \"\\F124\";\n}\n.fa-crop:before {\n  content: \"\\F125\";\n}\n.fa-code-fork:before {\n  content: \"\\F126\";\n}\n.fa-unlink:before,\n.fa-chain-broken:before {\n  content: \"\\F127\";\n}\n.fa-question:before {\n  content: \"\\F128\";\n}\n.fa-info:before {\n  content: \"\\F129\";\n}\n.fa-exclamation:before {\n  content: \"\\F12A\";\n}\n.fa-superscript:before {\n  content: \"\\F12B\";\n}\n.fa-subscript:before {\n  content: \"\\F12C\";\n}\n.fa-eraser:before {\n  content: \"\\F12D\";\n}\n.fa-puzzle-piece:before {\n  content: \"\\F12E\";\n}\n.fa-microphone:before {\n  content: \"\\F130\";\n}\n.fa-microphone-slash:before {\n  content: \"\\F131\";\n}\n.fa-shield:before {\n  content: \"\\F132\";\n}\n.fa-calendar-o:before {\n  content: \"\\F133\";\n}\n.fa-fire-extinguisher:before {\n  content: \"\\F134\";\n}\n.fa-rocket:before {\n  content: \"\\F135\";\n}\n.fa-maxcdn:before {\n  content: \"\\F136\";\n}\n.fa-chevron-circle-left:before {\n  content: \"\\F137\";\n}\n.fa-chevron-circle-right:before {\n  content: \"\\F138\";\n}\n.fa-chevron-circle-up:before {\n  content: \"\\F139\";\n}\n.fa-chevron-circle-down:before {\n  content: \"\\F13A\";\n}\n.fa-html5:before {\n  content: \"\\F13B\";\n}\n.fa-css3:before {\n  content: \"\\F13C\";\n}\n.fa-anchor:before {\n  content: \"\\F13D\";\n}\n.fa-unlock-alt:before {\n  content: \"\\F13E\";\n}\n.fa-bullseye:before {\n  content: \"\\F140\";\n}\n.fa-ellipsis-h:before {\n  content: \"\\F141\";\n}\n.fa-ellipsis-v:before {\n  content: \"\\F142\";\n}\n.fa-rss-square:before {\n  content: \"\\F143\";\n}\n.fa-play-circle:before {\n  content: \"\\F144\";\n}\n.fa-ticket:before {\n  content: \"\\F145\";\n}\n.fa-minus-square:before {\n  content: \"\\F146\";\n}\n.fa-minus-square-o:before {\n  content: \"\\F147\";\n}\n.fa-level-up:before {\n  content: \"\\F148\";\n}\n.fa-level-down:before {\n  content: \"\\F149\";\n}\n.fa-check-square:before {\n  content: \"\\F14A\";\n}\n.fa-pencil-square:before {\n  content: \"\\F14B\";\n}\n.fa-external-link-square:before {\n  content: \"\\F14C\";\n}\n.fa-share-square:before {\n  content: \"\\F14D\";\n}\n.fa-compass:before {\n  content: \"\\F14E\";\n}\n.fa-toggle-down:before,\n.fa-caret-square-o-down:before {\n  content: \"\\F150\";\n}\n.fa-toggle-up:before,\n.fa-caret-square-o-up:before {\n  content: \"\\F151\";\n}\n.fa-toggle-right:before,\n.fa-caret-square-o-right:before {\n  content: \"\\F152\";\n}\n.fa-euro:before,\n.fa-eur:before {\n  content: \"\\F153\";\n}\n.fa-gbp:before {\n  content: \"\\F154\";\n}\n.fa-dollar:before,\n.fa-usd:before {\n  content: \"\\F155\";\n}\n.fa-rupee:before,\n.fa-inr:before {\n  content: \"\\F156\";\n}\n.fa-cny:before,\n.fa-rmb:before,\n.fa-yen:before,\n.fa-jpy:before {\n  content: \"\\F157\";\n}\n.fa-ruble:before,\n.fa-rouble:before,\n.fa-rub:before {\n  content: \"\\F158\";\n}\n.fa-won:before,\n.fa-krw:before {\n  content: \"\\F159\";\n}\n.fa-bitcoin:before,\n.fa-btc:before {\n  content: \"\\F15A\";\n}\n.fa-file:before {\n  content: \"\\F15B\";\n}\n.fa-file-text:before {\n  content: \"\\F15C\";\n}\n.fa-sort-alpha-asc:before {\n  content: \"\\F15D\";\n}\n.fa-sort-alpha-desc:before {\n  content: \"\\F15E\";\n}\n.fa-sort-amount-asc:before {\n  content: \"\\F160\";\n}\n.fa-sort-amount-desc:before {\n  content: \"\\F161\";\n}\n.fa-sort-numeric-asc:before {\n  content: \"\\F162\";\n}\n.fa-sort-numeric-desc:before {\n  content: \"\\F163\";\n}\n.fa-thumbs-up:before {\n  content: \"\\F164\";\n}\n.fa-thumbs-down:before {\n  content: \"\\F165\";\n}\n.fa-youtube-square:before {\n  content: \"\\F166\";\n}\n.fa-youtube:before {\n  content: \"\\F167\";\n}\n.fa-xing:before {\n  content: \"\\F168\";\n}\n.fa-xing-square:before {\n  content: \"\\F169\";\n}\n.fa-youtube-play:before {\n  content: \"\\F16A\";\n}\n.fa-dropbox:before {\n  content: \"\\F16B\";\n}\n.fa-stack-overflow:before {\n  content: \"\\F16C\";\n}\n.fa-instagram:before {\n  content: \"\\F16D\";\n}\n.fa-flickr:before {\n  content: \"\\F16E\";\n}\n.fa-adn:before {\n  content: \"\\F170\";\n}\n.fa-bitbucket:before {\n  content: \"\\F171\";\n}\n.fa-bitbucket-square:before {\n  content: \"\\F172\";\n}\n.fa-tumblr:before {\n  content: \"\\F173\";\n}\n.fa-tumblr-square:before {\n  content: \"\\F174\";\n}\n.fa-long-arrow-down:before {\n  content: \"\\F175\";\n}\n.fa-long-arrow-up:before {\n  content: \"\\F176\";\n}\n.fa-long-arrow-left:before {\n  content: \"\\F177\";\n}\n.fa-long-arrow-right:before {\n  content: \"\\F178\";\n}\n.fa-apple:before {\n  content: \"\\F179\";\n}\n.fa-windows:before {\n  content: \"\\F17A\";\n}\n.fa-android:before {\n  content: \"\\F17B\";\n}\n.fa-linux:before {\n  content: \"\\F17C\";\n}\n.fa-dribbble:before {\n  content: \"\\F17D\";\n}\n.fa-skype:before {\n  content: \"\\F17E\";\n}\n.fa-foursquare:before {\n  content: \"\\F180\";\n}\n.fa-trello:before {\n  content: \"\\F181\";\n}\n.fa-female:before {\n  content: \"\\F182\";\n}\n.fa-male:before {\n  content: \"\\F183\";\n}\n.fa-gittip:before,\n.fa-gratipay:before {\n  content: \"\\F184\";\n}\n.fa-sun-o:before {\n  content: \"\\F185\";\n}\n.fa-moon-o:before {\n  content: \"\\F186\";\n}\n.fa-archive:before {\n  content: \"\\F187\";\n}\n.fa-bug:before {\n  content: \"\\F188\";\n}\n.fa-vk:before {\n  content: \"\\F189\";\n}\n.fa-weibo:before {\n  content: \"\\F18A\";\n}\n.fa-renren:before {\n  content: \"\\F18B\";\n}\n.fa-pagelines:before {\n  content: \"\\F18C\";\n}\n.fa-stack-exchange:before {\n  content: \"\\F18D\";\n}\n.fa-arrow-circle-o-right:before {\n  content: \"\\F18E\";\n}\n.fa-arrow-circle-o-left:before {\n  content: \"\\F190\";\n}\n.fa-toggle-left:before,\n.fa-caret-square-o-left:before {\n  content: \"\\F191\";\n}\n.fa-dot-circle-o:before {\n  content: \"\\F192\";\n}\n.fa-wheelchair:before {\n  content: \"\\F193\";\n}\n.fa-vimeo-square:before {\n  content: \"\\F194\";\n}\n.fa-turkish-lira:before,\n.fa-try:before {\n  content: \"\\F195\";\n}\n.fa-plus-square-o:before {\n  content: \"\\F196\";\n}\n.fa-space-shuttle:before {\n  content: \"\\F197\";\n}\n.fa-slack:before {\n  content: \"\\F198\";\n}\n.fa-envelope-square:before {\n  content: \"\\F199\";\n}\n.fa-wordpress:before {\n  content: \"\\F19A\";\n}\n.fa-openid:before {\n  content: \"\\F19B\";\n}\n.fa-institution:before,\n.fa-bank:before,\n.fa-university:before {\n  content: \"\\F19C\";\n}\n.fa-mortar-board:before,\n.fa-graduation-cap:before {\n  content: \"\\F19D\";\n}\n.fa-yahoo:before {\n  content: \"\\F19E\";\n}\n.fa-google:before {\n  content: \"\\F1A0\";\n}\n.fa-reddit:before {\n  content: \"\\F1A1\";\n}\n.fa-reddit-square:before {\n  content: \"\\F1A2\";\n}\n.fa-stumbleupon-circle:before {\n  content: \"\\F1A3\";\n}\n.fa-stumbleupon:before {\n  content: \"\\F1A4\";\n}\n.fa-delicious:before {\n  content: \"\\F1A5\";\n}\n.fa-digg:before {\n  content: \"\\F1A6\";\n}\n.fa-pied-piper-pp:before {\n  content: \"\\F1A7\";\n}\n.fa-pied-piper-alt:before {\n  content: \"\\F1A8\";\n}\n.fa-drupal:before {\n  content: \"\\F1A9\";\n}\n.fa-joomla:before {\n  content: \"\\F1AA\";\n}\n.fa-language:before {\n  content: \"\\F1AB\";\n}\n.fa-fax:before {\n  content: \"\\F1AC\";\n}\n.fa-building:before {\n  content: \"\\F1AD\";\n}\n.fa-child:before {\n  content: \"\\F1AE\";\n}\n.fa-paw:before {\n  content: \"\\F1B0\";\n}\n.fa-spoon:before {\n  content: \"\\F1B1\";\n}\n.fa-cube:before {\n  content: \"\\F1B2\";\n}\n.fa-cubes:before {\n  content: \"\\F1B3\";\n}\n.fa-behance:before {\n  content: \"\\F1B4\";\n}\n.fa-behance-square:before {\n  content: \"\\F1B5\";\n}\n.fa-steam:before {\n  content: \"\\F1B6\";\n}\n.fa-steam-square:before {\n  content: \"\\F1B7\";\n}\n.fa-recycle:before {\n  content: \"\\F1B8\";\n}\n.fa-automobile:before,\n.fa-car:before {\n  content: \"\\F1B9\";\n}\n.fa-cab:before,\n.fa-taxi:before {\n  content: \"\\F1BA\";\n}\n.fa-tree:before {\n  content: \"\\F1BB\";\n}\n.fa-spotify:before {\n  content: \"\\F1BC\";\n}\n.fa-deviantart:before {\n  content: \"\\F1BD\";\n}\n.fa-soundcloud:before {\n  content: \"\\F1BE\";\n}\n.fa-database:before {\n  content: \"\\F1C0\";\n}\n.fa-file-pdf-o:before {\n  content: \"\\F1C1\";\n}\n.fa-file-word-o:before {\n  content: \"\\F1C2\";\n}\n.fa-file-excel-o:before {\n  content: \"\\F1C3\";\n}\n.fa-file-powerpoint-o:before {\n  content: \"\\F1C4\";\n}\n.fa-file-photo-o:before,\n.fa-file-picture-o:before,\n.fa-file-image-o:before {\n  content: \"\\F1C5\";\n}\n.fa-file-zip-o:before,\n.fa-file-archive-o:before {\n  content: \"\\F1C6\";\n}\n.fa-file-sound-o:before,\n.fa-file-audio-o:before {\n  content: \"\\F1C7\";\n}\n.fa-file-movie-o:before,\n.fa-file-video-o:before {\n  content: \"\\F1C8\";\n}\n.fa-file-code-o:before {\n  content: \"\\F1C9\";\n}\n.fa-vine:before {\n  content: \"\\F1CA\";\n}\n.fa-codepen:before {\n  content: \"\\F1CB\";\n}\n.fa-jsfiddle:before {\n  content: \"\\F1CC\";\n}\n.fa-life-bouy:before,\n.fa-life-buoy:before,\n.fa-life-saver:before,\n.fa-support:before,\n.fa-life-ring:before {\n  content: \"\\F1CD\";\n}\n.fa-circle-o-notch:before {\n  content: \"\\F1CE\";\n}\n.fa-ra:before,\n.fa-resistance:before,\n.fa-rebel:before {\n  content: \"\\F1D0\";\n}\n.fa-ge:before,\n.fa-empire:before {\n  content: \"\\F1D1\";\n}\n.fa-git-square:before {\n  content: \"\\F1D2\";\n}\n.fa-git:before {\n  content: \"\\F1D3\";\n}\n.fa-y-combinator-square:before,\n.fa-yc-square:before,\n.fa-hacker-news:before {\n  content: \"\\F1D4\";\n}\n.fa-tencent-weibo:before {\n  content: \"\\F1D5\";\n}\n.fa-qq:before {\n  content: \"\\F1D6\";\n}\n.fa-wechat:before,\n.fa-weixin:before {\n  content: \"\\F1D7\";\n}\n.fa-send:before,\n.fa-paper-plane:before {\n  content: \"\\F1D8\";\n}\n.fa-send-o:before,\n.fa-paper-plane-o:before {\n  content: \"\\F1D9\";\n}\n.fa-history:before {\n  content: \"\\F1DA\";\n}\n.fa-circle-thin:before {\n  content: \"\\F1DB\";\n}\n.fa-header:before {\n  content: \"\\F1DC\";\n}\n.fa-paragraph:before {\n  content: \"\\F1DD\";\n}\n.fa-sliders:before {\n  content: \"\\F1DE\";\n}\n.fa-share-alt:before {\n  content: \"\\F1E0\";\n}\n.fa-share-alt-square:before {\n  content: \"\\F1E1\";\n}\n.fa-bomb:before {\n  content: \"\\F1E2\";\n}\n.fa-soccer-ball-o:before,\n.fa-futbol-o:before {\n  content: \"\\F1E3\";\n}\n.fa-tty:before {\n  content: \"\\F1E4\";\n}\n.fa-binoculars:before {\n  content: \"\\F1E5\";\n}\n.fa-plug:before {\n  content: \"\\F1E6\";\n}\n.fa-slideshare:before {\n  content: \"\\F1E7\";\n}\n.fa-twitch:before {\n  content: \"\\F1E8\";\n}\n.fa-yelp:before {\n  content: \"\\F1E9\";\n}\n.fa-newspaper-o:before {\n  content: \"\\F1EA\";\n}\n.fa-wifi:before {\n  content: \"\\F1EB\";\n}\n.fa-calculator:before {\n  content: \"\\F1EC\";\n}\n.fa-paypal:before {\n  content: \"\\F1ED\";\n}\n.fa-google-wallet:before {\n  content: \"\\F1EE\";\n}\n.fa-cc-visa:before {\n  content: \"\\F1F0\";\n}\n.fa-cc-mastercard:before {\n  content: \"\\F1F1\";\n}\n.fa-cc-discover:before {\n  content: \"\\F1F2\";\n}\n.fa-cc-amex:before {\n  content: \"\\F1F3\";\n}\n.fa-cc-paypal:before {\n  content: \"\\F1F4\";\n}\n.fa-cc-stripe:before {\n  content: \"\\F1F5\";\n}\n.fa-bell-slash:before {\n  content: \"\\F1F6\";\n}\n.fa-bell-slash-o:before {\n  content: \"\\F1F7\";\n}\n.fa-trash:before {\n  content: \"\\F1F8\";\n}\n.fa-copyright:before {\n  content: \"\\F1F9\";\n}\n.fa-at:before {\n  content: \"\\F1FA\";\n}\n.fa-eyedropper:before {\n  content: \"\\F1FB\";\n}\n.fa-paint-brush:before {\n  content: \"\\F1FC\";\n}\n.fa-birthday-cake:before {\n  content: \"\\F1FD\";\n}\n.fa-area-chart:before {\n  content: \"\\F1FE\";\n}\n.fa-pie-chart:before {\n  content: \"\\F200\";\n}\n.fa-line-chart:before {\n  content: \"\\F201\";\n}\n.fa-lastfm:before {\n  content: \"\\F202\";\n}\n.fa-lastfm-square:before {\n  content: \"\\F203\";\n}\n.fa-toggle-off:before {\n  content: \"\\F204\";\n}\n.fa-toggle-on:before {\n  content: \"\\F205\";\n}\n.fa-bicycle:before {\n  content: \"\\F206\";\n}\n.fa-bus:before {\n  content: \"\\F207\";\n}\n.fa-ioxhost:before {\n  content: \"\\F208\";\n}\n.fa-angellist:before {\n  content: \"\\F209\";\n}\n.fa-cc:before {\n  content: \"\\F20A\";\n}\n.fa-shekel:before,\n.fa-sheqel:before,\n.fa-ils:before {\n  content: \"\\F20B\";\n}\n.fa-meanpath:before {\n  content: \"\\F20C\";\n}\n.fa-buysellads:before {\n  content: \"\\F20D\";\n}\n.fa-connectdevelop:before {\n  content: \"\\F20E\";\n}\n.fa-dashcube:before {\n  content: \"\\F210\";\n}\n.fa-forumbee:before {\n  content: \"\\F211\";\n}\n.fa-leanpub:before {\n  content: \"\\F212\";\n}\n.fa-sellsy:before {\n  content: \"\\F213\";\n}\n.fa-shirtsinbulk:before {\n  content: \"\\F214\";\n}\n.fa-simplybuilt:before {\n  content: \"\\F215\";\n}\n.fa-skyatlas:before {\n  content: \"\\F216\";\n}\n.fa-cart-plus:before {\n  content: \"\\F217\";\n}\n.fa-cart-arrow-down:before {\n  content: \"\\F218\";\n}\n.fa-diamond:before {\n  content: \"\\F219\";\n}\n.fa-ship:before {\n  content: \"\\F21A\";\n}\n.fa-user-secret:before {\n  content: \"\\F21B\";\n}\n.fa-motorcycle:before {\n  content: \"\\F21C\";\n}\n.fa-street-view:before {\n  content: \"\\F21D\";\n}\n.fa-heartbeat:before {\n  content: \"\\F21E\";\n}\n.fa-venus:before {\n  content: \"\\F221\";\n}\n.fa-mars:before {\n  content: \"\\F222\";\n}\n.fa-mercury:before {\n  content: \"\\F223\";\n}\n.fa-intersex:before,\n.fa-transgender:before {\n  content: \"\\F224\";\n}\n.fa-transgender-alt:before {\n  content: \"\\F225\";\n}\n.fa-venus-double:before {\n  content: \"\\F226\";\n}\n.fa-mars-double:before {\n  content: \"\\F227\";\n}\n.fa-venus-mars:before {\n  content: \"\\F228\";\n}\n.fa-mars-stroke:before {\n  content: \"\\F229\";\n}\n.fa-mars-stroke-v:before {\n  content: \"\\F22A\";\n}\n.fa-mars-stroke-h:before {\n  content: \"\\F22B\";\n}\n.fa-neuter:before {\n  content: \"\\F22C\";\n}\n.fa-genderless:before {\n  content: \"\\F22D\";\n}\n.fa-facebook-official:before {\n  content: \"\\F230\";\n}\n.fa-pinterest-p:before {\n  content: \"\\F231\";\n}\n.fa-whatsapp:before {\n  content: \"\\F232\";\n}\n.fa-server:before {\n  content: \"\\F233\";\n}\n.fa-user-plus:before {\n  content: \"\\F234\";\n}\n.fa-user-times:before {\n  content: \"\\F235\";\n}\n.fa-hotel:before,\n.fa-bed:before {\n  content: \"\\F236\";\n}\n.fa-viacoin:before {\n  content: \"\\F237\";\n}\n.fa-train:before {\n  content: \"\\F238\";\n}\n.fa-subway:before {\n  content: \"\\F239\";\n}\n.fa-medium:before {\n  content: \"\\F23A\";\n}\n.fa-yc:before,\n.fa-y-combinator:before {\n  content: \"\\F23B\";\n}\n.fa-optin-monster:before {\n  content: \"\\F23C\";\n}\n.fa-opencart:before {\n  content: \"\\F23D\";\n}\n.fa-expeditedssl:before {\n  content: \"\\F23E\";\n}\n.fa-battery-4:before,\n.fa-battery:before,\n.fa-battery-full:before {\n  content: \"\\F240\";\n}\n.fa-battery-3:before,\n.fa-battery-three-quarters:before {\n  content: \"\\F241\";\n}\n.fa-battery-2:before,\n.fa-battery-half:before {\n  content: \"\\F242\";\n}\n.fa-battery-1:before,\n.fa-battery-quarter:before {\n  content: \"\\F243\";\n}\n.fa-battery-0:before,\n.fa-battery-empty:before {\n  content: \"\\F244\";\n}\n.fa-mouse-pointer:before {\n  content: \"\\F245\";\n}\n.fa-i-cursor:before {\n  content: \"\\F246\";\n}\n.fa-object-group:before {\n  content: \"\\F247\";\n}\n.fa-object-ungroup:before {\n  content: \"\\F248\";\n}\n.fa-sticky-note:before {\n  content: \"\\F249\";\n}\n.fa-sticky-note-o:before {\n  content: \"\\F24A\";\n}\n.fa-cc-jcb:before {\n  content: \"\\F24B\";\n}\n.fa-cc-diners-club:before {\n  content: \"\\F24C\";\n}\n.fa-clone:before {\n  content: \"\\F24D\";\n}\n.fa-balance-scale:before {\n  content: \"\\F24E\";\n}\n.fa-hourglass-o:before {\n  content: \"\\F250\";\n}\n.fa-hourglass-1:before,\n.fa-hourglass-start:before {\n  content: \"\\F251\";\n}\n.fa-hourglass-2:before,\n.fa-hourglass-half:before {\n  content: \"\\F252\";\n}\n.fa-hourglass-3:before,\n.fa-hourglass-end:before {\n  content: \"\\F253\";\n}\n.fa-hourglass:before {\n  content: \"\\F254\";\n}\n.fa-hand-grab-o:before,\n.fa-hand-rock-o:before {\n  content: \"\\F255\";\n}\n.fa-hand-stop-o:before,\n.fa-hand-paper-o:before {\n  content: \"\\F256\";\n}\n.fa-hand-scissors-o:before {\n  content: \"\\F257\";\n}\n.fa-hand-lizard-o:before {\n  content: \"\\F258\";\n}\n.fa-hand-spock-o:before {\n  content: \"\\F259\";\n}\n.fa-hand-pointer-o:before {\n  content: \"\\F25A\";\n}\n.fa-hand-peace-o:before {\n  content: \"\\F25B\";\n}\n.fa-trademark:before {\n  content: \"\\F25C\";\n}\n.fa-registered:before {\n  content: \"\\F25D\";\n}\n.fa-creative-commons:before {\n  content: \"\\F25E\";\n}\n.fa-gg:before {\n  content: \"\\F260\";\n}\n.fa-gg-circle:before {\n  content: \"\\F261\";\n}\n.fa-tripadvisor:before {\n  content: \"\\F262\";\n}\n.fa-odnoklassniki:before {\n  content: \"\\F263\";\n}\n.fa-odnoklassniki-square:before {\n  content: \"\\F264\";\n}\n.fa-get-pocket:before {\n  content: \"\\F265\";\n}\n.fa-wikipedia-w:before {\n  content: \"\\F266\";\n}\n.fa-safari:before {\n  content: \"\\F267\";\n}\n.fa-chrome:before {\n  content: \"\\F268\";\n}\n.fa-firefox:before {\n  content: \"\\F269\";\n}\n.fa-opera:before {\n  content: \"\\F26A\";\n}\n.fa-internet-explorer:before {\n  content: \"\\F26B\";\n}\n.fa-tv:before,\n.fa-television:before {\n  content: \"\\F26C\";\n}\n.fa-contao:before {\n  content: \"\\F26D\";\n}\n.fa-500px:before {\n  content: \"\\F26E\";\n}\n.fa-amazon:before {\n  content: \"\\F270\";\n}\n.fa-calendar-plus-o:before {\n  content: \"\\F271\";\n}\n.fa-calendar-minus-o:before {\n  content: \"\\F272\";\n}\n.fa-calendar-times-o:before {\n  content: \"\\F273\";\n}\n.fa-calendar-check-o:before {\n  content: \"\\F274\";\n}\n.fa-industry:before {\n  content: \"\\F275\";\n}\n.fa-map-pin:before {\n  content: \"\\F276\";\n}\n.fa-map-signs:before {\n  content: \"\\F277\";\n}\n.fa-map-o:before {\n  content: \"\\F278\";\n}\n.fa-map:before {\n  content: \"\\F279\";\n}\n.fa-commenting:before {\n  content: \"\\F27A\";\n}\n.fa-commenting-o:before {\n  content: \"\\F27B\";\n}\n.fa-houzz:before {\n  content: \"\\F27C\";\n}\n.fa-vimeo:before {\n  content: \"\\F27D\";\n}\n.fa-black-tie:before {\n  content: \"\\F27E\";\n}\n.fa-fonticons:before {\n  content: \"\\F280\";\n}\n.fa-reddit-alien:before {\n  content: \"\\F281\";\n}\n.fa-edge:before {\n  content: \"\\F282\";\n}\n.fa-credit-card-alt:before {\n  content: \"\\F283\";\n}\n.fa-codiepie:before {\n  content: \"\\F284\";\n}\n.fa-modx:before {\n  content: \"\\F285\";\n}\n.fa-fort-awesome:before {\n  content: \"\\F286\";\n}\n.fa-usb:before {\n  content: \"\\F287\";\n}\n.fa-product-hunt:before {\n  content: \"\\F288\";\n}\n.fa-mixcloud:before {\n  content: \"\\F289\";\n}\n.fa-scribd:before {\n  content: \"\\F28A\";\n}\n.fa-pause-circle:before {\n  content: \"\\F28B\";\n}\n.fa-pause-circle-o:before {\n  content: \"\\F28C\";\n}\n.fa-stop-circle:before {\n  content: \"\\F28D\";\n}\n.fa-stop-circle-o:before {\n  content: \"\\F28E\";\n}\n.fa-shopping-bag:before {\n  content: \"\\F290\";\n}\n.fa-shopping-basket:before {\n  content: \"\\F291\";\n}\n.fa-hashtag:before {\n  content: \"\\F292\";\n}\n.fa-bluetooth:before {\n  content: \"\\F293\";\n}\n.fa-bluetooth-b:before {\n  content: \"\\F294\";\n}\n.fa-percent:before {\n  content: \"\\F295\";\n}\n.fa-gitlab:before {\n  content: \"\\F296\";\n}\n.fa-wpbeginner:before {\n  content: \"\\F297\";\n}\n.fa-wpforms:before {\n  content: \"\\F298\";\n}\n.fa-envira:before {\n  content: \"\\F299\";\n}\n.fa-universal-access:before {\n  content: \"\\F29A\";\n}\n.fa-wheelchair-alt:before {\n  content: \"\\F29B\";\n}\n.fa-question-circle-o:before {\n  content: \"\\F29C\";\n}\n.fa-blind:before {\n  content: \"\\F29D\";\n}\n.fa-audio-description:before {\n  content: \"\\F29E\";\n}\n.fa-volume-control-phone:before {\n  content: \"\\F2A0\";\n}\n.fa-braille:before {\n  content: \"\\F2A1\";\n}\n.fa-assistive-listening-systems:before {\n  content: \"\\F2A2\";\n}\n.fa-asl-interpreting:before,\n.fa-american-sign-language-interpreting:before {\n  content: \"\\F2A3\";\n}\n.fa-deafness:before,\n.fa-hard-of-hearing:before,\n.fa-deaf:before {\n  content: \"\\F2A4\";\n}\n.fa-glide:before {\n  content: \"\\F2A5\";\n}\n.fa-glide-g:before {\n  content: \"\\F2A6\";\n}\n.fa-signing:before,\n.fa-sign-language:before {\n  content: \"\\F2A7\";\n}\n.fa-low-vision:before {\n  content: \"\\F2A8\";\n}\n.fa-viadeo:before {\n  content: \"\\F2A9\";\n}\n.fa-viadeo-square:before {\n  content: \"\\F2AA\";\n}\n.fa-snapchat:before {\n  content: \"\\F2AB\";\n}\n.fa-snapchat-ghost:before {\n  content: \"\\F2AC\";\n}\n.fa-snapchat-square:before {\n  content: \"\\F2AD\";\n}\n.fa-pied-piper:before {\n  content: \"\\F2AE\";\n}\n.fa-first-order:before {\n  content: \"\\F2B0\";\n}\n.fa-yoast:before {\n  content: \"\\F2B1\";\n}\n.fa-themeisle:before {\n  content: \"\\F2B2\";\n}\n.fa-google-plus-circle:before,\n.fa-google-plus-official:before {\n  content: \"\\F2B3\";\n}\n.fa-fa:before,\n.fa-font-awesome:before {\n  content: \"\\F2B4\";\n}\n.fa-handshake-o:before {\n  content: \"\\F2B5\";\n}\n.fa-envelope-open:before {\n  content: \"\\F2B6\";\n}\n.fa-envelope-open-o:before {\n  content: \"\\F2B7\";\n}\n.fa-linode:before {\n  content: \"\\F2B8\";\n}\n.fa-address-book:before {\n  content: \"\\F2B9\";\n}\n.fa-address-book-o:before {\n  content: \"\\F2BA\";\n}\n.fa-vcard:before,\n.fa-address-card:before {\n  content: \"\\F2BB\";\n}\n.fa-vcard-o:before,\n.fa-address-card-o:before {\n  content: \"\\F2BC\";\n}\n.fa-user-circle:before {\n  content: \"\\F2BD\";\n}\n.fa-user-circle-o:before {\n  content: \"\\F2BE\";\n}\n.fa-user-o:before {\n  content: \"\\F2C0\";\n}\n.fa-id-badge:before {\n  content: \"\\F2C1\";\n}\n.fa-drivers-license:before,\n.fa-id-card:before {\n  content: \"\\F2C2\";\n}\n.fa-drivers-license-o:before,\n.fa-id-card-o:before {\n  content: \"\\F2C3\";\n}\n.fa-quora:before {\n  content: \"\\F2C4\";\n}\n.fa-free-code-camp:before {\n  content: \"\\F2C5\";\n}\n.fa-telegram:before {\n  content: \"\\F2C6\";\n}\n.fa-thermometer-4:before,\n.fa-thermometer:before,\n.fa-thermometer-full:before {\n  content: \"\\F2C7\";\n}\n.fa-thermometer-3:before,\n.fa-thermometer-three-quarters:before {\n  content: \"\\F2C8\";\n}\n.fa-thermometer-2:before,\n.fa-thermometer-half:before {\n  content: \"\\F2C9\";\n}\n.fa-thermometer-1:before,\n.fa-thermometer-quarter:before {\n  content: \"\\F2CA\";\n}\n.fa-thermometer-0:before,\n.fa-thermometer-empty:before {\n  content: \"\\F2CB\";\n}\n.fa-shower:before {\n  content: \"\\F2CC\";\n}\n.fa-bathtub:before,\n.fa-s15:before,\n.fa-bath:before {\n  content: \"\\F2CD\";\n}\n.fa-podcast:before {\n  content: \"\\F2CE\";\n}\n.fa-window-maximize:before {\n  content: \"\\F2D0\";\n}\n.fa-window-minimize:before {\n  content: \"\\F2D1\";\n}\n.fa-window-restore:before {\n  content: \"\\F2D2\";\n}\n.fa-times-rectangle:before,\n.fa-window-close:before {\n  content: \"\\F2D3\";\n}\n.fa-times-rectangle-o:before,\n.fa-window-close-o:before {\n  content: \"\\F2D4\";\n}\n.fa-bandcamp:before {\n  content: \"\\F2D5\";\n}\n.fa-grav:before {\n  content: \"\\F2D6\";\n}\n.fa-etsy:before {\n  content: \"\\F2D7\";\n}\n.fa-imdb:before {\n  content: \"\\F2D8\";\n}\n.fa-ravelry:before {\n  content: \"\\F2D9\";\n}\n.fa-eercast:before {\n  content: \"\\F2DA\";\n}\n.fa-microchip:before {\n  content: \"\\F2DB\";\n}\n.fa-snowflake-o:before {\n  content: \"\\F2DC\";\n}\n.fa-superpowers:before {\n  content: \"\\F2DD\";\n}\n.fa-wpexplorer:before {\n  content: \"\\F2DE\";\n}\n.fa-meetup:before {\n  content: \"\\F2E0\";\n}\n/* makes the font 33% larger relative to the icon container */\n.fa-lg {\n  font-size: 1.33333333em;\n  line-height: 0.75em;\n  vertical-align: -15%;\n}\n.fa-2x {\n  font-size: 2em;\n}\n.fa-3x {\n  font-size: 3em;\n}\n.fa-4x {\n  font-size: 4em;\n}\n.fa-5x {\n  font-size: 5em;\n}\n.fa-ul {\n  padding-left: 0;\n  margin-left: 2.14285714em;\n  list-style-type: none;\n}\n.fa-ul > li {\n  position: relative;\n}\n.fa-li {\n  position: absolute;\n  left: -2.14285714em;\n  width: 2.14285714em;\n  top: 0.14285714em;\n  text-align: center;\n}\n.fa-li.fa-lg {\n  left: -1.85714286em;\n}\n/* FONT PATH\n * -------------------------- */\n@font-face {\n  font-family: 'FontAwesome';\n  src: url(" + __webpack_require__(294) + ");\n  src: url(" + __webpack_require__(293) + "?#iefix&v=4.7.0) format('embedded-opentype'), url(" + __webpack_require__(297) + ") format('woff2'), url(" + __webpack_require__(298) + ") format('woff'), url(" + __webpack_require__(296) + ") format('truetype'), url(" + __webpack_require__(295) + "#fontawesomeregular) format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n.fa-rotate-90 {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=1)\";\n  -webkit-transform: rotate(90deg);\n  -ms-transform: rotate(90deg);\n  transform: rotate(90deg);\n}\n.fa-rotate-180 {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=2)\";\n  -webkit-transform: rotate(180deg);\n  -ms-transform: rotate(180deg);\n  transform: rotate(180deg);\n}\n.fa-rotate-270 {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=3)\";\n  -webkit-transform: rotate(270deg);\n  -ms-transform: rotate(270deg);\n  transform: rotate(270deg);\n}\n.fa-flip-horizontal {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)\";\n  -webkit-transform: scale(-1, 1);\n  -ms-transform: scale(-1, 1);\n  transform: scale(-1, 1);\n}\n.fa-flip-vertical {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)\";\n  -webkit-transform: scale(1, -1);\n  -ms-transform: scale(1, -1);\n  transform: scale(1, -1);\n}\n:root .fa-rotate-90,\n:root .fa-rotate-180,\n:root .fa-rotate-270,\n:root .fa-flip-horizontal,\n:root .fa-flip-vertical {\n  filter: none;\n}\n.fa-spin {\n  -webkit-animation: fa-spin 2s infinite linear;\n  animation: fa-spin 2s infinite linear;\n}\n.fa-pulse {\n  -webkit-animation: fa-spin 1s infinite steps(8);\n  animation: fa-spin 1s infinite steps(8);\n}\n@-webkit-keyframes fa-spin {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n  100% {\n    -webkit-transform: rotate(359deg);\n    transform: rotate(359deg);\n  }\n}\n@keyframes fa-spin {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n  100% {\n    -webkit-transform: rotate(359deg);\n    transform: rotate(359deg);\n  }\n}\n.fa-stack {\n  position: relative;\n  display: inline-block;\n  width: 2em;\n  height: 2em;\n  line-height: 2em;\n  vertical-align: middle;\n}\n.fa-stack-1x,\n.fa-stack-2x {\n  position: absolute;\n  left: 0;\n  width: 100%;\n  text-align: center;\n}\n.fa-stack-1x {\n  line-height: inherit;\n}\n.fa-stack-2x {\n  font-size: 2em;\n}\n.fa-inverse {\n  color: #fff;\n}\n", ""]);
+exports.push([module.i, ".fa-border {\n  padding: .2em .25em .15em;\n  border: solid 0.08em #eee;\n  border-radius: .1em;\n}\n.fa-pull-left {\n  float: left;\n}\n.fa-pull-right {\n  float: right;\n}\n.fa.fa-pull-left {\n  margin-right: .3em;\n}\n.fa.fa-pull-right {\n  margin-left: .3em;\n}\n/* Deprecated as of 4.4.0 */\n.pull-right {\n  float: right;\n}\n.pull-left {\n  float: left;\n}\n.fa.pull-left {\n  margin-right: .3em;\n}\n.fa.pull-right {\n  margin-left: .3em;\n}\n.fa {\n  display: inline-block;\n  font: normal normal normal 14px/1 FontAwesome;\n  font-size: inherit;\n  text-rendering: auto;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n.fa-fw {\n  width: 1.28571429em;\n  text-align: center;\n}\n/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen\n   readers do not read off random characters that represent icons */\n.fa-glass:before {\n  content: \"\\F000\";\n}\n.fa-music:before {\n  content: \"\\F001\";\n}\n.fa-search:before {\n  content: \"\\F002\";\n}\n.fa-envelope-o:before {\n  content: \"\\F003\";\n}\n.fa-heart:before {\n  content: \"\\F004\";\n}\n.fa-star:before {\n  content: \"\\F005\";\n}\n.fa-star-o:before {\n  content: \"\\F006\";\n}\n.fa-user:before {\n  content: \"\\F007\";\n}\n.fa-film:before {\n  content: \"\\F008\";\n}\n.fa-th-large:before {\n  content: \"\\F009\";\n}\n.fa-th:before {\n  content: \"\\F00A\";\n}\n.fa-th-list:before {\n  content: \"\\F00B\";\n}\n.fa-check:before {\n  content: \"\\F00C\";\n}\n.fa-remove:before,\n.fa-close:before,\n.fa-times:before {\n  content: \"\\F00D\";\n}\n.fa-search-plus:before {\n  content: \"\\F00E\";\n}\n.fa-search-minus:before {\n  content: \"\\F010\";\n}\n.fa-power-off:before {\n  content: \"\\F011\";\n}\n.fa-signal:before {\n  content: \"\\F012\";\n}\n.fa-gear:before,\n.fa-cog:before {\n  content: \"\\F013\";\n}\n.fa-trash-o:before {\n  content: \"\\F014\";\n}\n.fa-home:before {\n  content: \"\\F015\";\n}\n.fa-file-o:before {\n  content: \"\\F016\";\n}\n.fa-clock-o:before {\n  content: \"\\F017\";\n}\n.fa-road:before {\n  content: \"\\F018\";\n}\n.fa-download:before {\n  content: \"\\F019\";\n}\n.fa-arrow-circle-o-down:before {\n  content: \"\\F01A\";\n}\n.fa-arrow-circle-o-up:before {\n  content: \"\\F01B\";\n}\n.fa-inbox:before {\n  content: \"\\F01C\";\n}\n.fa-play-circle-o:before {\n  content: \"\\F01D\";\n}\n.fa-rotate-right:before,\n.fa-repeat:before {\n  content: \"\\F01E\";\n}\n.fa-refresh:before {\n  content: \"\\F021\";\n}\n.fa-list-alt:before {\n  content: \"\\F022\";\n}\n.fa-lock:before {\n  content: \"\\F023\";\n}\n.fa-flag:before {\n  content: \"\\F024\";\n}\n.fa-headphones:before {\n  content: \"\\F025\";\n}\n.fa-volume-off:before {\n  content: \"\\F026\";\n}\n.fa-volume-down:before {\n  content: \"\\F027\";\n}\n.fa-volume-up:before {\n  content: \"\\F028\";\n}\n.fa-qrcode:before {\n  content: \"\\F029\";\n}\n.fa-barcode:before {\n  content: \"\\F02A\";\n}\n.fa-tag:before {\n  content: \"\\F02B\";\n}\n.fa-tags:before {\n  content: \"\\F02C\";\n}\n.fa-book:before {\n  content: \"\\F02D\";\n}\n.fa-bookmark:before {\n  content: \"\\F02E\";\n}\n.fa-print:before {\n  content: \"\\F02F\";\n}\n.fa-camera:before {\n  content: \"\\F030\";\n}\n.fa-font:before {\n  content: \"\\F031\";\n}\n.fa-bold:before {\n  content: \"\\F032\";\n}\n.fa-italic:before {\n  content: \"\\F033\";\n}\n.fa-text-height:before {\n  content: \"\\F034\";\n}\n.fa-text-width:before {\n  content: \"\\F035\";\n}\n.fa-align-left:before {\n  content: \"\\F036\";\n}\n.fa-align-center:before {\n  content: \"\\F037\";\n}\n.fa-align-right:before {\n  content: \"\\F038\";\n}\n.fa-align-justify:before {\n  content: \"\\F039\";\n}\n.fa-list:before {\n  content: \"\\F03A\";\n}\n.fa-dedent:before,\n.fa-outdent:before {\n  content: \"\\F03B\";\n}\n.fa-indent:before {\n  content: \"\\F03C\";\n}\n.fa-video-camera:before {\n  content: \"\\F03D\";\n}\n.fa-photo:before,\n.fa-image:before,\n.fa-picture-o:before {\n  content: \"\\F03E\";\n}\n.fa-pencil:before {\n  content: \"\\F040\";\n}\n.fa-map-marker:before {\n  content: \"\\F041\";\n}\n.fa-adjust:before {\n  content: \"\\F042\";\n}\n.fa-tint:before {\n  content: \"\\F043\";\n}\n.fa-edit:before,\n.fa-pencil-square-o:before {\n  content: \"\\F044\";\n}\n.fa-share-square-o:before {\n  content: \"\\F045\";\n}\n.fa-check-square-o:before {\n  content: \"\\F046\";\n}\n.fa-arrows:before {\n  content: \"\\F047\";\n}\n.fa-step-backward:before {\n  content: \"\\F048\";\n}\n.fa-fast-backward:before {\n  content: \"\\F049\";\n}\n.fa-backward:before {\n  content: \"\\F04A\";\n}\n.fa-play:before {\n  content: \"\\F04B\";\n}\n.fa-pause:before {\n  content: \"\\F04C\";\n}\n.fa-stop:before {\n  content: \"\\F04D\";\n}\n.fa-forward:before {\n  content: \"\\F04E\";\n}\n.fa-fast-forward:before {\n  content: \"\\F050\";\n}\n.fa-step-forward:before {\n  content: \"\\F051\";\n}\n.fa-eject:before {\n  content: \"\\F052\";\n}\n.fa-chevron-left:before {\n  content: \"\\F053\";\n}\n.fa-chevron-right:before {\n  content: \"\\F054\";\n}\n.fa-plus-circle:before {\n  content: \"\\F055\";\n}\n.fa-minus-circle:before {\n  content: \"\\F056\";\n}\n.fa-times-circle:before {\n  content: \"\\F057\";\n}\n.fa-check-circle:before {\n  content: \"\\F058\";\n}\n.fa-question-circle:before {\n  content: \"\\F059\";\n}\n.fa-info-circle:before {\n  content: \"\\F05A\";\n}\n.fa-crosshairs:before {\n  content: \"\\F05B\";\n}\n.fa-times-circle-o:before {\n  content: \"\\F05C\";\n}\n.fa-check-circle-o:before {\n  content: \"\\F05D\";\n}\n.fa-ban:before {\n  content: \"\\F05E\";\n}\n.fa-arrow-left:before {\n  content: \"\\F060\";\n}\n.fa-arrow-right:before {\n  content: \"\\F061\";\n}\n.fa-arrow-up:before {\n  content: \"\\F062\";\n}\n.fa-arrow-down:before {\n  content: \"\\F063\";\n}\n.fa-mail-forward:before,\n.fa-share:before {\n  content: \"\\F064\";\n}\n.fa-expand:before {\n  content: \"\\F065\";\n}\n.fa-compress:before {\n  content: \"\\F066\";\n}\n.fa-plus:before {\n  content: \"\\F067\";\n}\n.fa-minus:before {\n  content: \"\\F068\";\n}\n.fa-asterisk:before {\n  content: \"\\F069\";\n}\n.fa-exclamation-circle:before {\n  content: \"\\F06A\";\n}\n.fa-gift:before {\n  content: \"\\F06B\";\n}\n.fa-leaf:before {\n  content: \"\\F06C\";\n}\n.fa-fire:before {\n  content: \"\\F06D\";\n}\n.fa-eye:before {\n  content: \"\\F06E\";\n}\n.fa-eye-slash:before {\n  content: \"\\F070\";\n}\n.fa-warning:before,\n.fa-exclamation-triangle:before {\n  content: \"\\F071\";\n}\n.fa-plane:before {\n  content: \"\\F072\";\n}\n.fa-calendar:before {\n  content: \"\\F073\";\n}\n.fa-random:before {\n  content: \"\\F074\";\n}\n.fa-comment:before {\n  content: \"\\F075\";\n}\n.fa-magnet:before {\n  content: \"\\F076\";\n}\n.fa-chevron-up:before {\n  content: \"\\F077\";\n}\n.fa-chevron-down:before {\n  content: \"\\F078\";\n}\n.fa-retweet:before {\n  content: \"\\F079\";\n}\n.fa-shopping-cart:before {\n  content: \"\\F07A\";\n}\n.fa-folder:before {\n  content: \"\\F07B\";\n}\n.fa-folder-open:before {\n  content: \"\\F07C\";\n}\n.fa-arrows-v:before {\n  content: \"\\F07D\";\n}\n.fa-arrows-h:before {\n  content: \"\\F07E\";\n}\n.fa-bar-chart-o:before,\n.fa-bar-chart:before {\n  content: \"\\F080\";\n}\n.fa-twitter-square:before {\n  content: \"\\F081\";\n}\n.fa-facebook-square:before {\n  content: \"\\F082\";\n}\n.fa-camera-retro:before {\n  content: \"\\F083\";\n}\n.fa-key:before {\n  content: \"\\F084\";\n}\n.fa-gears:before,\n.fa-cogs:before {\n  content: \"\\F085\";\n}\n.fa-comments:before {\n  content: \"\\F086\";\n}\n.fa-thumbs-o-up:before {\n  content: \"\\F087\";\n}\n.fa-thumbs-o-down:before {\n  content: \"\\F088\";\n}\n.fa-star-half:before {\n  content: \"\\F089\";\n}\n.fa-heart-o:before {\n  content: \"\\F08A\";\n}\n.fa-sign-out:before {\n  content: \"\\F08B\";\n}\n.fa-linkedin-square:before {\n  content: \"\\F08C\";\n}\n.fa-thumb-tack:before {\n  content: \"\\F08D\";\n}\n.fa-external-link:before {\n  content: \"\\F08E\";\n}\n.fa-sign-in:before {\n  content: \"\\F090\";\n}\n.fa-trophy:before {\n  content: \"\\F091\";\n}\n.fa-github-square:before {\n  content: \"\\F092\";\n}\n.fa-upload:before {\n  content: \"\\F093\";\n}\n.fa-lemon-o:before {\n  content: \"\\F094\";\n}\n.fa-phone:before {\n  content: \"\\F095\";\n}\n.fa-square-o:before {\n  content: \"\\F096\";\n}\n.fa-bookmark-o:before {\n  content: \"\\F097\";\n}\n.fa-phone-square:before {\n  content: \"\\F098\";\n}\n.fa-twitter:before {\n  content: \"\\F099\";\n}\n.fa-facebook-f:before,\n.fa-facebook:before {\n  content: \"\\F09A\";\n}\n.fa-github:before {\n  content: \"\\F09B\";\n}\n.fa-unlock:before {\n  content: \"\\F09C\";\n}\n.fa-credit-card:before {\n  content: \"\\F09D\";\n}\n.fa-feed:before,\n.fa-rss:before {\n  content: \"\\F09E\";\n}\n.fa-hdd-o:before {\n  content: \"\\F0A0\";\n}\n.fa-bullhorn:before {\n  content: \"\\F0A1\";\n}\n.fa-bell:before {\n  content: \"\\F0F3\";\n}\n.fa-certificate:before {\n  content: \"\\F0A3\";\n}\n.fa-hand-o-right:before {\n  content: \"\\F0A4\";\n}\n.fa-hand-o-left:before {\n  content: \"\\F0A5\";\n}\n.fa-hand-o-up:before {\n  content: \"\\F0A6\";\n}\n.fa-hand-o-down:before {\n  content: \"\\F0A7\";\n}\n.fa-arrow-circle-left:before {\n  content: \"\\F0A8\";\n}\n.fa-arrow-circle-right:before {\n  content: \"\\F0A9\";\n}\n.fa-arrow-circle-up:before {\n  content: \"\\F0AA\";\n}\n.fa-arrow-circle-down:before {\n  content: \"\\F0AB\";\n}\n.fa-globe:before {\n  content: \"\\F0AC\";\n}\n.fa-wrench:before {\n  content: \"\\F0AD\";\n}\n.fa-tasks:before {\n  content: \"\\F0AE\";\n}\n.fa-filter:before {\n  content: \"\\F0B0\";\n}\n.fa-briefcase:before {\n  content: \"\\F0B1\";\n}\n.fa-arrows-alt:before {\n  content: \"\\F0B2\";\n}\n.fa-group:before,\n.fa-users:before {\n  content: \"\\F0C0\";\n}\n.fa-chain:before,\n.fa-link:before {\n  content: \"\\F0C1\";\n}\n.fa-cloud:before {\n  content: \"\\F0C2\";\n}\n.fa-flask:before {\n  content: \"\\F0C3\";\n}\n.fa-cut:before,\n.fa-scissors:before {\n  content: \"\\F0C4\";\n}\n.fa-copy:before,\n.fa-files-o:before {\n  content: \"\\F0C5\";\n}\n.fa-paperclip:before {\n  content: \"\\F0C6\";\n}\n.fa-save:before,\n.fa-floppy-o:before {\n  content: \"\\F0C7\";\n}\n.fa-square:before {\n  content: \"\\F0C8\";\n}\n.fa-navicon:before,\n.fa-reorder:before,\n.fa-bars:before {\n  content: \"\\F0C9\";\n}\n.fa-list-ul:before {\n  content: \"\\F0CA\";\n}\n.fa-list-ol:before {\n  content: \"\\F0CB\";\n}\n.fa-strikethrough:before {\n  content: \"\\F0CC\";\n}\n.fa-underline:before {\n  content: \"\\F0CD\";\n}\n.fa-table:before {\n  content: \"\\F0CE\";\n}\n.fa-magic:before {\n  content: \"\\F0D0\";\n}\n.fa-truck:before {\n  content: \"\\F0D1\";\n}\n.fa-pinterest:before {\n  content: \"\\F0D2\";\n}\n.fa-pinterest-square:before {\n  content: \"\\F0D3\";\n}\n.fa-google-plus-square:before {\n  content: \"\\F0D4\";\n}\n.fa-google-plus:before {\n  content: \"\\F0D5\";\n}\n.fa-money:before {\n  content: \"\\F0D6\";\n}\n.fa-caret-down:before {\n  content: \"\\F0D7\";\n}\n.fa-caret-up:before {\n  content: \"\\F0D8\";\n}\n.fa-caret-left:before {\n  content: \"\\F0D9\";\n}\n.fa-caret-right:before {\n  content: \"\\F0DA\";\n}\n.fa-columns:before {\n  content: \"\\F0DB\";\n}\n.fa-unsorted:before,\n.fa-sort:before {\n  content: \"\\F0DC\";\n}\n.fa-sort-down:before,\n.fa-sort-desc:before {\n  content: \"\\F0DD\";\n}\n.fa-sort-up:before,\n.fa-sort-asc:before {\n  content: \"\\F0DE\";\n}\n.fa-envelope:before {\n  content: \"\\F0E0\";\n}\n.fa-linkedin:before {\n  content: \"\\F0E1\";\n}\n.fa-rotate-left:before,\n.fa-undo:before {\n  content: \"\\F0E2\";\n}\n.fa-legal:before,\n.fa-gavel:before {\n  content: \"\\F0E3\";\n}\n.fa-dashboard:before,\n.fa-tachometer:before {\n  content: \"\\F0E4\";\n}\n.fa-comment-o:before {\n  content: \"\\F0E5\";\n}\n.fa-comments-o:before {\n  content: \"\\F0E6\";\n}\n.fa-flash:before,\n.fa-bolt:before {\n  content: \"\\F0E7\";\n}\n.fa-sitemap:before {\n  content: \"\\F0E8\";\n}\n.fa-umbrella:before {\n  content: \"\\F0E9\";\n}\n.fa-paste:before,\n.fa-clipboard:before {\n  content: \"\\F0EA\";\n}\n.fa-lightbulb-o:before {\n  content: \"\\F0EB\";\n}\n.fa-exchange:before {\n  content: \"\\F0EC\";\n}\n.fa-cloud-download:before {\n  content: \"\\F0ED\";\n}\n.fa-cloud-upload:before {\n  content: \"\\F0EE\";\n}\n.fa-user-md:before {\n  content: \"\\F0F0\";\n}\n.fa-stethoscope:before {\n  content: \"\\F0F1\";\n}\n.fa-suitcase:before {\n  content: \"\\F0F2\";\n}\n.fa-bell-o:before {\n  content: \"\\F0A2\";\n}\n.fa-coffee:before {\n  content: \"\\F0F4\";\n}\n.fa-cutlery:before {\n  content: \"\\F0F5\";\n}\n.fa-file-text-o:before {\n  content: \"\\F0F6\";\n}\n.fa-building-o:before {\n  content: \"\\F0F7\";\n}\n.fa-hospital-o:before {\n  content: \"\\F0F8\";\n}\n.fa-ambulance:before {\n  content: \"\\F0F9\";\n}\n.fa-medkit:before {\n  content: \"\\F0FA\";\n}\n.fa-fighter-jet:before {\n  content: \"\\F0FB\";\n}\n.fa-beer:before {\n  content: \"\\F0FC\";\n}\n.fa-h-square:before {\n  content: \"\\F0FD\";\n}\n.fa-plus-square:before {\n  content: \"\\F0FE\";\n}\n.fa-angle-double-left:before {\n  content: \"\\F100\";\n}\n.fa-angle-double-right:before {\n  content: \"\\F101\";\n}\n.fa-angle-double-up:before {\n  content: \"\\F102\";\n}\n.fa-angle-double-down:before {\n  content: \"\\F103\";\n}\n.fa-angle-left:before {\n  content: \"\\F104\";\n}\n.fa-angle-right:before {\n  content: \"\\F105\";\n}\n.fa-angle-up:before {\n  content: \"\\F106\";\n}\n.fa-angle-down:before {\n  content: \"\\F107\";\n}\n.fa-desktop:before {\n  content: \"\\F108\";\n}\n.fa-laptop:before {\n  content: \"\\F109\";\n}\n.fa-tablet:before {\n  content: \"\\F10A\";\n}\n.fa-mobile-phone:before,\n.fa-mobile:before {\n  content: \"\\F10B\";\n}\n.fa-circle-o:before {\n  content: \"\\F10C\";\n}\n.fa-quote-left:before {\n  content: \"\\F10D\";\n}\n.fa-quote-right:before {\n  content: \"\\F10E\";\n}\n.fa-spinner:before {\n  content: \"\\F110\";\n}\n.fa-circle:before {\n  content: \"\\F111\";\n}\n.fa-mail-reply:before,\n.fa-reply:before {\n  content: \"\\F112\";\n}\n.fa-github-alt:before {\n  content: \"\\F113\";\n}\n.fa-folder-o:before {\n  content: \"\\F114\";\n}\n.fa-folder-open-o:before {\n  content: \"\\F115\";\n}\n.fa-smile-o:before {\n  content: \"\\F118\";\n}\n.fa-frown-o:before {\n  content: \"\\F119\";\n}\n.fa-meh-o:before {\n  content: \"\\F11A\";\n}\n.fa-gamepad:before {\n  content: \"\\F11B\";\n}\n.fa-keyboard-o:before {\n  content: \"\\F11C\";\n}\n.fa-flag-o:before {\n  content: \"\\F11D\";\n}\n.fa-flag-checkered:before {\n  content: \"\\F11E\";\n}\n.fa-terminal:before {\n  content: \"\\F120\";\n}\n.fa-code:before {\n  content: \"\\F121\";\n}\n.fa-mail-reply-all:before,\n.fa-reply-all:before {\n  content: \"\\F122\";\n}\n.fa-star-half-empty:before,\n.fa-star-half-full:before,\n.fa-star-half-o:before {\n  content: \"\\F123\";\n}\n.fa-location-arrow:before {\n  content: \"\\F124\";\n}\n.fa-crop:before {\n  content: \"\\F125\";\n}\n.fa-code-fork:before {\n  content: \"\\F126\";\n}\n.fa-unlink:before,\n.fa-chain-broken:before {\n  content: \"\\F127\";\n}\n.fa-question:before {\n  content: \"\\F128\";\n}\n.fa-info:before {\n  content: \"\\F129\";\n}\n.fa-exclamation:before {\n  content: \"\\F12A\";\n}\n.fa-superscript:before {\n  content: \"\\F12B\";\n}\n.fa-subscript:before {\n  content: \"\\F12C\";\n}\n.fa-eraser:before {\n  content: \"\\F12D\";\n}\n.fa-puzzle-piece:before {\n  content: \"\\F12E\";\n}\n.fa-microphone:before {\n  content: \"\\F130\";\n}\n.fa-microphone-slash:before {\n  content: \"\\F131\";\n}\n.fa-shield:before {\n  content: \"\\F132\";\n}\n.fa-calendar-o:before {\n  content: \"\\F133\";\n}\n.fa-fire-extinguisher:before {\n  content: \"\\F134\";\n}\n.fa-rocket:before {\n  content: \"\\F135\";\n}\n.fa-maxcdn:before {\n  content: \"\\F136\";\n}\n.fa-chevron-circle-left:before {\n  content: \"\\F137\";\n}\n.fa-chevron-circle-right:before {\n  content: \"\\F138\";\n}\n.fa-chevron-circle-up:before {\n  content: \"\\F139\";\n}\n.fa-chevron-circle-down:before {\n  content: \"\\F13A\";\n}\n.fa-html5:before {\n  content: \"\\F13B\";\n}\n.fa-css3:before {\n  content: \"\\F13C\";\n}\n.fa-anchor:before {\n  content: \"\\F13D\";\n}\n.fa-unlock-alt:before {\n  content: \"\\F13E\";\n}\n.fa-bullseye:before {\n  content: \"\\F140\";\n}\n.fa-ellipsis-h:before {\n  content: \"\\F141\";\n}\n.fa-ellipsis-v:before {\n  content: \"\\F142\";\n}\n.fa-rss-square:before {\n  content: \"\\F143\";\n}\n.fa-play-circle:before {\n  content: \"\\F144\";\n}\n.fa-ticket:before {\n  content: \"\\F145\";\n}\n.fa-minus-square:before {\n  content: \"\\F146\";\n}\n.fa-minus-square-o:before {\n  content: \"\\F147\";\n}\n.fa-level-up:before {\n  content: \"\\F148\";\n}\n.fa-level-down:before {\n  content: \"\\F149\";\n}\n.fa-check-square:before {\n  content: \"\\F14A\";\n}\n.fa-pencil-square:before {\n  content: \"\\F14B\";\n}\n.fa-external-link-square:before {\n  content: \"\\F14C\";\n}\n.fa-share-square:before {\n  content: \"\\F14D\";\n}\n.fa-compass:before {\n  content: \"\\F14E\";\n}\n.fa-toggle-down:before,\n.fa-caret-square-o-down:before {\n  content: \"\\F150\";\n}\n.fa-toggle-up:before,\n.fa-caret-square-o-up:before {\n  content: \"\\F151\";\n}\n.fa-toggle-right:before,\n.fa-caret-square-o-right:before {\n  content: \"\\F152\";\n}\n.fa-euro:before,\n.fa-eur:before {\n  content: \"\\F153\";\n}\n.fa-gbp:before {\n  content: \"\\F154\";\n}\n.fa-dollar:before,\n.fa-usd:before {\n  content: \"\\F155\";\n}\n.fa-rupee:before,\n.fa-inr:before {\n  content: \"\\F156\";\n}\n.fa-cny:before,\n.fa-rmb:before,\n.fa-yen:before,\n.fa-jpy:before {\n  content: \"\\F157\";\n}\n.fa-ruble:before,\n.fa-rouble:before,\n.fa-rub:before {\n  content: \"\\F158\";\n}\n.fa-won:before,\n.fa-krw:before {\n  content: \"\\F159\";\n}\n.fa-bitcoin:before,\n.fa-btc:before {\n  content: \"\\F15A\";\n}\n.fa-file:before {\n  content: \"\\F15B\";\n}\n.fa-file-text:before {\n  content: \"\\F15C\";\n}\n.fa-sort-alpha-asc:before {\n  content: \"\\F15D\";\n}\n.fa-sort-alpha-desc:before {\n  content: \"\\F15E\";\n}\n.fa-sort-amount-asc:before {\n  content: \"\\F160\";\n}\n.fa-sort-amount-desc:before {\n  content: \"\\F161\";\n}\n.fa-sort-numeric-asc:before {\n  content: \"\\F162\";\n}\n.fa-sort-numeric-desc:before {\n  content: \"\\F163\";\n}\n.fa-thumbs-up:before {\n  content: \"\\F164\";\n}\n.fa-thumbs-down:before {\n  content: \"\\F165\";\n}\n.fa-youtube-square:before {\n  content: \"\\F166\";\n}\n.fa-youtube:before {\n  content: \"\\F167\";\n}\n.fa-xing:before {\n  content: \"\\F168\";\n}\n.fa-xing-square:before {\n  content: \"\\F169\";\n}\n.fa-youtube-play:before {\n  content: \"\\F16A\";\n}\n.fa-dropbox:before {\n  content: \"\\F16B\";\n}\n.fa-stack-overflow:before {\n  content: \"\\F16C\";\n}\n.fa-instagram:before {\n  content: \"\\F16D\";\n}\n.fa-flickr:before {\n  content: \"\\F16E\";\n}\n.fa-adn:before {\n  content: \"\\F170\";\n}\n.fa-bitbucket:before {\n  content: \"\\F171\";\n}\n.fa-bitbucket-square:before {\n  content: \"\\F172\";\n}\n.fa-tumblr:before {\n  content: \"\\F173\";\n}\n.fa-tumblr-square:before {\n  content: \"\\F174\";\n}\n.fa-long-arrow-down:before {\n  content: \"\\F175\";\n}\n.fa-long-arrow-up:before {\n  content: \"\\F176\";\n}\n.fa-long-arrow-left:before {\n  content: \"\\F177\";\n}\n.fa-long-arrow-right:before {\n  content: \"\\F178\";\n}\n.fa-apple:before {\n  content: \"\\F179\";\n}\n.fa-windows:before {\n  content: \"\\F17A\";\n}\n.fa-android:before {\n  content: \"\\F17B\";\n}\n.fa-linux:before {\n  content: \"\\F17C\";\n}\n.fa-dribbble:before {\n  content: \"\\F17D\";\n}\n.fa-skype:before {\n  content: \"\\F17E\";\n}\n.fa-foursquare:before {\n  content: \"\\F180\";\n}\n.fa-trello:before {\n  content: \"\\F181\";\n}\n.fa-female:before {\n  content: \"\\F182\";\n}\n.fa-male:before {\n  content: \"\\F183\";\n}\n.fa-gittip:before,\n.fa-gratipay:before {\n  content: \"\\F184\";\n}\n.fa-sun-o:before {\n  content: \"\\F185\";\n}\n.fa-moon-o:before {\n  content: \"\\F186\";\n}\n.fa-archive:before {\n  content: \"\\F187\";\n}\n.fa-bug:before {\n  content: \"\\F188\";\n}\n.fa-vk:before {\n  content: \"\\F189\";\n}\n.fa-weibo:before {\n  content: \"\\F18A\";\n}\n.fa-renren:before {\n  content: \"\\F18B\";\n}\n.fa-pagelines:before {\n  content: \"\\F18C\";\n}\n.fa-stack-exchange:before {\n  content: \"\\F18D\";\n}\n.fa-arrow-circle-o-right:before {\n  content: \"\\F18E\";\n}\n.fa-arrow-circle-o-left:before {\n  content: \"\\F190\";\n}\n.fa-toggle-left:before,\n.fa-caret-square-o-left:before {\n  content: \"\\F191\";\n}\n.fa-dot-circle-o:before {\n  content: \"\\F192\";\n}\n.fa-wheelchair:before {\n  content: \"\\F193\";\n}\n.fa-vimeo-square:before {\n  content: \"\\F194\";\n}\n.fa-turkish-lira:before,\n.fa-try:before {\n  content: \"\\F195\";\n}\n.fa-plus-square-o:before {\n  content: \"\\F196\";\n}\n.fa-space-shuttle:before {\n  content: \"\\F197\";\n}\n.fa-slack:before {\n  content: \"\\F198\";\n}\n.fa-envelope-square:before {\n  content: \"\\F199\";\n}\n.fa-wordpress:before {\n  content: \"\\F19A\";\n}\n.fa-openid:before {\n  content: \"\\F19B\";\n}\n.fa-institution:before,\n.fa-bank:before,\n.fa-university:before {\n  content: \"\\F19C\";\n}\n.fa-mortar-board:before,\n.fa-graduation-cap:before {\n  content: \"\\F19D\";\n}\n.fa-yahoo:before {\n  content: \"\\F19E\";\n}\n.fa-google:before {\n  content: \"\\F1A0\";\n}\n.fa-reddit:before {\n  content: \"\\F1A1\";\n}\n.fa-reddit-square:before {\n  content: \"\\F1A2\";\n}\n.fa-stumbleupon-circle:before {\n  content: \"\\F1A3\";\n}\n.fa-stumbleupon:before {\n  content: \"\\F1A4\";\n}\n.fa-delicious:before {\n  content: \"\\F1A5\";\n}\n.fa-digg:before {\n  content: \"\\F1A6\";\n}\n.fa-pied-piper-pp:before {\n  content: \"\\F1A7\";\n}\n.fa-pied-piper-alt:before {\n  content: \"\\F1A8\";\n}\n.fa-drupal:before {\n  content: \"\\F1A9\";\n}\n.fa-joomla:before {\n  content: \"\\F1AA\";\n}\n.fa-language:before {\n  content: \"\\F1AB\";\n}\n.fa-fax:before {\n  content: \"\\F1AC\";\n}\n.fa-building:before {\n  content: \"\\F1AD\";\n}\n.fa-child:before {\n  content: \"\\F1AE\";\n}\n.fa-paw:before {\n  content: \"\\F1B0\";\n}\n.fa-spoon:before {\n  content: \"\\F1B1\";\n}\n.fa-cube:before {\n  content: \"\\F1B2\";\n}\n.fa-cubes:before {\n  content: \"\\F1B3\";\n}\n.fa-behance:before {\n  content: \"\\F1B4\";\n}\n.fa-behance-square:before {\n  content: \"\\F1B5\";\n}\n.fa-steam:before {\n  content: \"\\F1B6\";\n}\n.fa-steam-square:before {\n  content: \"\\F1B7\";\n}\n.fa-recycle:before {\n  content: \"\\F1B8\";\n}\n.fa-automobile:before,\n.fa-car:before {\n  content: \"\\F1B9\";\n}\n.fa-cab:before,\n.fa-taxi:before {\n  content: \"\\F1BA\";\n}\n.fa-tree:before {\n  content: \"\\F1BB\";\n}\n.fa-spotify:before {\n  content: \"\\F1BC\";\n}\n.fa-deviantart:before {\n  content: \"\\F1BD\";\n}\n.fa-soundcloud:before {\n  content: \"\\F1BE\";\n}\n.fa-database:before {\n  content: \"\\F1C0\";\n}\n.fa-file-pdf-o:before {\n  content: \"\\F1C1\";\n}\n.fa-file-word-o:before {\n  content: \"\\F1C2\";\n}\n.fa-file-excel-o:before {\n  content: \"\\F1C3\";\n}\n.fa-file-powerpoint-o:before {\n  content: \"\\F1C4\";\n}\n.fa-file-photo-o:before,\n.fa-file-picture-o:before,\n.fa-file-image-o:before {\n  content: \"\\F1C5\";\n}\n.fa-file-zip-o:before,\n.fa-file-archive-o:before {\n  content: \"\\F1C6\";\n}\n.fa-file-sound-o:before,\n.fa-file-audio-o:before {\n  content: \"\\F1C7\";\n}\n.fa-file-movie-o:before,\n.fa-file-video-o:before {\n  content: \"\\F1C8\";\n}\n.fa-file-code-o:before {\n  content: \"\\F1C9\";\n}\n.fa-vine:before {\n  content: \"\\F1CA\";\n}\n.fa-codepen:before {\n  content: \"\\F1CB\";\n}\n.fa-jsfiddle:before {\n  content: \"\\F1CC\";\n}\n.fa-life-bouy:before,\n.fa-life-buoy:before,\n.fa-life-saver:before,\n.fa-support:before,\n.fa-life-ring:before {\n  content: \"\\F1CD\";\n}\n.fa-circle-o-notch:before {\n  content: \"\\F1CE\";\n}\n.fa-ra:before,\n.fa-resistance:before,\n.fa-rebel:before {\n  content: \"\\F1D0\";\n}\n.fa-ge:before,\n.fa-empire:before {\n  content: \"\\F1D1\";\n}\n.fa-git-square:before {\n  content: \"\\F1D2\";\n}\n.fa-git:before {\n  content: \"\\F1D3\";\n}\n.fa-y-combinator-square:before,\n.fa-yc-square:before,\n.fa-hacker-news:before {\n  content: \"\\F1D4\";\n}\n.fa-tencent-weibo:before {\n  content: \"\\F1D5\";\n}\n.fa-qq:before {\n  content: \"\\F1D6\";\n}\n.fa-wechat:before,\n.fa-weixin:before {\n  content: \"\\F1D7\";\n}\n.fa-send:before,\n.fa-paper-plane:before {\n  content: \"\\F1D8\";\n}\n.fa-send-o:before,\n.fa-paper-plane-o:before {\n  content: \"\\F1D9\";\n}\n.fa-history:before {\n  content: \"\\F1DA\";\n}\n.fa-circle-thin:before {\n  content: \"\\F1DB\";\n}\n.fa-header:before {\n  content: \"\\F1DC\";\n}\n.fa-paragraph:before {\n  content: \"\\F1DD\";\n}\n.fa-sliders:before {\n  content: \"\\F1DE\";\n}\n.fa-share-alt:before {\n  content: \"\\F1E0\";\n}\n.fa-share-alt-square:before {\n  content: \"\\F1E1\";\n}\n.fa-bomb:before {\n  content: \"\\F1E2\";\n}\n.fa-soccer-ball-o:before,\n.fa-futbol-o:before {\n  content: \"\\F1E3\";\n}\n.fa-tty:before {\n  content: \"\\F1E4\";\n}\n.fa-binoculars:before {\n  content: \"\\F1E5\";\n}\n.fa-plug:before {\n  content: \"\\F1E6\";\n}\n.fa-slideshare:before {\n  content: \"\\F1E7\";\n}\n.fa-twitch:before {\n  content: \"\\F1E8\";\n}\n.fa-yelp:before {\n  content: \"\\F1E9\";\n}\n.fa-newspaper-o:before {\n  content: \"\\F1EA\";\n}\n.fa-wifi:before {\n  content: \"\\F1EB\";\n}\n.fa-calculator:before {\n  content: \"\\F1EC\";\n}\n.fa-paypal:before {\n  content: \"\\F1ED\";\n}\n.fa-google-wallet:before {\n  content: \"\\F1EE\";\n}\n.fa-cc-visa:before {\n  content: \"\\F1F0\";\n}\n.fa-cc-mastercard:before {\n  content: \"\\F1F1\";\n}\n.fa-cc-discover:before {\n  content: \"\\F1F2\";\n}\n.fa-cc-amex:before {\n  content: \"\\F1F3\";\n}\n.fa-cc-paypal:before {\n  content: \"\\F1F4\";\n}\n.fa-cc-stripe:before {\n  content: \"\\F1F5\";\n}\n.fa-bell-slash:before {\n  content: \"\\F1F6\";\n}\n.fa-bell-slash-o:before {\n  content: \"\\F1F7\";\n}\n.fa-trash:before {\n  content: \"\\F1F8\";\n}\n.fa-copyright:before {\n  content: \"\\F1F9\";\n}\n.fa-at:before {\n  content: \"\\F1FA\";\n}\n.fa-eyedropper:before {\n  content: \"\\F1FB\";\n}\n.fa-paint-brush:before {\n  content: \"\\F1FC\";\n}\n.fa-birthday-cake:before {\n  content: \"\\F1FD\";\n}\n.fa-area-chart:before {\n  content: \"\\F1FE\";\n}\n.fa-pie-chart:before {\n  content: \"\\F200\";\n}\n.fa-line-chart:before {\n  content: \"\\F201\";\n}\n.fa-lastfm:before {\n  content: \"\\F202\";\n}\n.fa-lastfm-square:before {\n  content: \"\\F203\";\n}\n.fa-toggle-off:before {\n  content: \"\\F204\";\n}\n.fa-toggle-on:before {\n  content: \"\\F205\";\n}\n.fa-bicycle:before {\n  content: \"\\F206\";\n}\n.fa-bus:before {\n  content: \"\\F207\";\n}\n.fa-ioxhost:before {\n  content: \"\\F208\";\n}\n.fa-angellist:before {\n  content: \"\\F209\";\n}\n.fa-cc:before {\n  content: \"\\F20A\";\n}\n.fa-shekel:before,\n.fa-sheqel:before,\n.fa-ils:before {\n  content: \"\\F20B\";\n}\n.fa-meanpath:before {\n  content: \"\\F20C\";\n}\n.fa-buysellads:before {\n  content: \"\\F20D\";\n}\n.fa-connectdevelop:before {\n  content: \"\\F20E\";\n}\n.fa-dashcube:before {\n  content: \"\\F210\";\n}\n.fa-forumbee:before {\n  content: \"\\F211\";\n}\n.fa-leanpub:before {\n  content: \"\\F212\";\n}\n.fa-sellsy:before {\n  content: \"\\F213\";\n}\n.fa-shirtsinbulk:before {\n  content: \"\\F214\";\n}\n.fa-simplybuilt:before {\n  content: \"\\F215\";\n}\n.fa-skyatlas:before {\n  content: \"\\F216\";\n}\n.fa-cart-plus:before {\n  content: \"\\F217\";\n}\n.fa-cart-arrow-down:before {\n  content: \"\\F218\";\n}\n.fa-diamond:before {\n  content: \"\\F219\";\n}\n.fa-ship:before {\n  content: \"\\F21A\";\n}\n.fa-user-secret:before {\n  content: \"\\F21B\";\n}\n.fa-motorcycle:before {\n  content: \"\\F21C\";\n}\n.fa-street-view:before {\n  content: \"\\F21D\";\n}\n.fa-heartbeat:before {\n  content: \"\\F21E\";\n}\n.fa-venus:before {\n  content: \"\\F221\";\n}\n.fa-mars:before {\n  content: \"\\F222\";\n}\n.fa-mercury:before {\n  content: \"\\F223\";\n}\n.fa-intersex:before,\n.fa-transgender:before {\n  content: \"\\F224\";\n}\n.fa-transgender-alt:before {\n  content: \"\\F225\";\n}\n.fa-venus-double:before {\n  content: \"\\F226\";\n}\n.fa-mars-double:before {\n  content: \"\\F227\";\n}\n.fa-venus-mars:before {\n  content: \"\\F228\";\n}\n.fa-mars-stroke:before {\n  content: \"\\F229\";\n}\n.fa-mars-stroke-v:before {\n  content: \"\\F22A\";\n}\n.fa-mars-stroke-h:before {\n  content: \"\\F22B\";\n}\n.fa-neuter:before {\n  content: \"\\F22C\";\n}\n.fa-genderless:before {\n  content: \"\\F22D\";\n}\n.fa-facebook-official:before {\n  content: \"\\F230\";\n}\n.fa-pinterest-p:before {\n  content: \"\\F231\";\n}\n.fa-whatsapp:before {\n  content: \"\\F232\";\n}\n.fa-server:before {\n  content: \"\\F233\";\n}\n.fa-user-plus:before {\n  content: \"\\F234\";\n}\n.fa-user-times:before {\n  content: \"\\F235\";\n}\n.fa-hotel:before,\n.fa-bed:before {\n  content: \"\\F236\";\n}\n.fa-viacoin:before {\n  content: \"\\F237\";\n}\n.fa-train:before {\n  content: \"\\F238\";\n}\n.fa-subway:before {\n  content: \"\\F239\";\n}\n.fa-medium:before {\n  content: \"\\F23A\";\n}\n.fa-yc:before,\n.fa-y-combinator:before {\n  content: \"\\F23B\";\n}\n.fa-optin-monster:before {\n  content: \"\\F23C\";\n}\n.fa-opencart:before {\n  content: \"\\F23D\";\n}\n.fa-expeditedssl:before {\n  content: \"\\F23E\";\n}\n.fa-battery-4:before,\n.fa-battery:before,\n.fa-battery-full:before {\n  content: \"\\F240\";\n}\n.fa-battery-3:before,\n.fa-battery-three-quarters:before {\n  content: \"\\F241\";\n}\n.fa-battery-2:before,\n.fa-battery-half:before {\n  content: \"\\F242\";\n}\n.fa-battery-1:before,\n.fa-battery-quarter:before {\n  content: \"\\F243\";\n}\n.fa-battery-0:before,\n.fa-battery-empty:before {\n  content: \"\\F244\";\n}\n.fa-mouse-pointer:before {\n  content: \"\\F245\";\n}\n.fa-i-cursor:before {\n  content: \"\\F246\";\n}\n.fa-object-group:before {\n  content: \"\\F247\";\n}\n.fa-object-ungroup:before {\n  content: \"\\F248\";\n}\n.fa-sticky-note:before {\n  content: \"\\F249\";\n}\n.fa-sticky-note-o:before {\n  content: \"\\F24A\";\n}\n.fa-cc-jcb:before {\n  content: \"\\F24B\";\n}\n.fa-cc-diners-club:before {\n  content: \"\\F24C\";\n}\n.fa-clone:before {\n  content: \"\\F24D\";\n}\n.fa-balance-scale:before {\n  content: \"\\F24E\";\n}\n.fa-hourglass-o:before {\n  content: \"\\F250\";\n}\n.fa-hourglass-1:before,\n.fa-hourglass-start:before {\n  content: \"\\F251\";\n}\n.fa-hourglass-2:before,\n.fa-hourglass-half:before {\n  content: \"\\F252\";\n}\n.fa-hourglass-3:before,\n.fa-hourglass-end:before {\n  content: \"\\F253\";\n}\n.fa-hourglass:before {\n  content: \"\\F254\";\n}\n.fa-hand-grab-o:before,\n.fa-hand-rock-o:before {\n  content: \"\\F255\";\n}\n.fa-hand-stop-o:before,\n.fa-hand-paper-o:before {\n  content: \"\\F256\";\n}\n.fa-hand-scissors-o:before {\n  content: \"\\F257\";\n}\n.fa-hand-lizard-o:before {\n  content: \"\\F258\";\n}\n.fa-hand-spock-o:before {\n  content: \"\\F259\";\n}\n.fa-hand-pointer-o:before {\n  content: \"\\F25A\";\n}\n.fa-hand-peace-o:before {\n  content: \"\\F25B\";\n}\n.fa-trademark:before {\n  content: \"\\F25C\";\n}\n.fa-registered:before {\n  content: \"\\F25D\";\n}\n.fa-creative-commons:before {\n  content: \"\\F25E\";\n}\n.fa-gg:before {\n  content: \"\\F260\";\n}\n.fa-gg-circle:before {\n  content: \"\\F261\";\n}\n.fa-tripadvisor:before {\n  content: \"\\F262\";\n}\n.fa-odnoklassniki:before {\n  content: \"\\F263\";\n}\n.fa-odnoklassniki-square:before {\n  content: \"\\F264\";\n}\n.fa-get-pocket:before {\n  content: \"\\F265\";\n}\n.fa-wikipedia-w:before {\n  content: \"\\F266\";\n}\n.fa-safari:before {\n  content: \"\\F267\";\n}\n.fa-chrome:before {\n  content: \"\\F268\";\n}\n.fa-firefox:before {\n  content: \"\\F269\";\n}\n.fa-opera:before {\n  content: \"\\F26A\";\n}\n.fa-internet-explorer:before {\n  content: \"\\F26B\";\n}\n.fa-tv:before,\n.fa-television:before {\n  content: \"\\F26C\";\n}\n.fa-contao:before {\n  content: \"\\F26D\";\n}\n.fa-500px:before {\n  content: \"\\F26E\";\n}\n.fa-amazon:before {\n  content: \"\\F270\";\n}\n.fa-calendar-plus-o:before {\n  content: \"\\F271\";\n}\n.fa-calendar-minus-o:before {\n  content: \"\\F272\";\n}\n.fa-calendar-times-o:before {\n  content: \"\\F273\";\n}\n.fa-calendar-check-o:before {\n  content: \"\\F274\";\n}\n.fa-industry:before {\n  content: \"\\F275\";\n}\n.fa-map-pin:before {\n  content: \"\\F276\";\n}\n.fa-map-signs:before {\n  content: \"\\F277\";\n}\n.fa-map-o:before {\n  content: \"\\F278\";\n}\n.fa-map:before {\n  content: \"\\F279\";\n}\n.fa-commenting:before {\n  content: \"\\F27A\";\n}\n.fa-commenting-o:before {\n  content: \"\\F27B\";\n}\n.fa-houzz:before {\n  content: \"\\F27C\";\n}\n.fa-vimeo:before {\n  content: \"\\F27D\";\n}\n.fa-black-tie:before {\n  content: \"\\F27E\";\n}\n.fa-fonticons:before {\n  content: \"\\F280\";\n}\n.fa-reddit-alien:before {\n  content: \"\\F281\";\n}\n.fa-edge:before {\n  content: \"\\F282\";\n}\n.fa-credit-card-alt:before {\n  content: \"\\F283\";\n}\n.fa-codiepie:before {\n  content: \"\\F284\";\n}\n.fa-modx:before {\n  content: \"\\F285\";\n}\n.fa-fort-awesome:before {\n  content: \"\\F286\";\n}\n.fa-usb:before {\n  content: \"\\F287\";\n}\n.fa-product-hunt:before {\n  content: \"\\F288\";\n}\n.fa-mixcloud:before {\n  content: \"\\F289\";\n}\n.fa-scribd:before {\n  content: \"\\F28A\";\n}\n.fa-pause-circle:before {\n  content: \"\\F28B\";\n}\n.fa-pause-circle-o:before {\n  content: \"\\F28C\";\n}\n.fa-stop-circle:before {\n  content: \"\\F28D\";\n}\n.fa-stop-circle-o:before {\n  content: \"\\F28E\";\n}\n.fa-shopping-bag:before {\n  content: \"\\F290\";\n}\n.fa-shopping-basket:before {\n  content: \"\\F291\";\n}\n.fa-hashtag:before {\n  content: \"\\F292\";\n}\n.fa-bluetooth:before {\n  content: \"\\F293\";\n}\n.fa-bluetooth-b:before {\n  content: \"\\F294\";\n}\n.fa-percent:before {\n  content: \"\\F295\";\n}\n.fa-gitlab:before {\n  content: \"\\F296\";\n}\n.fa-wpbeginner:before {\n  content: \"\\F297\";\n}\n.fa-wpforms:before {\n  content: \"\\F298\";\n}\n.fa-envira:before {\n  content: \"\\F299\";\n}\n.fa-universal-access:before {\n  content: \"\\F29A\";\n}\n.fa-wheelchair-alt:before {\n  content: \"\\F29B\";\n}\n.fa-question-circle-o:before {\n  content: \"\\F29C\";\n}\n.fa-blind:before {\n  content: \"\\F29D\";\n}\n.fa-audio-description:before {\n  content: \"\\F29E\";\n}\n.fa-volume-control-phone:before {\n  content: \"\\F2A0\";\n}\n.fa-braille:before {\n  content: \"\\F2A1\";\n}\n.fa-assistive-listening-systems:before {\n  content: \"\\F2A2\";\n}\n.fa-asl-interpreting:before,\n.fa-american-sign-language-interpreting:before {\n  content: \"\\F2A3\";\n}\n.fa-deafness:before,\n.fa-hard-of-hearing:before,\n.fa-deaf:before {\n  content: \"\\F2A4\";\n}\n.fa-glide:before {\n  content: \"\\F2A5\";\n}\n.fa-glide-g:before {\n  content: \"\\F2A6\";\n}\n.fa-signing:before,\n.fa-sign-language:before {\n  content: \"\\F2A7\";\n}\n.fa-low-vision:before {\n  content: \"\\F2A8\";\n}\n.fa-viadeo:before {\n  content: \"\\F2A9\";\n}\n.fa-viadeo-square:before {\n  content: \"\\F2AA\";\n}\n.fa-snapchat:before {\n  content: \"\\F2AB\";\n}\n.fa-snapchat-ghost:before {\n  content: \"\\F2AC\";\n}\n.fa-snapchat-square:before {\n  content: \"\\F2AD\";\n}\n.fa-pied-piper:before {\n  content: \"\\F2AE\";\n}\n.fa-first-order:before {\n  content: \"\\F2B0\";\n}\n.fa-yoast:before {\n  content: \"\\F2B1\";\n}\n.fa-themeisle:before {\n  content: \"\\F2B2\";\n}\n.fa-google-plus-circle:before,\n.fa-google-plus-official:before {\n  content: \"\\F2B3\";\n}\n.fa-fa:before,\n.fa-font-awesome:before {\n  content: \"\\F2B4\";\n}\n.fa-handshake-o:before {\n  content: \"\\F2B5\";\n}\n.fa-envelope-open:before {\n  content: \"\\F2B6\";\n}\n.fa-envelope-open-o:before {\n  content: \"\\F2B7\";\n}\n.fa-linode:before {\n  content: \"\\F2B8\";\n}\n.fa-address-book:before {\n  content: \"\\F2B9\";\n}\n.fa-address-book-o:before {\n  content: \"\\F2BA\";\n}\n.fa-vcard:before,\n.fa-address-card:before {\n  content: \"\\F2BB\";\n}\n.fa-vcard-o:before,\n.fa-address-card-o:before {\n  content: \"\\F2BC\";\n}\n.fa-user-circle:before {\n  content: \"\\F2BD\";\n}\n.fa-user-circle-o:before {\n  content: \"\\F2BE\";\n}\n.fa-user-o:before {\n  content: \"\\F2C0\";\n}\n.fa-id-badge:before {\n  content: \"\\F2C1\";\n}\n.fa-drivers-license:before,\n.fa-id-card:before {\n  content: \"\\F2C2\";\n}\n.fa-drivers-license-o:before,\n.fa-id-card-o:before {\n  content: \"\\F2C3\";\n}\n.fa-quora:before {\n  content: \"\\F2C4\";\n}\n.fa-free-code-camp:before {\n  content: \"\\F2C5\";\n}\n.fa-telegram:before {\n  content: \"\\F2C6\";\n}\n.fa-thermometer-4:before,\n.fa-thermometer:before,\n.fa-thermometer-full:before {\n  content: \"\\F2C7\";\n}\n.fa-thermometer-3:before,\n.fa-thermometer-three-quarters:before {\n  content: \"\\F2C8\";\n}\n.fa-thermometer-2:before,\n.fa-thermometer-half:before {\n  content: \"\\F2C9\";\n}\n.fa-thermometer-1:before,\n.fa-thermometer-quarter:before {\n  content: \"\\F2CA\";\n}\n.fa-thermometer-0:before,\n.fa-thermometer-empty:before {\n  content: \"\\F2CB\";\n}\n.fa-shower:before {\n  content: \"\\F2CC\";\n}\n.fa-bathtub:before,\n.fa-s15:before,\n.fa-bath:before {\n  content: \"\\F2CD\";\n}\n.fa-podcast:before {\n  content: \"\\F2CE\";\n}\n.fa-window-maximize:before {\n  content: \"\\F2D0\";\n}\n.fa-window-minimize:before {\n  content: \"\\F2D1\";\n}\n.fa-window-restore:before {\n  content: \"\\F2D2\";\n}\n.fa-times-rectangle:before,\n.fa-window-close:before {\n  content: \"\\F2D3\";\n}\n.fa-times-rectangle-o:before,\n.fa-window-close-o:before {\n  content: \"\\F2D4\";\n}\n.fa-bandcamp:before {\n  content: \"\\F2D5\";\n}\n.fa-grav:before {\n  content: \"\\F2D6\";\n}\n.fa-etsy:before {\n  content: \"\\F2D7\";\n}\n.fa-imdb:before {\n  content: \"\\F2D8\";\n}\n.fa-ravelry:before {\n  content: \"\\F2D9\";\n}\n.fa-eercast:before {\n  content: \"\\F2DA\";\n}\n.fa-microchip:before {\n  content: \"\\F2DB\";\n}\n.fa-snowflake-o:before {\n  content: \"\\F2DC\";\n}\n.fa-superpowers:before {\n  content: \"\\F2DD\";\n}\n.fa-wpexplorer:before {\n  content: \"\\F2DE\";\n}\n.fa-meetup:before {\n  content: \"\\F2E0\";\n}\n/* makes the font 33% larger relative to the icon container */\n.fa-lg {\n  font-size: 1.33333333em;\n  line-height: 0.75em;\n  vertical-align: -15%;\n}\n.fa-2x {\n  font-size: 2em;\n}\n.fa-3x {\n  font-size: 3em;\n}\n.fa-4x {\n  font-size: 4em;\n}\n.fa-5x {\n  font-size: 5em;\n}\n.fa-ul {\n  padding-left: 0;\n  margin-left: 2.14285714em;\n  list-style-type: none;\n}\n.fa-ul > li {\n  position: relative;\n}\n.fa-li {\n  position: absolute;\n  left: -2.14285714em;\n  width: 2.14285714em;\n  top: 0.14285714em;\n  text-align: center;\n}\n.fa-li.fa-lg {\n  left: -1.85714286em;\n}\n/* FONT PATH\n * -------------------------- */\n@font-face {\n  font-family: 'FontAwesome';\n  src: url(" + __webpack_require__(293) + ");\n  src: url(" + __webpack_require__(292) + "?#iefix&v=4.7.0) format('embedded-opentype'), url(" + __webpack_require__(296) + ") format('woff2'), url(" + __webpack_require__(297) + ") format('woff'), url(" + __webpack_require__(295) + ") format('truetype'), url(" + __webpack_require__(294) + "#fontawesomeregular) format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n.fa-rotate-90 {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=1)\";\n  -webkit-transform: rotate(90deg);\n  -ms-transform: rotate(90deg);\n  transform: rotate(90deg);\n}\n.fa-rotate-180 {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=2)\";\n  -webkit-transform: rotate(180deg);\n  -ms-transform: rotate(180deg);\n  transform: rotate(180deg);\n}\n.fa-rotate-270 {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=3)\";\n  -webkit-transform: rotate(270deg);\n  -ms-transform: rotate(270deg);\n  transform: rotate(270deg);\n}\n.fa-flip-horizontal {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)\";\n  -webkit-transform: scale(-1, 1);\n  -ms-transform: scale(-1, 1);\n  transform: scale(-1, 1);\n}\n.fa-flip-vertical {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)\";\n  -webkit-transform: scale(1, -1);\n  -ms-transform: scale(1, -1);\n  transform: scale(1, -1);\n}\n:root .fa-rotate-90,\n:root .fa-rotate-180,\n:root .fa-rotate-270,\n:root .fa-flip-horizontal,\n:root .fa-flip-vertical {\n  filter: none;\n}\n.fa-spin {\n  -webkit-animation: fa-spin 2s infinite linear;\n  animation: fa-spin 2s infinite linear;\n}\n.fa-pulse {\n  -webkit-animation: fa-spin 1s infinite steps(8);\n  animation: fa-spin 1s infinite steps(8);\n}\n@-webkit-keyframes fa-spin {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n  100% {\n    -webkit-transform: rotate(359deg);\n    transform: rotate(359deg);\n  }\n}\n@keyframes fa-spin {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n  100% {\n    -webkit-transform: rotate(359deg);\n    transform: rotate(359deg);\n  }\n}\n.fa-stack {\n  position: relative;\n  display: inline-block;\n  width: 2em;\n  height: 2em;\n  line-height: 2em;\n  vertical-align: middle;\n}\n.fa-stack-1x,\n.fa-stack-2x {\n  position: absolute;\n  left: 0;\n  width: 100%;\n  text-align: center;\n}\n.fa-stack-1x {\n  line-height: inherit;\n}\n.fa-stack-2x {\n  font-size: 2em;\n}\n.fa-inverse {\n  color: #fff;\n}\n", ""]);
 
 // exports
 
 
 /***/ },
-/* 256 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)();
@@ -47867,7 +47270,7 @@ exports.push([module.i, "/*! normalize.css v4.0.0 | MIT License | github.com/nec
 
 
 /***/ },
-/* 257 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)();
@@ -47881,7 +47284,7 @@ exports.push([module.i, ".adminFeatures {\n  width: 100%;\n  text-align: center;
 
 
 /***/ },
-/* 258 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)();
@@ -47895,7 +47298,7 @@ exports.push([module.i, "#videosList, #matosList {\n  text-align: center; }\n\n.
 
 
 /***/ },
-/* 259 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)();
@@ -47909,7 +47312,7 @@ exports.push([module.i, "h2 {\n  display: block;\n  padding-bottom: 5px;\n  bord
 
 
 /***/ },
-/* 260 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)();
@@ -47923,7 +47326,7 @@ exports.push([module.i, "body, html {\n  height: 100%; }\n\n#mainContainer, .con
 
 
 /***/ },
-/* 261 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)();
@@ -47937,7 +47340,7 @@ exports.push([module.i, "/**\n * Copyright 2015 Google Inc. All Rights Reserved.
 
 
 /***/ },
-/* 262 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)();
@@ -47951,7 +47354,7 @@ exports.push([module.i, ".relatedVideoList {\n  text-align: center;\n  padding-t
 
 
 /***/ },
-/* 263 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)();
@@ -47965,7 +47368,7 @@ exports.push([module.i, ".nav.nav-center {\n  margin: 0;\n  display: inline-bloc
 
 
 /***/ },
-/* 264 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)();
@@ -47979,7 +47382,7 @@ exports.push([module.i, ".plyr {\n  width: 100%; }\n\n.videoControls {\n  margin
 
 
 /***/ },
-/* 265 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)();
@@ -47993,7 +47396,7 @@ exports.push([module.i, "@-webkit-keyframes plyr-progress {\n  to {\n    backgro
 
 
 /***/ },
-/* 266 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)();
@@ -48001,13 +47404,13 @@ exports = module.exports = __webpack_require__(10)();
 
 
 // module
-exports.push([module.i, "/* Material Design Icons - Setup Method 2. Self hosting\n * http://google.github.io/material-design-icons/ */\n\n@font-face {\n  font-family: 'Material Icons';\n  font-style: normal;\n  font-weight: 400;\n  src: url(" + __webpack_require__(299) + "); /* For IE6-8 */\n  src: local('Material Icons'),\n       local('MaterialIcons-Regular'),\n       url(" + __webpack_require__(302) + ") format('woff2'),\n       url(" + __webpack_require__(301) + ") format('woff'),\n       url(" + __webpack_require__(300) + ") format('truetype');\n}\n\n.material-icons {\n  font-family: 'Material Icons';\n  font-weight: normal;\n  font-style: normal;\n  font-size: 24px;  /* Preferred icon size */\n  display: inline-block;\n  line-height: 1;\n  text-transform: none;\n  letter-spacing: normal;\n  word-wrap: normal;\n  white-space: nowrap;\n  direction: ltr;\n\n  /* Support for all WebKit browsers. */\n  -webkit-font-smoothing: antialiased;\n  /* Support for Safari and Chrome. */\n  text-rendering: optimizeLegibility;\n\n  /* Support for Firefox. */\n  -moz-osx-font-smoothing: grayscale;\n\n  /* Support for IE. */\n  -webkit-font-feature-settings: 'liga';\n          font-feature-settings: 'liga';\n}\n", ""]);
+exports.push([module.i, "/* Material Design Icons - Setup Method 2. Self hosting\n * http://google.github.io/material-design-icons/ */\n\n@font-face {\n  font-family: 'Material Icons';\n  font-style: normal;\n  font-weight: 400;\n  src: url(" + __webpack_require__(298) + "); /* For IE6-8 */\n  src: local('Material Icons'),\n       local('MaterialIcons-Regular'),\n       url(" + __webpack_require__(301) + ") format('woff2'),\n       url(" + __webpack_require__(300) + ") format('woff'),\n       url(" + __webpack_require__(299) + ") format('truetype');\n}\n\n.material-icons {\n  font-family: 'Material Icons';\n  font-weight: normal;\n  font-style: normal;\n  font-size: 24px;  /* Preferred icon size */\n  display: inline-block;\n  line-height: 1;\n  text-transform: none;\n  letter-spacing: normal;\n  word-wrap: normal;\n  white-space: nowrap;\n  direction: ltr;\n\n  /* Support for all WebKit browsers. */\n  -webkit-font-smoothing: antialiased;\n  /* Support for Safari and Chrome. */\n  text-rendering: optimizeLegibility;\n\n  /* Support for Firefox. */\n  -moz-osx-font-smoothing: grayscale;\n\n  /* Support for IE. */\n  -webkit-font-feature-settings: 'liga';\n          font-feature-settings: 'liga';\n}\n", ""]);
 
 // exports
 
 
 /***/ },
-/* 267 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 
@@ -48023,7 +47426,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(309);
+exports.humanize = __webpack_require__(308);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -48210,19 +47613,19 @@ function coerce(val) {
 
 
 /***/ },
+/* 267 */
+/***/ function(module, exports, __webpack_require__) {
+
+
+module.exports = __webpack_require__(268);
+
+
+/***/ },
 /* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 
 module.exports = __webpack_require__(269);
-
-
-/***/ },
-/* 269 */
-/***/ function(module, exports, __webpack_require__) {
-
-
-module.exports = __webpack_require__(270);
 
 /**
  * Exports parser
@@ -48234,7 +47637,7 @@ module.exports.parser = __webpack_require__(26);
 
 
 /***/ },
-/* 270 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -48247,8 +47650,8 @@ var debug = __webpack_require__(18)('engine.io-client:socket');
 var index = __webpack_require__(81);
 var parser = __webpack_require__(26);
 var parseuri = __webpack_require__(190);
-var parsejson = __webpack_require__(310);
-var parseqs = __webpack_require__(50);
+var parsejson = __webpack_require__(309);
+var parseqs = __webpack_require__(49);
 
 /**
  * Module exports.
@@ -48375,7 +47778,7 @@ Socket.protocol = parser.protocol; // this is an int
  */
 
 Socket.Socket = Socket;
-Socket.Transport = __webpack_require__(47);
+Socket.Transport = __webpack_require__(46);
 Socket.transports = __webpack_require__(76);
 Socket.parser = __webpack_require__(26);
 
@@ -48972,7 +48375,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ },
-/* 271 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -49210,14 +48613,14 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ },
-/* 272 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
  * Module requirements.
  */
 
-var XMLHttpRequest = __webpack_require__(48);
+var XMLHttpRequest = __webpack_require__(47);
 var Polling = __webpack_require__(77);
 var Emitter = __webpack_require__(35);
 var inherit = __webpack_require__(36);
@@ -49634,16 +49037,16 @@ function unloadHandler () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ },
-/* 273 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
  * Module dependencies.
  */
 
-var Transport = __webpack_require__(47);
+var Transport = __webpack_require__(46);
 var parser = __webpack_require__(26);
-var parseqs = __webpack_require__(50);
+var parseqs = __webpack_require__(49);
 var inherit = __webpack_require__(36);
 var yeast = __webpack_require__(224);
 var debug = __webpack_require__(18)('engine.io-client:websocket');
@@ -49915,7 +49318,7 @@ WS.prototype.check = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ },
-/* 274 */
+/* 273 */
 /***/ function(module, exports) {
 
 
@@ -49940,7 +49343,7 @@ module.exports = Object.keys || function keys (obj){
 
 
 /***/ },
-/* 275 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -49948,7 +49351,7 @@ module.exports = Object.keys || function keys (obj){
  * Module requirements.
  */
 
-var isArray = __webpack_require__(276);
+var isArray = __webpack_require__(275);
 
 /**
  * Module exports.
@@ -50005,7 +49408,7 @@ function hasBinary(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ },
-/* 276 */
+/* 275 */
 /***/ function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -50014,7 +49417,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ },
-/* 277 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50644,7 +50047,7 @@ module.exports = Tooltip;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(45), __webpack_require__(19), __webpack_require__(45)))
 
 /***/ },
-/* 278 */
+/* 277 */
 /***/ function(module, exports) {
 
 ;(function() {
@@ -54631,7 +54034,7 @@ exports["componentHandler"] = (componentHandler);
 exports["MaterialRipple"] = (MaterialRipple);
 
 /***/ },
-/* 279 */
+/* 278 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -54668,7 +54071,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ },
-/* 280 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54685,7 +54088,7 @@ module.exports = camelize;
 
 'use strict';
 
-var camelize = __webpack_require__(279);
+var camelize = __webpack_require__(278);
 
 var msPattern = /^-ms-/;
 
@@ -54713,7 +54116,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ },
-/* 281 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54730,7 +54133,7 @@ module.exports = camelizeStyleName;
  * 
  */
 
-var isTextNode = __webpack_require__(289);
+var isTextNode = __webpack_require__(288);
 
 /*eslint-disable no-bitwise */
 
@@ -54758,7 +54161,7 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ },
-/* 282 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54891,7 +54294,7 @@ module.exports = createArrayFromMixed;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 283 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54912,8 +54315,8 @@ module.exports = createArrayFromMixed;
 
 var ExecutionEnvironment = __webpack_require__(8);
 
-var createArrayFromMixed = __webpack_require__(282);
-var getMarkupWrap = __webpack_require__(284);
+var createArrayFromMixed = __webpack_require__(281);
+var getMarkupWrap = __webpack_require__(283);
 var invariant = __webpack_require__(2);
 
 /**
@@ -54981,7 +54384,7 @@ module.exports = createNodesFromMarkup;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 284 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55082,7 +54485,7 @@ module.exports = getMarkupWrap;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 285 */
+/* 284 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -55126,7 +54529,7 @@ function getUnboundedScrollPosition(scrollable) {
 module.exports = getUnboundedScrollPosition;
 
 /***/ },
-/* 286 */
+/* 285 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -55164,7 +54567,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ },
-/* 287 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55181,7 +54584,7 @@ module.exports = hyphenate;
 
 'use strict';
 
-var hyphenate = __webpack_require__(286);
+var hyphenate = __webpack_require__(285);
 
 var msPattern = /^ms-/;
 
@@ -55208,7 +54611,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ },
-/* 288 */
+/* 287 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -55236,7 +54639,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ },
-/* 289 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55253,7 +54656,7 @@ module.exports = isNode;
  * @typechecks
  */
 
-var isNode = __webpack_require__(288);
+var isNode = __webpack_require__(287);
 
 /**
  * @param {*} object The object to check.
@@ -55266,7 +54669,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ },
-/* 290 */
+/* 289 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -55301,7 +54704,7 @@ function memoizeStringOnly(callback) {
 module.exports = memoizeStringOnly;
 
 /***/ },
-/* 291 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55329,7 +54732,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = performance || {};
 
 /***/ },
-/* 292 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55346,7 +54749,7 @@ module.exports = performance || {};
  * @typechecks
  */
 
-var performance = __webpack_require__(291);
+var performance = __webpack_require__(290);
 
 var performanceNow;
 
@@ -55368,6 +54771,12 @@ if (performance.now) {
 module.exports = performanceNow;
 
 /***/ },
+/* 292 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "fontawesome-webfont.eot";
+
+/***/ },
 /* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -55377,65 +54786,59 @@ module.exports = __webpack_require__.p + "fontawesome-webfont.eot";
 /* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "fontawesome-webfont.eot";
+module.exports = __webpack_require__.p + "fontawesome-webfont.svg";
 
 /***/ },
 /* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "fontawesome-webfont.svg";
+module.exports = __webpack_require__.p + "fontawesome-webfont.ttf";
 
 /***/ },
 /* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "fontawesome-webfont.ttf";
+module.exports = __webpack_require__.p + "fontawesome-webfont.woff2";
 
 /***/ },
 /* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "fontawesome-webfont.woff2";
+module.exports = __webpack_require__.p + "fontawesome-webfont.woff";
 
 /***/ },
 /* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "fontawesome-webfont.woff";
+module.exports = __webpack_require__.p + "MaterialIcons-Regular.eot";
 
 /***/ },
 /* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "MaterialIcons-Regular.eot";
+module.exports = __webpack_require__.p + "MaterialIcons-Regular.ttf";
 
 /***/ },
 /* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "MaterialIcons-Regular.ttf";
+module.exports = __webpack_require__.p + "MaterialIcons-Regular.woff";
 
 /***/ },
 /* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "MaterialIcons-Regular.woff";
-
-/***/ },
-/* 302 */
-/***/ function(module, exports, __webpack_require__) {
-
 module.exports = __webpack_require__.p + "MaterialIcons-Regular.woff2";
 
 /***/ },
-/* 303 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 __webpack_require__(392);
 
 
 /***/ },
-/* 304 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -63241,7 +62644,7 @@ if (_gsScope._gsDefine) { _gsScope._gsQueue.pop()(); } //necessary in case Tween
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ },
-/* 305 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -63249,7 +62652,7 @@ if (_gsScope._gsDefine) { _gsScope._gsQueue.pop()(); } //necessary in case Tween
  * Module requirements.
  */
 
-var isArray = __webpack_require__(306);
+var isArray = __webpack_require__(305);
 
 /**
  * Module exports.
@@ -63307,7 +62710,7 @@ function hasBinary(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ },
-/* 306 */
+/* 305 */
 /***/ function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -63316,7 +62719,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ },
-/* 307 */
+/* 306 */
 /***/ function(module, exports) {
 
 
@@ -63339,7 +62742,7 @@ try {
 
 
 /***/ },
-/* 308 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 var map = {
@@ -63574,11 +62977,11 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 308;
+webpackContext.id = 307;
 
 
 /***/ },
-/* 309 */
+/* 308 */
 /***/ function(module, exports) {
 
 /**
@@ -63709,7 +63112,7 @@ function plural(ms, n, name) {
 
 
 /***/ },
-/* 310 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -63747,7 +63150,7 @@ module.exports = function parsejson(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ },
-/* 311 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.exports=t(e,document): true?!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function(){return t(e,document)}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):e.plyr=t(e,document)}("undefined"!=typeof window?window:this,function(e,t){"use strict";function n(){var e,n,r,a=navigator.userAgent,s=navigator.appName,o=""+parseFloat(navigator.appVersion),i=parseInt(navigator.appVersion,10),l=!1,u=!1,c=!1,d=!1;return navigator.appVersion.indexOf("Windows NT")!==-1&&navigator.appVersion.indexOf("rv:11")!==-1?(l=!0,s="IE",o="11"):(n=a.indexOf("MSIE"))!==-1?(l=!0,s="IE",o=a.substring(n+5)):(n=a.indexOf("Chrome"))!==-1?(c=!0,s="Chrome",o=a.substring(n+7)):(n=a.indexOf("Safari"))!==-1?(d=!0,s="Safari",o=a.substring(n+7),(n=a.indexOf("Version"))!==-1&&(o=a.substring(n+8))):(n=a.indexOf("Firefox"))!==-1?(u=!0,s="Firefox",o=a.substring(n+8)):(e=a.lastIndexOf(" ")+1)<(n=a.lastIndexOf("/"))&&(s=a.substring(e,n),o=a.substring(n+1),s.toLowerCase()===s.toUpperCase()&&(s=navigator.appName)),(r=o.indexOf(";"))!==-1&&(o=o.substring(0,r)),(r=o.indexOf(" "))!==-1&&(o=o.substring(0,r)),i=parseInt(""+o,10),isNaN(i)&&(o=""+parseFloat(navigator.appVersion),i=parseInt(navigator.appVersion,10)),{name:s,version:i,isIE:l,isFirefox:u,isChrome:c,isSafari:d,isIos:/(iPad|iPhone|iPod)/g.test(navigator.platform),isTouch:"ontouchstart"in t.documentElement}}function r(e,t){var n=e.media;if("video"===e.type)switch(t){case"video/webm":return!(!n.canPlayType||!n.canPlayType('video/webm; codecs="vp8, vorbis"').replace(/no/,""));case"video/mp4":return!(!n.canPlayType||!n.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/,""));case"video/ogg":return!(!n.canPlayType||!n.canPlayType('video/ogg; codecs="theora"').replace(/no/,""))}else if("audio"===e.type)switch(t){case"audio/mpeg":return!(!n.canPlayType||!n.canPlayType("audio/mpeg;").replace(/no/,""));case"audio/ogg":return!(!n.canPlayType||!n.canPlayType('audio/ogg; codecs="vorbis"').replace(/no/,""));case"audio/wav":return!(!n.canPlayType||!n.canPlayType('audio/wav; codecs="1"').replace(/no/,""))}return!1}function a(e){if(!t.querySelectorAll('script[src="'+e+'"]').length){var n=t.createElement("script");n.src=e;var r=t.getElementsByTagName("script")[0];r.parentNode.insertBefore(n,r)}}function s(e,t){return Array.prototype.indexOf&&e.indexOf(t)!==-1}function o(e,t,n){return e.replace(new RegExp(t.replace(/([.*+?\^=!:${}()|\[\]\/\\])/g,"\\$1"),"g"),n)}function i(e,t){e.length||(e=[e]);for(var n=e.length-1;n>=0;n--){var r=n>0?t.cloneNode(!0):t,a=e[n],s=a.parentNode,o=a.nextSibling;return r.appendChild(a),o?s.insertBefore(r,o):s.appendChild(r),r}}function l(e){e&&e.parentNode.removeChild(e)}function u(e,t){e.insertBefore(t,e.firstChild)}function c(e,t){for(var n in t)e.setAttribute(n,O.boolean(t[n])&&t[n]?"":t[n])}function d(e,n,r){var a=t.createElement(e);c(a,r),u(n,a)}function p(e){return e.replace(".","")}function m(e,t,n){if(e)if(e.classList)e.classList[n?"add":"remove"](t);else{var r=(" "+e.className+" ").replace(/\s+/g," ").replace(" "+t+" ","");e.className=r+(n?" "+t:"")}}function f(e,t){return!!e&&(e.classList?e.classList.contains(t):new RegExp("(\\s|^)"+t+"(\\s|$)").test(e.className))}function y(e,n){var r=Element.prototype,a=r.matches||r.webkitMatchesSelector||r.mozMatchesSelector||r.msMatchesSelector||function(e){return[].indexOf.call(t.querySelectorAll(e),this)!==-1};return a.call(e,n)}function b(e,t,n,r,a){g(e,t,function(t){n&&n.apply(e,[t]),r.apply(e,[t])},a)}function v(e,t,n,r,a){var s=t.split(" ");if(O.boolean(a)||(a=!1),e instanceof NodeList)for(var o=0;o<e.length;o++)e[o]instanceof Node&&v(e[o],arguments[1],arguments[2],arguments[3]);else for(var i=0;i<s.length;i++)e[r?"addEventListener":"removeEventListener"](s[i],n,a)}function g(e,t,n,r){e&&v(e,t,n,!0,r)}function h(e,t,n,r){if(e&&t){O.boolean(n)||(n=!1);var a=new CustomEvent(t,{bubbles:n,detail:r});e.dispatchEvent(a)}}function k(e,t){if(e)return t=O.boolean(t)?t:!e.getAttribute("aria-pressed"),e.setAttribute("aria-pressed",t),t}function w(e,t){return 0===e||0===t||isNaN(e)||isNaN(t)?0:(e/t*100).toFixed(2)}function x(){var e=arguments;if(e.length){if(1===e.length)return e[0];for(var t=Array.prototype.shift.call(e),n=e.length,r=0;r<n;r++){var a=e[r];for(var s in a)a[s]&&a[s].constructor&&a[s].constructor===Object?(t[s]=t[s]||{},x(t[s],a[s])):t[s]=a[s]}return t}}function T(e){var t=/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;return e.match(t)?RegExp.$2:e}function S(e){var t=/^.*(vimeo.com\/|video\/)(\d+).*/;return e.match(t)?RegExp.$2:e}function _(){var e={supportsFullScreen:!1,isFullScreen:function(){return!1},requestFullScreen:function(){},cancelFullScreen:function(){},fullScreenEventName:"",element:null,prefix:""},n="webkit o moz ms khtml".split(" ");if(O.undefined(t.cancelFullScreen))for(var r=0,a=n.length;r<a;r++){if(e.prefix=n[r],!O.undefined(t[e.prefix+"CancelFullScreen"])){e.supportsFullScreen=!0;break}if(!O.undefined(t.msExitFullscreen)&&t.msFullscreenEnabled){e.prefix="ms",e.supportsFullScreen=!0;break}}else e.supportsFullScreen=!0;return e.supportsFullScreen&&(e.fullScreenEventName="ms"===e.prefix?"MSFullscreenChange":e.prefix+"fullscreenchange",e.isFullScreen=function(e){switch(O.undefined(e)&&(e=t.body),this.prefix){case"":return t.fullscreenElement===e;case"moz":return t.mozFullScreenElement===e;default:return t[this.prefix+"FullscreenElement"]===e}},e.requestFullScreen=function(e){return O.undefined(e)&&(e=t.body),""===this.prefix?e.requestFullScreen():e[this.prefix+("ms"===this.prefix?"RequestFullscreen":"RequestFullScreen")]()},e.cancelFullScreen=function(){return""===this.prefix?t.cancelFullScreen():t[this.prefix+("ms"===this.prefix?"ExitFullscreen":"CancelFullScreen")]()},e.element=function(){return""===this.prefix?t.fullscreenElement:t[this.prefix+"FullscreenElement"]}),e}function E(v,E){function A(e,t,n,r){h(e,t,n,x({},r,{plyr:Be}))}function j(t,n){E.debug&&e.console&&(n=Array.prototype.slice.call(n),O.string(E.logPrefix)&&E.logPrefix.length&&n.unshift(E.logPrefix),console[t].apply(console,n))}function V(){return{url:E.iconUrl,absolute:0===E.iconUrl.indexOf("http")||Xe.browser.isIE}}function R(){var e=[],t=V(),n=(t.absolute?"":t.url)+"#"+E.iconPrefix;return s(E.controls,"play-large")&&e.push('<button type="button" data-plyr="play" class="plyr__play-large">','<svg><use xlink:href="'+n+'-play" /></svg>','<span class="plyr__sr-only">'+E.i18n.play+"</span>","</button>"),e.push('<div class="plyr__controls">'),s(E.controls,"restart")&&e.push('<button type="button" data-plyr="restart">','<svg><use xlink:href="'+n+'-restart" /></svg>','<span class="plyr__sr-only">'+E.i18n.restart+"</span>","</button>"),s(E.controls,"rewind")&&e.push('<button type="button" data-plyr="rewind">','<svg><use xlink:href="'+n+'-rewind" /></svg>','<span class="plyr__sr-only">'+E.i18n.rewind+"</span>","</button>"),s(E.controls,"play")&&e.push('<button type="button" data-plyr="play">','<svg><use xlink:href="'+n+'-play" /></svg>','<span class="plyr__sr-only">'+E.i18n.play+"</span>","</button>",'<button type="button" data-plyr="pause">','<svg><use xlink:href="'+n+'-pause" /></svg>','<span class="plyr__sr-only">'+E.i18n.pause+"</span>","</button>"),s(E.controls,"fast-forward")&&e.push('<button type="button" data-plyr="fast-forward">','<svg><use xlink:href="'+n+'-fast-forward" /></svg>','<span class="plyr__sr-only">'+E.i18n.forward+"</span>","</button>"),s(E.controls,"progress")&&(e.push('<span class="plyr__progress">','<label for="seek{id}" class="plyr__sr-only">Seek</label>','<input id="seek{id}" class="plyr__progress--seek" type="range" min="0" max="100" step="0.1" value="0" data-plyr="seek">','<progress class="plyr__progress--played" max="100" value="0" role="presentation"></progress>','<progress class="plyr__progress--buffer" max="100" value="0">',"<span>0</span>% "+E.i18n.buffered,"</progress>"),E.tooltips.seek&&e.push('<span class="plyr__tooltip">00:00</span>'),e.push("</span>")),s(E.controls,"current-time")&&e.push('<span class="plyr__time">','<span class="plyr__sr-only">'+E.i18n.currentTime+"</span>",'<span class="plyr__time--current">00:00</span>',"</span>"),s(E.controls,"duration")&&e.push('<span class="plyr__time">','<span class="plyr__sr-only">'+E.i18n.duration+"</span>",'<span class="plyr__time--duration">00:00</span>',"</span>"),s(E.controls,"mute")&&e.push('<button type="button" data-plyr="mute">','<svg class="icon--muted"><use xlink:href="'+n+'-muted" /></svg>','<svg><use xlink:href="'+n+'-volume" /></svg>','<span class="plyr__sr-only">'+E.i18n.toggleMute+"</span>","</button>"),s(E.controls,"volume")&&e.push('<span class="plyr__volume">','<label for="volume{id}" class="plyr__sr-only">'+E.i18n.volume+"</label>",'<input id="volume{id}" class="plyr__volume--input" type="range" min="'+E.volumeMin+'" max="'+E.volumeMax+'" value="'+E.volume+'" data-plyr="volume">','<progress class="plyr__volume--display" max="'+E.volumeMax+'" value="'+E.volumeMin+'" role="presentation"></progress>',"</span>"),s(E.controls,"captions")&&e.push('<button type="button" data-plyr="captions">','<svg class="icon--captions-on"><use xlink:href="'+n+'-captions-on" /></svg>','<svg><use xlink:href="'+n+'-captions-off" /></svg>','<span class="plyr__sr-only">'+E.i18n.toggleCaptions+"</span>","</button>"),s(E.controls,"fullscreen")&&e.push('<button type="button" data-plyr="fullscreen">','<svg class="icon--exit-fullscreen"><use xlink:href="'+n+'-exit-fullscreen" /></svg>','<svg><use xlink:href="'+n+'-enter-fullscreen" /></svg>','<span class="plyr__sr-only">'+E.i18n.toggleFullscreen+"</span>","</button>"),e.push("</div>"),e.join("")}function q(){if(Xe.supported.full&&("audio"!==Xe.type||E.fullscreen.allowAudio)&&E.fullscreen.enabled){var e=N.supportsFullScreen;e||E.fullscreen.fallback&&!U()?(Je((e?"Native":"Fallback")+" fullscreen enabled"),m(Xe.container,E.classes.fullscreen.enabled,!0)):Je("Fullscreen not supported and fallback disabled"),Xe.buttons&&Xe.buttons.fullscreen&&k(Xe.buttons.fullscreen,!1),$()}}function D(){if("video"===Xe.type){X(E.selectors.captions)||Xe.videoContainer.insertAdjacentHTML("afterbegin",'<div class="'+p(E.selectors.captions)+'"></div>'),Xe.usingTextTracks=!1,Xe.media.textTracks&&(Xe.usingTextTracks=!0);for(var e,t="",n=Xe.media.childNodes,r=0;r<n.length;r++)"track"===n[r].nodeName.toLowerCase()&&(e=n[r].kind,"captions"!==e&&"subtitles"!==e||(t=n[r].getAttribute("src")));if(Xe.captionExists=!0,""===t?(Xe.captionExists=!1,Je("No caption track found")):Je("Caption track found; URI: "+t),Xe.captionExists){for(var a=Xe.media.textTracks,s=0;s<a.length;s++)a[s].mode="hidden";if(Y(Xe),(Xe.browser.isIE&&Xe.browser.version>=10||Xe.browser.isFirefox&&Xe.browser.version>=31)&&(Je("Detected browser with known TextTrack issues - using manual fallback"),Xe.usingTextTracks=!1),Xe.usingTextTracks){Je("TextTracks supported");for(var o=0;o<a.length;o++){var i=a[o];"captions"!==i.kind&&"subtitles"!==i.kind||g(i,"cuechange",function(){this.activeCues[0]&&"text"in this.activeCues[0]?H(this.activeCues[0].getCueAsHTML()):H()})}}else if(Je("TextTracks not supported so rendering captions manually"),Xe.currentCaption="",Xe.captions=[],""!==t){var l=new XMLHttpRequest;l.onreadystatechange=function(){if(4===l.readyState)if(200===l.status){var e,t=[],n=l.responseText,r="\r\n";n.indexOf(r+r)===-1&&(r=n.indexOf("\r\r")!==-1?"\r":"\n"),t=n.split(r+r);for(var a=0;a<t.length;a++){e=t[a],Xe.captions[a]=[];var s=e.split(r),o=0;s[o].indexOf(":")===-1&&(o=1),Xe.captions[a]=[s[o],s[o+1]]}Xe.captions.shift(),Je("Successfully loaded the caption file via AJAX")}else ze(E.logPrefix+"There was a problem loading the caption file via AJAX")},l.open("get",t,!0),l.send()}}else m(Xe.container,E.classes.captions.enabled)}}function H(e){var n=X(E.selectors.captions),r=t.createElement("span");n.innerHTML="",O.undefined(e)&&(e=""),O.string(e)?r.innerHTML=e.trim():r.appendChild(e),n.appendChild(r);n.offsetHeight}function W(e){function t(e,t){var n=[];n=e.split(" --> ");for(var r=0;r<n.length;r++)n[r]=n[r].replace(/(\d+:\d+:\d+\.\d+).*/,"$1");return a(n[t])}function n(e){return t(e,0)}function r(e){return t(e,1)}function a(e){if(null===e||void 0===e)return 0;var t,n=[],r=[];return n=e.split(","),r=n[0].split(":"),t=Math.floor(60*r[0]*60)+Math.floor(60*r[1])+Math.floor(r[2])}if(!Xe.usingTextTracks&&"video"===Xe.type&&Xe.supported.full&&(Xe.subcount=0,e=O.number(e)?e:Xe.media.currentTime,Xe.captions[Xe.subcount])){for(;r(Xe.captions[Xe.subcount][0])<e.toFixed(1);)if(Xe.subcount++,Xe.subcount>Xe.captions.length-1){Xe.subcount=Xe.captions.length-1;break}Xe.media.currentTime.toFixed(1)>=n(Xe.captions[Xe.subcount][0])&&Xe.media.currentTime.toFixed(1)<=r(Xe.captions[Xe.subcount][0])?(Xe.currentCaption=Xe.captions[Xe.subcount][1],H(Xe.currentCaption)):H()}}function Y(){if(Xe.buttons.captions){m(Xe.container,E.classes.captions.enabled,!0);var e=Xe.storage.captionsEnabled;O.boolean(e)||(e=E.captions.defaultActive),e&&(m(Xe.container,E.classes.captions.active,!0),k(Xe.buttons.captions,!0))}}function B(e){return Xe.container.querySelectorAll(e)}function X(e){return B(e)[0]}function U(){try{return e.self!==e.top}catch(e){return!0}}function $(){function e(e){9===e.which&&Xe.isFullscreen&&(e.target!==r||e.shiftKey?e.target===n&&e.shiftKey&&(e.preventDefault(),r.focus()):(e.preventDefault(),n.focus()))}var t=B("input:not([disabled]), button:not([disabled])"),n=t[0],r=t[t.length-1];g(Xe.container,"keydown",e)}function J(e,t){if(O.string(t))d(e,Xe.media,{src:t});else if(t.constructor===Array)for(var n=t.length-1;n>=0;n--)d(e,Xe.media,t[n])}function z(){if(E.loadSprite){var e=V();e.absolute?(Je("AJAX loading absolute SVG sprite"+(Xe.browser.isIE?" (due to IE)":"")),C(e.url,"sprite-plyr")):Je("Sprite will be used as external resource directly")}var n=E.html;Je("Injecting custom controls"),n||(n=R()),n=o(n,"{seektime}",E.seekTime),n=o(n,"{id}",Math.floor(1e4*Math.random()));var r;if(O.string(E.selectors.controls.container)&&(r=t.querySelector(E.selectors.controls.container)),O.htmlElement(r)||(r=Xe.container),r.insertAdjacentHTML("beforeend",n),E.tooltips.controls)for(var a=B([E.selectors.controls.wrapper," ",E.selectors.labels," .",E.classes.hidden].join("")),s=a.length-1;s>=0;s--){var i=a[s];m(i,E.classes.hidden,!1),m(i,E.classes.tooltip,!0)}}function G(){try{return Xe.controls=X(E.selectors.controls.wrapper),Xe.buttons={},Xe.buttons.seek=X(E.selectors.buttons.seek),Xe.buttons.play=B(E.selectors.buttons.play),Xe.buttons.pause=X(E.selectors.buttons.pause),Xe.buttons.restart=X(E.selectors.buttons.restart),Xe.buttons.rewind=X(E.selectors.buttons.rewind),Xe.buttons.forward=X(E.selectors.buttons.forward),Xe.buttons.fullscreen=X(E.selectors.buttons.fullscreen),Xe.buttons.mute=X(E.selectors.buttons.mute),Xe.buttons.captions=X(E.selectors.buttons.captions),Xe.progress={},Xe.progress.container=X(E.selectors.progress.container),Xe.progress.buffer={},Xe.progress.buffer.bar=X(E.selectors.progress.buffer),Xe.progress.buffer.text=Xe.progress.buffer.bar&&Xe.progress.buffer.bar.getElementsByTagName("span")[0],Xe.progress.played=X(E.selectors.progress.played),Xe.progress.tooltip=Xe.progress.container&&Xe.progress.container.querySelector("."+E.classes.tooltip),Xe.volume={},Xe.volume.input=X(E.selectors.volume.input),Xe.volume.display=X(E.selectors.volume.display),Xe.duration=X(E.selectors.duration),Xe.currentTime=X(E.selectors.currentTime),Xe.seekTime=B(E.selectors.seekTime),!0}catch(e){return ze("It looks like there is a problem with your controls HTML"),Q(!0),!1}}function K(){m(Xe.container,E.selectors.container.replace(".",""),Xe.supported.full)}function Q(e){e&&s(E.types.html5,Xe.type)?Xe.media.setAttribute("controls",""):Xe.media.removeAttribute("controls")}function Z(e){var t=E.i18n.play;if(O.string(E.title)&&E.title.length&&(t+=", "+E.title,Xe.container.setAttribute("aria-label",E.title)),Xe.supported.full&&Xe.buttons.play)for(var n=Xe.buttons.play.length-1;n>=0;n--)Xe.buttons.play[n].setAttribute("aria-label",t);O.htmlElement(e)&&e.setAttribute("title",E.i18n.frameTitle.replace("{title}",E.title))}function ee(){var t=null;Xe.storage={},L.supported&&E.storage.enabled&&(e.localStorage.removeItem("plyr-volume"),t=e.localStorage.getItem(E.storage.key),t&&(/^\d+(\.\d+)?$/.test(t)?te({volume:parseFloat(t)}):Xe.storage=JSON.parse(t)))}function te(t){L.supported&&E.storage.enabled&&(x(Xe.storage,t),e.localStorage.setItem(E.storage.key,JSON.stringify(Xe.storage)))}function ne(){if(!Xe.media)return void ze("No media element found!");if(Xe.supported.full&&(m(Xe.container,E.classes.type.replace("{0}",Xe.type),!0),s(E.types.embed,Xe.type)&&m(Xe.container,E.classes.type.replace("{0}","video"),!0),m(Xe.container,E.classes.stopped,E.autoplay),m(Xe.ontainer,E.classes.isIos,Xe.browser.isIos),m(Xe.container,E.classes.isTouch,Xe.browser.isTouch),"video"===Xe.type)){var e=t.createElement("div");e.setAttribute("class",E.classes.videoWrapper),i(Xe.media,e),Xe.videoContainer=e}s(E.types.embed,Xe.type)&&re()}function re(){var n,r=t.createElement("div"),s=Xe.type+"-"+Math.floor(1e4*Math.random());switch(Xe.type){case"youtube":n=T(Xe.embedId);break;case"vimeo":n=S(Xe.embedId);break;default:n=Xe.embedId}for(var o=B('[id^="'+Xe.type+'-"]'),i=o.length-1;i>=0;i--)l(o[i]);if(m(Xe.media,E.classes.videoWrapper,!0),m(Xe.media,E.classes.embedWrapper,!0),"youtube"===Xe.type)Xe.media.appendChild(r),r.setAttribute("id",s),O.object(e.YT)?se(n,r):(a(E.urls.youtube.api),e.onYouTubeReadyCallbacks=e.onYouTubeReadyCallbacks||[],e.onYouTubeReadyCallbacks.push(function(){se(n,r)}),e.onYouTubeIframeAPIReady=function(){e.onYouTubeReadyCallbacks.forEach(function(e){e()})});else if("vimeo"===Xe.type)if(Xe.supported.full?Xe.media.appendChild(r):r=Xe.media,r.setAttribute("id",s),O.object(e.Vimeo))oe(n,r);else{a(E.urls.vimeo.api);var u=e.setInterval(function(){O.object(e.Vimeo)&&(e.clearInterval(u),oe(n,r))},50)}else if("soundcloud"===Xe.type){var d=t.createElement("iframe");d.loaded=!1,g(d,"load",function(){d.loaded=!0}),c(d,{src:"https://w.soundcloud.com/player/?url=https://api.soundcloud.com/tracks/"+n,id:s}),r.appendChild(d),Xe.media.appendChild(r),e.SC||a(E.urls.soundcloud.api);var p=e.setInterval(function(){e.SC&&d.loaded&&(e.clearInterval(p),ie.call(d))},50)}}function ae(){Xe.supported.full&&(We(),Ye()),Z(X("iframe"))}function se(t,n){Xe.embed=new e.YT.Player(n.id,{videoId:t,playerVars:{autoplay:E.autoplay?1:0,controls:Xe.supported.full?0:1,rel:0,showinfo:0,iv_load_policy:3,cc_load_policy:E.captions.defaultActive?1:0,cc_lang_pref:"en",wmode:"transparent",modestbranding:1,disablekb:1,origin:"*"},events:{onError:function(e){A(Xe.container,"error",!0,{code:e.data,embed:e.target})},onReady:function(t){var n=t.target;Xe.media.play=function(){n.playVideo(),Xe.media.paused=!1},Xe.media.pause=function(){n.pauseVideo(),Xe.media.paused=!0},Xe.media.stop=function(){n.stopVideo(),Xe.media.paused=!0},Xe.media.duration=n.getDuration(),Xe.media.paused=!0,Xe.media.currentTime=0,Xe.media.muted=n.isMuted(),E.title=n.getVideoData().title,Xe.supported.full&&Xe.media.querySelector("iframe").setAttribute("tabindex","-1"),ae(),A(Xe.media,"timeupdate"),A(Xe.media,"durationchange"),e.clearInterval(Ue.buffering),Ue.buffering=e.setInterval(function(){Xe.media.buffered=n.getVideoLoadedFraction(),(null===Xe.media.lastBuffered||Xe.media.lastBuffered<Xe.media.buffered)&&A(Xe.media,"progress"),Xe.media.lastBuffered=Xe.media.buffered,1===Xe.media.buffered&&(e.clearInterval(Ue.buffering),A(Xe.media,"canplaythrough"))},200)},onStateChange:function(t){var n=t.target;switch(e.clearInterval(Ue.playing),t.data){case 0:Xe.media.paused=!0,A(Xe.media,"ended");break;case 1:Xe.media.paused=!1,Xe.media.seeking&&A(Xe.media,"seeked"),Xe.media.seeking=!1,A(Xe.media,"play"),A(Xe.media,"playing"),Ue.playing=e.setInterval(function(){Xe.media.currentTime=n.getCurrentTime(),A(Xe.media,"timeupdate")},100),Xe.media.duration!==n.getDuration()&&(Xe.media.duration=n.getDuration(),A(Xe.media,"durationchange"));break;case 2:Xe.media.paused=!0,A(Xe.media,"pause")}A(Xe.container,"statechange",!1,{code:t.data})}}})}function oe(t,n){Xe.embed=new e.Vimeo.Player(n,{id:parseInt(t),loop:E.loop,autoplay:E.autoplay,byline:!1,portrait:!1,title:!1}),Xe.media.play=function(){Xe.embed.play(),Xe.media.paused=!1},Xe.media.pause=function(){Xe.embed.pause(),Xe.media.paused=!0},Xe.media.stop=function(){Xe.embed.stop(),Xe.media.paused=!0},Xe.media.paused=!0,Xe.media.currentTime=0,ae(),Xe.embed.getCurrentTime().then(function(e){Xe.media.currentTime=e,A(Xe.media,"timeupdate")}),Xe.embed.getDuration().then(function(e){Xe.media.duration=e,A(Xe.media,"durationchange")}),Xe.embed.on("loaded",function(){O.htmlElement(Xe.embed.element)&&Xe.supported.full&&Xe.embed.element.setAttribute("tabindex","-1")}),Xe.embed.on("play",function(){Xe.media.paused=!1,A(Xe.media,"play"),A(Xe.media,"playing")}),Xe.embed.on("pause",function(){Xe.media.paused=!0,A(Xe.media,"pause")}),Xe.embed.on("timeupdate",function(e){Xe.media.seeking=!1,Xe.media.currentTime=e.seconds,A(Xe.media,"timeupdate")}),Xe.embed.on("progress",function(e){Xe.media.buffered=e.percent,A(Xe.media,"progress"),1===parseInt(e.percent)&&A(Xe.media,"canplaythrough")}),Xe.embed.on("seeked",function(){Xe.media.seeking=!1,A(Xe.media,"seeked"),A(Xe.media,"play")}),Xe.embed.on("ended",function(){Xe.media.paused=!0,A(Xe.media,"ended")})}function ie(){Xe.embed=e.SC.Widget(this),Xe.embed.bind(e.SC.Widget.Events.READY,function(){Xe.media.play=function(){Xe.embed.play(),Xe.media.paused=!1},Xe.media.pause=function(){Xe.embed.pause(),Xe.media.paused=!0},Xe.media.stop=function(){Xe.embed.seekTo(0),Xe.embed.pause(),Xe.media.paused=!0},Xe.media.paused=!0,Xe.media.currentTime=0,Xe.embed.getDuration(function(e){Xe.media.duration=e/1e3,ae()}),Xe.embed.getPosition(function(e){Xe.media.currentTime=e,A(Xe.media,"timeupdate")}),Xe.embed.bind(e.SC.Widget.Events.PLAY,function(){Xe.media.paused=!1,A(Xe.media,"play"),A(Xe.media,"playing")}),Xe.embed.bind(e.SC.Widget.Events.PAUSE,function(){Xe.media.paused=!0,A(Xe.media,"pause")}),Xe.embed.bind(e.SC.Widget.Events.PLAY_PROGRESS,function(e){Xe.media.seeking=!1,Xe.media.currentTime=e.currentPosition/1e3,A(Xe.media,"timeupdate")}),Xe.embed.bind(e.SC.Widget.Events.LOAD_PROGRESS,function(e){Xe.media.buffered=e.loadProgress,A(Xe.media,"progress"),1===parseInt(e.loadProgress)&&A(Xe.media,"canplaythrough")}),Xe.embed.bind(e.SC.Widget.Events.FINISH,function(){Xe.media.paused=!0,A(Xe.media,"ended")})})}function le(){"play"in Xe.media&&Xe.media.play()}function ue(){"pause"in Xe.media&&Xe.media.pause()}function ce(e){return O.boolean(e)||(e=Xe.media.paused),e?le():ue(),e}function de(e){O.number(e)||(e=E.seekTime),me(Xe.media.currentTime-e)}function pe(e){O.number(e)||(e=E.seekTime),me(Xe.media.currentTime+e)}function me(e){var t=0,n=Xe.media.paused,r=fe();O.number(e)?t=e:O.object(e)&&s(["input","change"],e.type)&&(t=e.target.value/e.target.max*r),t<0?t=0:t>r&&(t=r),Ne(t);try{Xe.media.currentTime=t.toFixed(4)}catch(e){}if(s(E.types.embed,Xe.type)){switch(Xe.type){case"youtube":Xe.embed.seekTo(t);break;case"vimeo":Xe.embed.setCurrentTime(t.toFixed(0));break;case"soundcloud":Xe.embed.seekTo(1e3*t)}n&&ue(),A(Xe.media,"timeupdate"),Xe.media.seeking=!0,A(Xe.media,"seeking")}Je("Seeking to "+Xe.media.currentTime+" seconds"),W(t)}function fe(){var e=parseInt(E.duration),t=0;return null===Xe.media.duration||isNaN(Xe.media.duration)||(t=Xe.media.duration),isNaN(e)?t:e}function ye(){m(Xe.container,E.classes.playing,!Xe.media.paused),m(Xe.container,E.classes.stopped,Xe.media.paused),Me(Xe.media.paused)}function be(){P={x:e.pageXOffset||0,y:e.pageYOffset||0}}function ve(){e.scrollTo(P.x,P.y)}function ge(e){var n=N.supportsFullScreen;if(n){if(!e||e.type!==N.fullScreenEventName)return N.isFullScreen(Xe.container)?N.cancelFullScreen():(be(),N.requestFullScreen(Xe.container)),void(Xe.isFullscreen=N.isFullScreen(Xe.container));Xe.isFullscreen=N.isFullScreen(Xe.container)}else Xe.isFullscreen=!Xe.isFullscreen,t.body.style.overflow=Xe.isFullscreen?"hidden":"";m(Xe.container,E.classes.fullscreen.active,Xe.isFullscreen),$(Xe.isFullscreen),Xe.buttons&&Xe.buttons.fullscreen&&k(Xe.buttons.fullscreen,Xe.isFullscreen),A(Xe.container,Xe.isFullscreen?"enterfullscreen":"exitfullscreen",!0),!Xe.isFullscreen&&n&&ve()}function he(e){if(O.boolean(e)||(e=!Xe.media.muted),k(Xe.buttons.mute,e),Xe.media.muted=e,0===Xe.media.volume&&ke(E.volume),s(E.types.embed,Xe.type)){switch(Xe.type){case"youtube":Xe.embed[Xe.media.muted?"mute":"unMute"]();break;case"vimeo":case"soundcloud":Xe.embed.setVolume(Xe.media.muted?0:parseFloat(E.volume/E.volumeMax))}A(Xe.media,"volumechange")}}function ke(e){var t=E.volumeMax,n=E.volumeMin;if(O.undefined(e)&&(e=Xe.storage.volume),(null===e||isNaN(e))&&(e=E.volume),e>t&&(e=t),e<n&&(e=n),Xe.media.volume=parseFloat(e/t),Xe.volume.display&&(Xe.volume.display.value=e),s(E.types.embed,Xe.type)){switch(Xe.type){case"youtube":Xe.embed.setVolume(100*Xe.media.volume);break;case"vimeo":case"soundcloud":Xe.embed.setVolume(Xe.media.volume)}A(Xe.media,"volumechange")}0===e?Xe.media.muted=!0:Xe.media.muted&&e>0&&he()}function we(e){var t=Xe.media.muted?0:Xe.media.volume*E.volumeMax;O.number(e)||(e=E.volumeStep),ke(t+e)}function xe(e){var t=Xe.media.muted?0:Xe.media.volume*E.volumeMax;O.number(e)||(e=E.volumeStep),ke(t-e)}function Te(){var e=Xe.media.muted?0:Xe.media.volume*E.volumeMax;Xe.supported.full&&(Xe.volume.input&&(Xe.volume.input.value=e),Xe.volume.display&&(Xe.volume.display.value=e)),te({volume:e}),m(Xe.container,E.classes.muted,0===e),Xe.supported.full&&Xe.buttons.mute&&k(Xe.buttons.mute,0===e)}function Se(e){Xe.supported.full&&Xe.buttons.captions&&(O.boolean(e)||(e=Xe.container.className.indexOf(E.classes.captions.active)===-1),Xe.captionsEnabled=e,k(Xe.buttons.captions,Xe.captionsEnabled),m(Xe.container,E.classes.captions.active,Xe.captionsEnabled),A(Xe.container,Xe.captionsEnabled?"captionsenabled":"captionsdisabled",!0),te({captionsEnabled:Xe.captionsEnabled}))}function _e(e){var t="waiting"===e.type;clearTimeout(Ue.loading),Ue.loading=setTimeout(function(){m(Xe.container,E.classes.loading,t),Me(t)},t?250:0)}function Ee(e){if(Xe.supported.full){var t=Xe.progress.played,n=0,r=fe();if(e)switch(e.type){case"timeupdate":case"seeking":if(Xe.controls.pressed)return;n=w(Xe.media.currentTime,r),"timeupdate"===e.type&&Xe.buttons.seek&&(Xe.buttons.seek.value=n);break;case"playing":case"progress":t=Xe.progress.buffer,n=function(){var e=Xe.media.buffered;return e&&e.length?w(e.end(0),r):O.number(e)?100*e:0}()}Ce(t,n)}}function Ce(e,t){if(Xe.supported.full){if(O.undefined(t)&&(t=0),O.undefined(e)){if(!Xe.progress||!Xe.progress.buffer)return;e=Xe.progress.buffer}O.htmlElement(e)?e.value=t:e&&(e.bar&&(e.bar.value=t),e.text&&(e.text.innerHTML=t))}}function Fe(e,t){if(t){isNaN(e)&&(e=0),Xe.secs=parseInt(e%60),Xe.mins=parseInt(e/60%60),Xe.hours=parseInt(e/60/60%60);var n=parseInt(fe()/60/60%60)>0;Xe.secs=("0"+Xe.secs).slice(-2),Xe.mins=("0"+Xe.mins).slice(-2),t.innerHTML=(n?Xe.hours+":":"")+Xe.mins+":"+Xe.secs}}function Ae(){if(Xe.supported.full){var e=fe()||0;!Xe.duration&&E.displayDuration&&Xe.media.paused&&Fe(e,Xe.currentTime),Xe.duration&&Fe(e,Xe.duration),Pe()}}function Ie(e){Fe(Xe.media.currentTime,Xe.currentTime),e&&"timeupdate"===e.type&&Xe.media.seeking||Ee(e)}function Ne(e){O.number(e)||(e=0);var t=fe(),n=w(e,t);Xe.progress&&Xe.progress.played&&(Xe.progress.played.value=n),Xe.buttons&&Xe.buttons.seek&&(Xe.buttons.seek.value=n)}function Pe(e){var t=fe();if(E.tooltips.seek&&Xe.progress.container&&0!==t){var n=Xe.progress.container.getBoundingClientRect(),r=0,a=E.classes.tooltip+"--visible";if(e)r=100/n.width*(e.pageX-n.left);else{if(!f(Xe.progress.tooltip,a))return;r=Xe.progress.tooltip.style.left.replace("%","")}r<0?r=0:r>100&&(r=100),Fe(t/100*r,Xe.progress.tooltip),Xe.progress.tooltip.style.left=r+"%",e&&s(["mouseenter","mouseleave"],e.type)&&m(Xe.progress.tooltip,a,"mouseenter"===e.type)}}function Me(t){if(E.hideControls&&"audio"!==Xe.type){var n=0,r=!1,a=t,o=f(Xe.container,E.classes.loading);if(O.boolean(t)||(t&&t.type?(r="enterfullscreen"===t.type,a=s(["mousemove","touchstart","mouseenter","focus"],t.type),s(["mousemove","touchmove"],t.type)&&(n=2e3),"focus"===t.type&&(n=3e3)):a=f(Xe.container,E.classes.hideControls)),e.clearTimeout(Ue.hover),a||Xe.media.paused||o){if(m(Xe.container,E.classes.hideControls,!1),Xe.media.paused||o)return;Xe.browser.isTouch&&(n=3e3)}a&&Xe.media.paused||(Ue.hover=e.setTimeout(function(){(!Xe.controls.pressed&&!Xe.controls.hover||r)&&m(Xe.container,E.classes.hideControls,!0)},n))}}function Oe(e){if(!O.undefined(e))return void Le(e);var t;switch(Xe.type){case"youtube":t=Xe.embed.getVideoUrl();break;case"vimeo":Xe.embed.getVideoUrl.then(function(e){t=e});break;case"soundcloud":Xe.embed.getCurrentSound(function(e){t=e.permalink_url});break;default:t=Xe.media.currentSrc}return t||""}function Le(e){function n(){if(Xe.embed=null,l(Xe.media),"video"===Xe.type&&Xe.videoContainer&&l(Xe.videoContainer),Xe.container&&Xe.container.removeAttribute("class"),"type"in e&&(Xe.type=e.type,"video"===Xe.type)){var n=e.sources[0];"type"in n&&s(E.types.embed,n.type)&&(Xe.type=n.type)}switch(Xe.supported=F(Xe.type),Xe.type){case"video":Xe.media=t.createElement("video");break;case"audio":Xe.media=t.createElement("audio");break;case"youtube":case"vimeo":case"soundcloud":Xe.media=t.createElement("div"),Xe.embedId=e.sources[0].src}u(Xe.container,Xe.media),O.boolean(e.autoplay)&&(E.autoplay=e.autoplay),s(E.types.html5,Xe.type)&&(E.crossorigin&&Xe.media.setAttribute("crossorigin",""),E.autoplay&&Xe.media.setAttribute("autoplay",""),"poster"in e&&Xe.media.setAttribute("poster",e.poster),E.loop&&Xe.media.setAttribute("loop","")),m(Xe.container,E.classes.fullscreen.active,Xe.isFullscreen),m(Xe.container,E.classes.captions.active,Xe.captionsEnabled),K(),s(E.types.html5,Xe.type)&&J("source",e.sources),ne(),s(E.types.html5,Xe.type)&&("tracks"in e&&J("track",e.tracks),Xe.media.load()),(s(E.types.html5,Xe.type)||s(E.types.embed,Xe.type)&&!Xe.supported.full)&&(We(),Ye()),E.title=e.title,Z()}return O.object(e)&&"sources"in e&&e.sources.length?(m(Xe.container,E.classes.ready,!1),ue(),Ne(),Ce(),qe(),void De(n,!1)):void ze("Invalid source format")}function je(e){"video"===Xe.type&&Xe.media.setAttribute("poster",e)}function Ve(){function n(){var e=ce(),t=Xe.buttons[e?"play":"pause"],n=Xe.buttons[e?"pause":"play"];if(n=n&&n.length>1?n[n.length-1]:n[0]){var r=f(t,E.classes.tabFocus);setTimeout(function(){n.focus(),r&&(m(t,E.classes.tabFocus,!1),m(n,E.classes.tabFocus,!0))},100)}}function r(){var e=t.activeElement;return e=e&&e!==t.body?t.querySelector(":focus"):null}function a(e){return e.keyCode?e.keyCode:e.which}function o(e){for(var t in Xe.buttons){var n=Xe.buttons[t];if(O.nodeList(n))for(var r=0;r<n.length;r++)m(n[r],E.classes.tabFocus,n[r]===e);else m(n,E.classes.tabFocus,n===e)}}function i(e){function t(){var e=Xe.media.duration;O.number(e)&&me(e/10*(n-48))}var n=a(e),r="keydown"===e.type,o=r&&n===u;if(O.number(n))if(r){var i=[48,49,50,51,52,53,54,56,57,32,75,38,40,77,39,37,70,67];switch(s(i,n)&&(e.preventDefault(),e.stopPropagation()),n){case 48:case 49:case 50:case 51:case 52:case 53:case 54:case 55:case 56:case 57:o||t();break;case 32:case 75:o||ce();break;case 38:we();break;case 40:xe();break;case 77:o||he();break;case 39:pe();break;case 37:de();break;case 70:ge();break;case 67:o||Se()}!N.supportsFullScreen&&Xe.isFullscreen&&27===n&&ge(),u=n}else u=null}var l=Xe.browser.isIE?"change":"input";if(E.keyboardShorcuts.focused){var u=null;E.keyboardShorcuts.global&&g(e,"keydown keyup",function(e){var t=a(e),n=r(),o=[48,49,50,51,52,53,54,56,57,75,77,70,67],l=I().length;1!==l||!s(o,t)||O.htmlElement(n)&&y(n,E.selectors.editable)||i(e)}),g(Xe.container,"keydown keyup",i)}g(e,"keyup",function(e){var t=a(e),n=r();9===t&&o(n)}),g(t.body,"click",function(){m(X("."+E.classes.tabFocus),E.classes.tabFocus,!1)});for(var c in Xe.buttons){var d=Xe.buttons[c];g(d,"blur",function(){m(d,"tab-focus",!1)})}b(Xe.buttons.play,"click",E.listeners.play,n),
@@ -63755,13 +63158,13 @@ b(Xe.buttons.pause,"click",E.listeners.pause,n),b(Xe.buttons.restart,"click",E.l
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ },
-/* 312 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(352).create;
+module.exports = __webpack_require__(351).create;
 
 /***/ },
-/* 313 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63816,7 +63219,7 @@ exports.default = BreakView;
 //# sourceMappingURL=BreakView.js.map
 
 /***/ },
-/* 314 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63884,7 +63287,7 @@ exports.default = PageView;
 //# sourceMappingURL=PageView.js.map
 
 /***/ },
-/* 315 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63900,19 +63303,19 @@ var _react = __webpack_require__(14);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _classnames = __webpack_require__(254);
+var _classnames = __webpack_require__(253);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _reactAddonsCreateFragment = __webpack_require__(312);
+var _reactAddonsCreateFragment = __webpack_require__(311);
 
 var _reactAddonsCreateFragment2 = _interopRequireDefault(_reactAddonsCreateFragment);
 
-var _PageView = __webpack_require__(314);
+var _PageView = __webpack_require__(313);
 
 var _PageView2 = _interopRequireDefault(_PageView);
 
-var _BreakView = __webpack_require__(313);
+var _BreakView = __webpack_require__(312);
 
 var _BreakView2 = _interopRequireDefault(_BreakView);
 
@@ -64138,13 +63541,13 @@ exports.default = PaginationBoxView;
 //# sourceMappingURL=PaginationBoxView.js.map
 
 /***/ },
-/* 316 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 'use strict';
 
-var _PaginationBoxView = __webpack_require__(315);
+var _PaginationBoxView = __webpack_require__(314);
 
 var _PaginationBoxView2 = _interopRequireDefault(_PaginationBoxView);
 
@@ -64154,7 +63557,7 @@ module.exports = _PaginationBoxView2.default;
 //# sourceMappingURL=index.js.map
 
 /***/ },
-/* 317 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -64184,7 +63587,7 @@ var AutoFocusUtils = {
 module.exports = AutoFocusUtils;
 
 /***/ },
-/* 318 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -64204,9 +63607,9 @@ module.exports = AutoFocusUtils;
 var EventConstants = __webpack_require__(20);
 var EventPropagators = __webpack_require__(31);
 var ExecutionEnvironment = __webpack_require__(8);
-var FallbackCompositionState = __webpack_require__(324);
-var SyntheticCompositionEvent = __webpack_require__(369);
-var SyntheticInputEvent = __webpack_require__(372);
+var FallbackCompositionState = __webpack_require__(323);
+var SyntheticCompositionEvent = __webpack_require__(368);
+var SyntheticInputEvent = __webpack_require__(371);
 
 var keyOf = __webpack_require__(23);
 
@@ -64580,7 +63983,7 @@ var BeforeInputEventPlugin = {
 module.exports = BeforeInputEventPlugin;
 
 /***/ },
-/* 319 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -64601,10 +64004,10 @@ var CSSProperty = __webpack_require__(192);
 var ExecutionEnvironment = __webpack_require__(8);
 var ReactInstrumentation = __webpack_require__(13);
 
-var camelizeStyleName = __webpack_require__(280);
-var dangerousStyleValue = __webpack_require__(378);
-var hyphenateStyleName = __webpack_require__(287);
-var memoizeStringOnly = __webpack_require__(290);
+var camelizeStyleName = __webpack_require__(279);
+var dangerousStyleValue = __webpack_require__(377);
+var hyphenateStyleName = __webpack_require__(286);
+var memoizeStringOnly = __webpack_require__(289);
 var warning = __webpack_require__(3);
 
 var processStyleName = memoizeStringOnly(function (styleName) {
@@ -64792,7 +64195,7 @@ module.exports = CSSPropertyOperations;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 320 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -64817,8 +64220,8 @@ var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(17);
 var SyntheticEvent = __webpack_require__(22);
 
-var getEventTarget = __webpack_require__(68);
-var isEventSupported = __webpack_require__(70);
+var getEventTarget = __webpack_require__(67);
+var isEventSupported = __webpack_require__(69);
 var isTextInputElement = __webpack_require__(215);
 var keyOf = __webpack_require__(23);
 
@@ -65123,7 +64526,7 @@ var ChangeEventPlugin = {
 module.exports = ChangeEventPlugin;
 
 /***/ },
-/* 321 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -65145,7 +64548,7 @@ var _prodInvariant = __webpack_require__(4);
 var DOMLazyTree = __webpack_require__(27);
 var ExecutionEnvironment = __webpack_require__(8);
 
-var createNodesFromMarkup = __webpack_require__(283);
+var createNodesFromMarkup = __webpack_require__(282);
 var emptyFunction = __webpack_require__(11);
 var invariant = __webpack_require__(2);
 
@@ -65178,7 +64581,7 @@ module.exports = Danger;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 322 */
+/* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -65211,7 +64614,7 @@ var DefaultEventPluginOrder = [keyOf({ ResponderEventPlugin: null }), keyOf({ Si
 module.exports = DefaultEventPluginOrder;
 
 /***/ },
-/* 323 */
+/* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -65322,7 +64725,7 @@ var EnterLeaveEventPlugin = {
 module.exports = EnterLeaveEventPlugin;
 
 /***/ },
-/* 324 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -65423,7 +64826,7 @@ PooledClass.addPoolingTo(FallbackCompositionState);
 module.exports = FallbackCompositionState;
 
 /***/ },
-/* 325 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -65641,7 +65044,7 @@ var HTMLDOMPropertyConfig = {
 module.exports = HTMLDOMPropertyConfig;
 
 /***/ },
-/* 326 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -65660,16 +65063,16 @@ module.exports = HTMLDOMPropertyConfig;
 
 var _assign = __webpack_require__(5);
 
-var ReactChildren = __webpack_require__(56);
-var ReactComponent = __webpack_require__(57);
-var ReactPureComponent = __webpack_require__(359);
+var ReactChildren = __webpack_require__(55);
+var ReactComponent = __webpack_require__(56);
+var ReactPureComponent = __webpack_require__(358);
 var ReactClass = __webpack_require__(195);
-var ReactDOMFactories = __webpack_require__(336);
+var ReactDOMFactories = __webpack_require__(335);
 var ReactElement = __webpack_require__(12);
 var ReactPropTypes = __webpack_require__(206);
 var ReactVersion = __webpack_require__(207);
 
-var onlyChild = __webpack_require__(384);
+var onlyChild = __webpack_require__(383);
 var warning = __webpack_require__(3);
 
 var createElement = ReactElement.createElement;
@@ -65737,7 +65140,7 @@ module.exports = React;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 327 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -65757,9 +65160,9 @@ module.exports = React;
 var ReactReconciler = __webpack_require__(28);
 
 var instantiateReactComponent = __webpack_require__(214);
-var KeyEscapeUtils = __webpack_require__(54);
-var shouldUpdateReactComponent = __webpack_require__(71);
-var traverseAllChildren = __webpack_require__(72);
+var KeyEscapeUtils = __webpack_require__(53);
+var shouldUpdateReactComponent = __webpack_require__(70);
+var traverseAllChildren = __webpack_require__(71);
 var warning = __webpack_require__(3);
 
 var ReactComponentTreeHook;
@@ -65898,7 +65301,7 @@ module.exports = ReactChildReconciler;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 328 */
+/* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -65959,7 +65362,7 @@ module.exports = ReactChildrenMutationWarningHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 329 */
+/* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -65976,8 +65379,8 @@ module.exports = ReactChildrenMutationWarningHook;
 
 'use strict';
 
-var DOMChildrenOperations = __webpack_require__(51);
-var ReactDOMIDOperations = __webpack_require__(338);
+var DOMChildrenOperations = __webpack_require__(50);
+var ReactDOMIDOperations = __webpack_require__(337);
 
 /**
  * Abstracts away all functionality of the reconciler that requires knowledge of
@@ -65995,7 +65398,7 @@ var ReactComponentBrowserEnvironment = {
 module.exports = ReactComponentBrowserEnvironment;
 
 /***/ },
-/* 330 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -66015,10 +65418,10 @@ module.exports = ReactComponentBrowserEnvironment;
 var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
-var ReactComponentEnvironment = __webpack_require__(58);
+var ReactComponentEnvironment = __webpack_require__(57);
 var ReactCurrentOwner = __webpack_require__(21);
 var ReactElement = __webpack_require__(12);
-var ReactErrorUtils = __webpack_require__(59);
+var ReactErrorUtils = __webpack_require__(58);
 var ReactInstanceMap = __webpack_require__(32);
 var ReactInstrumentation = __webpack_require__(13);
 var ReactNodeTypes = __webpack_require__(205);
@@ -66028,8 +65431,8 @@ var ReactReconciler = __webpack_require__(28);
 var checkReactTypeSpec = __webpack_require__(210);
 var emptyObject = __webpack_require__(29);
 var invariant = __webpack_require__(2);
-var shallowEqual = __webpack_require__(49);
-var shouldUpdateReactComponent = __webpack_require__(71);
+var shallowEqual = __webpack_require__(48);
+var shouldUpdateReactComponent = __webpack_require__(70);
 var warning = __webpack_require__(3);
 
 var CompositeTypes = {
@@ -66906,7 +66309,7 @@ module.exports = ReactCompositeComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 331 */
+/* 330 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -66926,15 +66329,15 @@ module.exports = ReactCompositeComponent;
 'use strict';
 
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactDefaultInjection = __webpack_require__(349);
+var ReactDefaultInjection = __webpack_require__(348);
 var ReactMount = __webpack_require__(203);
 var ReactReconciler = __webpack_require__(28);
 var ReactUpdates = __webpack_require__(17);
 var ReactVersion = __webpack_require__(207);
 
-var findDOMNode = __webpack_require__(379);
+var findDOMNode = __webpack_require__(378);
 var getHostComponentFromComposite = __webpack_require__(212);
-var renderSubtreeIntoContainer = __webpack_require__(386);
+var renderSubtreeIntoContainer = __webpack_require__(385);
 var warning = __webpack_require__(3);
 
 ReactDefaultInjection.inject();
@@ -67012,8 +66415,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 if (process.env.NODE_ENV !== 'production') {
   var ReactInstrumentation = __webpack_require__(13);
-  var ReactDOMUnknownPropertyHook = __webpack_require__(346);
-  var ReactDOMNullInputValuePropHook = __webpack_require__(340);
+  var ReactDOMUnknownPropertyHook = __webpack_require__(345);
+  var ReactDOMNullInputValuePropHook = __webpack_require__(339);
 
   ReactInstrumentation.debugTool.addHook(ReactDOMUnknownPropertyHook);
   ReactInstrumentation.debugTool.addHook(ReactDOMNullInputValuePropHook);
@@ -67023,7 +66426,7 @@ module.exports = ReactDOM;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 332 */
+/* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -67053,7 +66456,7 @@ var ReactDOMButton = {
 module.exports = ReactDOMButton;
 
 /***/ },
-/* 333 */
+/* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -67075,34 +66478,34 @@ module.exports = ReactDOMButton;
 var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
-var AutoFocusUtils = __webpack_require__(317);
-var CSSPropertyOperations = __webpack_require__(319);
+var AutoFocusUtils = __webpack_require__(316);
+var CSSPropertyOperations = __webpack_require__(318);
 var DOMLazyTree = __webpack_require__(27);
-var DOMNamespaces = __webpack_require__(52);
+var DOMNamespaces = __webpack_require__(51);
 var DOMProperty = __webpack_require__(25);
 var DOMPropertyOperations = __webpack_require__(194);
 var EventConstants = __webpack_require__(20);
 var EventPluginHub = __webpack_require__(30);
 var EventPluginRegistry = __webpack_require__(39);
 var ReactBrowserEventEmitter = __webpack_require__(40);
-var ReactDOMButton = __webpack_require__(332);
+var ReactDOMButton = __webpack_require__(331);
 var ReactDOMComponentFlags = __webpack_require__(196);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactDOMInput = __webpack_require__(339);
-var ReactDOMOption = __webpack_require__(341);
+var ReactDOMInput = __webpack_require__(338);
+var ReactDOMOption = __webpack_require__(340);
 var ReactDOMSelect = __webpack_require__(197);
-var ReactDOMTextarea = __webpack_require__(344);
+var ReactDOMTextarea = __webpack_require__(343);
 var ReactInstrumentation = __webpack_require__(13);
-var ReactMultiChild = __webpack_require__(357);
-var ReactServerRenderingTransaction = __webpack_require__(362);
+var ReactMultiChild = __webpack_require__(356);
+var ReactServerRenderingTransaction = __webpack_require__(361);
 
 var emptyFunction = __webpack_require__(11);
 var escapeTextContentForBrowser = __webpack_require__(43);
 var invariant = __webpack_require__(2);
-var isEventSupported = __webpack_require__(70);
+var isEventSupported = __webpack_require__(69);
 var keyOf = __webpack_require__(23);
-var shallowEqual = __webpack_require__(49);
-var validateDOMNesting = __webpack_require__(73);
+var shallowEqual = __webpack_require__(48);
+var validateDOMNesting = __webpack_require__(72);
 var warning = __webpack_require__(3);
 
 var Flags = ReactDOMComponentFlags;
@@ -68066,7 +67469,7 @@ module.exports = ReactDOMComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 334 */
+/* 333 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68083,7 +67486,7 @@ module.exports = ReactDOMComponent;
 
 'use strict';
 
-var validateDOMNesting = __webpack_require__(73);
+var validateDOMNesting = __webpack_require__(72);
 
 var DOC_NODE_TYPE = 9;
 
@@ -68106,7 +67509,7 @@ module.exports = ReactDOMContainerInfo;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 335 */
+/* 334 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68172,7 +67575,7 @@ _assign(ReactDOMEmptyComponent.prototype, {
 module.exports = ReactDOMEmptyComponent;
 
 /***/ },
-/* 336 */
+/* 335 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68349,7 +67752,7 @@ module.exports = ReactDOMFactories;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 337 */
+/* 336 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -68373,7 +67776,7 @@ var ReactDOMFeatureFlags = {
 module.exports = ReactDOMFeatureFlags;
 
 /***/ },
-/* 338 */
+/* 337 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68390,7 +67793,7 @@ module.exports = ReactDOMFeatureFlags;
 
 'use strict';
 
-var DOMChildrenOperations = __webpack_require__(51);
+var DOMChildrenOperations = __webpack_require__(50);
 var ReactDOMComponentTree = __webpack_require__(6);
 
 /**
@@ -68413,7 +67816,7 @@ var ReactDOMIDOperations = {
 module.exports = ReactDOMIDOperations;
 
 /***/ },
-/* 339 */
+/* 338 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68435,7 +67838,7 @@ var _prodInvariant = __webpack_require__(4),
 
 var DisabledInputUtils = __webpack_require__(38);
 var DOMPropertyOperations = __webpack_require__(194);
-var LinkedValueUtils = __webpack_require__(55);
+var LinkedValueUtils = __webpack_require__(54);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(17);
 
@@ -68689,7 +68092,7 @@ module.exports = ReactDOMInput;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 340 */
+/* 339 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68739,7 +68142,7 @@ module.exports = ReactDOMNullInputValuePropHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 341 */
+/* 340 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68758,7 +68161,7 @@ module.exports = ReactDOMNullInputValuePropHook;
 
 var _assign = __webpack_require__(5);
 
-var ReactChildren = __webpack_require__(56);
+var ReactChildren = __webpack_require__(55);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDOMSelect = __webpack_require__(197);
 
@@ -68869,7 +68272,7 @@ module.exports = ReactDOMOption;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 342 */
+/* 341 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68888,7 +68291,7 @@ module.exports = ReactDOMOption;
 
 var ExecutionEnvironment = __webpack_require__(8);
 
-var getNodeForCharacterOffset = __webpack_require__(382);
+var getNodeForCharacterOffset = __webpack_require__(381);
 var getTextContentAccessor = __webpack_require__(213);
 
 /**
@@ -69087,7 +68490,7 @@ var ReactDOMSelection = {
 module.exports = ReactDOMSelection;
 
 /***/ },
-/* 343 */
+/* 342 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69107,13 +68510,13 @@ module.exports = ReactDOMSelection;
 var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
-var DOMChildrenOperations = __webpack_require__(51);
+var DOMChildrenOperations = __webpack_require__(50);
 var DOMLazyTree = __webpack_require__(27);
 var ReactDOMComponentTree = __webpack_require__(6);
 
 var escapeTextContentForBrowser = __webpack_require__(43);
 var invariant = __webpack_require__(2);
-var validateDOMNesting = __webpack_require__(73);
+var validateDOMNesting = __webpack_require__(72);
 
 /**
  * Text nodes violate a couple assumptions that React makes about components:
@@ -69258,7 +68661,7 @@ module.exports = ReactDOMTextComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 344 */
+/* 343 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69279,7 +68682,7 @@ var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
 var DisabledInputUtils = __webpack_require__(38);
-var LinkedValueUtils = __webpack_require__(55);
+var LinkedValueUtils = __webpack_require__(54);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(17);
 
@@ -69420,7 +68823,7 @@ module.exports = ReactDOMTextarea;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 345 */
+/* 344 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69563,7 +68966,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 346 */
+/* 345 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69682,7 +69085,7 @@ module.exports = ReactDOMUnknownPropertyHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 347 */
+/* 346 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69699,13 +69102,13 @@ module.exports = ReactDOMUnknownPropertyHook;
 
 'use strict';
 
-var ReactInvalidSetStateWarningHook = __webpack_require__(355);
-var ReactHostOperationHistoryHook = __webpack_require__(353);
+var ReactInvalidSetStateWarningHook = __webpack_require__(354);
+var ReactHostOperationHistoryHook = __webpack_require__(352);
 var ReactComponentTreeHook = __webpack_require__(16);
-var ReactChildrenMutationWarningHook = __webpack_require__(328);
+var ReactChildrenMutationWarningHook = __webpack_require__(327);
 var ExecutionEnvironment = __webpack_require__(8);
 
-var performanceNow = __webpack_require__(292);
+var performanceNow = __webpack_require__(291);
 var warning = __webpack_require__(3);
 
 var hooks = [];
@@ -69990,7 +69393,7 @@ module.exports = ReactDebugTool;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 348 */
+/* 347 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70064,7 +69467,7 @@ var ReactDefaultBatchingStrategy = {
 module.exports = ReactDefaultBatchingStrategy;
 
 /***/ },
-/* 349 */
+/* 348 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70081,24 +69484,24 @@ module.exports = ReactDefaultBatchingStrategy;
 
 'use strict';
 
-var BeforeInputEventPlugin = __webpack_require__(318);
-var ChangeEventPlugin = __webpack_require__(320);
-var DefaultEventPluginOrder = __webpack_require__(322);
-var EnterLeaveEventPlugin = __webpack_require__(323);
-var HTMLDOMPropertyConfig = __webpack_require__(325);
-var ReactComponentBrowserEnvironment = __webpack_require__(329);
-var ReactDOMComponent = __webpack_require__(333);
+var BeforeInputEventPlugin = __webpack_require__(317);
+var ChangeEventPlugin = __webpack_require__(319);
+var DefaultEventPluginOrder = __webpack_require__(321);
+var EnterLeaveEventPlugin = __webpack_require__(322);
+var HTMLDOMPropertyConfig = __webpack_require__(324);
+var ReactComponentBrowserEnvironment = __webpack_require__(328);
+var ReactDOMComponent = __webpack_require__(332);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactDOMEmptyComponent = __webpack_require__(335);
-var ReactDOMTreeTraversal = __webpack_require__(345);
-var ReactDOMTextComponent = __webpack_require__(343);
-var ReactDefaultBatchingStrategy = __webpack_require__(348);
-var ReactEventListener = __webpack_require__(351);
-var ReactInjection = __webpack_require__(354);
-var ReactReconcileTransaction = __webpack_require__(360);
-var SVGDOMPropertyConfig = __webpack_require__(364);
-var SelectEventPlugin = __webpack_require__(365);
-var SimpleEventPlugin = __webpack_require__(366);
+var ReactDOMEmptyComponent = __webpack_require__(334);
+var ReactDOMTreeTraversal = __webpack_require__(344);
+var ReactDOMTextComponent = __webpack_require__(342);
+var ReactDefaultBatchingStrategy = __webpack_require__(347);
+var ReactEventListener = __webpack_require__(350);
+var ReactInjection = __webpack_require__(353);
+var ReactReconcileTransaction = __webpack_require__(359);
+var SVGDOMPropertyConfig = __webpack_require__(363);
+var SelectEventPlugin = __webpack_require__(364);
+var SimpleEventPlugin = __webpack_require__(365);
 
 var alreadyInjected = false;
 
@@ -70154,7 +69557,7 @@ module.exports = {
 };
 
 /***/ },
-/* 350 */
+/* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70193,7 +69596,7 @@ var ReactEventEmitterMixin = {
 module.exports = ReactEventEmitterMixin;
 
 /***/ },
-/* 351 */
+/* 350 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70218,8 +69621,8 @@ var PooledClass = __webpack_require__(24);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(17);
 
-var getEventTarget = __webpack_require__(68);
-var getUnboundedScrollPosition = __webpack_require__(285);
+var getEventTarget = __webpack_require__(67);
+var getUnboundedScrollPosition = __webpack_require__(284);
 
 /**
  * Find the deepest React component completely containing the root of the
@@ -70356,7 +69759,7 @@ var ReactEventListener = {
 module.exports = ReactEventListener;
 
 /***/ },
-/* 352 */
+/* 351 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70375,7 +69778,7 @@ module.exports = ReactEventListener;
 
 var _prodInvariant = __webpack_require__(4);
 
-var ReactChildren = __webpack_require__(56);
+var ReactChildren = __webpack_require__(55);
 var ReactElement = __webpack_require__(12);
 
 var emptyFunction = __webpack_require__(11);
@@ -70432,7 +69835,7 @@ module.exports = ReactFragment;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 353 */
+/* 352 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -70475,7 +69878,7 @@ var ReactHostOperationHistoryHook = {
 module.exports = ReactHostOperationHistoryHook;
 
 /***/ },
-/* 354 */
+/* 353 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70494,8 +69897,8 @@ module.exports = ReactHostOperationHistoryHook;
 
 var DOMProperty = __webpack_require__(25);
 var EventPluginHub = __webpack_require__(30);
-var EventPluginUtils = __webpack_require__(53);
-var ReactComponentEnvironment = __webpack_require__(58);
+var EventPluginUtils = __webpack_require__(52);
+var ReactComponentEnvironment = __webpack_require__(57);
 var ReactClass = __webpack_require__(195);
 var ReactEmptyComponent = __webpack_require__(199);
 var ReactBrowserEventEmitter = __webpack_require__(40);
@@ -70517,7 +69920,7 @@ var ReactInjection = {
 module.exports = ReactInjection;
 
 /***/ },
-/* 355 */
+/* 354 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70560,7 +69963,7 @@ module.exports = ReactInvalidSetStateWarningHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 356 */
+/* 355 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70577,7 +69980,7 @@ module.exports = ReactInvalidSetStateWarningHook;
 
 'use strict';
 
-var adler32 = __webpack_require__(377);
+var adler32 = __webpack_require__(376);
 
 var TAG_END = /\/?>/;
 var COMMENT_START = /^<\!\-\-/;
@@ -70616,7 +70019,7 @@ var ReactMarkupChecksum = {
 module.exports = ReactMarkupChecksum;
 
 /***/ },
-/* 357 */
+/* 356 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70635,17 +70038,17 @@ module.exports = ReactMarkupChecksum;
 
 var _prodInvariant = __webpack_require__(4);
 
-var ReactComponentEnvironment = __webpack_require__(58);
+var ReactComponentEnvironment = __webpack_require__(57);
 var ReactInstanceMap = __webpack_require__(32);
 var ReactInstrumentation = __webpack_require__(13);
 var ReactMultiChildUpdateTypes = __webpack_require__(204);
 
 var ReactCurrentOwner = __webpack_require__(21);
 var ReactReconciler = __webpack_require__(28);
-var ReactChildReconciler = __webpack_require__(327);
+var ReactChildReconciler = __webpack_require__(326);
 
 var emptyFunction = __webpack_require__(11);
-var flattenChildren = __webpack_require__(380);
+var flattenChildren = __webpack_require__(379);
 var invariant = __webpack_require__(2);
 
 /**
@@ -71074,7 +70477,7 @@ module.exports = ReactMultiChild;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 358 */
+/* 357 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71175,7 +70578,7 @@ module.exports = ReactOwner;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 359 */
+/* 358 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71194,8 +70597,8 @@ module.exports = ReactOwner;
 
 var _assign = __webpack_require__(5);
 
-var ReactComponent = __webpack_require__(57);
-var ReactNoopUpdateQueue = __webpack_require__(60);
+var ReactComponent = __webpack_require__(56);
+var ReactNoopUpdateQueue = __webpack_require__(59);
 
 var emptyObject = __webpack_require__(29);
 
@@ -71223,7 +70626,7 @@ ReactPureComponent.prototype.isPureReactComponent = true;
 module.exports = ReactPureComponent;
 
 /***/ },
-/* 360 */
+/* 359 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71248,7 +70651,7 @@ var ReactBrowserEventEmitter = __webpack_require__(40);
 var ReactInputSelection = __webpack_require__(202);
 var ReactInstrumentation = __webpack_require__(13);
 var Transaction = __webpack_require__(34);
-var ReactUpdateQueue = __webpack_require__(63);
+var ReactUpdateQueue = __webpack_require__(62);
 
 /**
  * Ensures that, when possible, the selection range (currently selected text
@@ -71408,7 +70811,7 @@ module.exports = ReactReconcileTransaction;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 361 */
+/* 360 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71425,7 +70828,7 @@ module.exports = ReactReconcileTransaction;
 
 'use strict';
 
-var ReactOwner = __webpack_require__(358);
+var ReactOwner = __webpack_require__(357);
 
 var ReactRef = {};
 
@@ -71494,7 +70897,7 @@ ReactRef.detachRefs = function (instance, element) {
 module.exports = ReactRef;
 
 /***/ },
-/* 362 */
+/* 361 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71516,7 +70919,7 @@ var _assign = __webpack_require__(5);
 var PooledClass = __webpack_require__(24);
 var Transaction = __webpack_require__(34);
 var ReactInstrumentation = __webpack_require__(13);
-var ReactServerUpdateQueue = __webpack_require__(363);
+var ReactServerUpdateQueue = __webpack_require__(362);
 
 /**
  * Executed within the scope of the `Transaction` instance. Consider these as
@@ -71591,7 +70994,7 @@ module.exports = ReactServerRenderingTransaction;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 363 */
+/* 362 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71611,7 +71014,7 @@ module.exports = ReactServerRenderingTransaction;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var ReactUpdateQueue = __webpack_require__(63);
+var ReactUpdateQueue = __webpack_require__(62);
 var Transaction = __webpack_require__(34);
 var warning = __webpack_require__(3);
 
@@ -71739,7 +71142,7 @@ module.exports = ReactServerUpdateQueue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 364 */
+/* 363 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -72047,7 +71450,7 @@ Object.keys(ATTRS).forEach(function (key) {
 module.exports = SVGDOMPropertyConfig;
 
 /***/ },
-/* 365 */
+/* 364 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -72074,7 +71477,7 @@ var SyntheticEvent = __webpack_require__(22);
 var getActiveElement = __webpack_require__(80);
 var isTextInputElement = __webpack_require__(215);
 var keyOf = __webpack_require__(23);
-var shallowEqual = __webpack_require__(49);
+var shallowEqual = __webpack_require__(48);
 
 var topLevelTypes = EventConstants.topLevelTypes;
 
@@ -72249,7 +71652,7 @@ var SelectEventPlugin = {
 module.exports = SelectEventPlugin;
 
 /***/ },
-/* 366 */
+/* 365 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -72272,20 +71675,20 @@ var EventConstants = __webpack_require__(20);
 var EventListener = __webpack_require__(78);
 var EventPropagators = __webpack_require__(31);
 var ReactDOMComponentTree = __webpack_require__(6);
-var SyntheticAnimationEvent = __webpack_require__(367);
-var SyntheticClipboardEvent = __webpack_require__(368);
+var SyntheticAnimationEvent = __webpack_require__(366);
+var SyntheticClipboardEvent = __webpack_require__(367);
 var SyntheticEvent = __webpack_require__(22);
-var SyntheticFocusEvent = __webpack_require__(371);
-var SyntheticKeyboardEvent = __webpack_require__(373);
+var SyntheticFocusEvent = __webpack_require__(370);
+var SyntheticKeyboardEvent = __webpack_require__(372);
 var SyntheticMouseEvent = __webpack_require__(42);
-var SyntheticDragEvent = __webpack_require__(370);
-var SyntheticTouchEvent = __webpack_require__(374);
-var SyntheticTransitionEvent = __webpack_require__(375);
+var SyntheticDragEvent = __webpack_require__(369);
+var SyntheticTouchEvent = __webpack_require__(373);
+var SyntheticTransitionEvent = __webpack_require__(374);
 var SyntheticUIEvent = __webpack_require__(33);
-var SyntheticWheelEvent = __webpack_require__(376);
+var SyntheticWheelEvent = __webpack_require__(375);
 
 var emptyFunction = __webpack_require__(11);
-var getEventCharCode = __webpack_require__(66);
+var getEventCharCode = __webpack_require__(65);
 var invariant = __webpack_require__(2);
 var keyOf = __webpack_require__(23);
 
@@ -72891,7 +72294,7 @@ module.exports = SimpleEventPlugin;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 367 */
+/* 366 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -72936,7 +72339,7 @@ SyntheticEvent.augmentClass(SyntheticAnimationEvent, AnimationEventInterface);
 module.exports = SyntheticAnimationEvent;
 
 /***/ },
-/* 368 */
+/* 367 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -72980,7 +72383,7 @@ SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
 module.exports = SyntheticClipboardEvent;
 
 /***/ },
-/* 369 */
+/* 368 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -73022,7 +72425,7 @@ SyntheticEvent.augmentClass(SyntheticCompositionEvent, CompositionEventInterface
 module.exports = SyntheticCompositionEvent;
 
 /***/ },
-/* 370 */
+/* 369 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -73064,7 +72467,7 @@ SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
 module.exports = SyntheticDragEvent;
 
 /***/ },
-/* 371 */
+/* 370 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -73106,7 +72509,7 @@ SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
 module.exports = SyntheticFocusEvent;
 
 /***/ },
-/* 372 */
+/* 371 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -73149,7 +72552,7 @@ SyntheticEvent.augmentClass(SyntheticInputEvent, InputEventInterface);
 module.exports = SyntheticInputEvent;
 
 /***/ },
-/* 373 */
+/* 372 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -73168,9 +72571,9 @@ module.exports = SyntheticInputEvent;
 
 var SyntheticUIEvent = __webpack_require__(33);
 
-var getEventCharCode = __webpack_require__(66);
-var getEventKey = __webpack_require__(381);
-var getEventModifierState = __webpack_require__(67);
+var getEventCharCode = __webpack_require__(65);
+var getEventKey = __webpack_require__(380);
+var getEventModifierState = __webpack_require__(66);
 
 /**
  * @interface KeyboardEvent
@@ -73239,7 +72642,7 @@ SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
 module.exports = SyntheticKeyboardEvent;
 
 /***/ },
-/* 374 */
+/* 373 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -73258,7 +72661,7 @@ module.exports = SyntheticKeyboardEvent;
 
 var SyntheticUIEvent = __webpack_require__(33);
 
-var getEventModifierState = __webpack_require__(67);
+var getEventModifierState = __webpack_require__(66);
 
 /**
  * @interface TouchEvent
@@ -73290,7 +72693,7 @@ SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
 module.exports = SyntheticTouchEvent;
 
 /***/ },
-/* 375 */
+/* 374 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -73335,7 +72738,7 @@ SyntheticEvent.augmentClass(SyntheticTransitionEvent, TransitionEventInterface);
 module.exports = SyntheticTransitionEvent;
 
 /***/ },
-/* 376 */
+/* 375 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -73395,7 +72798,7 @@ SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
 module.exports = SyntheticWheelEvent;
 
 /***/ },
-/* 377 */
+/* 376 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -73445,7 +72848,7 @@ function adler32(data) {
 module.exports = adler32;
 
 /***/ },
-/* 378 */
+/* 377 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -73531,7 +72934,7 @@ module.exports = dangerousStyleValue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 379 */
+/* 378 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -73598,7 +73001,7 @@ module.exports = findDOMNode;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 380 */
+/* 379 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -73616,8 +73019,8 @@ module.exports = findDOMNode;
 
 'use strict';
 
-var KeyEscapeUtils = __webpack_require__(54);
-var traverseAllChildren = __webpack_require__(72);
+var KeyEscapeUtils = __webpack_require__(53);
+var traverseAllChildren = __webpack_require__(71);
 var warning = __webpack_require__(3);
 
 var ReactComponentTreeHook;
@@ -73681,7 +73084,7 @@ module.exports = flattenChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 381 */
+/* 380 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -73698,7 +73101,7 @@ module.exports = flattenChildren;
 
 'use strict';
 
-var getEventCharCode = __webpack_require__(66);
+var getEventCharCode = __webpack_require__(65);
 
 /**
  * Normalization of deprecated HTML5 `key` values
@@ -73789,7 +73192,7 @@ function getEventKey(nativeEvent) {
 module.exports = getEventKey;
 
 /***/ },
-/* 382 */
+/* 381 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -73869,7 +73272,7 @@ function getNodeForCharacterOffset(root, offset) {
 module.exports = getNodeForCharacterOffset;
 
 /***/ },
-/* 383 */
+/* 382 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -73976,7 +73379,7 @@ function getVendorPrefixedEventName(eventName) {
 module.exports = getVendorPrefixedEventName;
 
 /***/ },
-/* 384 */
+/* 383 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -74021,7 +73424,7 @@ module.exports = onlyChild;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 385 */
+/* 384 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -74053,7 +73456,7 @@ function quoteAttributeValueForBrowser(value) {
 module.exports = quoteAttributeValueForBrowser;
 
 /***/ },
-/* 386 */
+/* 385 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -74075,7 +73478,7 @@ var ReactMount = __webpack_require__(203);
 module.exports = ReactMount.renderSubtreeIntoContainer;
 
 /***/ },
-/* 387 */
+/* 386 */
 /***/ function(module, exports, __webpack_require__) {
 
 
@@ -74083,8 +73486,8 @@ module.exports = ReactMount.renderSubtreeIntoContainer;
  * Module dependencies.
  */
 
-var url = __webpack_require__(388);
-var parser = __webpack_require__(74);
+var url = __webpack_require__(387);
+var parser = __webpack_require__(73);
 var Manager = __webpack_require__(217);
 var debug = __webpack_require__(18)('socket.io-client');
 
@@ -74190,7 +73593,7 @@ exports.Socket = __webpack_require__(219);
 
 
 /***/ },
-/* 388 */
+/* 387 */
 /***/ function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -74272,7 +73675,7 @@ function url (uri, loc) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ },
-/* 389 */
+/* 388 */
 /***/ function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/*global Blob,File*/
@@ -74281,7 +73684,7 @@ function url (uri, loc) {
  * Module requirements
  */
 
-var isArray = __webpack_require__(390);
+var isArray = __webpack_require__(389);
 var isBuf = __webpack_require__(221);
 
 /**
@@ -74420,7 +73823,7 @@ exports.removeBlobs = function(data, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ },
-/* 390 */
+/* 389 */
 /***/ function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -74429,7 +73832,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ },
-/* 391 */
+/* 390 */
 /***/ function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
@@ -75335,7 +74738,624 @@ module.exports = Array.isArray || function (arr) {
   }
 }).call(this);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)(module), __webpack_require__(9)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(74)(module), __webpack_require__(9)))
+
+/***/ },
+/* 391 */
+/***/ function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
+ *                 Copyright (C) 2015 Shane Carr and others
+ *                               X11 License
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * Except as contained in this notice, the names of the authors or copyright
+ * holders shall not be used in advertising or otherwise to promote the sale,
+ * use or other dealings in this Software without prior written authorization
+ * from the authors or copyright holders.
+ */
+
+/**
+ * A client-side JavaScript object to handle file uploads to a Node.JS server
+ * via Socket.IO.
+ * @implements EventTarget
+ * @param {SocketIO} socket The current Socket.IO connection.
+ */
+(function (scope, name, factory) {
+	if (true) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	}
+	else if (typeof module === 'object' && module.exports) {
+		module.exports = factory();
+	}
+	else {
+		scope[name] = factory();
+	}
+}(this, "SocketIOFileUpload", function () {
+ return function (socket) {
+	"use strict";
+
+	var self = this; // avoids context issues
+
+	// Check for compatibility
+	if (!window.File || !window.FileReader) {
+		throw new Error("Socket.IO File Upload: Browser Not Supported");
+	}
+
+	 if ( !window.siofu_global ) {
+		 window.siofu_global = {
+			 instances: 0,
+			 downloads: 0
+		 }
+	 }
+
+	// Private and Public Variables
+	var callbacks = {},
+		uploadedFiles = {},
+		chunkCallbacks = {},
+		readyCallbacks = {},
+		communicators = {};
+
+	self.fileInputElementId = "siofu_input_"+siofu_global.instances++;
+	self.resetFileInputs = true;
+	self.useText = false;
+	self.serializedOctets = false;
+	self.useBuffer = true;
+	self.chunkSize = 1024 * 100; // 100kb default chunk size
+
+	/**
+	 * Private method to dispatch a custom event on the instance.
+	 * @param  {string} eventName  Name for which listeners can listen.
+	 * @param  {object} properties An object literal with additional properties
+	 *                             to be attached to the event object.
+	 * @return {boolean} false if any callback returned false; true otherwise
+	 */
+	var _dispatch = function (eventName, properties) {
+		var evnt = document.createEvent("Event");
+		evnt.initEvent(eventName, false, false);
+		for (var prop in properties) {
+			if (properties.hasOwnProperty(prop)) {
+				evnt[prop] = properties[prop];
+			}
+		}
+		return self.dispatchEvent(evnt);
+	};
+
+	/**
+	 * Private method to bind an event listener.  Useful to ensure that all
+	 * events have been unbound.  Inspired by Backbone.js.
+	 */
+	var _listenedReferences = [];
+	var _listenTo = function (object, eventName, callback, bubble) {
+		object.addEventListener(eventName, callback, bubble);
+		_listenedReferences.push(arguments);
+	};
+	var _stopListeningTo = function (object, eventName, callback, bubble) {
+		if (object.removeEventListener) {
+			object.removeEventListener(eventName, callback, bubble);
+		}
+	};
+	var _stopListening = function () {
+		for (var i = _listenedReferences.length - 1; i >= 0; i--) {
+			_stopListeningTo.apply(this, _listenedReferences[i]);
+		};
+		_listenedReferences = [];
+	};
+
+	/**
+	 * Private closure for the _load function.
+	 * @param  {File} file A W3C File object
+	 * @return {void}
+	 */
+	var _loadOne = function (file) {
+		// First check for file size
+		if (self.maxFileSize !== null && file.size > self.maxFileSize) {
+			_dispatch("error", {
+				file: file,
+				message: "Attempt by client to upload file exceeding the maximum file size",
+				code: 1
+			});
+			return;
+		}
+
+		// Dispatch an event to listeners and stop now if they don't want
+		// this file to be uploaded.
+		var evntResult = _dispatch("start", {
+			file: file
+		});
+		if (!evntResult) return;
+
+		// Scope variables
+		var reader = new FileReader(),
+			id = siofu_global.downloads++,
+			uploadComplete = false,
+			useText = self.useText,
+			offset = 0,
+			newName;
+		if (reader._realReader) reader = reader._realReader; // Support Android Crosswalk
+		uploadedFiles[id] = file;
+
+		// An object for the outside to use to communicate with us
+		var communicator = { id: id };
+
+		// Calculate chunk size
+		var chunkSize = self.chunkSize;
+		if (chunkSize >= file.size || chunkSize <= 0) chunkSize = file.size;
+
+		// Private function to handle transmission of file data
+		var transmitPart = function (start, end, content) {
+			var isBase64 = false;
+			if (!useText) {
+				try {
+					var uintArr = new Uint8Array(content);
+
+					// Support the transmission of serialized ArrayBuffers
+					// for experimental purposes, but default to encoding the
+					// transmission in Base 64.
+					if (self.serializedOctets) {
+						content = uintArr;
+					}
+					else if (self.useBuffer) {
+						content = uintArr.buffer;
+					}
+					else {
+						isBase64 = true;
+						content = _uint8ArrayToBase64(uintArr);
+					}
+				}
+				catch (error) {
+					socket.emit("siofu_done", {
+						id: id,
+						interrupt: true
+					});
+					return;
+				}
+			}
+			socket.emit("siofu_progress", {
+				id: id,
+				size: file.size,
+				start: start,
+				end: end,
+				content: content,
+				base64: isBase64
+			});
+		}
+
+		// Callback when tranmission is complete.
+		var transmitDone = function () {
+			socket.emit("siofu_done", {
+				id: id
+			});
+		}
+
+		// Load a "chunk" of the file from offset to offset+chunkSize.
+		//
+		// Note that FileReader has its own "progress" event.  However,
+		// it has not proven to be reliable enough for production. See
+		// Stack Overflow question #16713386.
+		//
+		// To compensate, we will manually load the file in chunks of a
+		// size specified by the user in the uploader.chunkSize property.
+		var processChunk = function () {
+			// Abort if we are told to do so.
+			if (communicator.abort) return;
+
+			var chunk = file.slice(offset, Math.min(offset+chunkSize, file.size));
+			if (useText) {
+				reader.readAsText(chunk);
+			}
+			else {
+				reader.readAsArrayBuffer(chunk);
+			}
+		}
+
+		// Callback for when the reader has completed a load event.
+		var loadCb = function (event) {
+			// Abort if we are told to do so.
+			if (communicator.abort) return;
+
+			// Transmit the newly loaded data to the server and emit a client event
+			var bytesLoaded = Math.min(offset+chunkSize, file.size);
+			transmitPart(offset, bytesLoaded, event.target.result);
+			_dispatch("progress", {
+				file: file,
+				bytesLoaded: bytesLoaded,
+				name: newName
+			});
+
+			// Get ready to send the next chunk
+			offset += chunkSize;
+			if (offset >= file.size) {
+				// All done!
+				transmitDone();
+				_dispatch("load", {
+					file: file,
+					reader: reader,
+					name: newName
+				});
+				uploadComplete = true;
+			}
+		};
+		_listenTo(reader, "load", loadCb);
+
+		// Listen for an "error" event.  Stop the transmission if one is received.
+		_listenTo(reader, "error", function () {
+			socket.emit("siofu_done", {
+				id: id,
+				interrupt: true
+			});
+			_stopListeningTo(reader, "load", loadCb);
+		});
+
+		// Do the same for the "abort" event.
+		_listenTo(reader, "abort", function () {
+			socket.emit("siofu_done", {
+				id: id,
+				interrupt: true
+			});
+			_stopListeningTo(reader, "load", loadCb);
+		});
+
+		// Transmit the "start" message to the server.
+		socket.emit("siofu_start", {
+			name: file.name,
+			mtime: file.lastModified,
+			meta: file.meta,
+			size: file.size,
+			encoding: useText ? "text" : "octet",
+			id: id
+		});
+
+		// To avoid a race condition, we don't want to start transmitting to the
+		// server until the server says it is ready.
+		var readyCallback = function (_newName) {
+			newName = _newName;
+			processChunk();
+		};
+		var chunkCallback = function(){
+			if ( !uploadComplete )
+				processChunk();
+		};
+		readyCallbacks[id] = readyCallback;
+		chunkCallbacks[id] = chunkCallback;
+
+		return communicator;
+	};
+
+	/**
+	 * Private function to load the file into memory using the HTML5 FileReader object
+	 * and then transmit that file through Socket.IO.
+	 *
+	 * @param  {FileList} files An array of files
+	 * @return {void}
+	 */
+	var _load = function (files) {
+		// Iterate through the array of files.
+		for (var i = 0; i < files.length; i++) {
+			// Evaluate each file in a closure, because we will need a new
+			// instance of FileReader for each file.
+			var communicator = _loadOne(files[i]);
+			communicators[communicator.id] = communicator;
+		}
+	};
+
+	/**
+	 * Private function to fetch an HTMLInputElement instance that can be used
+	 * during the file selection process.
+	 * @return {void}
+	 */
+	var _getInputElement = function () {
+		var inpt = document.getElementById(self.fileInputElementId);
+		if (!inpt) {
+			inpt = document.createElement("input");
+			inpt.setAttribute("type", "file");
+			inpt.setAttribute("id", self.fileInputElementId);
+			inpt.style.display = "none";
+			document.body.appendChild(inpt);
+		}
+		return inpt;
+	};
+
+	/**
+	 * Private function to remove an HTMLInputElement created by this instance
+	 * of SIOFU.
+	 *
+	 * @return {void}
+	 */
+	var _removeInputElement = function () {
+		var inpt = document.getElementById(self.fileInputElementId);
+		if (inpt) {
+			inpt.parentNode.removeChild(inpt);
+		}
+	};
+
+	var _baseFileSelectCallback = function (files) {
+		if (files.length === 0) return;
+
+		// Ensure existence of meta property on each file
+		for (var i = 0; i < files.length; i++) {
+			if(!files[i].meta) files[i].meta = {};
+		}
+
+		// Dispatch the "choose" event
+		var evntResult = _dispatch("choose", {
+			files: files
+		});
+
+		// If the callback didn't return false, continue with the upload
+		if (evntResult) {
+			_load(files);
+		}
+	};
+
+	/**
+	 * Private function that serves as a callback on file input.
+	 * @param  {Event} event The file input change event
+	 * @return {void}
+	 */
+	var _fileSelectCallback = function (event) {
+		var files = event.target.files || event.dataTransfer.files;
+		event.preventDefault();
+		_baseFileSelectCallback(files);
+
+		if (self.resetFileInputs) {
+			try {
+					event.target.value = ""; //for IE11, latest Chrome/Firefox/Opera...
+			} catch(err) {}
+			if (event.target.value) { //for IE5 ~ IE10
+				var form = document.createElement("form"),
+				parentNode = event.target.parentNode, ref = event.target.nextSibling;
+				form.appendChild(event.target);
+				form.reset();
+				parentNode.insertBefore(event.target, ref);
+			}
+		}
+	};
+
+
+	/**
+	 * Submit files at arbitrary time
+	 * @param {FileList} files Files received form the input element.
+	 * @return {void}
+	 */
+	this.submitFiles = function (files) {
+		if (files) {
+			_baseFileSelectCallback(files);
+		}
+	};
+
+	/**
+	 * Use a submitButton to upload files from the field given
+	 * @param {HTMLInputElement} submitButton the button that the user has to
+	 *                           click to start the upload
+	 * @param {HTMLInputElement} input the field with the data to upload
+	 *
+	 * @return {void}
+	 */
+	this.listenOnSubmit = function (submitButton, input) {
+		if (!input.files) return;
+		_listenTo(submitButton, "click", function () {
+			_baseFileSelectCallback(input.files);
+		}, false);
+	};
+
+	/**
+	 * Use a submitButton to upload files from the field given
+	 * @param {HTMLInputElement} submitButton the button that the user has to
+	 *                           click to start the upload
+	 * @param {Array} array an array of fields with the files to upload
+	 *
+	 * @return {void}
+	 */
+	this.listenOnArraySubmit = function (submitButton, array) {
+		for (var index in array) {
+			this.listenOnSubmit(submitButton, array[index]);
+		}
+	};
+
+	/**
+	 * Use a file input to activate this instance of the file uploader.
+	 * @param  {HTMLInputElement} inpt The input element (e.g., as returned by
+	 *                                 document.getElementById("yourId"))
+	 * @return {void}
+	 */
+	this.listenOnInput = function (inpt) {
+		if (!inpt.files) return;
+		_listenTo(inpt, "change", _fileSelectCallback, false);
+	};
+
+	/**
+	 * Accept files dropped on an element and upload them using this instance
+	 * of the file uploader.
+	 * @param  {HTMLELement} div Any HTML element.  When the user drags a file
+	 *                           or files onto this element, those files will
+	 *                           be processed by the instance.
+	 * @return {void}
+	 */
+	this.listenOnDrop = function (div) {
+		// We need to preventDefault on the dragover event in order for the
+		// drag-and-drop operation to work.
+		_listenTo(div, "dragover", function (event) {
+			event.preventDefault();
+		}, false);
+
+		_listenTo(div, "drop", _fileSelectCallback);
+	};
+
+	/**
+	 * Display a dialog box for the user to select a file.  The file will then
+	 * be uploaded using this instance of SocketIOFileUpload.
+	 *
+	 * This method works in all current browsers except Firefox, though Opera
+	 * requires that the input element be visible.
+	 *
+	 * @return {void}
+	 */
+	this.prompt = function () {
+		var inpt = _getInputElement();
+
+		// Listen for the "change" event on the file input element.
+		_listenTo(inpt, "change", _fileSelectCallback, false);
+
+		// Fire a click event on the input element.  Firefox does not allow
+		// programatic clicks on input elements, but the other browsers do.
+		// Note that Opera requires that the element be visible when "clicked".
+		var evnt = document.createEvent("MouseEvents");
+		evnt.initMouseEvent("click", true, true, window,
+			0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		inpt.dispatchEvent(evnt);
+	};
+
+	/**
+	 * Destroy an instance of Socket.IO file upload (i.e., unbind events and
+	 * relieve memory).
+	 *
+	 * IMPORTANT: To finish the memory relief process, set all external
+	 * references to this instance of SIOFU (including the reference used to
+	 * call this destroy function) to null.
+	 *
+	 * @return {void}
+	 */
+	this.destroy = function () {
+		_stopListening();
+		_removeInputElement();
+		for (var id in communicators) {
+			if (communicators.hasOwnProperty(id)) {
+				communicators[id].abort = true;
+			}
+		}
+		callbacks = null, uploadedFiles = null, readyCallbacks = null, communicators = null;
+	};
+
+	/**
+	 * Registers an event listener.  If the callback function returns false,
+	 * the file uploader will stop uploading the current file.
+	 * @param  {string}   eventName Type of event for which to listen.
+	 * @param  {Function} callback  Listener function.  Will be passed the
+	 *                              event as an argument when the event occurs.
+	 * @return {void}
+	 */
+	this.addEventListener = function (eventName, callback) {
+		if (!callbacks[eventName]) callbacks[eventName] = [];
+		callbacks[eventName].push(callback);
+	};
+
+	/**
+	 * Removes an event listener.
+	 * @param  {string}   eventName Type of event.
+	 * @param  {Function} callback  Listener function to remove.
+	 * @return {boolean}            true if callback removed; false otherwise
+	 */
+	this.removeEventListener = function (eventName, callback) {
+		if (!callbacks[eventName]) return false;
+		for (var i = 0; i < callbacks[eventName].length; i++) {
+			if (callbacks[eventName][i] === callback) {
+				callbacks[eventName].splice(i, 1);
+				return true;
+			}
+		}
+		return false;
+	};
+
+	/**
+	 * Dispatches an event into this instance's event model.
+	 * @param  {Event} evnt The event to dispatch.
+	 * @return {boolean} false if any callback returned false; true otherwise
+	 */
+	this.dispatchEvent = function (evnt) {
+		var eventCallbacks = callbacks[evnt.type];
+		if (!eventCallbacks) return true;
+		var retVal = true;
+		for (var i = 0; i < eventCallbacks.length; i++) {
+			var callbackResult = eventCallbacks[i](evnt);
+			if (callbackResult === false) {
+				retVal = false;
+			}
+		}
+		return retVal;
+	};
+
+	// OTHER LIBRARIES
+	/*
+	 * base64-arraybuffer
+	 * https://github.com/niklasvh/base64-arraybuffer
+	 *
+	 * Copyright (c) 2012 Niklas von Hertzen
+	 * Licensed under the MIT license.
+	 *
+	 * Adapted for SocketIOFileUpload.
+	 */
+	var _uint8ArrayToBase64 = function (bytes) {
+		var i, len = bytes.buffer.byteLength, base64 = "",
+			chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+		for (i = 0; i < len; i += 3) {
+			base64 += chars[bytes[i] >> 2];
+			base64 += chars[((bytes[i] & 3) << 4) | (bytes[i + 1] >> 4)];
+			base64 += chars[((bytes[i + 1] & 15) << 2) | (bytes[i + 2] >> 6)];
+			base64 += chars[bytes[i + 2] & 63];
+		}
+
+		if ((len % 3) === 2) {
+			base64 = base64.substring(0, base64.length - 1) + "=";
+		}
+		else if (len % 3 === 1) {
+			base64 = base64.substring(0, base64.length - 2) + "==";
+		}
+
+		return base64;
+	};
+	// END OTHER LIBRARIES
+
+	// CONSTRUCTOR: Listen to the "complete", "ready", and "error" messages
+	// on the socket.
+	_listenTo(socket, "siofu_chunk", function(data){
+		if ( readyCallbacks[data.id] )
+			chunkCallbacks[data.id]();
+	});
+	_listenTo(socket, "siofu_ready", function (data) {
+		if ( readyCallbacks[data.id] )
+			readyCallbacks[data.id](data.name);
+	});
+	_listenTo(socket, "siofu_complete", function (data) {
+		if ( uploadedFiles[data.id] ) {
+			_dispatch("complete", {
+				file: uploadedFiles[data.id],
+				detail: data.detail,
+				success: data.success
+			});
+		}
+	});
+	_listenTo(socket, "siofu_error", function (data) {
+		if ( uploadedFiles[data.id] ) {
+			_dispatch("error", {
+				file: uploadedFiles[data.id],
+				message: data.message,
+				code: 0
+			});
+			communicators[data.id].abort = true;
+		}
+	});
+ }
+}));
+
 
 /***/ },
 /* 392 */
@@ -75344,7 +75364,7 @@ module.exports = Array.isArray || function (arr) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(255);
+var content = __webpack_require__(254);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(15)(content, {});
@@ -75370,7 +75390,7 @@ if(false) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(256);
+var content = __webpack_require__(255);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(15)(content, {});
@@ -75396,7 +75416,7 @@ if(false) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(257);
+var content = __webpack_require__(256);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(15)(content, {});
@@ -75422,7 +75442,7 @@ if(false) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(258);
+var content = __webpack_require__(257);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(15)(content, {});
@@ -75448,7 +75468,7 @@ if(false) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(260);
+var content = __webpack_require__(259);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(15)(content, {});
@@ -75474,7 +75494,7 @@ if(false) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(261);
+var content = __webpack_require__(260);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(15)(content, {});
@@ -75500,7 +75520,7 @@ if(false) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(262);
+var content = __webpack_require__(261);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(15)(content, {});
@@ -75526,7 +75546,7 @@ if(false) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(263);
+var content = __webpack_require__(262);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(15)(content, {});
@@ -75552,7 +75572,7 @@ if(false) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(264);
+var content = __webpack_require__(263);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(15)(content, {});
@@ -75578,7 +75598,7 @@ if(false) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(265);
+var content = __webpack_require__(264);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(15)(content, {});
@@ -75604,7 +75624,7 @@ if(false) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(266);
+var content = __webpack_require__(265);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(15)(content, {});
@@ -76079,7 +76099,7 @@ module.exports = __webpack_require__(402);
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)(module), __webpack_require__(9)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(74)(module), __webpack_require__(9)))
 
 /***/ },
 /* 413 */

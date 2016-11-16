@@ -71,7 +71,7 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.jsx?$/, loader: "babel-loader", include: path.resolve(__dirname, "browser/scripts"), query: { cacheDirectory: path.join(__dirname, 'tmp')} },
+            { test: /\.jsx?$/, loader: "babel-loader", include: path.resolve(__dirname, "browser/scripts") },
             { test: /(\.less$)/, loaders: ['style', 'css', 'postcss-loader', 'less'] },
             { test: /(\.css$)/, loaders: ['style', 'css', 'postcss-loader'] },
             { test: /\.sass$/, loaders: ["style", "css", "postcss-loader", "sass"] },
