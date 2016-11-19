@@ -1,7 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 import moment from 'moment';
-import $ from 'jquery';
+import Request from 'superagent';
 import CommentList from './comment.jsx';
 
 moment.locale('fr');
@@ -18,7 +18,7 @@ class VideoPlayer extends React.Component {
   }
 
   populateComments() {
-    $.get('/ajax/video/' + this.props._id + '/comments', (data_comments) => {
+    Request.get('/ajax/video/' + this.props._id + '/comments').end((err, data_comments) => {
       console.log(data_comments);
       render(<CommentList commentList={data_comments} videoId={this.props._id} />, document.getElementById('comments'));
     });
@@ -26,15 +26,9 @@ class VideoPlayer extends React.Component {
 
   deleteVideoConfirm() {
     if (confirm('Voulez vous vraiment supprimer cette vidéo ?')) {
-      $.ajax({
-        url: '/ajax/video/' + this.props._id + '/delete',
-        method: 'DELETE',
-        success: () => {
-          window.location = '/mediapiston';
-        },
-        error: () => {
-          alert('Une erreur est survenue.');
-        }
+      Request.delete('/ajax/video/' + this.props._id + '/delete').end((err, data) => {
+        if (err) return alert('Une erreur est survenue.');
+        window.location = '/mediapiston';
       });
     }
   }
@@ -67,7 +61,7 @@ class VideoPlayer extends React.Component {
               <h3>{this.props.title}</h3>
             </div>
             <div className="col-md-4">
-              <p>Mis en ligne le {moment(this.props.uploadDate).format("D MMMM YYYY")} par {this.props.uploader}<br/><small>{this.props.views} vues</small></p>
+              <p>Mis en ligne le {moment(this.props.uploadDate).format("D MMMM YYYY")} par {this.props.uploader}<br/><small>{this.props.views} {this.props.views === 1 ? "vue" : "vues"}</small></p>
             </div>
           </div>
           <div className="videoDescription">

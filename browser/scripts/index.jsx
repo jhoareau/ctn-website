@@ -1,7 +1,7 @@
 /* React & libraries & style */
 import React from 'react';
 import {render} from 'react-dom';
-import $ from 'jquery';
+import Request from 'superagent';
 import 'bootstrap-loader';
 import 'font-awesome-webpack2';
 import * as MaterialComponentHandler from 'exports?componentHandler&MaterialRipple!material-design-lite/material'; // Google material-design-lite V1 workaround
@@ -20,7 +20,7 @@ import UploadForm from "./upload.jsx";
 //import MatosForm from "./addMateriel.jsx"
 
 /* Common to all pages */
-$.get('/ajax/header', (data) => {
+Request.get('/ajax/header').end((err, data) => {
   render(<Header links={data} />, document.getElementById('reactHeader'));
 });
 
@@ -42,7 +42,7 @@ if (window.location.pathname.indexOf('mediapiston') > -1 && window.location.path
 if (window.location.pathname === '/mediapiston' || window.location.pathname === '/mediapiston/'
     || window.location.pathname === '/pret-matos' ||  window.location.pathname === '/pret-matos/') {
 
-      $.get('/ajax/' + window.location.pathname.match(/(mediapiston|pret-matos)/)[0] + '/adminFeatures', (data) => {
+      Request.get('/ajax/' + window.location.pathname.match(/(mediapiston|pret-matos)/)[0] + '/adminFeatures').end((err, data) => {
         // Fonctions Admin
         if (data.length > 0) {
           let AdminFeatures = require("./admin_features.jsx").default;
@@ -58,7 +58,7 @@ if (window.location.pathname === '/mediapiston' || window.location.pathname === 
 if (window.location.pathname === '/mediapiston' || window.location.pathname === '/mediapiston/') {
   //render(<VideoList />, document.getElementById('videosList'));
   // Récupération liste des vidéos
-  $.get('/ajax/videoList', (data) => {
+  Request.get('/ajax/videoList').end((err, data) => {
     // VideoList React
     render(<VideoList videoList={data} />, document.getElementById('videosList'));
   });
@@ -99,7 +99,7 @@ function getJsonFromUrl(hashBased) {
 if (window.location.pathname === '/mediapiston/search') {
   //render(<VideoList />, document.getElementById('videosList'));
   // Récupération liste des vidéos
-  $.get('/ajax/videoList/search/' + getJsonFromUrl()['q'], (data) => {
+  Request.get('/ajax/videoList/search/' + getJsonFromUrl()['q']).end((err, data) => {
     // VideoList React
     render(<VideoList videoList={data} />, document.getElementById('videosList'));
   });
@@ -131,7 +131,7 @@ if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
 
   let videoID = window.location.pathname.split('/').pop();
 
-  $.get('/ajax/video/' + videoID, (data) => {
+  Request.get('/ajax/video/' + videoID).end((err, data) => {
     // VideoPlayer React
     render(<VideoPlayer {...data} />, document.getElementById('videoContent'));
     // Attacher lecteur à la balise <video>
@@ -158,7 +158,7 @@ if (window.location.pathname.indexOf('/mediapiston/update') > -1) {
 
   let videoID = window.location.pathname.split('/').pop();
 
-  $.get('/ajax/video/' + videoID, (data) => {
+  Request.get('/ajax/video/' + videoID).end((err, data) => {
     // UploadForm update mode
     render(<UploadForm update={true} {...data} />, document.getElementById('uploadForm'));
   });

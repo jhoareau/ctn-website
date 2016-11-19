@@ -32,7 +32,7 @@ pluginArray.push(new webpack.LoaderOptionsPlugin({
 }
 ));
 
-pluginArray.push(new webpack.ProvidePlugin({
+/*pluginArray.push(new webpack.ProvidePlugin({
     $: "jquery",
     jQuery: "jquery",
     "window.jQuery": "jquery",
@@ -50,7 +50,7 @@ pluginArray.push(new webpack.ProvidePlugin({
     Tab: "exports?Tab!bootstrap/js/dist/tab",
     Tooltip: "exports?Tooltip!bootstrap/js/dist/tooltip",
     Util: "exports?Util!bootstrap/js/dist/util",
-}));
+}));*/
 //pluginArray.push(new ExtractTextPlugin("styles.css"));
 
 module.exports = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import $ from 'jquery';
+import Request from 'superagent';
 
 /// TODO: Bind state to component view for Pure Immutability
 class UploadSnippet extends React.Component {
@@ -164,15 +164,15 @@ class UploadForm extends React.Component {
     }
 
     if (this.props.update)
-      $.ajax({
-        url: '/ajax/video/' + this.props._id + '/update', method: "POST",
-        data: uploadData
-      }).done(() => window.location = '/mediapiston').fail((err) => console.log(err));
+      Request.post('/ajax/video/' + this.props._id + '/update').send(uploadData).end((err, data) => {
+        if (err) return console.log(err);
+        window.location = '/mediapiston'
+      });
     else
-      $.ajax({
-        url: '/ajax/video/add', method: "PUT",
-        data: uploadData
-      }).done(() => window.location = '/mediapiston').fail((err) => console.log(err));
+      Request.put('/ajax/video/add').send(uploadData).end((err, data) => {
+        if (err) return console.log(err);
+        window.location = '/mediapiston'
+      });
   }
   render() {
     return (

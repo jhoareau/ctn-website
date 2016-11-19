@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import $ from 'jquery';
+import Request from 'superagent';
 
 class Comment extends React.Component {
   constructor(props) {
@@ -23,7 +23,7 @@ class Comment extends React.Component {
     return (
       <div className="comment mdl-shadow--2dp">
         <span className="commentText">{this.props.text}</span>
-        <span className="aboutComment">- {this.props.user}, {moment().from(this.props.date)}</span>
+        <span className="aboutComment">- {this.props.user}, {moment().from(this.props.creationDate)}</span>
         {commentControls}
       </div>
     );
@@ -41,19 +41,24 @@ class CommentBox extends React.Component {
   }
   postComment(event) {
     event.preventDefault();
-    let commentText = $('#commentText').val();
+    let commentText = document.getElementById('commentText').value;
     if (commentText === "") return;
 
     if (this.props.update)
-      $.ajax({
-        url: '/ajax/video/' + this.props.videoId + '/comments/add', method: "POST",
-        data: uploadData
-      }).done(() => window.location.reload()).fail((err) => console.log(err));
+    Request.post('/ajax/video/' + this.props.videoId + '/comments/add')
+      .send(uploadData)
+      .end((err, res) => {
+        if (err) return console.log(err);
+        window.location.reload()
+      });
     else
-      $.ajax({
-        url: '/ajax/video/' + this.props.videoId + '/comments/add', method: "PUT",
-        data: {commentText: commentText}
-      }).done(() => window.location.reload()).fail((err) => console.log(err));
+      Request.put('/ajax/video/' + this.props.videoId + '/comments/add')
+      .send({commentText: commentText})
+      .end((err, res) => {
+        if (err) return console.log(err);
+        window.location.reload()
+      });
+
   }
   render() {
     return (
