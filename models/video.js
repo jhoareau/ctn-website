@@ -19,7 +19,8 @@ exports.return = (id, callback) => {
 
       let filteredResults = result.map(obj => {
         let filteredObj = obj.toJSON();
-        if (obj.uploader) filteredObj.uploader = obj.uploader.surname;
+        if (obj.uploader)
+          filteredObj.uploader = obj.uploader.surname || obj.uploader.fullName;
         return filteredObj;
       });
       callback(filteredResults);
@@ -33,7 +34,8 @@ exports.return = (id, callback) => {
       
       let filteredResult = result.toJSON();
 
-      if (typeof filteredResult.uploader !== 'undefined') filteredResult.uploader = result.uploader.surname;
+      if (typeof filteredResult.uploader !== 'undefined')
+        filteredResult.uploader = result.uploader.surname || result.uploader.fullName;
       callback(filteredResult);
     });
   }

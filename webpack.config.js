@@ -80,6 +80,6 @@ module.exports = {
             //{ test: /\.svg$/, loader: 'svg-inline' },
         ]
     },
-    devtool: 'cheap-source-map',
+    devtool: 'cheap-module-source-map',
     plugins: pluginArray
 };

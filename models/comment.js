@@ -31,7 +31,7 @@ exports.return = (id, callback) => {
 
       let filteredResults = result.map(obj => {
         let filteredObj = obj.toJSON();
-        if (obj.user) filteredObj.user = obj.user.surname;
+        if (obj.user) filteredObj.user = obj.user.fullName;
         return filteredObj;
       });
       callback(filteredResults);
@@ -44,7 +44,7 @@ exports.return = (id, callback) => {
 
       let filteredResult = result.toJSON();
 
-      if (typeof filteredResult.user !== 'undefined') filteredResult.user = result.user.surname;
+      if (typeof filteredResult.user !== 'undefined') filteredResult.user = result.user.fullName;
       callback(filteredResult);
     });
   }
