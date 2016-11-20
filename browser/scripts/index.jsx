@@ -21,6 +21,7 @@ import UploadForm from "./upload.jsx";
 
 /* Common to all pages */
 Request.get('/ajax/header').end((err, data) => {
+  data = data.body;
   render(<Header links={data} />, document.getElementById('reactHeader'));
 });
 
@@ -43,6 +44,7 @@ if (window.location.pathname === '/mediapiston' || window.location.pathname === 
     || window.location.pathname === '/pret-matos' ||  window.location.pathname === '/pret-matos/') {
 
       Request.get('/ajax/' + window.location.pathname.match(/(mediapiston|pret-matos)/)[0] + '/adminFeatures').end((err, data) => {
+        data = data.body;
         // Fonctions Admin
         if (data.length > 0) {
           let AdminFeatures = require("./admin_features.jsx").default;
@@ -59,6 +61,7 @@ if (window.location.pathname === '/mediapiston' || window.location.pathname === 
   //render(<VideoList />, document.getElementById('videosList'));
   // Récupération liste des vidéos
   Request.get('/ajax/videoList').end((err, data) => {
+    data = data.body;
     // VideoList React
     render(<VideoList videoList={data} />, document.getElementById('videosList'));
   });
@@ -100,6 +103,7 @@ if (window.location.pathname === '/mediapiston/search') {
   //render(<VideoList />, document.getElementById('videosList'));
   // Récupération liste des vidéos
   Request.get('/ajax/videoList/search/' + getJsonFromUrl()['q']).end((err, data) => {
+    data = data.body;
     // VideoList React
     render(<VideoList videoList={data} />, document.getElementById('videosList'));
   });
@@ -132,12 +136,14 @@ if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
   let videoID = window.location.pathname.split('/').pop();
 
   Request.get('/ajax/video/' + videoID).end((err, data) => {
+    data = data.body;
     // VideoPlayer React
     render(<VideoPlayer {...data} />, document.getElementById('videoContent'));
     // Attacher lecteur à la balise <video>
     require('./videoplayer_setup')(Plyr);
 
-    $.get('/ajax/videoList/related/' + videoID, (data_related) => {
+    Request.get('/ajax/videoList/related/' + videoID).end((err, data_related) => {
+      data_related = data_related.body;
       // RelatedVideoList React
       render(<RelatedVideoList videoList={data_related} />, document.getElementById('relatedContent'));
     });
@@ -159,6 +165,7 @@ if (window.location.pathname.indexOf('/mediapiston/update') > -1) {
   let videoID = window.location.pathname.split('/').pop();
 
   Request.get('/ajax/video/' + videoID).end((err, data) => {
+    data = data.body;
     // UploadForm update mode
     render(<UploadForm update={true} {...data} />, document.getElementById('uploadForm'));
   });

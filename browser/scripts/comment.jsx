@@ -47,14 +47,14 @@ class CommentBox extends React.Component {
     if (this.props.update)
     Request.post('/ajax/video/' + this.props.videoId + '/comments/add')
       .send(uploadData)
-      .end((err, res) => {
+      .end((err) => {
         if (err) return console.log(err);
         window.location.reload()
       });
     else
       Request.put('/ajax/video/' + this.props.videoId + '/comments/add')
       .send({commentText: commentText})
-      .end((err, res) => {
+      .end((err) => {
         if (err) return console.log(err);
         window.location.reload()
       });

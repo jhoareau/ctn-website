@@ -95,7 +95,7 @@ styles:
   carousel: false
 
   # Utility classes
-  utilities: false
+  utilities: true
 
 ### Bootstrap scripts
 scripts:

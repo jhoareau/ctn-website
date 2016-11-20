@@ -19,6 +19,7 @@ class VideoPlayer extends React.Component {
 
   populateComments() {
     Request.get('/ajax/video/' + this.props._id + '/comments').end((err, data_comments) => {
+      data_comments = data_comments.body;
       console.log(data_comments);
       render(<CommentList commentList={data_comments} videoId={this.props._id} />, document.getElementById('comments'));
     });
@@ -26,7 +27,7 @@ class VideoPlayer extends React.Component {
 
   deleteVideoConfirm() {
     if (confirm('Voulez vous vraiment supprimer cette vidéo ?')) {
-      Request.delete('/ajax/video/' + this.props._id + '/delete').end((err, data) => {
+      Request.delete('/ajax/video/' + this.props._id + '/delete').end((err) => {
         if (err) return alert('Une erreur est survenue.');
         window.location = '/mediapiston';
       });
