@@ -23,7 +23,7 @@ class Comment extends React.Component {
     return (
       <div className="comment mdl-shadow--2dp">
         <span className="commentText">{this.props.text}</span>
-        <span className="aboutComment">- {this.props.user}, {moment().from(this.props.creationDate)}</span>
+        <span className="aboutComment">- {this.props.user}, {moment().to(this.props.creationDate)}</span>
         {commentControls}
       </div>
     );

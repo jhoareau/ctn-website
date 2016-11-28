@@ -68,13 +68,13 @@ exports.updateText = (id, newText, callback) => {
 }
 
 exports.getByVideo = (videoId, callback) => {
-  Comment.find({video: videoId}).populate('user').exec((err, result) => {
+  Comment.find({video: videoId}).sort('-creationDate').populate('user').exec((err, result) => {
     if (err) return callback(null, new Error('Erreur lors de la récupération des commentaires pour la vidéo. ID = ' + videoId));
     if (result === null || typeof result === 'undefined') return callback([]);
 
     let filteredResults = result.map(obj => {
         let filteredObj = obj.toJSON();
-        filteredObj.user = obj.user.surname;
+        filteredObj.user = obj.user.fullName;
         return filteredObj;
       });
 

@@ -29317,7 +29317,7 @@ var Comment = function (_React$Component) {
           '- ',
           this.props.user,
           ', ',
-          (0, _moment2.default)().from(this.props.creationDate)
+          (0, _moment2.default)().to(this.props.creationDate)
         ),
         commentControls
       );
