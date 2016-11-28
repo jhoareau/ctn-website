@@ -51,7 +51,7 @@ exports.getRelatedVideos = (id, callback) => {
     title = result.title;
     Video.find({_id: {$ne: id}}, (err, allVideos) => {
       if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des vidéos liées. ID = ' + id));
-      if (allVideos === null || typeof allVideos === 'undefined') return callback(null);
+      if (allVideos === null || typeof allVideos === 'undefined' || allVideos.length === 0) return callback(null);
 
       relatedVideos = require('fuzzy').filter(title.split(' ')[0], allVideos, {extract: video => video.title}).map(e => e.original);
       callback(relatedVideos);
