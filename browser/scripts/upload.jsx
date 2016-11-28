@@ -60,7 +60,7 @@ class UploadSnippet extends React.Component {
     //let ioFileUpload = require('~/browser/scripts/siofu_client');
     let ioFileUpload = require('socketio-file-upload/client');
     document.getElementById('uploadProgress').style.display = 'block';
-    let socket = io.connect();
+    let socket = io.connect({transports: ['websocket'], upgrade: false});
 
     let fileUploadSocket = new ioFileUpload(socket);
     let fileToUpload = document.getElementById('videoFile').files;

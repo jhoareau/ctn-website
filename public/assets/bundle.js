@@ -29880,7 +29880,7 @@ var UploadSnippet = function (_React$Component) {
       //let ioFileUpload = require('~/browser/scripts/siofu_client');
       var ioFileUpload = __webpack_require__(384);
       document.getElementById('uploadProgress').style.display = 'block';
-      var socket = io.connect();
+      var socket = io.connect({ transports: ['websocket'], upgrade: false });
 
       var fileUploadSocket = new ioFileUpload(socket);
       var fileToUpload = document.getElementById('videoFile').files;
