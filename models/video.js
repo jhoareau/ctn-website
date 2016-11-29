@@ -14,7 +14,7 @@ exports.model = Video;
 
 exports.return = (id, callback) => {
   if (id === null) {
-    Video.find({}).sort('-uploadDate').populate('uploader').exec((err, result) => {
+    Video.find({validated: true}).sort('-uploadDate').populate('uploader').exec((err, result) => {
       if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des vidéos.'));
       if (result === null || typeof result === 'undefined') return callback(null);
 
@@ -94,7 +94,7 @@ exports.update = (id, data, callback) => {
     video.description = data.description;
     if (data.date) video.date = data.date;
     if (data.session) video.uploader = data.session._id;
-    
+
     video.validated = true;
 
     video.save((err2) => {
