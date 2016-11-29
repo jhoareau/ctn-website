@@ -61,7 +61,7 @@ exports.getRelatedVideos = (id, callback) => {
 }
 
 exports.searchRelatedVideos = (title, callback) => {
-  Video.find({}).populate('uploader').exec((err, allVideos) => {
+  Video.find({validated: true}).populate('uploader').exec((err, allVideos) => {
     if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des vidéos pour la recherche. ID = ' + id));
     if (allVideos === null || typeof allVideos === 'undefined') return callback(null);
 
