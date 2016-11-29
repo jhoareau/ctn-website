@@ -136,6 +136,7 @@ if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
   let videoID = window.location.pathname.split('/').pop();
 
   Request.get('/ajax/video/' + videoID).end((err, data) => {
+    if (err) return render(<Error err="Vidéo non trouvée !" />, document.getElementById('videoContent'));
     data = data.body;
     // VideoPlayer React
     render(<VideoPlayer {...data} />, document.getElementById('videoContent'));
@@ -147,8 +148,6 @@ if (window.location.pathname.indexOf('/mediapiston/watch') > -1) {
       // RelatedVideoList React
       render(<RelatedVideoList videoList={data_related} />, document.getElementById('relatedContent'));
     });
-  }).fail(() => {
-    render(<Error err="Vidéo non trouvée !" />, document.getElementById('videoContent'));
   });
 
 }

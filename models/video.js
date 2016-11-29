@@ -3,7 +3,7 @@ let mongoose = require('mongoose');
 let videoSchema = new mongoose.Schema({
   title: {type: String, default: ''},
   uploadDate: {type: Date, default: Date.now},
-  uploader: {type: mongoose.Schema.Types.ObjectId, ref: 'User', default: mongoose.Types.ObjectId('0')},
+  uploader: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   description: {type: String, default: ''},
   views: {type: Number, default: 0},
   validated: {type: Number, default: false}
