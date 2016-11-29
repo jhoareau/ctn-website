@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import Request from 'superagent';
+import * as MaterialComponentHandler from 'exports?componentHandler&MaterialRipple!material-design-lite/material'; // Google material-design-lite V1 workaround
 
 class Comment extends React.Component {
   constructor(props) {
@@ -49,14 +50,16 @@ class CommentBox extends React.Component {
       .send(uploadData)
       .end((err) => {
         if (err) return console.log(err);
-        window.location.reload()
+        this.props.triggerReload();
+        document.querySelector('.commentBox form').reset();
       });
     else
       Request.put('/ajax/video/' + this.props.videoId + '/comments/add')
       .send({commentText: commentText})
       .end((err) => {
         if (err) return console.log(err);
-        window.location.reload()
+        this.props.triggerReload();
+        document.querySelector('.commentBox form').reset();
       });
 
   }
@@ -81,14 +84,25 @@ class CommentBox extends React.Component {
 export default class CommentList extends React.Component {
   constructor(props) {
     super(props);
+    this.state = props;
+    this.reloadCommentsState = this.reloadCommentsState.bind(this);
+  }
+  reloadCommentsState() {
+    Request.get('/ajax/video/' + this.props.videoId + '/comments').end((err, data_comments) => {
+      data_comments = data_comments.body;
+      this.setState({commentList: data_comments});
+    });
+  }
+  componentDidMount() {
+    MaterialComponentHandler.componentHandler.upgradeDom();
   }
   render() {
-    if (this.props.commentList.length > 0)
+    if (this.state.commentList.length > 0)
       return (
         <div className="commentList">
           <span className="commentsTitle">Commentaires</span>
-          <CommentBox videoId={this.props.videoId} />
-            {this.props.commentList.map((commentObject) => {
+          <CommentBox videoId={this.props.videoId} triggerReload={this.reloadCommentsState} />
+            {this.state.commentList.map((commentObject) => {
               return <Comment {...commentObject} key={commentObject._id} />
             })}
         </div>
@@ -97,7 +111,7 @@ export default class CommentList extends React.Component {
       return (
         <div className="commentList">
           <span className="commentsTitle">Cette vidéo n'a pas déchaîné les foules... A toi d'y ajouter ton commentaire!</span>
-          <CommentBox videoId={this.props.videoId} />
+          <CommentBox videoId={this.props.videoId} triggerReload={this.reloadCommentsState} />
         </div>
       );
   }

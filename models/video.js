@@ -1,11 +1,12 @@
 let mongoose = require('mongoose');
 
 let videoSchema = new mongoose.Schema({
-  title: String,
+  title: {type: String, default: ''},
   uploadDate: {type: Date, default: Date.now},
   uploader: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  description: String,
-  views: Number
+  description: {type: String, default: ''},
+  views: {type: Number, default: 0},
+  validated: {type: Number, default: false}
 });
 
 let Video = mongoose.model('Video', videoSchema);
@@ -13,7 +14,7 @@ exports.model = Video;
 
 exports.return = (id, callback) => {
   if (id === null) {
-    Video.find({}).sort('-uploadDate').populate('uploader').exec((err, result) => {
+    Video.find({validated: true}).sort('-uploadDate').populate('uploader').exec((err, result) => {
       if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des vidéos.'));
       if (result === null || typeof result === 'undefined') return callback(null);
 
@@ -49,7 +50,7 @@ exports.getRelatedVideos = (id, callback) => {
     if (result === null || typeof result === 'undefined') return callback(null);
 
     title = result.title;
-    Video.find({_id: {$ne: id}}, (err, allVideos) => {
+    Video.find({_id: {$ne: id}, validated: true}, (err, allVideos) => {
       if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des vidéos liées. ID = ' + id));
       if (allVideos === null || typeof allVideos === 'undefined' || allVideos.length === 0) return callback(null);
 
@@ -60,7 +61,7 @@ exports.getRelatedVideos = (id, callback) => {
 }
 
 exports.searchRelatedVideos = (title, callback) => {
-  Video.find({}).populate('uploader').exec((err, allVideos) => {
+  Video.find({validated: true}).populate('uploader').exec((err, allVideos) => {
     if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des vidéos pour la recherche. ID = ' + id));
     if (allVideos === null || typeof allVideos === 'undefined') return callback(null);
 
@@ -93,6 +94,8 @@ exports.update = (id, data, callback) => {
     video.description = data.description;
     if (data.date) video.date = data.date;
     if (data.session) video.uploader = data.session._id;
+
+    video.validated = true;
 
     video.save((err2) => {
       if (err2) return callback({ok: false}, new Error('Erreur lors de la mise à jour de la vidéo. ID = ' + id));
