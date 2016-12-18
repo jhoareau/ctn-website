@@ -112,7 +112,15 @@ const routerWithErrorLogger = (winston) => {
         data = [];
         return res.status(404).send(data);
       }
-      return res.json(data);
+      filteredData = data.map(obj => {
+        if (obj.user.id == req.user.id) {
+          obj.edit = true;
+        }
+        obj.user = obj.user.name;
+        return obj;
+      });
+
+      return res.json(filteredData);
     })
   })
 

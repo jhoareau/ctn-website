@@ -22,8 +22,8 @@ exports.create = (data, callback) => {
       callback(result._id);
     })
 }
-
-exports.return = (id, callback) => {
+/*
+exports.return = (id, callerId, callback) => {
   if (id === null) {
     Comment.find({}).sort('-creationDate').populate('user').exec((err, result) => {
       if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des commentaires.'));
@@ -48,9 +48,9 @@ exports.return = (id, callback) => {
       callback(filteredResult);
     });
   }
-}
+}*/
 
-exports.returnList = exports.return.bind(this, null);
+//exports.returnList = exports.return.bind(this, null);
 
 exports.updateText = (id, newText, callback) => {
   Comment.findById(id, (err, comment) => {
@@ -74,9 +74,9 @@ exports.getByVideo = (videoId, callback) => {
 
     let filteredResults = result.map(obj => {
         let filteredObj = obj.toJSON();
-        filteredObj.user = obj.user.fullName;
+        filteredObj.user = {name: obj.user.fullName, id: obj.user._id};
         return filteredObj;
-      });
+    });
 
     callback(filteredResults);
   })

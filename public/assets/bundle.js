@@ -33285,12 +33285,12 @@ var Comment = function (_React$Component) {
         { className: 'commentControls' },
         _react2.default.createElement(
           'a',
-          { className: 'mdl-button mdl-js-button mdl-button--raised', href: '#' },
+          { className: 'mdl-button mdl-js-button mdl-button--raised', onClick: this.editComment },
           _react2.default.createElement('i', { className: 'fa fa-pencil', 'aria-hidden': 'true' })
         ),
         _react2.default.createElement(
           'button',
-          { className: 'mdl-button mdl-js-button mdl-button--raised' },
+          { className: 'mdl-button mdl-js-button mdl-button--raised', onClick: this.deleteComment },
           _react2.default.createElement('i', { className: 'fa fa-trash-o', 'aria-hidden': 'true' })
         )
       );

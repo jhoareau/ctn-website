@@ -7,14 +7,15 @@ class Comment extends React.Component {
   constructor(props) {
     super(props);
   }
+
   render() {
     let commentControls = null;
     if (this.props.edit)
       commentControls = (<div className="commentControls">
-        <a className="mdl-button mdl-js-button mdl-button--raised" href="#">
+        <a className="mdl-button mdl-js-button mdl-button--raised" onClick={this.editComment}>
           <i className="fa fa-pencil" aria-hidden="true"/>
         </a>
-        <button className="mdl-button mdl-js-button mdl-button--raised">
+        <button className="mdl-button mdl-js-button mdl-button--raised" onClick={this.deleteComment}>
           <i className="fa fa-trash-o" aria-hidden="true"/>
         </button>
       </div>);
