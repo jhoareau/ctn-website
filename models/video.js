@@ -6,7 +6,7 @@ let videoSchema = new mongoose.Schema({
   uploader: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   description: {type: String, default: ''},
   views: {type: Number, default: 0},
-  validated: {type: Number, default: false}
+  validated: {type: Boolean, default: false}
 });
 
 let Video = mongoose.model('Video', videoSchema);
