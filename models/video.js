@@ -29,7 +29,8 @@ exports.return = (id, callback) => {
   }
   else {
     // On incrémente le nombre de vues à chaque fetch quasi-unique
-    Video.findByIdAndUpdate(id, {$inc: {views: 1}},{'new':true}).populate('uploader').exec((err, result) => {
+    // On renvoie la vidéo après update, donc avec la nouvelle vue prise en compte
+    Video.findByIdAndUpdate(id, {$inc: {views: 1}}, {'new':true}).populate('uploader').exec((err, result) => {
       if (err) callback({}, new Error('Erreur lors de la récupération de la vidéo. ID = ' + id));
       if (result === null || typeof result === 'undefined') return callback(null);
       
