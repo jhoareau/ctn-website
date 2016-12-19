@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactPaginate from 'react-paginate';
 import moment from 'moment';
 
 moment.locale('fr');
@@ -94,7 +95,7 @@ class RelatedVideo extends React.Component {
       <div className="mdl-card mdl-shadow--2dp" style={{backgroundImage: 'url(' + thumbUrl + ')'}}>
         <div className="mdl-card__title mdl-card--expand"></div>
         <div className="mdl-card__actions">
-          <a href={url}><h2 className="mdl-card__title-text">{this.props.title}</h2></a>
+          <a href={url} className="relatedVideoLink"><h2 className="mdl-card__title-text">{this.props.title}</h2></a>
         </div>
       </div>
     );

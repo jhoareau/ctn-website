@@ -17,9 +17,9 @@ const isAdmin = (req, res, next) => {
   if (req.isAuthenticated() && req.user.admin)
     next();
   else {
-    res.status(404);
+    res.status(403);
     res.render('error', {
-        message: 'Page non trouvée !',
+        message: 'Action non autorisée !',
         error: {}
     });
   }
@@ -31,21 +31,21 @@ const routerWithErrorLogger = (winston) => {
     if (!req.isAuthenticated())
       return res.json([
         { title: "Connexion", href: '/login' },
-        { title: "A propos", src: 'apropos', href: '/a-propos' }
+        //{ title: "A propos", src: 'apropos', href: '/a-propos' }
       ]);
     if (req.user.admin)
       return res.json([
               { title: "Mediapiston", src: 'mediapiston', href: '/mediapiston' },
               //{ title: "Matériel", src: 'pret', href: '/pret-matos' },
-              { title: "A propos", src: 'apropos', href: '/a-propos' },
-              { title: "Admin", src: 'admin', href: '/ctn-asso' },
-              { title: "Déconnexion", href: '/logout', logout: true },
+              //{ title: "A propos", src: 'apropos', href: '/a-propos' },
+              //{ title: "Admin", src: 'admin', href: '/ctn-asso' },
+              //{ title: "Déconnexion", href: '/logout', logout: true },
             ]);
     res.json([
             { title: "Mediapiston", src: 'mediapiston', href: '/mediapiston' },
             //{ title: "Matériel", src: 'pret', href: '/pret-matos' },
-            { title: "A propos", src: 'apropos', href: '/a-propos' },
-            { title: "Déconnexion", href: '/logout', logout: true }
+            //{ title: "A propos", src: 'apropos', href: '/a-propos' },
+            //{ title: "Déconnexion", href: '/logout', logout: true }
           ]);
   });
 
@@ -83,6 +83,15 @@ const routerWithErrorLogger = (winston) => {
     });
   });
 
+  router.get('/videoList/search/:title', loggedIn, (req, res) => {
+    // TODO vidéos liées à la vidéo en paramètre
+    mongodb.video.searchRelatedVideos(req.params.title, (data, err) => {
+      if (err) winston.log('warning', 'VideoList Search / ' + err.message);
+      if (data === null) data = [];
+      return res.json(data);
+    });
+  });
+
   router.get('/video/:id', loggedIn, (req, res) => {
     mongodb.video.return(req.params.id, (data, err) => {
       if (err) winston.log('warning', 'Video / ' + err.message);
@@ -103,7 +112,15 @@ const routerWithErrorLogger = (winston) => {
         data = [];
         return res.status(404).send(data);
       }
-      return res.json(data);
+      filteredData = data.map(obj => {
+        if (obj.user.id == req.user._id) {
+          obj.edit = true;
+        }
+        obj.user = obj.user.name;
+        return obj;
+      });
+
+      return res.json(filteredData);
     })
   })
 
@@ -151,14 +168,38 @@ const routerWithErrorLogger = (winston) => {
   });
 
   router.put('/video/:id/comments/add', loggedIn, (req, res) => {
-    let request = req.body;
+    let request = {session: req.user, text: req.body.commentText, videoId: req.params.id};
     mongodb.comment.create(request, (answer, err) => {
       if (err) {
         winston.log('warning', 'Comment Creation / ' + err.message);
         return res.status(500).send(answer);
       }
       return res.json(answer);
+    });
+  });
+
+  router.post('/video/:id/comments/:id2/update', loggedIn, (req, res) => {
+    mongodb.comment.updateText(req.body.commentId, req.body.commentText, req.user.admin ? null : req.user._id, (answer, err) => {
+      if (err) {
+        winston.log('warning', 'Comment Edit / ' + err.message);
+        return res.status(500).send(answer);
+      }
+      if (typeof data.unauthorised !== 'undefined' && data.unauthorised) return res.status(403).send(answer);
+
+      return res.json(answer);
     })
+  });
+
+  router.delete('/video/comments/:id_c/delete', loggedIn, (req, res) => {
+    mongodb.video.delete(req.params.id_c, req.user.admin ? null : req.user._id, (answer, err) => {
+      if (err) {
+        winston.log('warning', 'Comment Delete / ' + err.message);
+        return res.status(500).send(answer);
+      }
+      if (typeof data.unauthorised !== 'undefined' && data.unauthorised) return res.status(403).send(answer);
+
+      return res.json(data);
+    });
   });
 
 /*

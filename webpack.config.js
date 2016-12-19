@@ -32,7 +32,7 @@ pluginArray.push(new webpack.LoaderOptionsPlugin({
 }
 ));
 
-pluginArray.push(new webpack.ProvidePlugin({
+/*pluginArray.push(new webpack.ProvidePlugin({
     $: "jquery",
     jQuery: "jquery",
     "window.jQuery": "jquery",
@@ -50,7 +50,7 @@ pluginArray.push(new webpack.ProvidePlugin({
     Tab: "exports?Tab!bootstrap/js/dist/tab",
     Tooltip: "exports?Tooltip!bootstrap/js/dist/tooltip",
     Util: "exports?Util!bootstrap/js/dist/util",
-}));
+}));*/
 //pluginArray.push(new ExtractTextPlugin("styles.css"));
 
 module.exports = {
@@ -63,6 +63,12 @@ module.exports = {
     resolve: {
       alias: {'~': path.resolve(__dirname)}
     },
+    resolveLoader: {
+      modules: [path.join(__dirname, 'node_modules')],
+      enforceExtension: false,
+      moduleExtensions: ['-loader'],
+      enforceModuleExtension: false
+    },
     module: {
         loaders: [
             { test: /\.jsx?$/, loader: "babel-loader", include: path.resolve(__dirname, "browser/scripts") },
@@ -74,6 +80,6 @@ module.exports = {
             //{ test: /\.svg$/, loader: 'svg-inline' },
         ]
     },
-    devtool: 'cheap-source-map',
+    devtool: 'cheap-module-source-map',
     plugins: pluginArray
 };

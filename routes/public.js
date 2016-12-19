@@ -5,9 +5,10 @@ const loggedIn = (req, res, next) => {
   if (req.isAuthenticated())
     next();
   else {
+    if (typeof req.session === 'undefined') req.session = {};
     req.session.redirectTo = req.path;
-    //res.redirect('/login');
-    res.redirect('/');
+    res.redirect('/login');
+    //res.redirect('/');
   }
 }
 
@@ -24,7 +25,8 @@ const isAdmin = (req, res, next) => {
 }
 
 router.get('/', (req, res) => {
-  res.render('index');
+  //res.render('index');
+  res.redirect('/mediapiston');
 });
 
 
@@ -61,6 +63,10 @@ router.get('/mediapiston/update/:id', isAdmin, (req, res) => {
   res.render('mediapiston_upload', {update: true});
 });
 
+router.get('/mediapiston/search', loggedIn, (req, res) => {
+  res.render('mediapiston_home');
+});
+
 router.get('/pret-matos', loggedIn, (req, res) => {
   res.render('materiel');
 });
@@ -83,7 +89,14 @@ router.get('/ctn-asso', isAdmin, (req, res, next) => {
 
 module.exports = (passportMiddleware) => {
   router.get('/login', passportMiddleware);
-  router.get('/login/callback', passportMiddleware, (req, res) => {res.redirect('/')});
+  router.get('/login/callback', passportMiddleware, (req, res) => {
+    if (typeof req.session !== 'undefined' && typeof req.session.redirectTo !== 'undefined') {
+      res.redirect(req.session.redirectTo);
+      delete req.session.redirectTo;
+      return;
+    }
+    res.redirect('/');
+  });
   /*router.post('/login', passportMiddleware);
   router.post('/login',
       function (req, res) {

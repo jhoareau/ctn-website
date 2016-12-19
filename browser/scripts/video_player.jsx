@@ -1,6 +1,7 @@
 import React from 'react';
+import {render} from 'react-dom';
 import moment from 'moment';
-import $ from 'jquery';
+import Request from 'superagent';
 import CommentList from './comment.jsx';
 
 moment.locale('fr');
@@ -9,19 +10,26 @@ class VideoPlayer extends React.Component {
   constructor(props) {
     super(props);
     this.deleteVideoConfirm = this.deleteVideoConfirm.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+  }
+
+  componentDidMount() {
+    this.populateComments();
+  }
+
+  populateComments() {
+    Request.get('/ajax/video/' + this.props._id + '/comments').end((err, data_comments) => {
+      data_comments = data_comments.body;
+      console.log(data_comments);
+      render(<CommentList commentList={data_comments} videoId={this.props._id} />, document.getElementById('comments'));
+    });
   }
 
   deleteVideoConfirm() {
     if (confirm('Voulez vous vraiment supprimer cette vidéo ?')) {
-      $.ajax({
-        url: '/ajax/video/' + this.props._id + '/delete',
-        method: 'DELETE',
-        success: () => {
-          window.location = '/mediapiston';
-        },
-        error: () => {
-          alert('Une erreur est survenue.');
-        }
+      Request.delete('/ajax/video/' + this.props._id + '/delete').end((err) => {
+        if (err) return alert('Une erreur est survenue.');
+        window.location = '/mediapiston';
       });
     }
   }
@@ -46,7 +54,7 @@ class VideoPlayer extends React.Component {
     
     return (
       <div className="videoPlayer container">
-        <video poster={thumbUrl} src={videoUrl} controls="true" />
+        <video poster={thumbUrl} src={videoUrl} controls="true" className="mdl-shadow--3dp" />
         {videoControls}
         <div className="videoDetails mdl-shadow--3dp">
           <div className="row">
@@ -54,16 +62,15 @@ class VideoPlayer extends React.Component {
               <h3>{this.props.title}</h3>
             </div>
             <div className="col-md-4">
-              <p>Mis en ligne le {moment(this.props.uploadDate).format("D MMMM YYYY")} par {this.props.uploader}<br/><small>{this.props.views} vues</small></p>
+              <p>Mis en ligne le {moment(this.props.uploadDate).format("D MMMM YYYY")} par {this.props.uploader}<br/><small>{this.props.views} {this.props.views === 1 ? "vue" : "vues"}</small></p>
             </div>
           </div>
           <div className="videoDescription">
             <p>{this.props.description}</p>
           </div>
         </div>
-        <div className="commentsBox">
-          {/*<CommentList commentList={commentsData}/>*/}
-          <CommentList />
+        <div className="commentsBox" id="comments">
+          <CommentList videoId={this.props._id} />
         </div>
       </div>
     );

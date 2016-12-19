@@ -11,3 +11,4 @@ public/assets/*
 !public/assets/bundle.js
 !public/assets/bundle.js.map
 .vscode/*
+tmp

@@ -38,7 +38,7 @@ const appWithErrorLogger = (winston) => {
         tokenURL: 'https://www.myecl.fr/oauth/v2/token',
         clientID: config.oauth2.clientID,
         clientSecret: config.oauth2.clientSecret,
-        callbackURL: "http://localhost/login/callback"
+        callbackURL: config.oauth2.redirectURI
     },
     Account_OAuth.authenticator));
     passport.serializeUser(Account_OAuth.serializeUser);
@@ -61,7 +61,7 @@ const appWithErrorLogger = (winston) => {
     app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
     /* Gestion des sessions persistantes */
-    const redis = true;
+    const redis = config.session.redis || false;
     if (redis)
         app.use(session({ secret: config.session.secret, resave: true, saveUninitialized: true, store: new RedisStore() }));
     else
@@ -115,7 +115,7 @@ const appWithErrorLogger = (winston) => {
         });
     });
 
-    app.set('port', process.env.PORT || 80);
+    app.set('port', config.express.port);
 
     return app;
 }

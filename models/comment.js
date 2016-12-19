@@ -3,7 +3,8 @@ let mongoose = require('mongoose');
 let commentSchema = new mongoose.Schema({
   text: String,
   user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  video: {type: mongoose.Schema.Types.ObjectId, ref: 'Video'}
+  video: {type: mongoose.Schema.Types.ObjectId, ref: 'Video'},
+  creationDate: {type: Date, default: Date.now}
 });
 
 let Comment = mongoose.model('Comment', commentSchema);
@@ -12,7 +13,8 @@ exports.model = Comment;
 exports.create = (data, callback) => {
     let schema = {
       text: data.text,
-      user: data.session._id
+      user: data.session._id,
+      video: data.videoId
     };
     let newComment = new Comment(schema);
     newComment.save((err, result) => {
@@ -20,20 +22,16 @@ exports.create = (data, callback) => {
       callback(result._id);
     })
 }
-
-exports.return = (id, callback) => {
-
-}
-
-exports.return = (id, callback) => {
+/*
+exports.return = (id, callerId, callback) => {
   if (id === null) {
-    Comment.find({}).populate('user').exec((err, result) => {
+    Comment.find({}).sort('-creationDate').populate('user').exec((err, result) => {
       if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des commentaires.'));
       if (result === null || typeof result === 'undefined') return callback(null);
 
       let filteredResults = result.map(obj => {
         let filteredObj = obj.toJSON();
-        if (obj.user) filteredObj.user = obj.user.surname;
+        if (obj.user) filteredObj.user = obj.user.fullName;
         return filteredObj;
       });
       callback(filteredResults);
@@ -46,18 +44,19 @@ exports.return = (id, callback) => {
 
       let filteredResult = result.toJSON();
 
-      if (typeof filteredResult.user !== 'undefined') filteredResult.user = result.user.surname;
+      if (typeof filteredResult.user !== 'undefined') filteredResult.user = result.user.fullName;
       callback(filteredResult);
     });
   }
-}
+}*/
 
-exports.returnList = exports.return.bind(this, null);
+//exports.returnList = exports.return.bind(this, null);
 
-exports.updateText = (id, newText, callback) => {
+exports.updateText = (id, newText, userId, callback) => {
   Comment.findById(id, (err, comment) => {
     if (err) return callback({ok: false}, new Error('Erreur lors de la récupération du commentaire à mettre à jour. ID = ' + id));
     if (result === null || typeof result === 'undefined') return callback({ok: false});
+    if (userId !== null && !comment.user.equals(userId)) return callback({ok: false, unauthorised: true});
 
     if (newText) comment.text = newText;
 
@@ -70,23 +69,26 @@ exports.updateText = (id, newText, callback) => {
 }
 
 exports.getByVideo = (videoId, callback) => {
-  Comment.find({video: videoId}).populate('user').exec((err, result) => {
+  Comment.find({video: videoId}).sort('-creationDate').populate('user').exec((err, result) => {
     if (err) return callback(null, new Error('Erreur lors de la récupération des commentaires pour la vidéo. ID = ' + videoId));
     if (result === null || typeof result === 'undefined') return callback([]);
 
     let filteredResults = result.map(obj => {
         let filteredObj = obj.toJSON();
-        filteredObj.user = obj.user.surname;
+        filteredObj.user = {name: obj.user.fullName, id: obj.user._id};
         return filteredObj;
-      });
+    });
 
     callback(filteredResults);
   })
 }
 
-exports.delete = (id, callback) => {
-  Comment.findByIdAndRemove(id, err => {
-    if (err) return callback({ok: false}, new Error('Erreur lors de la suppression du commentaire. ID = ' + id));
-    callback({ok: true});
+exports.delete = (id, userId, callback) => {
+  Comment.findById(id, (err, comment) => {
+    if (userId !== null && !comment.user.equals(userId)) return callback({ok: false, unauthorised: true});
+    Comment.findByIdAndRemove(id, err => {
+      if (err) return callback({ok: false}, new Error('Erreur lors de la suppression du commentaire. ID = ' + id));
+      callback({ok: true});
+    });
   });
 }

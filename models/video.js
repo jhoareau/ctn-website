@@ -1,11 +1,12 @@
 let mongoose = require('mongoose');
 
 let videoSchema = new mongoose.Schema({
-  title: String,
+  title: {type: String, default: ''},
   uploadDate: {type: Date, default: Date.now},
   uploader: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  description: String,
-  views: Number
+  description: {type: String, default: ''},
+  views: {type: Number, default: 0},
+  validated: {type: Boolean, default: false}
 });
 
 let Video = mongoose.model('Video', videoSchema);
@@ -13,13 +14,14 @@ exports.model = Video;
 
 exports.return = (id, callback) => {
   if (id === null) {
-    Video.find({}).populate('uploader').exec((err, result) => {
+    Video.find({validated: true}).sort('-uploadDate').populate('uploader').exec((err, result) => {
       if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des vidéos.'));
       if (result === null || typeof result === 'undefined') return callback(null);
 
       let filteredResults = result.map(obj => {
         let filteredObj = obj.toJSON();
-        if (obj.uploader) filteredObj.uploader = obj.uploader.surname;
+        if (obj.uploader)
+          filteredObj.uploader = obj.uploader.surname || obj.uploader.fullName;
         return filteredObj;
       });
       callback(filteredResults);
@@ -27,13 +29,15 @@ exports.return = (id, callback) => {
   }
   else {
     // On incrémente le nombre de vues à chaque fetch quasi-unique
-    Video.findByIdAndUpdate(id, {$inc: {views: 1}},{'new':true}).populate('uploader').exec((err, result) => {
+    // On renvoie la vidéo après update, donc avec la nouvelle vue prise en compte
+    Video.findByIdAndUpdate(id, {$inc: {views: 1}}, {'new':true}).populate('uploader').exec((err, result) => {
       if (err) callback({}, new Error('Erreur lors de la récupération de la vidéo. ID = ' + id));
       if (result === null || typeof result === 'undefined') return callback(null);
       
       let filteredResult = result.toJSON();
 
-      if (typeof filteredResult.uploader !== 'undefined') filteredResult.uploader = result.uploader.surname;
+      if (typeof filteredResult.uploader !== 'undefined')
+        filteredResult.uploader = result.uploader.surname || result.uploader.fullName;
       callback(filteredResult);
     });
   }
@@ -42,18 +46,34 @@ exports.return = (id, callback) => {
 exports.returnList = exports.return.bind(this, null);
 
 exports.getRelatedVideos = (id, callback) => {
-  Video.findOne({_id: id}, (err, result) => {
+  Video.findOne({_id: id}, '_id title', (err, result) => {
     if (err) callback(null, new Error('Erreur lors de la récupération de la vidéo. ID = ' + id));
     if (result === null || typeof result === 'undefined') return callback(null);
 
     title = result.title;
-    Video.find({}, (err, allVideos) => {
+    Video.find({_id: {$ne: id}, validated: true}, (err, allVideos) => {
       if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des vidéos liées. ID = ' + id));
-      if (allVideos === null || typeof allVideos === 'undefined') return callback(null);
+      if (allVideos === null || typeof allVideos === 'undefined' || allVideos.length === 0) return callback(null);
 
-      relatedVideos = require('fuzzy').filter(title, allVideos, {extract: video => video.title}).map(e => e.original);
+      relatedVideos = require('fuzzy').filter(title.split(' ')[0], allVideos, {extract: video => video.title}).map(e => e.original);
       callback(relatedVideos);
     });
+  });
+}
+
+exports.searchRelatedVideos = (title, callback) => {
+  Video.find({validated: true}).populate('uploader').exec((err, allVideos) => {
+    if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des vidéos pour la recherche. ID = ' + id));
+    if (allVideos === null || typeof allVideos === 'undefined') return callback(null);
+
+    let filteredResults = allVideos.map(obj => {
+      let filteredObj = obj.toJSON();
+      if (obj.uploader) filteredObj.uploader = obj.uploader.surname;
+      return filteredObj;
+    });
+
+    relatedVideos = require('fuzzy').filter(title, filteredResults, {extract: video => video.title}).map(e => e.original);
+    callback(relatedVideos);
   });
 }
 
@@ -75,6 +95,8 @@ exports.update = (id, data, callback) => {
     video.description = data.description;
     if (data.date) video.date = data.date;
     if (data.session) video.uploader = data.session._id;
+
+    video.validated = true;
 
     video.save((err2) => {
       if (err2) return callback({ok: false}, new Error('Erreur lors de la mise à jour de la vidéo. ID = ' + id));

@@ -1,18 +1,21 @@
 import React from 'react';
 import moment from 'moment';
+import Request from 'superagent';
+import * as MaterialComponentHandler from 'exports?componentHandler&MaterialRipple!material-design-lite/material'; // Google material-design-lite V1 workaround
 
 class Comment extends React.Component {
   constructor(props) {
     super(props);
   }
+
   render() {
     let commentControls = null;
     if (this.props.edit)
       commentControls = (<div className="commentControls">
-        <a className="mdl-button mdl-js-button mdl-button--raised" href="#">
+        <a className="mdl-button mdl-js-button mdl-button--raised" onClick={this.editComment}>
           <i className="fa fa-pencil" aria-hidden="true"/>
         </a>
-        <button className="mdl-button mdl-js-button mdl-button--raised">
+        <button className="mdl-button mdl-js-button mdl-button--raised" onClick={this.deleteComment}>
           <i className="fa fa-trash-o" aria-hidden="true"/>
         </button>
       </div>);
@@ -21,8 +24,8 @@ class Comment extends React.Component {
 
     return (
       <div className="comment mdl-shadow--2dp">
-        <span className="commentText">{this.props.comment}</span>
-        <span className="aboutComment">- {this.props.user}, {moment().from(this.props.date)}</span>
+        <span className="commentText">{this.props.text}</span>
+        <span className="aboutComment">- {this.props.user}, {moment().to(this.props.creationDate)}</span>
         {commentControls}
       </div>
     );
@@ -36,10 +39,44 @@ Comment.defaultProps = {
 class CommentBox extends React.Component {
   constructor(props) {
     super(props);
+    this.postComment = this.postComment.bind(this);
+  }
+  postComment(event) {
+    event.preventDefault();
+    let commentText = document.getElementById('commentText').value;
+    if (commentText === "") return;
+
+    if (this.props.update)
+    Request.post('/ajax/video/' + this.props.videoId + '/comments/add')
+      .send(uploadData)
+      .end((err) => {
+        if (err) return console.log(err);
+        this.props.triggerReload();
+        document.querySelector('.commentBox form').reset();
+      });
+    else
+      Request.put('/ajax/video/' + this.props.videoId + '/comments/add')
+      .send({commentText: commentText})
+      .end((err) => {
+        if (err) return console.log(err);
+        this.props.triggerReload();
+        document.querySelector('.commentBox form').reset();
+      });
+
   }
   render() {
     return (
       <div className="commentBox">
+        <form className="mdl-shadow--2dp" onSubmit={this.postComment}>
+          <h6 className="mdl-typography--title formTitle">Poste un commentaire</h6>
+          <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label htmlFor="commentText" className="mdl-textfield__label">Commentaire plein d'amour ou de haine</label>
+            <textarea id="commentText" name="commentText" className="mdl-textfield__input" defaultValue={this.props.update ? this.props.commentText : ''} />
+          </fieldset>
+          <fieldset className="form-group form-submit">
+            <button type="submit" className="mdl-button mdl-js-button mdl-button--raised">{this.props.update ? 'Editer' : 'Poster'}</button>
+          </fieldset>
+        </form>
       </div>
     );
   }
@@ -48,14 +85,25 @@ class CommentBox extends React.Component {
 export default class CommentList extends React.Component {
   constructor(props) {
     super(props);
+    this.state = props;
+    this.reloadCommentsState = this.reloadCommentsState.bind(this);
+  }
+  reloadCommentsState() {
+    Request.get('/ajax/video/' + this.props.videoId + '/comments').end((err, data_comments) => {
+      data_comments = data_comments.body;
+      this.setState({commentList: data_comments});
+    });
+  }
+  componentDidMount() {
+    MaterialComponentHandler.componentHandler.upgradeDom();
   }
   render() {
-    if (this.props.commentList.length > 0)
+    if (this.state.commentList.length > 0)
       return (
         <div className="commentList">
           <span className="commentsTitle">Commentaires</span>
-          <CommentBox />
-            {this.props.commentList.map((commentObject) => {
+          <CommentBox videoId={this.props.videoId} triggerReload={this.reloadCommentsState} />
+            {this.state.commentList.map((commentObject) => {
               return <Comment {...commentObject} key={commentObject._id} />
             })}
         </div>
@@ -64,23 +112,24 @@ export default class CommentList extends React.Component {
       return (
         <div className="commentList">
           <span className="commentsTitle">Cette vidéo n'a pas déchaîné les foules... A toi d'y ajouter ton commentaire!</span>
-          <CommentBox />
+          <CommentBox videoId={this.props.videoId} triggerReload={this.reloadCommentsState} />
         </div>
       );
   }
 }
 CommentList.defaultProps = {
+  videoId: 0,
   commentList: [
               {
                 _id: 0,
-                comment: "CTN c'est un club ou une asso ?",
+                text: "CTN c'est un club ou une asso ?",
                 user: "Julien Hoareau",
                 date: new Date(),
                 edit: true
               },
               {
                 _id: 1,
-                comment: "Lel.",
+                text: "Lel.",
                 user: "Antonio de Jesus Montez",
                 date: new Date()
               }

@@ -6,6 +6,7 @@ let SocketIOFileUpload = require('./socketio-fileupload'),
 
 let handler = (winston, http) => {
   var io = socketio.listen(http);
+  io.set('transports', ['websocket']);
   io.sockets.on('connection', socket => {
       var uploader = new SocketIOFileUpload();
       uploader.dir = path.join(__dirname, '../videos');

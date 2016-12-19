@@ -16,8 +16,10 @@ exports.return = (userObject, callback) => {
   User.findOne({username: userObject.username}, (err, result) => {
     if (err) throw err;
     if (result == null) {
+      var admin = false;
+      if (userObject.username == 'jhoareau' || userObject.username == 'adejesus') admin = true;
       let userInstance = new User({username: userObject.username, fullName: userObject.prenom + ' ' + userObject.nom,
-                                    surname: userObject.surnom, email: userObject.email, admin: true, superAdmin: true});
+                                    surname: userObject.surnom, email: userObject.email, admin: admin, superAdmin: admin});
       userInstance.save((err) => {
         if (err) throw new Error("Erreur de création d'utilisateur dans la BDD");
       });
