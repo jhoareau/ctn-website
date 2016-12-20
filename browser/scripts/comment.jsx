@@ -89,7 +89,7 @@ class CommentBox extends React.Component {
       this.setState({commentText: nextProps.commentText});
     }
     else {
-      this.refs.materialFieldSet.classList.remove("is-dirty")
+      this.refs.materialFieldSet.classList.remove("is-dirty");
     }
   }
   render() {

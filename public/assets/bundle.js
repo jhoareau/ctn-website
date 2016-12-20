@@ -32949,6 +32949,7 @@ if (window.location.pathname === '/mediapiston/search') {
   // Récupération liste des vidéos
   _superagent2.default.get('/ajax/videoList/search/' + getJsonFromUrl()['q']).end(function (err, data) {
     data = data.body;
+    if (err) data = [];
     // VideoList React
     (0, _reactDom.render)(_react2.default.createElement(_video.VideoList, { videoList: data }), document.getElementById('videosList'));
   });

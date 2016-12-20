@@ -104,6 +104,7 @@ if (window.location.pathname === '/mediapiston/search') {
   // Récupération liste des vidéos
   Request.get('/ajax/videoList/search/' + getJsonFromUrl()['q']).end((err, data) => {
     data = data.body;
+    if (err) data = [];
     // VideoList React
     render(<VideoList videoList={data} />, document.getElementById('videosList'));
   });
