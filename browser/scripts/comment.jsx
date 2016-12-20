@@ -6,6 +6,21 @@ import * as MaterialComponentHandler from 'exports?componentHandler&MaterialRipp
 class Comment extends React.Component {
   constructor(props) {
     super(props);
+    this.deleteComment = this.deleteComment.bind(this);
+    this.editComment = this.editComment.bind(this);
+  }
+
+  deleteComment() {
+    if (confirm('Voulez vous vraiment supprimer ce commentaire ?')) {
+      Request.delete('/ajax/video/comments/' + this.props.id + '/delete').end((err) => {
+        if (err) return console.log(err);
+        this.props.triggerReload();
+      });
+    }
+  }
+
+  editComment() {
+    this.props.editComment(this.props.id, this.props.text);
   }
 
   render() {
@@ -40,41 +55,54 @@ class CommentBox extends React.Component {
   constructor(props) {
     super(props);
     this.postComment = this.postComment.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = {commentText: props.commentText};
+  }
+  handleChange(event) {
+    this.setState({commentText: event.target.value});
   }
   postComment(event) {
     event.preventDefault();
-    let commentText = document.getElementById('commentText').value;
     if (commentText === "") return;
 
-    if (this.props.update)
-    Request.post('/ajax/video/' + this.props.videoId + '/comments/add')
-      .send(uploadData)
+    if (!this.props.commentText)
+      Request.put('/ajax/video/' + this.props.videoId + '/comments/add')
+      .send({commentText: this.state.commentText})
       .end((err) => {
         if (err) return console.log(err);
         this.props.triggerReload();
-        document.querySelector('.commentBox form').reset();
+        this.setState({commentText: ''});
+
       });
     else
-      Request.put('/ajax/video/' + this.props.videoId + '/comments/add')
-      .send({commentText: commentText})
+      Request.post('/ajax/video/comments/' + this.props.commentId + '/update')
+      .send({commentText: this.state.commentText})
       .end((err) => {
         if (err) return console.log(err);
         this.props.triggerReload();
-        document.querySelector('.commentBox form').reset();
+        this.setState({commentText: ''});
       });
-
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.commentText) {
+      this.refs.materialFieldSet.classList.add("is-dirty");
+      this.setState({commentText: nextProps.commentText});
+    }
+    else {
+      this.refs.materialFieldSet.classList.remove("is-dirty")
+    }
   }
   render() {
     return (
       <div className="commentBox">
-        <form className="mdl-shadow--2dp" onSubmit={this.postComment}>
+        <form ref="commentForm" className="mdl-shadow--2dp" onSubmit={this.postComment}>
           <h6 className="mdl-typography--title formTitle">Poste un commentaire</h6>
-          <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <fieldset ref="materialFieldSet" className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label htmlFor="commentText" className="mdl-textfield__label">Commentaire plein d'amour ou de haine</label>
-            <textarea id="commentText" name="commentText" className="mdl-textfield__input" defaultValue={this.props.update ? this.props.commentText : ''} />
+            <textarea id="commentText" name="commentText" className="mdl-textfield__input" value={this.state.commentText} onChange={this.handleChange} />
           </fieldset>
           <fieldset className="form-group form-submit">
-            <button type="submit" className="mdl-button mdl-js-button mdl-button--raised">{this.props.update ? 'Editer' : 'Poster'}</button>
+            <button type="submit" className="mdl-button mdl-js-button mdl-button--raised">{this.props.commentText ? 'Editer' : 'Poster'}</button>
           </fieldset>
         </form>
       </div>
@@ -87,12 +115,16 @@ export default class CommentList extends React.Component {
     super(props);
     this.state = props;
     this.reloadCommentsState = this.reloadCommentsState.bind(this);
+    this.pushBoxText = this.pushBoxText.bind(this);
   }
   reloadCommentsState() {
     Request.get('/ajax/video/' + this.props.videoId + '/comments').end((err, data_comments) => {
       data_comments = data_comments.body;
-      this.setState({commentList: data_comments});
+      this.setState({commentList: data_comments, commentText: '', commentId: ''});
     });
+  }
+  pushBoxText(commentId, commentText) {
+    this.setState({commentText: commentText, commentId: commentId});
   }
   componentDidMount() {
     MaterialComponentHandler.componentHandler.upgradeDom();
@@ -102,9 +134,9 @@ export default class CommentList extends React.Component {
       return (
         <div className="commentList">
           <span className="commentsTitle">Commentaires</span>
-          <CommentBox videoId={this.props.videoId} triggerReload={this.reloadCommentsState} />
+          <CommentBox videoId={this.props.videoId} triggerReload={this.reloadCommentsState} commentId={this.state.commentId} commentText={this.state.commentText} />
             {this.state.commentList.map((commentObject) => {
-              return <Comment {...commentObject} key={commentObject._id} />
+              return <Comment {...commentObject} key={commentObject._id} id={commentObject._id} triggerReload={this.reloadCommentsState} editComment={this.pushBoxText} />
             })}
         </div>
       );
@@ -112,13 +144,15 @@ export default class CommentList extends React.Component {
       return (
         <div className="commentList">
           <span className="commentsTitle">Cette vidéo n'a pas déchaîné les foules... A toi d'y ajouter ton commentaire!</span>
-          <CommentBox videoId={this.props.videoId} triggerReload={this.reloadCommentsState} />
+          <CommentBox videoId={this.props.videoId} triggerReload={this.reloadCommentsState} commentId={this.state.commentId} commentText={this.state.commentText} />
         </div>
       );
   }
 }
 CommentList.defaultProps = {
   videoId: 0,
+  commentText: "",
+  commentId: "",
   commentList: [
               {
                 _id: 0,

@@ -25,6 +25,18 @@ const isAdmin = (req, res, next) => {
   }
 }
 
+const isSuperAdmin = (req, res, next) => {
+  if (req.isAuthenticated() && req.user.superAdmin)
+    next();
+  else {
+    res.status(403);
+    res.render('error', {
+        message: 'Action non autorisée !',
+        error: {}
+    });
+  }
+}
+
 const routerWithErrorLogger = (winston) => {
   // Routes REST
   router.get('/header', (req, res) => {
@@ -113,7 +125,7 @@ const routerWithErrorLogger = (winston) => {
         return res.status(404).send(data);
       }
       filteredData = data.map(obj => {
-        if (obj.user.id == req.user._id) {
+        if (obj.user.id == req.user._id || req.user.admin) {
           obj.edit = true;
         }
         obj.user = obj.user.name;
@@ -178,27 +190,27 @@ const routerWithErrorLogger = (winston) => {
     });
   });
 
-  router.post('/video/:id/comments/:id2/update', loggedIn, (req, res) => {
-    mongodb.comment.updateText(req.body.commentId, req.body.commentText, req.user.admin ? null : req.user._id, (answer, err) => {
+  router.post('/video/comments/:id_c/update', loggedIn, (req, res) => {
+    mongodb.comment.updateText(req.params.id_c, req.body.commentText, req.user.admin ? null : req.user._id, (answer, err) => {
       if (err) {
         winston.log('warning', 'Comment Edit / ' + err.message);
         return res.status(500).send(answer);
       }
-      if (typeof data.unauthorised !== 'undefined' && data.unauthorised) return res.status(403).send(answer);
+      if (typeof answer.unauthorised !== 'undefined' && answer.unauthorised) return res.status(403).send(answer);
 
       return res.json(answer);
     })
   });
 
   router.delete('/video/comments/:id_c/delete', loggedIn, (req, res) => {
-    mongodb.video.delete(req.params.id_c, req.user.admin ? null : req.user._id, (answer, err) => {
+    mongodb.comment.delete(req.params.id_c, req.user.admin ? null : req.user._id, (answer, err) => {
       if (err) {
         winston.log('warning', 'Comment Delete / ' + err.message);
         return res.status(500).send(answer);
       }
-      if (typeof data.unauthorised !== 'undefined' && data.unauthorised) return res.status(403).send(answer);
+      if (typeof answer.unauthorised !== 'undefined' && answer.unauthorised) return res.status(403).send(answer);
 
-      return res.json(data);
+      return res.json(answer);
     });
   });
 

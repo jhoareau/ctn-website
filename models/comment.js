@@ -55,16 +55,16 @@ exports.return = (id, callerId, callback) => {
 exports.updateText = (id, newText, userId, callback) => {
   Comment.findById(id, (err, comment) => {
     if (err) return callback({ok: false}, new Error('Erreur lors de la récupération du commentaire à mettre à jour. ID = ' + id));
-    if (result === null || typeof result === 'undefined') return callback({ok: false});
+    if (comment === null || typeof comment === 'undefined') return callback({ok: false});
     if (userId !== null && !comment.user.equals(userId)) return callback({ok: false, unauthorised: true});
 
     if (newText) comment.text = newText;
 
     comment.save((err2) => {
       if (err2) return callback({ok: false}, new Error('Erreur lors de la mise à jour du commentaire. ID = ' + id));
-
       callback({ok: true});
     });
+
   });
 }
 
@@ -85,10 +85,13 @@ exports.getByVideo = (videoId, callback) => {
 
 exports.delete = (id, userId, callback) => {
   Comment.findById(id, (err, comment) => {
+    // userId null: admin
     if (userId !== null && !comment.user.equals(userId)) return callback({ok: false, unauthorised: true});
-    Comment.findByIdAndRemove(id, err => {
+
+    comment.remove(err => {
       if (err) return callback({ok: false}, new Error('Erreur lors de la suppression du commentaire. ID = ' + id));
       callback({ok: true});
     });
+
   });
 }
