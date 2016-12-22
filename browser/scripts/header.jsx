@@ -1,21 +1,35 @@
 import React from 'react';
+import Request from 'superagent';
 import InlineSVG from 'svg-inline-react';
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
-    //let urlArray = ['admin', 'apropos', 'ctn', 'mediapiston', 'pret'];
-    let urlArray = ['mediapiston'];
+    let urlArray = ['admin', 'apropos', 'ctn', 'mediapiston', 'pret'];
+    //let urlArray = ['mediapiston'];
     this.svgMap = new Map();
     urlArray.forEach(url => {
       this.svgMap.set(url, <InlineSVG className={'navbarSvg svg_' + url} src={require('svg-inline!~/public/defaults/' + url + '.svg')} />);
     });
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.componentDidUpdate = this.componentDidMount;
+    this.populate = this.populate.bind(this);
+
+    this.state = props;
+
+    if (typeof props.route !== 'undefined') this.populate(props.route);
   }
+  populate(route) {
+    Request.get(route).end((err, data) => {
+      data = data.body;
+      this.setState({links: data});
+    });
+  }
+
   render() {
     return (
         <ul className="nav navbar-nav">{
-          this.props.links.map((link) => {
+          this.state.links.map((link) => {
             let active = window.location.pathname.indexOf(link.href) != -1;
             let className = active ? 'nav-link active' : 'nav-link';
             if (link.logout) className += " text-danger";
@@ -35,7 +49,7 @@ class Header extends React.Component {
         }</ul>
     );
   }
-  bindAnimateMediapiston(TweenMax) {
+  /*bindAnimateMediapiston(TweenMax) {
     let mpSvg = document.querySelector('.svg_mediapiston svg');
     let mpSvgCameraColor = document.querySelectorAll('.svg_mediapiston svg #Calque_2 *');
     let mpSvgFilm = document.querySelector('.svg_mediapiston svg #Calque_2 *:nth-last-child(2)');
@@ -70,7 +84,7 @@ class Header extends React.Component {
       });
     });
   }
-  /*bindAnimatePret(TweenMax) {
+  bindAnimatePret(TweenMax) {
     let pretSvg = document.querySelector('.svg_pret svg');
     let pretSvgCardColor = document.querySelector('.svg_pret svg #Calque_2 *:first-child');
     let pretSvgCard = document.querySelector('.svg_pret svg #Calque_2');
@@ -179,21 +193,21 @@ class Header extends React.Component {
     });
   }*/
   componentDidMount() {
-    let TweenMax = require('gsap');
+    /*let TweenMax = require('gsap');
     // Attach animation event handlers
-    //if (this.props.links.length > 2) {
-      //this.bindAnimatePret(TweenMax);
+    if (this.state.links.length > 2) {
+      this.bindAnimatePret(TweenMax);
       this.bindAnimateMediapiston(TweenMax);
-    //}
-    //this.bindAnimateApropos(TweenMax);
-    //if (this.props.links.length === 5) this.bindAnimateAdmin(TweenMax);
+    }
+    this.bindAnimateApropos(TweenMax);
+    if (this.state.links.length === 5) this.bindAnimateAdmin(TweenMax);*/
   }
 }
 Header.defaultProps = {
   links: [
           { title: "Mediapiston", href: '/mediapiston' },
-          { title: "Matériel", href: '/pret-matos' },
-          { title: "A propos", href: '/a-propos' },
+          //{ title: "Matériel", href: '/pret-matos' },
+          //{ title: "A propos", href: '/a-propos' },
           { title: "Déconnexion", href: '/logout', logout: true },
          ]
 };

@@ -8,7 +8,9 @@ videos/*
 materiel/*
 !materiel/NOT_EMPTY
 public/assets/*
-!public/assets/bundle.js
-!public/assets/bundle.js.map
+!public/assets/bundle_react.js
+!public/assets/bundle_react.js.map
+!public/assets/bundle_router.js
+!public/assets/bundle_router.js.map
 .vscode/*
 tmp

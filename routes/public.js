@@ -47,6 +47,10 @@ router.get('/logout', (req, res) => {
   res.redirect('/');
 });*/
 
+router.get('/mediapiston_react', loggedIn, (req, res) => {
+  res.render('mediapiston_react');
+});
+
 router.get('/mediapiston', loggedIn, (req, res) => {
   res.render('mediapiston_home');
 });

@@ -69,7 +69,7 @@ class VideoPlayer extends React.Component {
           </div>
         </div>
         <div className="commentsBox" id="comments">
-          <CommentList videoId={this.props._id} />
+          
         </div>
       </div>
     );

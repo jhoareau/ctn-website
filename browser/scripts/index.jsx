@@ -52,8 +52,6 @@ if (window.location.pathname === '/mediapiston' || window.location.pathname === 
           render(<AdminFeatures links={data} />, document.getElementById('adminFeatures'));
         }
       });
-
-
 }
 
 

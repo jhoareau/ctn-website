@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactPaginate from 'react-paginate';
 import moment from 'moment';
+import Request from 'superagent';
 
 moment.locale('fr');
 
@@ -29,7 +30,7 @@ class Video extends React.Component {
 }
 Video.defaultProps = {
   title: 'Titre',
-  uploadDate: "26/06/2016",
+  uploadDate: "2016-12-22",
   uploader: 'CTN',
   description: 'Vidéo Mediapiston',
   _id: null
@@ -38,12 +39,22 @@ Video.defaultProps = {
 export class VideoList extends React.Component {
   constructor(props) {
     super(props);
+    this.populate = this.populate.bind(this);
+    this.state = props;
+
+    if (typeof props.route !== 'undefined') this.populate(props.route);
+  }
+  populate(route) {
+    Request.get(route).end((err, data) => {
+      data = data.body;
+      this.setState({videoList: data});
+    });
   }
   render() {
-    if (this.props.videoList.length > 0)
+    if (this.state.videoList.length > 0)
       return (
         <div className="videoList">
-          {this.props.videoList.map((videoObject) => {
+          {this.state.videoList.map((videoObject) => {
             return <Video {...videoObject} key={videoObject._id} />
           })}
         </div>
