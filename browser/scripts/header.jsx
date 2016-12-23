@@ -1,6 +1,7 @@
 import React from 'react';
 import Request from 'superagent';
 import InlineSVG from 'svg-inline-react';
+import CustomLink from './custom-link.jsx';
 
 class Header extends React.Component {
   constructor(props) {
@@ -35,14 +36,14 @@ class Header extends React.Component {
             if (link.logout) className += " text-danger";
             if (typeof link.src === 'undefined')
               return (<li className="nav-item" key={link.href}>
-                        <a href={link.href} className={className + ' textLink'}>{link.title}</a>
+                        <CustomLink href={link.href} className={className + ' textLink'} root={this.props.root}>{link.title}</CustomLink>
                       </li>);
             else {
               let svgContent = this.svgMap.get(link.src);
               return (<li className="nav-item" key={link.href}>
-                        <a href={link.href} className={className}>
+                        <CustomLink href={link.href} className={className} root={this.props.root}>
                           {svgContent}
-                        </a>
+                        </CustomLink>
                       </li>);
             }
           })

@@ -1,5 +1,6 @@
 import React from 'react';
 import Request from 'superagent';
+import CustomLink from './custom-link.jsx';
 
 class AdminFeatures extends React.Component {
   constructor(props) {
@@ -21,9 +22,9 @@ class AdminFeatures extends React.Component {
         <div className="adminFeatures">
           {
             this.state.links.map(link => {
-              return (<a className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" href={link.href} key={link.href}>
-                {link.title}
-              </a>);
+              return (<CustomLink className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" href={link.href} key={link.href} root={this.props.root}>
+                        {link.title}
+                      </CustomLink>);
             })
           }
         </div>

@@ -54,13 +54,16 @@ pluginArray.push(new webpack.LoaderOptionsPlugin({
 //pluginArray.push(new ExtractTextPlugin("styles.css"));
 
 module.exports = {
-    entry: {
-      react: path.join(__dirname, "browser/scripts/index.jsx"),
-      router: path.join(__dirname, "browser/scripts/index_router.jsx")
-    },
+    entry: //{
+        //react: path.join(__dirname, "browser/scripts/index.jsx"),
+        //router: path.join(__dirname, "browser/scripts/index_router.jsx")
+      [path.join(__dirname, "browser/scripts/index_router.jsx")]
+    //}
+    ,
     output: {
         path: path.join(__dirname, 'public/assets'),
-        filename: "bundle_[name].js",
+        //filename: "bundle_[name].js",
+        filename: "bundle.js",
         publicPath: '/assets/'
     },
     resolve: {
@@ -83,6 +86,6 @@ module.exports = {
             //{ test: /\.svg$/, loader: 'svg-inline' },
         ]
     },
-    devtool: 'eval-source-map',
+    devtool: '#inline-source-map',
     plugins: pluginArray
 };

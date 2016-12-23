@@ -19,22 +19,23 @@ import AdminFeatures from "./admin_features.jsx";
 import VideoPlayer from "./video_player.jsx";
 import UploadForm from "./upload.jsx";
 
-import { BrowserRouter, Match, Miss, Link } from 'react-router'
+import { BrowserRouter, Match, Miss, Link, browserHistory } from 'react-router';
+import CustomLink from './custom-link.jsx';
 
 const App = () => (
-  <BrowserRouter>
+  <BrowserRouter basename='/mediapiston_react'>
     <div>
       <header>
-        <nav className="navbar navbar-light navbar-full"><a href="/mediapiston_react" className="navbar-brand"><img src="/defaults/ctn.svg"/></a>
+        <nav className="navbar navbar-light navbar-full"><CustomLink href="/" className="navbar-brand"><img src="/defaults/ctn.svg"/></CustomLink>
           <div className="float-xs-right">
-            <Header route='/ajax/header' />
+            <Header route='/ajax/header' root={true} />
           </div>
         </nav>
       </header>
       <section className="container-fluid">
-        <Match exactly pattern="/mediapiston_react" component={VideoList_Router} />
-        <Match pattern="/mediapiston_react/watch/:id" component={VideoPlayer_Router} />
-        <Match pattern="/mediapiston_react/upload" component={Upload_Router} />
+        <Match exactly pattern="/" component={VideoList_Router} />
+        <Match pattern="/watch/:id" component={VideoPlayer_Router} />
+        <Match pattern="/upload" component={Upload_Router} />
     
         <Miss component={NoMatch}/>
       </section>
@@ -53,18 +54,18 @@ const VideoList_Router = () => {
         <AdminFeatures route='/ajax/mediapiston/adminFeatures' />
       </div>
       <div id="videosList">
-        <VideoList route='/ajax/videoList' />
+        <VideoList route='/ajax/videoList' root={true} />
       </div>
     </div>
   );
 };
 
 const VideoPlayer_Router = ({ params }) => (
-  <Error err="Page non trouvée !" />
+  <Error err="VideoPlayer" />
 )
 
 const Upload_Router = () => (
-  <Error err="Page non trouvée !" />
+  <Error err="Upload" />
 )
 
 const NoMatch = ({location}) => (

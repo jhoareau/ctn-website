@@ -2,6 +2,7 @@ import React from 'react';
 import ReactPaginate from 'react-paginate';
 import moment from 'moment';
 import Request from 'superagent';
+import CustomLink from './custom-link.jsx';
 
 moment.locale('fr');
 
@@ -12,13 +13,13 @@ class Video extends React.Component {
   render() {
     let description = this.props.description;
     let thumbUrl = '/videos/' + this.props._id + '.png';
-    let url = '/mediapiston/watch/' + this.props._id;
+    let url = 'watch/' + this.props._id;
     if (description.length > 150) description = description.substring(0, 147) + "...";
 
     return (
       <div className="mdl-card display_card mdl-shadow--2dp">
         <div className="mdl-card__title" style={{backgroundImage: 'url(' + thumbUrl + ')'}}>
-          <a href={url}><h2 className="mdl-card__title-text">{this.props.title}</h2></a>
+          <CustomLink href={url} root={this.props.root || false}><h2 className="mdl-card__title-text">{this.props.title}</h2></CustomLink>
         </div>
         <div className="mdl-card__supporting-text">
           {description}<br/>
@@ -54,8 +55,8 @@ export class VideoList extends React.Component {
     if (this.state.videoList.length > 0)
       return (
         <div className="videoList">
-          {this.state.videoList.map((videoObject) => {
-            return <Video {...videoObject} key={videoObject._id} />
+          {this.state.videoList.map(videoObject => {
+            return <Video {...videoObject} key={videoObject._id} root={this.props.root || ''} />
           })}
         </div>
       );
