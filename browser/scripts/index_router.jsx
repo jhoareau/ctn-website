@@ -23,10 +23,10 @@ import { BrowserRouter, Match, Miss, Link, browserHistory } from 'react-router';
 import CustomLink from './custom-link.jsx';
 
 const App = () => (
-  <BrowserRouter basename='/mediapiston_react'>
+  <BrowserRouter basename='/mediapiston'>
     <div>
       <header>
-        <nav className="navbar navbar-light navbar-full"><CustomLink href="/" className="navbar-brand"><img src="/defaults/ctn.svg"/></CustomLink>
+        <nav className="navbar navbar-light navbar-full"><a href="/" className="navbar-brand"><img src="/defaults/ctn.svg"/></a>
           <div className="float-xs-right">
             <Header route='/ajax/header' root={true} />
           </div>
@@ -51,7 +51,7 @@ const VideoList_Router = () => {
   return (
     <div>
       <div id="adminFeatures">
-        <AdminFeatures route='/ajax/mediapiston/adminFeatures' />
+        <AdminFeatures route='/ajax/mediapiston/adminFeatures' root={true} />
       </div>
       <div id="videosList">
         <VideoList route='/ajax/videoList' root={true} />
@@ -60,9 +60,17 @@ const VideoList_Router = () => {
   );
 };
 
-const VideoPlayer_Router = ({ params }) => (
-  <Error err="VideoPlayer" />
-)
+const VideoPlayer_Router = ({ params }) => {
+  require('~/browser/styles/video_player.sass');
+  require('~/browser/styles/mediapiston.sass');
+
+  return (
+    <div className="row">
+      <div className="col-xl-8"><VideoPlayer route={'/ajax/video/' + params.id} _id={params.id} root={true} /></div>
+      <div className="col-xl-4"><RelatedVideoList route={'/ajax/videoList/related/' + params.id} root={true} /></div>
+    </div>
+  );
+}
 
 const Upload_Router = () => (
   <Error err="Upload" />

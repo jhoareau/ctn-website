@@ -3,6 +3,7 @@ import {render} from 'react-dom';
 import moment from 'moment';
 import Request from 'superagent';
 import CommentList from './comment.jsx';
+import Plyr from 'plyr';
 
 moment.locale('fr');
 
@@ -10,17 +11,26 @@ class VideoPlayer extends React.Component {
   constructor(props) {
     super(props);
     this.deleteVideoConfirm = this.deleteVideoConfirm.bind(this);
-    this.componentDidMount = this.componentDidMount.bind(this);
+    this.populate = this.populate.bind(this);
+    this.populateComments = this.populateComments.bind(this);
+
+    this.state = props;
+
+    if (typeof props.route !== 'undefined') this.populate(props.route);
+    this.populateComments();
   }
 
-  componentDidMount() {
-    this.populateComments();
+  populate(route) {
+    Request.get(route).end((err, data) => {
+      data = data.body;
+      this.setState(data);
+    });
   }
 
   populateComments() {
     Request.get('/ajax/video/' + this.props._id + '/comments').end((err, data_comments) => {
       data_comments = data_comments.body;
-      render(<CommentList commentList={data_comments} videoId={this.props._id} />, document.getElementById('comments'));
+      this.setState({comments: data_comments});
     });
   }
 
@@ -28,16 +38,20 @@ class VideoPlayer extends React.Component {
     if (confirm('Voulez vous vraiment supprimer cette vidéo ?')) {
       Request.delete('/ajax/video/' + this.props._id + '/delete').end((err) => {
         if (err) return alert('Une erreur est survenue.');
-        window.location = '/mediapiston';
+        window.history.back();
       });
     }
   }
+
+  componentDidMount() {
+    require('./videoplayer_setup')(Plyr);
+    require('~/node_modules/plyr/src/scss/plyr.scss');
+  }
+
   render() {
     let thumbUrl = '/videos/' + this.props._id + '.png';
     let videoUrl = '/videos/' + this.props._id + '.mp4';
     let modifyUrl = '/mediapiston/update/' + this.props._id;
-
-    let commentsData = this.props.comments;
 
     let videoControls = null;
     if (this.props.isAdmin)
@@ -52,24 +66,26 @@ class VideoPlayer extends React.Component {
     
     
     return (
-      <div className="videoPlayer container">
-        <video poster={thumbUrl} src={videoUrl} controls="true" className="mdl-shadow--3dp" />
-        {videoControls}
-        <div className="videoDetails mdl-shadow--3dp">
-          <div className="row">
-            <div className="col-md-8">
-              <h3>{this.props.title}</h3>
+      <div id="videoContent">
+        <div className="videoPlayer container">
+          <video poster={thumbUrl} src={videoUrl} controls="true" className="mdl-shadow--3dp" />
+          {videoControls}
+          <div className="videoDetails mdl-shadow--3dp">
+            <div className="row">
+              <div className="col-md-8">
+                <h3>{this.state.title}</h3>
+              </div>
+              <div className="col-md-4">
+                <p>Mis en ligne le {moment(this.state.uploadDate).format("D MMMM YYYY")} par {this.state.uploader}<br/><small>{this.state.views} {this.state.views === 1 ? "vue" : "vues"}</small></p>
+              </div>
             </div>
-            <div className="col-md-4">
-              <p>Mis en ligne le {moment(this.props.uploadDate).format("D MMMM YYYY")} par {this.props.uploader}<br/><small>{this.props.views} {this.props.views === 1 ? "vue" : "vues"}</small></p>
+            <div className="videoDescription">
+              <p>{this.state.description}</p>
             </div>
           </div>
-          <div className="videoDescription">
-            <p>{this.props.description}</p>
+          <div className="commentsBox" id="comments">
+            <CommentList commentList={this.state.comments} videoId={this.props._id} />
           </div>
-        </div>
-        <div className="commentsBox" id="comments">
-          
         </div>
       </div>
     );

@@ -64,7 +64,7 @@ const routerWithErrorLogger = (winston) => {
   router.get('/mediapiston/adminFeatures', loggedIn, (req, res) => {
     if (req.user.admin)
       return res.json([
-              { title: "Ajouter une vidéo", href: '/mediapiston/upload' }
+              { title: "Ajouter une vidéo", href: '/upload' }
                       ]);
     res.json([]);
   });

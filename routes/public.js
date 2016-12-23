@@ -47,11 +47,11 @@ router.get('/logout', (req, res) => {
   res.redirect('/');
 });*/
 
-router.get(['/mediapiston_react', '/mediapiston_react/*'], loggedIn, (req, res) => {
+router.get(['/mediapiston', '/mediapiston/*'], loggedIn, (req, res) => {
   res.render('mediapiston_react');
 });
 
-router.get('/mediapiston', loggedIn, (req, res) => {
+/*router.get('/mediapiston', loggedIn, (req, res) => {
   res.render('mediapiston_home');
 });
 
@@ -69,7 +69,7 @@ router.get('/mediapiston/update/:id', isAdmin, (req, res) => {
 
 router.get('/mediapiston/search', loggedIn, (req, res) => {
   res.render('mediapiston_home');
-});
+});*/
 
 router.get('/pret-matos', loggedIn, (req, res) => {
   res.render('materiel');

@@ -13,7 +13,7 @@ class Video extends React.Component {
   render() {
     let description = this.props.description;
     let thumbUrl = '/videos/' + this.props._id + '.png';
-    let url = 'watch/' + this.props._id;
+    let url = '/watch/' + this.props._id;
     if (description.length > 150) description = description.substring(0, 147) + "...";
 
     return (
@@ -101,13 +101,13 @@ class RelatedVideo extends React.Component {
   }
   render() {
     let thumbUrl = '/videos/' + this.props._id + '.png';
-    let url = '/mediapiston/watch/' + this.props._id;
+    let url = '/watch/' + this.props._id;
 
     return (
       <div className="mdl-card mdl-shadow--2dp" style={{backgroundImage: 'url(' + thumbUrl + ')'}}>
         <div className="mdl-card__title mdl-card--expand"></div>
         <div className="mdl-card__actions">
-          <a href={url} className="relatedVideoLink"><h2 className="mdl-card__title-text">{this.props.title}</h2></a>
+          <CustomLink href={url} className="relatedVideoLink" root={this.props.root}><h2 className="mdl-card__title-text">{this.props.title}</h2></CustomLink>
         </div>
       </div>
     );
@@ -118,14 +118,26 @@ RelatedVideo.defaultProps = Video.defaultProps;
 export class RelatedVideoList extends React.Component {
   constructor(props) {
     super(props);
+      this.populate = this.populate.bind(this);
+    this.state = props;
+
+    if (typeof props.route !== 'undefined') this.populate(props.route);
   }
+
+  populate(route) {
+    Request.get(route).end((err, data) => {
+      data = data.body;
+      this.setState({videoList: data});
+    });
+  }
+
   render() {
-    if (this.props.videoList.length > 0)
+    if (this.state.videoList.length > 0)
       return (
         <div className="relatedVideoList">
           <h4 className="display-1">Vidéos suggérées</h4>
-          {this.props.videoList.map((videoObject) => {
-            return <RelatedVideo {...videoObject} key={videoObject._id} />
+          {this.state.videoList.map((videoObject) => {
+            return <RelatedVideo {...videoObject} key={videoObject._id} root={this.props.root} />
           })}
         </div>
       );
