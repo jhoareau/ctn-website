@@ -1,5 +1,6 @@
 import React from 'react';
 import Request from 'superagent';
+import * as MaterialComponentHandler from 'exports?componentHandler&MaterialRipple!material-design-lite/material'; // Google material-design-lite V1 workaround
 
 /// TODO: Bind state to component view for Pure Immutability
 class UploadSnippet extends React.Component {
@@ -36,7 +37,7 @@ class UploadSnippet extends React.Component {
   }
   thumbFromThumbnailFile() {
     let file = document.getElementById('thumbnailFile').files[0];
-    let canvas = document.getElementById('canvasImage');
+    let canvas = this.refs.canvasImage;
 
     if (['png', 'jpg', 'bmp', 'jpeg', 'gif'].indexOf(file.name.split('.').pop().toLowerCase()) < 0) {
       document.getElementById('thumbnailFile').value = '';
@@ -116,23 +117,37 @@ class UploadSnippet extends React.Component {
             <span className="boxTooltip">Sélectionner ou glisser-déposer</span><br/>
             <span id="thumbnailFileName"/>
           </p>
-          <canvas className="coverBox" id='canvasImage'/>
+          <canvas ref="canvasImage" className="coverBox"/>
         </div>
 
       </div>
     );
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.thumbOnly) return;
+    let canvas = this.refs.canvasImage;
+    let imageObject = new Image();
+    imageObject.onload = function() {
+        canvas.width = imageObject.width;
+        canvas.height = imageObject.height;
+        canvas.getContext('2d').drawImage(imageObject, 0, 0, imageObject.width, imageObject.height);
+    };
+    imageObject.src = '/videos/' + nextProps._id + '.png';
+    nextProps.onUploadFinished(); 
+  }
+
   componentDidMount() {
     if (!this.props.thumbOnly) return;
-      let canvas = document.getElementById('canvasImage');
-      let imageObject = new Image();
-      imageObject.onload = function() {
-          canvas.width = imageObject.width;
-          canvas.height = imageObject.height;
-          canvas.getContext('2d').drawImage(imageObject, 0, 0, imageObject.width, imageObject.height);
-      };
-      imageObject.src = '/videos/' + this.props._id + '.png';
-      this.props.onUploadFinished();
+    let canvas = this.refs.canvasImage;
+    let imageObject = new Image();
+    imageObject.onload = function() {
+        canvas.width = imageObject.width;
+        canvas.height = imageObject.height;
+        canvas.getContext('2d').drawImage(imageObject, 0, 0, imageObject.width, imageObject.height);
+    };
+    imageObject.src = '/videos/' + this.props._id + '.png';
+    this.props.onUploadFinished();
   }
 }
 
@@ -141,7 +156,24 @@ class UploadForm extends React.Component {
     super(props);
 
     this.saveUpload = this.saveUpload.bind(this);
+    this.populate = this.populate.bind(this);
+
+    this.state = props;
+
+    if (typeof props.route !== 'undefined' && this.props.update) this.populate(props.route);
   }
+
+  populate(route) {
+    Request.get(route).end((err, data) => {
+      data = data.body;
+      this.setState(data);
+    });
+  }
+  
+  componentDidMount() {
+    MaterialComponentHandler.componentHandler.upgradeDom();
+  }
+
   allowUpload() {
     document.querySelector('form button[type="submit"]').removeAttribute('disabled');
     document.querySelector('form button[type="submit"]').classList.remove('mdl-button--disabled');
@@ -166,12 +198,12 @@ class UploadForm extends React.Component {
     if (this.props.update)
       Request.post('/ajax/video/' + this.props._id + '/update').send(uploadData).end((err, data) => {
         if (err) return console.log(err);
-        window.location = '/mediapiston'
+        window.history.back();
       });
     else
       Request.put('/ajax/video/add').send(uploadData).end((err, data) => {
         if (err) return console.log(err);
-        window.location = '/mediapiston'
+        window.history.back();
       });
   }
   render() {
@@ -179,18 +211,18 @@ class UploadForm extends React.Component {
       <div>
         <div>
           <h6 className="mdl-typography--title formTitle">Contenu</h6>
-          <UploadSnippet thumbOnly={this.props.update} {...this.props} onUploadFinished={this.allowUpload}/>
+          <UploadSnippet thumbOnly={this.props.update} {...this.state} onUploadFinished={this.allowUpload}/>
         </div>
         <form className="form-horizontal mdl-shadow--2dp" onSubmit={this.saveUpload}>
           <h6 className="mdl-typography--title formTitle">Détails de la vidéo</h6>
           <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label mainInput">
             <label htmlFor="videoTitle" className="mdl-textfield__label">Titre de la vidéo</label>
-            <input id="videoTitle" name="videoTitle" required="required" className="mdl-textfield__input" type="text" defaultValue={this.props.update ? this.props.title : ''} />
+            <input id="videoTitle" name="videoTitle" required="required" className="mdl-textfield__input" type="text" defaultValue={this.props.update ? this.state.title : ''} />
             <span className="mdl-textfield__error">Titre requis !</span>
           </fieldset><br />
           <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label htmlFor="videoDesc" className="mdl-textfield__label">Description de la vidéo</label>
-            <textarea id="videoDesc" name="videoDesc" required="required" className="mdl-textfield__input" defaultValue={this.props.update ? this.props.description : ''} />
+            <textarea id="videoDesc" name="videoDesc" required="required" className="mdl-textfield__input" defaultValue={this.props.update ? this.state.description : ''} />
             <span className="mdl-textfield__error">Description requise !</span>
           </fieldset>
           <fieldset className="form-group form-submit">

@@ -36,6 +36,7 @@ const App = () => (
         <Match exactly pattern="/" component={VideoList_Router} />
         <Match pattern="/watch/:id" component={VideoPlayer_Router} />
         <Match pattern="/upload" component={Upload_Router} />
+        <Match pattern="/update/:id" component={Update_Router} />
     
         <Miss component={NoMatch}/>
       </section>
@@ -47,21 +48,24 @@ const stylesheets = {
   cards: require('~/browser/styles/cards.useable.sass'),
   search: require('~/browser/styles/search.useable.sass'),
   admin_features: require('~/browser/styles/admin_features.useable.sass'),
-  video_player: require('~/browser/styles/video_player.useable.sass')
+  video_player: require('~/browser/styles/video_player.useable.sass'),
+  forms: require('~/browser/styles/forms.useable.sass')
 }
 let stylesheetsUsed = {
   cards: false,
   search: false,
   admin_features: false,
-  video_player: false
+  video_player: false,
+  forms: false
 }
 
 
 const VideoList_Router = () => {
-  stylesheets.cards.use(); stylesheetsUsed.cards = true;
-  stylesheets.search.use(); stylesheetsUsed.search = true;
-  stylesheets.admin_features.use(); stylesheetsUsed.admin_features = true;
-  if(stylesheetsUsed.video_player) {stylesheets.video_player.unuse(); stylesheetsUsed.video_player = false;}
+  if (!stylesheetsUsed.cards) stylesheets.cards.use(); stylesheetsUsed.cards = true;
+  if (!stylesheetsUsed.search) stylesheets.search.use(); stylesheetsUsed.search = true;
+  if (!stylesheetsUsed.admin_features) stylesheets.admin_features.use(); stylesheetsUsed.admin_features = true;
+  if (stylesheetsUsed.forms) {stylesheets.forms.unuse(); stylesheetsUsed.forms = false;}
+  if (stylesheetsUsed.video_player) {stylesheets.video_player.unuse(); stylesheetsUsed.video_player = false;}
 
   return (
     <div>
@@ -79,7 +83,8 @@ const VideoPlayer_Router = ({ params }) => {
   if (stylesheetsUsed.cards) {stylesheets.cards.unuse(); stylesheetsUsed.cards = false;}
   if (stylesheetsUsed.search) {stylesheets.search.unuse(); stylesheetsUsed.search = false;}
   if (stylesheetsUsed.admin_features) {stylesheets.admin_features.unuse(); stylesheetsUsed.admin_features = false;}
-  stylesheets.video_player.use(); stylesheetsUsed.video_player = true;
+  if (stylesheetsUsed.forms) {stylesheets.forms.unuse(); stylesheetsUsed.forms = false;}
+  if (!stylesheetsUsed.video_player) {stylesheets.video_player.use(); stylesheetsUsed.video_player = true;}
 
   return (
     <div className="row">
@@ -89,9 +94,26 @@ const VideoPlayer_Router = ({ params }) => {
   );
 }
 
-const Upload_Router = () => (
-  <Error err="Upload" />
-)
+const Upload_Router = () => {
+  if (stylesheetsUsed.cards) {stylesheets.cards.unuse(); stylesheetsUsed.cards = false;}
+  if (stylesheetsUsed.search) {stylesheets.search.unuse(); stylesheetsUsed.search = false;}
+  if (stylesheetsUsed.admin_features) {stylesheets.admin_features.unuse(); stylesheetsUsed.admin_features = false;}
+  if (stylesheetsUsed.video_player) {stylesheets.video_player.unuse(); stylesheetsUsed.video_player = false;}
+  if (!stylesheetsUsed.forms) {stylesheets.forms.use(); stylesheetsUsed.forms = true;}
+
+  return <UploadForm />;
+}
+
+const Update_Router = ({ params }) => {
+  if (stylesheetsUsed.cards) {stylesheets.cards.unuse(); stylesheetsUsed.cards = false;}
+  if (stylesheetsUsed.search) {stylesheets.search.unuse(); stylesheetsUsed.search = false;}
+  if (stylesheetsUsed.admin_features) {stylesheets.admin_features.unuse(); stylesheetsUsed.admin_features = false;}
+  if (stylesheetsUsed.video_player) {stylesheets.video_player.unuse(); stylesheetsUsed.video_player = false;}
+  if (!stylesheetsUsed.forms) {stylesheets.forms.use(); stylesheetsUsed.forms = true;}
+
+  return <UploadForm update={true} route={'/ajax/video/' + params.id} />;
+}
+
 
 const NoMatch = ({location}) => (
   <Error err="Page non trouvée !" />

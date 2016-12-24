@@ -3,6 +3,7 @@ import {render} from 'react-dom';
 import moment from 'moment';
 import Request from 'superagent';
 import CommentList from './comment.jsx';
+import CustomLink from './custom-link.jsx';
 import Plyr from 'plyr';
 
 moment.locale('fr');
@@ -47,14 +48,14 @@ class VideoPlayer extends React.Component {
   render() {
     let thumbUrl = '/videos/' + this.props._id + '.png';
     let videoUrl = '/videos/' + this.props._id + '.mp4';
-    let modifyUrl = '/mediapiston/update/' + this.props._id;
+    let modifyUrl = '/update/' + this.props._id;
 
     let videoControls = null;
     if (this.state.isAdmin)
       videoControls = (<div className="videoControls">
-        <a className="mdl-button mdl-js-button mdl-button--raised" href={modifyUrl}>
+        <CustomLink root={this.props.root} className="mdl-button mdl-js-button mdl-button--raised" href={modifyUrl}>
           <i className="fa fa-pencil" aria-hidden="true"/>
-        </a>
+        </CustomLink>
         <button className="mdl-button mdl-js-button mdl-button--raised" onClick={this.deleteVideoConfirm}>
           <i className="fa fa-trash-o" aria-hidden="true"/>
         </button>
