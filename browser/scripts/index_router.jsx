@@ -43,11 +43,26 @@ const App = () => (
   </BrowserRouter>
 )
 
+const stylesheets = {
+  cards: require('~/browser/styles/cards.useable.sass'),
+  search: require('~/browser/styles/search.useable.sass'),
+  admin_features: require('~/browser/styles/admin_features.useable.sass'),
+  video_player: require('~/browser/styles/video_player.useable.sass')
+}
+let stylesheetsUsed = {
+  cards: false,
+  search: false,
+  admin_features: false,
+  video_player: false
+}
+
+
 const VideoList_Router = () => {
-  require('~/browser/styles/cards.sass');
-  require('~/browser/styles/search.sass');
-  require('~/browser/styles/admin_features.sass');
-  
+  stylesheets.cards.use(); stylesheetsUsed.cards = true;
+  stylesheets.search.use(); stylesheetsUsed.search = true;
+  stylesheets.admin_features.use(); stylesheetsUsed.admin_features = true;
+  if(stylesheetsUsed.video_player) {stylesheets.video_player.unuse(); stylesheetsUsed.video_player = false;}
+
   return (
     <div>
       <div id="adminFeatures">
@@ -61,7 +76,10 @@ const VideoList_Router = () => {
 };
 
 const VideoPlayer_Router = ({ params }) => {
-  require('~/browser/styles/video_player.sass');
+  if (stylesheetsUsed.cards) {stylesheets.cards.unuse(); stylesheetsUsed.cards = false;}
+  if (stylesheetsUsed.search) {stylesheets.search.unuse(); stylesheetsUsed.search = false;}
+  if (stylesheetsUsed.admin_features) {stylesheets.admin_features.unuse(); stylesheetsUsed.admin_features = false;}
+  stylesheets.video_player.use(); stylesheetsUsed.video_player = true;
 
   return (
     <div className="row">
