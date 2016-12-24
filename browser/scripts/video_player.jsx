@@ -11,26 +11,22 @@ class VideoPlayer extends React.Component {
   constructor(props) {
     super(props);
     this.deleteVideoConfirm = this.deleteVideoConfirm.bind(this);
+    this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
     this.populate = this.populate.bind(this);
-    this.populateComments = this.populateComments.bind(this);
 
     this.state = props;
 
     if (typeof props.route !== 'undefined') this.populate(props.route);
-    this.populateComments();
+  }
+
+  componentWillReceiveProps(props) {
+    this.populate(props.route);
   }
 
   populate(route) {
     Request.get(route).end((err, data) => {
       data = data.body;
       this.setState(data);
-    });
-  }
-
-  populateComments() {
-    Request.get('/ajax/video/' + this.props._id + '/comments').end((err, data_comments) => {
-      data_comments = data_comments.body;
-      this.setState({comments: data_comments});
     });
   }
 
@@ -44,7 +40,7 @@ class VideoPlayer extends React.Component {
   }
 
   componentDidMount() {
-    require('./videoplayer_setup')(Plyr);
+    Plyr.setup(this.refs.plyr_attachment, {iconUrl: '/defaults/plyr.svg'});
     require('~/node_modules/plyr/src/scss/plyr.scss');
   }
 
@@ -54,7 +50,7 @@ class VideoPlayer extends React.Component {
     let modifyUrl = '/mediapiston/update/' + this.props._id;
 
     let videoControls = null;
-    if (this.props.isAdmin)
+    if (this.state.isAdmin)
       videoControls = (<div className="videoControls">
         <a className="mdl-button mdl-js-button mdl-button--raised" href={modifyUrl}>
           <i className="fa fa-pencil" aria-hidden="true"/>
@@ -68,7 +64,9 @@ class VideoPlayer extends React.Component {
     return (
       <div id="videoContent">
         <div className="videoPlayer container">
-          <video poster={thumbUrl} src={videoUrl} controls="true" className="mdl-shadow--3dp" />
+          <video poster={thumbUrl} src={videoUrl} ref='plyr_attachment' controls="true" className="mdl-shadow--3dp"></video>
+          {/* Workaround against Plyr moving the videoControls at the bottom of the page*/}
+          <div></div>
           {videoControls}
           <div className="videoDetails mdl-shadow--3dp">
             <div className="row">
@@ -84,7 +82,7 @@ class VideoPlayer extends React.Component {
             </div>
           </div>
           <div className="commentsBox" id="comments">
-            <CommentList commentList={this.state.comments} videoId={this.props._id} />
+            <CommentList videoId={this.props._id} />
           </div>
         </div>
       </div>
@@ -94,7 +92,7 @@ class VideoPlayer extends React.Component {
 VideoPlayer.defaultProps = {
   _id: 0,
   title: 'Titre',
-  uploadDate: "26/06/2016",
+  uploadDate: "2016-06-26",
   uploader: 'CTN',
   description: 'Vidéo Mediapiston',
   views: 0,

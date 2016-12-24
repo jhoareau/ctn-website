@@ -34,23 +34,30 @@ Video.defaultProps = {
   uploadDate: "2016-12-22",
   uploader: 'CTN',
   description: 'Vidéo Mediapiston',
-  _id: null
+  _id: undefined
 };
 
 export class VideoList extends React.Component {
   constructor(props) {
     super(props);
     this.populate = this.populate.bind(this);
+    this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
     this.state = props;
 
     if (typeof props.route !== 'undefined') this.populate(props.route);
   }
+
+  componentWillReceiveProps(props) {
+    this.populate(props.route);
+  }
+
   populate(route) {
     Request.get(route).end((err, data) => {
       data = data.body;
       this.setState({videoList: data});
     });
   }
+  
   render() {
     if (this.state.videoList.length > 0)
       return (
@@ -69,33 +76,10 @@ export class VideoList extends React.Component {
   }
 }
 VideoList.defaultProps = {
-  videoList: [
-              {
-                title: 'Titre',
-                uploadDate: "26/06/2016",
-                uploader: 'CTN',
-                description: 'Vidéo Mediapiston',
-                _id: 0
-              },
-              {
-                title: 'Titre 2',
-                uploadDate: "27/06/2016",
-                uploader: 'CTN',
-                description: 'Vidéo 2 Mediapiston',
-                _id: 1
-              },
-              {
-                thumbUrl : '/defaults/no_video.png',
-                title: 'Titre 3',
-                uploadDate: "27/06/2016",
-                uploader: 'CTN',
-                description: 'Vidéo 3 Mediapiston',
-                _id: 2
-              }
-            ]
+  videoList: []
 };
 
-class RelatedVideo extends React.Component {
+class RelatedVideo extends Video {
   constructor(props) {
     super(props);
   }
@@ -115,20 +99,9 @@ class RelatedVideo extends React.Component {
 }
 RelatedVideo.defaultProps = Video.defaultProps;
 
-export class RelatedVideoList extends React.Component {
+export class RelatedVideoList extends VideoList {
   constructor(props) {
     super(props);
-      this.populate = this.populate.bind(this);
-    this.state = props;
-
-    if (typeof props.route !== 'undefined') this.populate(props.route);
-  }
-
-  populate(route) {
-    Request.get(route).end((err, data) => {
-      data = data.body;
-      this.setState({videoList: data});
-    });
   }
 
   render() {

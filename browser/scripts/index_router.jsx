@@ -62,7 +62,6 @@ const VideoList_Router = () => {
 
 const VideoPlayer_Router = ({ params }) => {
   require('~/browser/styles/video_player.sass');
-  require('~/browser/styles/mediapiston.sass');
 
   return (
     <div className="row">

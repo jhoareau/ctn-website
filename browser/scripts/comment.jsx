@@ -115,8 +115,16 @@ export default class CommentList extends React.Component {
     super(props);
     this.state = props;
     this.reloadCommentsState = this.reloadCommentsState.bind(this);
+    this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
     this.pushBoxText = this.pushBoxText.bind(this);
+
+    this.reloadCommentsState();
   }
+
+  componentWillReceiveProps(props) {
+    this.reloadCommentsState();
+  }
+
   reloadCommentsState() {
     Request.get('/ajax/video/' + this.props.videoId + '/comments').end((err, data_comments) => {
       data_comments = data_comments.body;
