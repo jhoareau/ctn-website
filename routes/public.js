@@ -22,39 +22,29 @@ const isAdmin = (req, res, next) => {
     });
   }
 }
-
-router.get('/', (req, res) => {
-  //res.render('index');
-  res.redirect('/mediapiston');
-});
-
 router.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
+});
+
+router.get('/', (req, res) => {
+  res.render('react_container');
 });
 
 router.get(['/mediapiston', '/mediapiston/*'], loggedIn, (req, res) => {
   res.render('react_container');
 });
 
-router.get('/pret-matos', loggedIn, (req, res) => {
-  res.render('materiel');
-});
-
-router.get('/pret-matos/add', isAdmin, (req, res) => {
-  res.render('materiel_add');
-});
-
-router.get('/pret-matos/update/:id', isAdmin, (req, res) => {
-  res.render('materiel_add', {update: true});
+router.get(['/matos', '/matos/*'], loggedIn, (req, res) => {
+  res.render('react_container');
 });
 
 router.get('/a-propos', (req, res) => {
-  res.redirect('/');
+  res.redirect('react_container');
 });
 
 router.get('/ctn-asso', isAdmin, (req, res, next) => {
-  res.render('admin');
+  res.render('react_container');
 });
 
 module.exports = (passportMiddleware) => {

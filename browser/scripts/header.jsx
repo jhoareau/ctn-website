@@ -1,6 +1,7 @@
 import React from 'react';
 import Request from 'superagent';
 import InlineSVG from 'svg-inline-react';
+import CustomLink from './custom-link.jsx';
 
 class Header extends React.Component {
   constructor(props) {
@@ -40,16 +41,16 @@ class Header extends React.Component {
             else {
               let svgContent = this.svgMap.get(link.src);
               return (<li className="nav-item" key={link.href}>
-                        <a href={link.href} className={className}>
+                        <CustomLink href={link.href} className={className} root={this.props.root}>
                           {svgContent}
-                        </a>
+                        </CustomLink>
                       </li>);
             }
           })
         }</ul>
     );
   }
-  /*bindAnimateMediapiston(TweenMax) {
+  bindAnimateMediapiston(TweenMax) {
     let mpSvg = document.querySelector('.svg_mediapiston svg');
     let mpSvgCameraColor = document.querySelectorAll('.svg_mediapiston svg #Calque_2 *');
     let mpSvgFilm = document.querySelector('.svg_mediapiston svg #Calque_2 *:nth-last-child(2)');
@@ -191,16 +192,16 @@ class Header extends React.Component {
         ease: TweenMax.Power3.easeOut
       });
     });
-  }*/
+  }
   componentDidMount() {
-    /*let TweenMax = require('gsap');
+    let TweenMax = require('gsap');
     // Attach animation event handlers
     if (this.state.links.length > 2) {
       this.bindAnimatePret(TweenMax);
       this.bindAnimateMediapiston(TweenMax);
     }
     this.bindAnimateApropos(TweenMax);
-    if (this.state.links.length === 5) this.bindAnimateAdmin(TweenMax);*/
+    if (this.state.links.length === 5) this.bindAnimateAdmin(TweenMax);
   }
 }
 Header.defaultProps = {

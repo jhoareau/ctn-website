@@ -43,40 +43,40 @@ const routerWithErrorLogger = (winston) => {
     if (!req.isAuthenticated())
       return res.json([
         { title: "Connexion", href: '/login' },
-        //{ title: "A propos", src: 'apropos', href: '/a-propos' }
+        { title: "A propos", src: 'apropos', href: '/a-propos' }
       ]);
     if (req.user.admin)
       return res.json([
               { title: "Mediapiston", src: 'mediapiston', href: '/mediapiston' },
-              //{ title: "Matériel", src: 'pret', href: '/pret-matos' },
-              //{ title: "A propos", src: 'apropos', href: '/a-propos' },
-              //{ title: "Admin", src: 'admin', href: '/ctn-asso' },
-              //{ title: "Déconnexion", href: '/logout', logout: true },
+              { title: "Matériel", src: 'pret', href: '/matos' },
+              { title: "A propos", src: 'apropos', href: '/a-propos' },
+              { title: "Admin", src: 'admin', href: '/ctn-asso' },
+              { title: "Déconnexion", href: '/logout', logout: true },
             ]);
     res.json([
             { title: "Mediapiston", src: 'mediapiston', href: '/mediapiston' },
-            //{ title: "Matériel", src: 'pret', href: '/pret-matos' },
-            //{ title: "A propos", src: 'apropos', href: '/a-propos' },
-            //{ title: "Déconnexion", href: '/logout', logout: true }
+            { title: "Matériel", src: 'pret', href: '/matos' },
+            { title: "A propos", src: 'apropos', href: '/a-propos' },
+            { title: "Déconnexion", href: '/logout', logout: true }
           ]);
   });
 
   router.get('/mediapiston/adminFeatures', loggedIn, (req, res) => {
     if (req.user.admin)
       return res.json([
-              { title: "Ajouter une vidéo", href: '/upload' }
+              { title: "Ajouter une vidéo", href: '/mediapiston/upload' }
                       ]);
     res.json([]);
   });
 
-  /*router.get('/pret-matos/adminFeatures', loggedIn, (req, res) => {
+  router.get('/matos/adminFeatures', loggedIn, (req, res) => {
     if (req.user.admin)
       return res.json([
-              { title: "Ajouter un matériel", href: '/pret-matos/add' },
-              { title: "Gérer le matériel", href: '/pret-matos/admin' }
+              { title: "Ajouter un matériel", href: '/matos/add' },
+              { title: "Gérer le matériel", href: '/matos/admin' }
                       ]);
     res.json([]);
-  });*/
+  });
 
   router.get('/videoList', loggedIn, (req, res) => {
     mongodb.video.returnList((data, err) => {
@@ -213,33 +213,33 @@ const routerWithErrorLogger = (winston) => {
     });
   });
 
-/*
-  router.get('/pret-matos/public', loggedIn, (req, res) => {
+
+  router.get('/matos/public', loggedIn, (req, res) => {
     mongodb.materiel.returnList(null, data => {
       if (data === null) data = [];
       return res.json(data);
     });
   });
 
-  router.get('/pret-matos/admin', isAdmin, (req, res) => {
+  router.get('/matos/admin', isAdmin, (req, res) => {
     mongodb.materiel.returnList(true, data => {
       if (data === null) data = [];
       return res.json(data);
     });
   });
 
-  router.post('/pret-matos/:id/update', isAdmin, (req, res) => {
+  router.post('/matos/:id/update', isAdmin, (req, res) => {
     mongodb.materiel.update(req.params.id, req.body, answer => res.json(answer));
   });
 
-  router.put('/pret-matos/add', isAdmin, (req, res) => {
+  router.put('/matos/add', isAdmin, (req, res) => {
     mongodb.materiel.add(req.body, answer => {
       let thumbnailData = req.body.thumbnail.replace(/^data:image\/png;base64,/, '');
       fs.writeFile(path.join(__dirname, '../materiel/', answer.id + '.png'), thumbnailData, 'base64', err => {if (err) throw err;});
       return res.json({ok: true});
     });
   });
-*/
+
   return router;
 }
 

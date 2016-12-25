@@ -13,7 +13,7 @@ class Video extends React.Component {
   render() {
     let description = this.props.description;
     let thumbUrl = '/videos/' + this.props._id + '.png';
-    let url = '/watch/' + this.props._id;
+    let url = '/mediapiston/watch/' + this.props._id;
     if (description.length > 150) description = description.substring(0, 147) + "...";
 
     return (
@@ -84,7 +84,7 @@ class RelatedVideo extends Video {
   }
   render() {
     let thumbUrl = '/videos/' + this.props._id + '.png';
-    let url = '/watch/' + this.props._id;
+    let url = '/mediapiston/watch/' + this.props._id;
 
     return (
       <div className="mdl-card mdl-shadow--2dp" style={{backgroundImage: 'url(' + thumbUrl + ')'}}>

@@ -23,20 +23,19 @@ import { BrowserRouter, Match, Miss, Link, browserHistory } from 'react-router';
 import CustomLink from './custom-link.jsx';
 
 const App = () => (
-  <BrowserRouter basename='/mediapiston'>
+  <BrowserRouter>
     <div>
       <header>
-        <nav className="navbar navbar-light navbar-full"><a href="/" className="navbar-brand"><img src="/defaults/ctn.svg"/></a>
+        <nav className="navbar navbar-light navbar-full"><CustomLink href="/" className="navbar-brand" root={true}><img src="/defaults/ctn.svg"/></CustomLink>
           <div className="float-xs-right">
             <Header route='/ajax/header' root={true} />
           </div>
         </nav>
       </header>
       <section className="container-fluid">
-        <Match exactly pattern="/" component={VideoList_Router} />
-        <Match pattern="/watch/:id" component={VideoPlayer_Router} />
-        <Match pattern="/upload" component={Upload_Router} />
-        <Match pattern="/update/:id" component={Update_Router} />
+        <Match exactly pattern="/" component={NoMatch} />
+        <Match pattern="/mediapiston" component={Mediapiston_Router} />
+        <Match pattern="/matos" component={Matos_Router} />
     
         <Miss component={NoMatch}/>
       </section>
@@ -58,6 +57,28 @@ let stylesheetsUsed = {
   video_player: false,
   forms: false
 }
+
+const Mediapiston_Router = ({ pathname }) => (
+  <div>
+    <Match exactly pattern={pathname} component={VideoList_Router} />
+    <Match pattern={`${pathname}/watch/:id`} component={VideoPlayer_Router} />
+    <Match pattern={`${pathname}/upload`} component={Upload_Router} />
+    <Match pattern={`${pathname}/update/:id`} component={Update_Router} />
+
+    <Miss component={NoMatch}/>
+  </div>
+)
+
+const Matos_Router = ({ pathname }) => (
+  <div>
+    <Match exactly pattern="/" component={VideoList_Router} />
+    <Match pattern="/watch/:id" component={VideoPlayer_Router} />
+    <Match pattern="/upload" component={Upload_Router} />
+    <Match pattern="/update/:id" component={Update_Router} />
+
+    <Miss component={NoMatch}/>
+  </div>
+)
 
 
 const VideoList_Router = () => {
@@ -116,7 +137,7 @@ const Update_Router = ({ params }) => {
 
 
 const NoMatch = ({location}) => (
-  <Error err="Page non trouvée !" />
+  <Error err="Page non trouvée (React) !" />
 )
 
 render(<App />, document.querySelector('#reactApp'))
