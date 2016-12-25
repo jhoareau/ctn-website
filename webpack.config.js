@@ -54,12 +54,7 @@ pluginArray.push(new webpack.LoaderOptionsPlugin({
 //pluginArray.push(new ExtractTextPlugin("styles.css"));
 
 module.exports = {
-    entry: //{
-        //react: path.join(__dirname, "browser/scripts/index.jsx"),
-        //router: path.join(__dirname, "browser/scripts/index_router.jsx")
-      [path.join(__dirname, "browser/scripts/index_router.jsx")]
-    //}
-    ,
+    entry: [path.join(__dirname, "browser/scripts/index_router.jsx")],
     output: {
         path: path.join(__dirname, 'public/assets'),
         //filename: "bundle_[name].js",

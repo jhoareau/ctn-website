@@ -1,4 +1,5 @@
 import React from 'react';
+import Request from 'superagent';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Historique extends React.Component {
@@ -54,6 +55,16 @@ class Camera extends React.Component {
       }
     };
 
+    // Matériel emprunté au moment de l'affichage
+    let nowEmprunte = emprunte && !this.props.showHistorique ? <p>Empruntée par {emprunt(index).nom} le {emprunt(index).date} avec {emprunt(index).responsable}</p> : null;
+    let rendreCamera = emprunte && !this.props.showHistorique ? <button className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Rendre</button> : null;
+    // Matériel réservé au moment de l'affichage
+    let nowReserve = reserve ? <p>Réservée par {emprunt(index).nom} le {emprunt(index).date}</p> : null;
+    let validerReservation = reserve && !this.props.showHistorique ? <button className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onClick={this.validerReservation}>Valider réservation</button> : null;
+    let annulerReservation = reserve && !this.props.showHistorique ? <button className="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect" onClick={this.closeReservation}>Annuler réservation</button> : null;
+
+    let reserver = !emprunteOuReserve && !this.props.showHistorique ? <button className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onClick={this.openReservation}>Réserver</button> : null
+
     return (
         <div className="mdl-card display_card mdl-shadow--2dp" data-id={this.props._id}>
           <div className="mdl-card__title" style={{backgroundImage: 'url("/materiel/materiel/' + this.props._id + '.png")'}}>
@@ -70,26 +81,19 @@ class Camera extends React.Component {
           }
           <div className="mdl-card__supporting-text">
             <p>Caution : {this.props.caution}€</p>
-            {/* Empruntée dans le présent */}
-            {emprunte && !this.props.showHistorique ? <p>Empruntée par {emprunt(index).nom} le {emprunt(index).date} avec {emprunt(index).responsable}</p> : null}
-
-            {/* Réservée dans le présent */}
-            {reserve ? <p>Réservée par {emprunt(index).nom} le {emprunt(index).date}</p> : null}
-
-            {/* Ni emprunté ni réservé */}
+            {nowEmprunte}
+            {nowReserve}
             {!emprunteOuReserve ? <p className="materielDispo">Disponible</p> : null}
+            
             <ReactCSSTransitionGroup transitionEnterTimeout={600} transitionLeaveTimeout={600} transitionName="cardDescription">
               {cardDescription}
             </ReactCSSTransitionGroup>
           </div>
           <div className="mdl-card__actions mdl-card--border">
-            {/* Empruntée dans le présent */}
-            {emprunte && !this.props.showHistorique ? <button className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Rendre</button> : null}
-            {/* Réservée */}
-            {reserve && !this.props.showHistorique ? <button className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onClick={this.validerReservation}>Valider réservation</button> : null}
-            {reserve && !this.props.showHistorique ? <button className="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect" onClick={this.closeReservation}>Annuler réservation</button> : null}
-            {/* Ni emprunté ni réservé */}
-            {!emprunteOuReserve && !this.props.showHistorique ? <button className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onClick={this.openReservation}>Réserver</button> : null}
+            {rendreCamera}
+            {validerReservation}
+            {annulerReservation}
+            {reserver}
             {/* Emprunté dans le passé */}
             {this.props.showHistorique ? this.props.historique.reverse().map(histoObject => {
               return <Historique {...histoObject} key={JSON.stringify(histoObject)} />;
@@ -113,7 +117,23 @@ Camera.defaultProps = {
 class MatosList extends React.Component {
   constructor(props) {
     super(props);
+    this.populate = this.populate.bind(this);
+
+    this.state = props;
+    //if (typeof props.route !== 'undefined') this.populate(props.route);
   }
+
+  componentWillReceiveProps(props) {
+    this.populate(props.route);
+  }
+
+  populate(route) {
+    Request.get(route).end((err, data) => {
+      data = data.body;
+      this.setState({videoList: data});
+    });
+  }
+
   render() {
     if (this.props.matosList.length > 0)
       return (
@@ -145,7 +165,7 @@ MatosList.defaultProps = {
                   historique: [
                     {
                       emprunteur: 'Antonio de Jesus Montez',
-                      date_emprunt: '27/06/2016',
+                      date_emprunt: '2016-06-27',
                       valide: false
                     }
                   ],
@@ -158,7 +178,7 @@ MatosList.defaultProps = {
                   historique: [
                     {
                       emprunteur: 'Antonio de Jesus Montez',
-                      date_emprunt: '28/06/2016',
+                      date_emprunt: '2016-06-28',
                       valide: true,
                       responsable_emprunt: 'Akelo'
                     }
@@ -172,18 +192,18 @@ MatosList.defaultProps = {
                   historique: [
                     {
                       emprunteur: 'Antonio de Jesus Montez',
-                      date_emprunt: '25/06/2016',
+                      date_emprunt: '2016-06-25',
                       valide: true,
                       responsable_emprunt: 'Akelo',
-                      date_rendu: '27/06/2016',
+                      date_rendu: '2016-06-27',
                       reponsable_rendu: 'Khynder'
                     },
                     {
                       emprunteur: 'Julien Hoareau',
-                      date_emprunt: '28/06/2016',
+                      date_emprunt: '2016-06-27',
                       valide: true,
                       responsable_emprunt: 'Paypouz',
-                      date_rendu: '10/07/2016',
+                      date_rendu: '2016-07-10',
                       reponsable_rendu: 'Kaths'
                     }
                   ],

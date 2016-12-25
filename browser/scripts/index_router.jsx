@@ -15,7 +15,7 @@ import Header from "./header.jsx";
 //import Carousel from "./carousel.jsx";
 import {VideoList, RelatedVideoList} from "./video.jsx";
 import AdminFeatures from "./admin_features.jsx";
-//import MatosList from "./materiel.jsx";
+import MatosList from "./materiel.jsx";
 import VideoPlayer from "./video_player.jsx";
 import UploadForm from "./upload.jsx";
 
@@ -45,6 +45,7 @@ const App = () => (
 
 const stylesheets = {
   cards: require('~/browser/styles/cards.useable.sass'),
+  cards_animations: require('~/browser/styles/cards_animations.useable.sass'),
   search: require('~/browser/styles/search.useable.sass'),
   admin_features: require('~/browser/styles/admin_features.useable.sass'),
   video_player: require('~/browser/styles/video_player.useable.sass'),
@@ -56,6 +57,20 @@ let stylesheetsUsed = {
   admin_features: false,
   video_player: false,
   forms: false
+}
+
+const activateStylesheets = (names) => {
+  for (name in stylesheets) {
+    if (names.indexOf(name) > -1) {
+      if (stylesheetsUsed[name]) continue;
+      stylesheets[name].use();
+      stylesheetsUsed[name] = true;
+    } else {
+      if (!stylesheetsUsed[name]) continue;
+      stylesheets[name].unuse();
+      stylesheetsUsed[name] = false;
+    }
+  }
 }
 
 const Mediapiston_Router = ({ pathname }) => (
@@ -71,10 +86,8 @@ const Mediapiston_Router = ({ pathname }) => (
 
 const Matos_Router = ({ pathname }) => (
   <div>
-    <Match exactly pattern="/" component={VideoList_Router} />
-    <Match pattern="/watch/:id" component={VideoPlayer_Router} />
-    <Match pattern="/upload" component={Upload_Router} />
-    <Match pattern="/update/:id" component={Update_Router} />
+    <Match exactly pattern={pathname} component={MatosList_Router} />
+    <Match pattern="/add" component={AddMatos_Router} />
 
     <Miss component={NoMatch}/>
   </div>
@@ -82,11 +95,7 @@ const Matos_Router = ({ pathname }) => (
 
 
 const VideoList_Router = () => {
-  if (!stylesheetsUsed.cards) stylesheets.cards.use(); stylesheetsUsed.cards = true;
-  if (!stylesheetsUsed.search) stylesheets.search.use(); stylesheetsUsed.search = true;
-  if (!stylesheetsUsed.admin_features) stylesheets.admin_features.use(); stylesheetsUsed.admin_features = true;
-  if (stylesheetsUsed.forms) {stylesheets.forms.unuse(); stylesheetsUsed.forms = false;}
-  if (stylesheetsUsed.video_player) {stylesheets.video_player.unuse(); stylesheetsUsed.video_player = false;}
+  activateStylesheets(['cards', 'search', 'admin_features']);
 
   return (
     <div>
@@ -100,12 +109,23 @@ const VideoList_Router = () => {
   );
 };
 
+const MatosList_Router = () => {
+  activateStylesheets(['cards', 'cards_animations', 'search', 'admin_features']);
+
+  return (
+    <div>
+      <div id="adminFeatures">
+        <AdminFeatures route='/ajax/matos/adminFeatures' root={true} />
+      </div>
+      <div id="videosList">
+        <MatosList route='/ajax/matosList' root={true} />
+      </div>
+    </div>
+  );
+};
+
 const VideoPlayer_Router = ({ params }) => {
-  if (stylesheetsUsed.cards) {stylesheets.cards.unuse(); stylesheetsUsed.cards = false;}
-  if (stylesheetsUsed.search) {stylesheets.search.unuse(); stylesheetsUsed.search = false;}
-  if (stylesheetsUsed.admin_features) {stylesheets.admin_features.unuse(); stylesheetsUsed.admin_features = false;}
-  if (stylesheetsUsed.forms) {stylesheets.forms.unuse(); stylesheetsUsed.forms = false;}
-  if (!stylesheetsUsed.video_player) {stylesheets.video_player.use(); stylesheetsUsed.video_player = true;}
+  activateStylesheets(['video_player']);
 
   return (
     <div className="row">
@@ -133,6 +153,16 @@ const Update_Router = ({ params }) => {
   if (!stylesheetsUsed.forms) {stylesheets.forms.use(); stylesheetsUsed.forms = true;}
 
   return <UploadForm update={true} route={'/ajax/video/' + params.id} _id={params.id} />;
+}
+
+const AddMatos_Router = () => {
+  if (stylesheetsUsed.cards) {stylesheets.cards.unuse(); stylesheetsUsed.cards = false;}
+  if (stylesheetsUsed.search) {stylesheets.search.unuse(); stylesheetsUsed.search = false;}
+  if (stylesheetsUsed.admin_features) {stylesheets.admin_features.unuse(); stylesheetsUsed.admin_features = false;}
+  if (stylesheetsUsed.video_player) {stylesheets.video_player.unuse(); stylesheetsUsed.video_player = false;}
+  if (!stylesheetsUsed.forms) {stylesheets.forms.use(); stylesheetsUsed.forms = true;}
+
+  return <UploadForm />;
 }
 
 

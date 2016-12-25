@@ -194,21 +194,19 @@ class Header extends React.Component {
     });
   }
   componentDidMount() {
-    let TweenMax = require('gsap');
+    /*let TweenMax = require('gsap');
     // Attach animation event handlers
     if (this.state.links.length > 2) {
       this.bindAnimatePret(TweenMax);
       this.bindAnimateMediapiston(TweenMax);
     }
     this.bindAnimateApropos(TweenMax);
-    if (this.state.links.length === 5) this.bindAnimateAdmin(TweenMax);
+    if (this.state.links.length === 5) this.bindAnimateAdmin(TweenMax);*/
   }
 }
 Header.defaultProps = {
   links: [
-          { title: "Mediapiston", href: '/mediapiston' },
-          //{ title: "Matériel", href: '/pret-matos' },
-          //{ title: "A propos", href: '/a-propos' },
+          { title: "Connexion", href: '/login', logout: true },
           { title: "Déconnexion", href: '/logout', logout: true },
          ]
 };
