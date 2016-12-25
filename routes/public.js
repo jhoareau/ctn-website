@@ -8,7 +8,6 @@ const loggedIn = (req, res, next) => {
     if (typeof req.session === 'undefined') req.session = {};
     req.session.redirectTo = req.path;
     res.redirect('/login');
-    //res.redirect('/');
   }
 }
 
@@ -29,47 +28,14 @@ router.get('/', (req, res) => {
   res.redirect('/mediapiston');
 });
 
-
-/*router.get('/login', (req, res) => {
-  if (req.isAuthenticated()) {
-    res.redirect(req.session.redirectTo || '/')
-    delete req.session.redirectTo;
-  }
-  else res.render('login');
-});*/
-
 router.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
 });
 
-/*router.get('/login/callback', loggedIn, (req, res) => {
-  res.redirect('/');
-});*/
-
 router.get(['/mediapiston', '/mediapiston/*'], loggedIn, (req, res) => {
-  res.render('mediapiston_react');
+  res.render('react_container');
 });
-
-/*router.get('/mediapiston', loggedIn, (req, res) => {
-  res.render('mediapiston_home');
-});
-
-router.get('/mediapiston/watch/:videoid', loggedIn, (req, res) => {
-  res.render('mediapiston_video');
-});
-
-router.get('/mediapiston/upload', isAdmin, (req, res) => {
-  res.render('mediapiston_upload');
-});
-
-router.get('/mediapiston/update/:id', isAdmin, (req, res) => {
-  res.render('mediapiston_upload', {update: true});
-});
-
-router.get('/mediapiston/search', loggedIn, (req, res) => {
-  res.render('mediapiston_home');
-});*/
 
 router.get('/pret-matos', loggedIn, (req, res) => {
   res.render('materiel');
@@ -101,12 +67,6 @@ module.exports = (passportMiddleware) => {
     }
     res.redirect('/');
   });
-  /*router.post('/login', passportMiddleware);
-  router.post('/login',
-      function (req, res) {
-        res.redirect(req.session.redirectTo || '/')
-        delete req.session.redirectTo;
-  });*/
 
   return router;
 };

@@ -96,7 +96,6 @@ const routerWithErrorLogger = (winston) => {
   });
 
   router.get('/videoList/search/:title', loggedIn, (req, res) => {
-    // TODO vidéos liées à la vidéo en paramètre
     mongodb.video.searchRelatedVideos(req.params.title, (data, err) => {
       if (err) winston.log('warning', 'VideoList Search / ' + err.message);
       if (data === null) data = [];

@@ -67,7 +67,11 @@ module.exports = {
         publicPath: '/assets/'
     },
     resolve: {
-      alias: {'~': path.resolve(__dirname)}
+      alias: {
+        '~': path.resolve(__dirname),
+        //"react": "preact-compat",
+        //"react-dom": "preact-compat"
+      }
     },
     resolveLoader: {
       modules: [path.join(__dirname, 'node_modules')],
