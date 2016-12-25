@@ -111,7 +111,7 @@ const Update_Router = ({ params }) => {
   if (stylesheetsUsed.video_player) {stylesheets.video_player.unuse(); stylesheetsUsed.video_player = false;}
   if (!stylesheetsUsed.forms) {stylesheets.forms.use(); stylesheetsUsed.forms = true;}
 
-  return <UploadForm update={true} route={'/ajax/video/' + params.id} />;
+  return <UploadForm update={true} route={'/ajax/video/' + params.id} _id={params.id} />;
 }
 
 

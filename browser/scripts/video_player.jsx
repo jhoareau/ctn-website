@@ -12,7 +12,6 @@ class VideoPlayer extends React.Component {
   constructor(props) {
     super(props);
     this.deleteVideoConfirm = this.deleteVideoConfirm.bind(this);
-    this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
     this.populate = this.populate.bind(this);
 
     this.state = props;

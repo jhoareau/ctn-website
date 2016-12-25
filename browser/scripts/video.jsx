@@ -41,7 +41,6 @@ export class VideoList extends React.Component {
   constructor(props) {
     super(props);
     this.populate = this.populate.bind(this);
-    this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
     this.state = props;
 
     if (typeof props.route !== 'undefined') this.populate(props.route);

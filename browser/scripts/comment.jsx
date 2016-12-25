@@ -115,13 +115,12 @@ export default class CommentList extends React.Component {
     super(props);
     this.state = props;
     this.reloadCommentsState = this.reloadCommentsState.bind(this);
-    this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
     this.pushBoxText = this.pushBoxText.bind(this);
 
     this.reloadCommentsState();
   }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps() {
     this.reloadCommentsState();
   }
 
