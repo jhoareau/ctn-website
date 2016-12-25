@@ -63,7 +63,7 @@ class CommentBox extends React.Component {
   }
   postComment(event) {
     event.preventDefault();
-    if (commentText === "") return;
+    if (this.state.commentText == "") return;
 
     if (!this.props.commentText)
       Request.put('/ajax/video/' + this.props.videoId + '/comments/add')
