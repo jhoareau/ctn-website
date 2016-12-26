@@ -77,12 +77,11 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.jsx?$/, loader: "babel-loader", include: path.resolve(__dirname, "browser/scripts") },
-            { test: /(\.less$)/, loaders: ['style', 'css', 'postcss-loader', 'less'] },
             { test: /(\.css$)/, loaders: ['style', 'css', 'postcss-loader'] },
             { test: /\.useable\.sass$/, loaders: ["style-loader/useable?singleton", "css", "postcss-loader", "sass"] },
             { test: /\.sass$/, exclude: /\.useable\.sass$/, loaders: ["style", "css", "postcss-loader", "sass"] },
             { test: /\.scss$/, loaders: ["style", "css", "postcss-loader", "sass"] },
-            { test: /(\.eot|\.woff|\.woff2|\.ttf|fontawesome-webfont\.svg)(\?\S*)?$/, loader: 'file?name=[name].[ext]' },
+            { test: /(\.eot|\.woff|\.woff2|\.ttf|fontawesome-webfont\.svg|slick\.svg|\.gif)(\?\S*)?$/, loader: 'file?name=[name].[ext]' },
             //{ test: /\.svg$/, loader: 'svg-inline' },
         ]
     },

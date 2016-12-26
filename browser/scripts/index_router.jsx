@@ -12,7 +12,7 @@ import '~/browser/styles/global.sass';
 /* Components */
 import Error from "./error.jsx"
 import Header from "./header.jsx";
-//import Carousel from "./carousel.jsx";
+import Carousel from "./carousel.jsx";
 import {VideoList, RelatedVideoList} from "./video.jsx";
 import AdminFeatures from "./admin_features.jsx";
 import MatosList from "./materiel.jsx";
@@ -33,7 +33,7 @@ const App = () => (
         </nav>
       </header>
       <section className="container-fluid">
-        <Match exactly pattern="/" component={NoMatch} />
+        <Match exactly pattern="/" component={Carousel_Router} />
         <Match pattern="/mediapiston" component={Mediapiston_Router} />
         <Match pattern="/matos" component={Matos_Router} />
     
@@ -49,14 +49,16 @@ const stylesheets = {
   search: require('~/browser/styles/search.useable.sass'),
   admin_features: require('~/browser/styles/admin_features.useable.sass'),
   video_player: require('~/browser/styles/video_player.useable.sass'),
-  forms: require('~/browser/styles/forms.useable.sass')
+  forms: require('~/browser/styles/forms.useable.sass'),
+  carousel: require('~/browser/styles/carousel.useable.sass')
 }
 let stylesheetsUsed = {
   cards: false,
   search: false,
   admin_features: false,
   video_player: false,
-  forms: false
+  forms: false,
+  carousel: false,
 }
 
 const activateStylesheets = (names) => {
@@ -92,6 +94,14 @@ const Matos_Router = ({ pathname }) => (
     <Miss component={NoMatch}/>
   </div>
 )
+
+const Carousel_Router = () => {
+  require('slick-carousel/slick/slick.scss');
+  require('slick-carousel/slick/slick-theme.scss');
+  activateStylesheets(['carousel']);
+
+  return <Carousel />;
+}
 
 
 const VideoList_Router = () => {

@@ -1,63 +1,39 @@
-.carousel
-  margin-top: 10px
-  margin-bottom: 0px
-  height: 100%
-
-.carouselNavigator
-  width: 100%
-  text-align: center
-  position: absolute
-  bottom: 50px
-
-.carouselThumb
-  cursor: pointer
-  border: 1px solid black
-  width: 200px
-  height: 120px
-  display: inline-block
-  margin-right: 100px
-  text-align: left
-  background-size: cover
-  opacity: 0.6
-  transition: opacity .4s ease-out
-
-.carouselThumb:hover
-  opacity: 1
-  transition: opacity .4s ease-out
-
 .carouselText
   background-color: rgba(255, 255, 255, 0.9)
   color: black
   position: relative
-  top: 15%
-  transform: translate3d(0, -100%, 0)
+  transform: translateY(-180%)
+  padding-left: 1em
+  padding-top: 5px
+  padding-bottom: 1px
 
-.carouselThumbText
-  font-size: 14px
-  padding-left: 0.5em
+.carouselText p
+  margin-bottom: 0.5rem
 
 .carouselContainer
-  height: calc(100vh - 120px)
-  width: 100%
+  height: 90%
+  width: 90%
+  margin-top: 10px
+  margin-bottom: 30px
   margin-left: auto
   margin-right: auto
 
-.carouselReplace-enter
-  animation: openCarousel 0.5s cubic-bezier(0.255, 0.255, 0.53, 1) forwards
-
-.carouselReplace-leave
-  animation: openCarousel 0.5s cubic-bezier(0.255, 0.255, 0.53, 1) forwards reverse
-
-@keyframes openCarousel
-  0%
-    transform: translate3d(0, 100%, 0)
-    opacity: 0
-
-  100%
-    opacity: 1
-    transform: translate3d(0, 0, 0)
-
 .carouselItem
-  height: 100%
+  height: 0
+  padding-top: 56.25%
   width: 100%
   background-size: cover
+
+.slick-prev:before, .slick-next:before
+  color: black !important
+
+.slick-dots
+  bottom: -50px !important
+  background-color: rgba(0, 0, 0, 0.5)
+  transform: scale(0.9)
+
+.slick-dots li
+  height: 90px !important
+  width: 160px !important
+  vertical-align: middle
+  margin: 2px 5px !important

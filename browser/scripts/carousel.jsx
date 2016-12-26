@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactCSSTransitionReplace from 'react-css-transition-replace';
+import Slider from 'react-slick';
 
 class CarouselItem extends React.Component {
   constructor(props) {
@@ -9,10 +9,11 @@ class CarouselItem extends React.Component {
   render() {
     return (
       <div style={{backgroundImage: 'url(' + this.props.imageUrl + ')'}} className="carouselItem">
-        <div className="carouselText">
-          <h3>{this.props.title}</h3>
-          <p>{this.props.description}</p>
-        </div>
+        {!this.props.thumb ? <div className="carouselText">
+                              <h3>{this.props.title}</h3>
+                              <p>{this.props.description}</p>
+                            </div>
+         : null}
       </div>
     );
   }
@@ -24,59 +25,32 @@ CarouselItem.defaultProps = {
   linkUrl: '/news/0'
 };
 
-class CarouselThumb extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div style={{backgroundImage: 'url(' + this.props.imageUrl + ')'}} className="carouselThumb" onClick={this.props.clickHandler}>
-        <div className="carouselText carouselThumbText">
-          {this.props.title}
-        </div>
-      </div>
-    );
-  }
-}
-CarouselThumb.defaultProps = {
-  title: "Titre Carousel",
-  imageUrl: '/defaults/no_video.png',
-  linkUrl: '/news/0'
-};
-
 class Carousel extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {openedCarouselItem: 0};
-  }
-
-  openCarouselItem(index) {
-    this.setState({openedCarouselItem: index});
-    this.forceUpdate();
+    this.state = props;
   }
 
   render() {
-    let carouselIndex = this.state.openedCarouselItem;
+    const settings = {
+      customPaging: i => (
+        <a><CarouselItem {...this.state.carouselList[i]} thumb={true} key={'thumb' + i} /></a>
+      ),
+      dots: true,
+      dotsClass: 'slick-dots slick-thumb',
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1
+    };
     return (
-      <div className="carousel">
-        <div className="carouselContainer">
-          <ReactCSSTransitionReplace transitionEnterTimeout={600} transitionLeaveTimeout={600} transitionName="carouselReplace">
-            {
-                <CarouselItem {...this.props.carouselList[carouselIndex]} key={carouselIndex} />
-            }
-          </ReactCSSTransitionReplace>
-        </div>
-        <div className="carouselNavigator">
-          {
-            this.props.carouselList.map((item, index) => {
-              return <CarouselThumb {...item} key={index} clickHandler={this.openCarouselItem.bind(this, index)} />
-            })
-          }
-        </div>
+      <div className="carouselContainer">
+        <Slider {...settings}>
+          {this.state.carouselList.map((el, i) => <div key={'item'+i}><CarouselItem {...el} /></div>)}
+        </Slider>
       </div>
-    );
+    )
   }
 }
 
