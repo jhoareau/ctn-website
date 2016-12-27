@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import moment from 'moment';
 import Request from 'superagent';
 import * as MaterialComponentHandler from 'exports?componentHandler&MaterialRipple!material-design-lite/material'; // Google material-design-lite V1 workaround
@@ -12,7 +13,7 @@ class Comment extends React.Component {
 
   deleteComment() {
     if (confirm('Voulez vous vraiment supprimer ce commentaire ?')) {
-      Request.delete('/ajax/video/comments/' + this.props.id + '/delete').end((err) => {
+      Request.delete('/ajax/video/comments/' + this.props._id + '/delete').end((err) => {
         if (err) return console.log(err);
         this.props.triggerReload();
       });
@@ -20,7 +21,7 @@ class Comment extends React.Component {
   }
 
   editComment() {
-    this.props.editComment(this.props.id, this.props.text);
+    this.props.editComment(this.props._id, this.props.text);
   }
 
   render() {
@@ -132,6 +133,7 @@ export default class CommentList extends React.Component {
   }
   pushBoxText(commentId, commentText) {
     this.setState({commentText: commentText, commentId: commentId});
+    ReactDOM.findDOMNode(this.refs.commentBox).scrollIntoView();
   }
   componentDidMount() {
     MaterialComponentHandler.componentHandler.upgradeDom();
@@ -141,9 +143,9 @@ export default class CommentList extends React.Component {
       return (
         <div className="commentList">
           <span className="commentsTitle">Commentaires</span>
-          <CommentBox videoId={this.props.videoId} triggerReload={this.reloadCommentsState} commentId={this.state.commentId} commentText={this.state.commentText} />
+          <CommentBox ref="commentBox" videoId={this.props.videoId} triggerReload={this.reloadCommentsState} commentId={this.state.commentId} commentText={this.state.commentText} />
             {this.state.commentList.map((commentObject) => {
-              return <Comment {...commentObject} key={commentObject._id} id={commentObject._id} triggerReload={this.reloadCommentsState} editComment={this.pushBoxText} />
+              return <Comment {...commentObject} key={commentObject._id} _id={commentObject._id} triggerReload={this.reloadCommentsState} editComment={this.pushBoxText} />
             })}
         </div>
       );
@@ -151,7 +153,7 @@ export default class CommentList extends React.Component {
       return (
         <div className="commentList">
           <span className="commentsTitle">Cette vidéo n'a pas déchaîné les foules... A toi d'y ajouter ton commentaire!</span>
-          <CommentBox videoId={this.props.videoId} triggerReload={this.reloadCommentsState} commentId={this.state.commentId} commentText={this.state.commentText} />
+          <CommentBox ref="commentBox" videoId={this.props.videoId} triggerReload={this.reloadCommentsState} commentId={this.state.commentId} commentText={this.state.commentText} />
         </div>
       );
   }
