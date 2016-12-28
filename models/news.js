@@ -3,7 +3,8 @@ let mongoose = require('mongoose');
 let newsSchema = new mongoose.Schema({
   title: String,
   text: String,
-  writer: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+  writer: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+  date: {type: Date, default: Date.now}
 });
 
 let News = mongoose.model('News', newsSchema);
@@ -13,7 +14,8 @@ exports.create = (infos, callback) => {
   let schema = {
     title: infos.title,
     text: infos.text,
-    writer: infos.session._id
+    writer: infos.session._id,
+    date: infos.date
   }
   let newNews = new News(schema);
   newNews.save((err, result) => {
