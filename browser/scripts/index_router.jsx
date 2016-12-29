@@ -96,11 +96,18 @@ const Matos_Router = ({ pathname }) => (
 )
 
 const Carousel_Router = () => {
-  require('slick-carousel/slick/slick.scss');
-  require('slick-carousel/slick/slick-theme.scss');
-  activateStylesheets(['carousel']);
+  activateStylesheets(['carousel', 'admin_features']);
 
-  return <Carousel />;
+  return (
+    <div>
+      <div id="adminFeatures">
+        <AdminFeatures route='/ajax/news/adminFeatures' root={true} />
+      </div>
+      <div id="videosList">
+        <Carousel route='/ajax/newsList' />
+      </div>
+    </div>
+  );
 }
 
 
