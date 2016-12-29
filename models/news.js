@@ -5,7 +5,7 @@ let newsSchema = new mongoose.Schema({
   text: String,
   writer: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   date: {type: Date, default: Date.now},
-  image: { data: Buffer, contentType: String }
+  image: {data: Buffer, contentType: String}
 });
 
 let News = mongoose.model('News', newsSchema);

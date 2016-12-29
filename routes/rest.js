@@ -78,6 +78,15 @@ const routerWithErrorLogger = (winston) => {
     res.json([]);
   });
 
+  router.get('/news/adminFeatures', loggedIn, (req, res) => {
+    if (req.user.admin)
+      return res.json([
+              { title: "Ajouter un élément", href: '/news/add' },
+              { title: "Gérer les news", href: '/news/admin' }
+                      ]);
+    res.json([]);
+  });
+
   router.get('/videoList', loggedIn, (req, res) => {
     mongodb.video.returnList((data, err) => {
       if (err) winston.log('warning', 'VideoList / ' + err.message);
@@ -222,7 +231,7 @@ const routerWithErrorLogger = (winston) => {
 
   router.get('/newsList', loggedIn, (req, res) => {
     mongodb.news.returnList((data, err) => {
-      if (err) winston.log('warning', 'NewsList / ' + err.message);
+      if (err) winston.log('warning', 'News List / ' + err.message);
       if (data === null) data = [];
       return res.json(data);
     });
@@ -245,7 +254,7 @@ const routerWithErrorLogger = (winston) => {
   router.post('/news/:id/update', isAdmin, (req, res) => {
     mongodb.news.update(req.params.id, req.body, (answer, err) => {
       if (err) {
-        winston.log('warning', 'Video Update / ' + err.message);
+        winston.log('warning', 'News Update / ' + err.message);
         return res.status(500).send(answer);
       }
       return res.json(answer);
