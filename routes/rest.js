@@ -213,10 +213,51 @@ const routerWithErrorLogger = (winston) => {
     });
   });
 
-
   router.get('/matos/public', loggedIn, (req, res) => {
     mongodb.materiel.returnList(null, data => {
       if (data === null) data = [];
+      return res.json(data);
+    });
+  });
+
+  router.get('/newsList', loggedIn, (req, res) => {
+    mongodb.news.returnList((data, err) => {
+      if (err) winston.log('warning', 'NewsList / ' + err.message);
+      if (data === null) data = [];
+      return res.json(data);
+    });
+  });
+
+  router.put('/news', isAdmin, (req, res) => {
+    let writer = req.user;
+    let request = req.body;
+    request.session = writer;
+    request.date = new Date();
+    mongodb.news.create(request, (answer, err) => {
+      if (err) {
+        winston.log('warning', 'News Creation / ' + err.message);
+        return res.status(500).send(answer);
+      }
+      return res.json(answer);
+    });
+  });
+
+  router.post('/news/:id/update', isAdmin, (req, res) => {
+    mongodb.news.update(req.params.id, req.body, (answer, err) => {
+      if (err) {
+        winston.log('warning', 'Video Update / ' + err.message);
+        return res.status(500).send(answer);
+      }
+      return res.json(answer);
+    });
+  });
+
+  router.delete('/news/:id/delete', isAdmin, (req, res) => {
+    mongodb.news.delete(req.params.id, (data, err) => {
+      if (err) {
+        winston.log('warning', 'News Delete / ' + err.message);
+        return res.status(500).send(data);
+      }
       return res.json(data);
     });
   });
