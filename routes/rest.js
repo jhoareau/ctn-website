@@ -233,8 +233,6 @@ const routerWithErrorLogger = (winston) => {
     let request = req.body;
     request.session = writer;
     request.date = new Date();
-    //let thumbnailData = request.thumbnail.replace(/^data:image\/png;base64,/, '');
-    //fs.writeFile(path.join(__dirname, '../dansmoncul/', request._id + '.png'), thumbnailData, 'base64', err => {if (err) winston.log('warning', 'Thumbnail IO error / ' + err.message);});
     mongodb.news.create(request, (answer, err) => {
       if (err) {
         winston.log('warning', 'News Creation / ' + err.message);
@@ -252,11 +250,6 @@ const routerWithErrorLogger = (winston) => {
       }
       return res.json(answer);
     });
-    let request = req.body;
-    /*if (request.thumbnail) {
-      let thumbnailData = request.thumbnail.replace(/^data:image\/png;base64,/, '');
-      fs.writeFile(path.join(__dirname, '../dansmoncul/', req.params.id + '.png'), thumbnailData, 'base64', err => {if (err) winston.log('warning', 'Thumbnail IO error / ' + err.message);});
-    }*/
   });
 
   router.delete('/news/:id/delete', isAdmin, (req, res) => {
