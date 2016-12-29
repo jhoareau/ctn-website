@@ -47,7 +47,7 @@ class VideoPlayer extends React.Component {
   render() {
     let thumbUrl = '/videos/' + this.props._id + '.png';
     let videoUrl = '/videos/' + this.props._id + '.mp4';
-    let modifyUrl = '/update/' + this.props._id;
+    let modifyUrl = '/mediapiston/update/' + this.props._id;
 
     let videoControls = null;
     if (this.state.isAdmin)

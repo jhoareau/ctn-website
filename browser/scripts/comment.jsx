@@ -60,6 +60,7 @@ class CommentBox extends React.Component {
     this.state = {commentText: props.commentText};
   }
   handleChange(event) {
+    event.target.required = true; // Workaround MDL marking the field as invalid
     this.setState({commentText: event.target.value});
   }
   postComment(event) {
@@ -101,6 +102,7 @@ class CommentBox extends React.Component {
           <fieldset ref="materialFieldSet" className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label htmlFor="commentText" className="mdl-textfield__label">Commentaire plein d'amour ou de haine</label>
             <textarea id="commentText" name="commentText" className="mdl-textfield__input" value={this.state.commentText} onChange={this.handleChange} />
+            <span className="mdl-textfield__error">Il faut écrire quelque chose !</span>
           </fieldset>
           <fieldset className="form-group form-submit">
             <button type="submit" className="mdl-button mdl-js-button mdl-button--raised">{this.props.commentText ? 'Editer' : 'Poster'}</button>

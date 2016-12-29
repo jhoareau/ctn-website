@@ -179,10 +179,12 @@ class UploadForm extends React.Component {
   }
 
   updateVideoTitle(event) {
+    event.target.required = true; // Workaround MDL marking the field as invalid
     this.setState({videoTitle: event.target.value});
   }
 
   updateVideoDescription(event) {
+    event.target.required = true; // Workaround MDL marking the field as invalid
     this.setState({videoDescription: event.target.value});
   }
 
@@ -231,12 +233,12 @@ class UploadForm extends React.Component {
           <h6 className="mdl-typography--title formTitle">Détails de la vidéo</h6>
           <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label mainInput">
             <label htmlFor="videoTitle" className="mdl-textfield__label">Titre de la vidéo</label>
-            <input ref="videoTitle" id="videoTitle" required="required" className="mdl-textfield__input" type="text" value={this.state.videoTitle} onChange={this.updateVideoTitle} />
+            <input ref="videoTitle" id="videoTitle" className="mdl-textfield__input" type="text" value={this.state.videoTitle} onChange={this.updateVideoTitle} />
             <span className="mdl-textfield__error">Titre requis !</span>
           </fieldset><br />
           <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label htmlFor="videoDesc" className="mdl-textfield__label">Description de la vidéo</label>
-            <textarea ref="videoDesc" id="videoDesc" required="required" className="mdl-textfield__input" value={this.state.videoDescription} onChange={this.updateVideoDescription} />
+            <textarea ref="videoDesc" id="videoDesc" className="mdl-textfield__input" value={this.state.videoDescription} onChange={this.updateVideoDescription} />
             <span className="mdl-textfield__error">Description requise !</span>
           </fieldset>
           <fieldset className="form-group form-submit">
