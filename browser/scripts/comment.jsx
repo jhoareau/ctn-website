@@ -65,6 +65,9 @@ class CommentBox extends React.Component {
   }
   postComment(event) {
     event.preventDefault();
+    if (!this.refs.commentBox.required) {
+      this.refs.commentBox.required = true;
+    }
     if (this.state.commentText == "") return;
 
     if (!this.props.commentText)
@@ -101,7 +104,7 @@ class CommentBox extends React.Component {
           <h6 className="mdl-typography--title formTitle">Poste un commentaire</h6>
           <fieldset ref="materialFieldSet" className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label htmlFor="commentText" className="mdl-textfield__label">Commentaire plein d'amour ou de haine</label>
-            <textarea id="commentText" name="commentText" className="mdl-textfield__input" value={this.state.commentText} onChange={this.handleChange} />
+            <textarea ref="commentBox" id="commentText" name="commentText" className="mdl-textfield__input" value={this.state.commentText} onChange={this.handleChange} />
             <span className="mdl-textfield__error">Il faut écrire quelque chose !</span>
           </fieldset>
           <fieldset className="form-group form-submit">
