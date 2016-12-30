@@ -6,13 +6,13 @@ import CustomLink from './custom-link.jsx';
 class Header extends React.Component {
   constructor(props) {
     super(props);
-    let urlArray = ['admin', 'apropos', 'ctn', 'mediapiston', 'pret'];
-    //let urlArray = ['mediapiston'];
+    let urlArray = ['admin', 'apropos', 'mediapiston', 'pret'];
+
     this.svgMap = new Map();
     urlArray.forEach(url => {
       this.svgMap.set(url, <InlineSVG className={'navbarSvg svg_' + url} src={require('svg-inline!~/public/defaults/' + url + '.svg')} />);
     });
-    this.componentDidMount = this.componentDidMount.bind(this);
+
     this.componentDidUpdate = this.componentDidMount;
     this.populate = this.populate.bind(this);
 
@@ -52,8 +52,8 @@ class Header extends React.Component {
   }
   bindAnimateMediapiston(TweenMax) {
     let mpSvg = document.querySelector('.svg_mediapiston svg');
-    let mpSvgCameraColor = document.querySelectorAll('.svg_mediapiston svg #Calque_2 *');
-    let mpSvgFilm = document.querySelector('.svg_mediapiston svg #Calque_2 *:nth-last-child(2)');
+    let mpSvgCameraColor = document.querySelectorAll('.svg_mediapiston svg #Camera *');
+    let mpSvgFilm = document.querySelector('.svg_mediapiston svg #CameraLens');
     mpSvg.addEventListener('mouseenter', () => {
       TweenMax.to(mpSvgCameraColor, 1, {
         css: {
@@ -87,10 +87,9 @@ class Header extends React.Component {
   }
   bindAnimatePret(TweenMax) {
     let pretSvg = document.querySelector('.svg_pret svg');
-    let pretSvgCardColor = document.querySelector('.svg_pret svg #Calque_2 *:first-child');
-    let pretSvgCard = document.querySelector('.svg_pret svg #Calque_2');
+    let pretSvgCardColor = document.querySelector('.svg_pret svg #SD_card');
+    let pretSvgCard = document.querySelector('.svg_pret svg #SD_card');
     pretSvg.addEventListener('mouseenter', () => {
-      TweenMax.CSSPlugin.useSVGTransformAttr = false; // 3D SVG Transforms for animatePret
       TweenMax.to(pretSvgCardColor, 1, {
         css: {
           fill: 'rgb(204, 214, 90)',
@@ -125,8 +124,8 @@ class Header extends React.Component {
   }
   bindAnimateAdmin(TweenMax) {
     let adminSvg = document.querySelector('.svg_admin svg');
-    let adminSvgKeyColor = document.querySelector('.svg_admin svg #Calque_2 *:first-child');
-    let adminSvgKey = document.querySelector('.svg_admin svg #Calque_2');
+    let adminSvgKeyColor = document.querySelector('.svg_admin svg #Key');
+    let adminSvgKey = document.querySelector('.svg_admin svg #Key');
     adminSvg.addEventListener('mouseenter', () => {
       TweenMax.to(adminSvgKeyColor, 1, {
         css: {
@@ -160,8 +159,8 @@ class Header extends React.Component {
   }
   bindAnimateApropos(TweenMax) {
     let aproposSvg = document.querySelector('.svg_apropos svg');
-    let aproposRotatorColor = document.querySelectorAll('.svg_apropos svg #Calque_2 *');
-    let aproposRotator = document.querySelector('.svg_apropos svg #Calque_2');
+    let aproposRotatorColor = document.querySelectorAll('.svg_apropos svg #Aperture *');
+    let aproposRotator = document.querySelector('.svg_apropos svg #Aperture');
     aproposSvg.addEventListener('mouseenter', () => {
       TweenMax.to(aproposRotatorColor, 1, {
         css: {
@@ -194,14 +193,24 @@ class Header extends React.Component {
     });
   }
   componentDidMount() {
-    /*let TweenMax = require('gsap');
+    let TweenMax = require('gsap');
     // Attach animation event handlers
     if (this.state.links.length > 2) {
-      this.bindAnimatePret(TweenMax);
-      this.bindAnimateMediapiston(TweenMax);
+      try {
+        this.bindAnimatePret(TweenMax);
+      } catch (e) {}
+      try {
+        this.bindAnimateMediapiston(TweenMax);
+      } catch (e) {}
     }
-    this.bindAnimateApropos(TweenMax);
-    if (this.state.links.length === 5) this.bindAnimateAdmin(TweenMax);*/
+    try {
+      this.bindAnimateApropos(TweenMax);
+    } catch (e) {}
+    
+    if (this.state.links.length === 5)
+      try {
+        this.bindAnimateAdmin(TweenMax);
+      } catch (e) {}
   }
 }
 Header.defaultProps = {

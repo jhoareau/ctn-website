@@ -26,7 +26,7 @@ const App = () => (
   <BrowserRouter>
     <div>
       <header>
-        <nav className="navbar navbar-light navbar-full"><CustomLink href="/" className="navbar-brand" root={true}><img src="/defaults/ctn.svg"/></CustomLink>
+        <nav className="navbar navbar-light navbar-full"><CustomLink href="/" className="navbar-brand" root={true}><img src="/defaults/header.svg"/></CustomLink>
           <div className="float-xs-right">
             <Header route='/ajax/header' root={true} />
           </div>
