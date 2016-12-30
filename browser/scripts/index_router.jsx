@@ -10,7 +10,8 @@ import 'webpack-material-design-icons';
 import '~/browser/styles/global.sass';
 
 /* Components */
-import Error from "./error.jsx"
+import Error from "./error.jsx";
+import SearchBox from "./search.jsx";
 import Header from "./header.jsx";
 import Carousel from "./carousel.jsx";
 import {VideoList, RelatedVideoList} from "./video.jsx";
@@ -27,6 +28,7 @@ const App = () => (
     <div>
       <header>
         <nav className="navbar navbar-light navbar-full"><CustomLink href="/" className="navbar-brand" root={true}><img src="/defaults/header.svg"/></CustomLink>
+        <Match pattern="/(mediapiston|matos)" component={Search_Router} />
           <div className="float-xs-right">
             <Header route='/ajax/header' root={true} />
           </div>
@@ -54,7 +56,7 @@ const stylesheets = {
 }
 let stylesheetsUsed = {
   cards: false,
-  search: false,
+  cards_animations: false,
   admin_features: false,
   video_player: false,
   forms: false,
@@ -62,7 +64,7 @@ let stylesheetsUsed = {
 }
 
 const activateStylesheets = (names) => {
-  for (name in stylesheets) {
+  for (name in stylesheetsUsed) {
     if (names.indexOf(name) > -1) {
       if (stylesheetsUsed[name]) continue;
       stylesheets[name].use();
@@ -74,6 +76,17 @@ const activateStylesheets = (names) => {
     }
   }
 }
+
+const Search_Router = ({ location }) => {
+  stylesheets.search.use();
+
+  return (
+    <SearchBox />
+  );
+}
+
+    
+
 
 const Mediapiston_Router = ({ pathname }) => (
   <div>
