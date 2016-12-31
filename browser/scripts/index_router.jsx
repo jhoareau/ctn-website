@@ -20,8 +20,41 @@ import MatosList from "./materiel.jsx";
 import VideoPlayer from "./video_player.jsx";
 import UploadForm from "./upload.jsx";
 
-import { BrowserRouter, Match, Miss, Link, browserHistory } from 'react-router';
+import { BrowserRouter, Match, Miss, Link } from 'react-router';
+import { TransitionMotion, spring } from 'react-motion';
 import CustomLink from './custom-link.jsx';
+
+// Animations
+// Not used for the moment
+const MatchWithFade = ({ component:Component, ...rest }) => {
+  const willLeave = () => ({ zIndex: 1, opacity: spring(0) })
+
+  return (
+    <Match {...rest} children={({ matched, ...props }) => (
+      <TransitionMotion
+        willLeave={willLeave}
+        styles={matched ? [ {
+          key: props.location.pathname,
+          style: { opacity: 1 },
+          data: props
+        } ] : []}
+      >
+        {interpolatedStyles => (
+          <div>
+            {interpolatedStyles.map(config => (
+              <div
+                key={config.key}
+                style={{ ...config.style }}
+              >
+                <Component {...config.data}/>
+              </div>
+            ))}
+          </div>
+        )}
+      </TransitionMotion>
+    )}/>
+  )
+}
 
 const App = () => (
   <BrowserRouter>
@@ -94,6 +127,7 @@ const Mediapiston_Router = ({ pathname }) => (
     <Match pattern={`${pathname}/watch/:id`} component={VideoPlayer_Router} />
     <Match pattern={`${pathname}/upload`} component={Upload_Router} />
     <Match pattern={`${pathname}/update/:id`} component={Update_Router} />
+    <Match pattern={`${pathname}/search/:term`} component={VideoListSearch_Router} />
 
     <Miss component={NoMatch}/>
   </div>
@@ -134,6 +168,18 @@ const VideoList_Router = () => {
       </div>
       <div id="videosList">
         <VideoList route='/ajax/videoList' root={true} />
+      </div>
+    </div>
+  );
+};
+
+const VideoListSearch_Router = ({ params }) => {
+  activateStylesheets(['cards', 'search']);
+
+  return (
+    <div>
+      <div id="videosList" style={{marginTop: '10px'}}>
+        <VideoList route={'/ajax/videoList/search/' + params.term} root={true} />
       </div>
     </div>
   );

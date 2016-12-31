@@ -68,6 +68,7 @@
     "react-addons-css-transition-group": "^15.4.1",
     "react-css-transition-replace": "^2.1.0",
     "react-dom": "^15.4.1",
+    "react-motion": "^0.4.7",
     "react-paginate": "^4.0.0",
     "react-router": "^4.0.0-alpha.6",
     "react-slick": "^0.14.5",

@@ -78,7 +78,7 @@ const routerWithErrorLogger = (winston) => {
     res.json([]);
   });
 
-  router.get('/news/adminFeatures', loggedIn, (req, res) => {
+  router.get('/news/adminFeatures', (req, res) => {
     if (req.user.admin)
       return res.json([
               { title: "Ajouter un élément", href: '/news/add' },
