@@ -3,37 +3,60 @@ $slick-font-path: '~slick-carousel/slick/fonts/'
 $slick-loader-path: '~slick-carousel/slick/'
 @import '~slick-carousel/slick/slick-theme.scss'
 
+.container-fluid
+  padding: 0
+  margin: 0
+
 .carouselText
-  background-color: rgba(255, 255, 255, 0.9)
-  color: black
-  position: relative
-  transform: translateY(-180%)
-  padding-left: 1em
+  color: white
+  position: absolute
+  width: 40%
+  left: 30%
+  top: 30%
+
+.carouselText h3
+  background-color: rgba(0, 0, 0, 0.4)
+  padding-left: 1rem
   padding-top: 5px
-  padding-bottom: 1px
+  padding-bottom: 5px
 
 .carouselText p
-  margin-bottom: 0.5rem
+  background-color: rgba(0, 0, 0, 0.4)
+  padding-left: 1rem
+  padding-top: 5px
+  padding-bottom: 5px
+  position: relative
+  left: 20px
 
 .carouselContainer
-  height: 90%
-  width: 90%
-  margin-top: 10px
-  margin-bottom: 30px
+  height: 100%
+  width: 100%
+  margin-bottom: 20px
   margin-left: auto
   margin-right: auto
 
 .carouselItem
   height: 0
-  padding-top: 56.25%
+  padding-top: calc(100vh - 120px)
   width: 100%
   background-size: cover
+  position: relative
+
+.slick-thumb .carouselItem
+  padding-top: 56.25%
+
+.slick-prev
+  left: 25px
+  z-index: 1
+
+.slick-next
+  right: 25px
 
 .slick-prev:before, .slick-next:before
   color: black !important
 
 .slick-dots
-  bottom: -50px !important
+  bottom: 30px !important
   background-color: rgba(0, 0, 0, 0.5)
   transform: scale(0.9)
 
