@@ -150,9 +150,7 @@ const Carousel_Router = () => {
       <div id="adminFeatures">
         <AdminFeatures route='/ajax/news/adminFeatures' root={true} />
       </div>
-      <div id="videosList">
-        <Carousel route='/ajax/newsList' />
-      </div>
+      <Carousel route='/ajax/newsList' />
     </div>
   );
 }
