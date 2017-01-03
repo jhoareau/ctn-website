@@ -75,7 +75,7 @@
     "resolve-url-loader": "^1.6.1",
     "sass-loader": "^4.1.0",
     "slick-carousel": "^1.6.0",
-    "socketio-file-upload": "^0.5.2",
+    "socketio-file-upload": "^0.6.0",
     "string-replace-webpack-plugin": "0.0.4",
     "style-loader": "^0.13.1",
     "superagent": "^3.3.1",

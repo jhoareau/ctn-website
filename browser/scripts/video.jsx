@@ -53,6 +53,7 @@ export class VideoList extends React.Component {
   populate(route) {
     Request.get(route).end((err, data) => {
       data = data.body;
+      if (err) data = [];
       this.setState({videoList: data});
     });
   }

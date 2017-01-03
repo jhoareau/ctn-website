@@ -2,6 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import moment from 'moment';
 import Request from 'superagent';
+import Error from './error.jsx';
 import CommentList from './comment.jsx';
 import CustomLink from './custom-link.jsx';
 import Plyr from 'plyr';
@@ -25,6 +26,7 @@ class VideoPlayer extends React.Component {
 
   populate(route) {
     Request.get(route).end((err, data) => {
+      if (err) return this.setState({bogus: true});
       data = data.body;
       this.setState(data);
     });
@@ -45,6 +47,8 @@ class VideoPlayer extends React.Component {
   }
 
   render() {
+    if (this.state.bogus) return <Error err="Vidéo non trouvée !" />;
+
     let thumbUrl = '/videos/' + this.props._id + '.png';
     let videoUrl = '/videos/' + this.props._id + '.mp4';
     let modifyUrl = '/mediapiston/update/' + this.props._id;

@@ -98,7 +98,7 @@ let stylesheetsUsed = {
 
 const activateStylesheets = (names) => {
   for (name in stylesheetsUsed) {
-    if (names.indexOf(name) > -1) {
+    if (names.includes(name)) {
       if (stylesheetsUsed[name]) continue;
       stylesheets[name].use();
       stylesheetsUsed[name] = true;
@@ -210,38 +210,30 @@ const VideoPlayer_Router = ({ params }) => {
 }
 
 const Upload_Router = () => {
-  if (stylesheetsUsed.cards) {stylesheets.cards.unuse(); stylesheetsUsed.cards = false;}
-  if (stylesheetsUsed.search) {stylesheets.search.unuse(); stylesheetsUsed.search = false;}
-  if (stylesheetsUsed.admin_features) {stylesheets.admin_features.unuse(); stylesheetsUsed.admin_features = false;}
-  if (stylesheetsUsed.video_player) {stylesheets.video_player.unuse(); stylesheetsUsed.video_player = false;}
-  if (!stylesheetsUsed.forms) {stylesheets.forms.use(); stylesheetsUsed.forms = true;}
+  activateStylesheets(['forms']);
 
   return <UploadForm />;
 }
 
 const Update_Router = ({ params }) => {
-  if (stylesheetsUsed.cards) {stylesheets.cards.unuse(); stylesheetsUsed.cards = false;}
-  if (stylesheetsUsed.search) {stylesheets.search.unuse(); stylesheetsUsed.search = false;}
-  if (stylesheetsUsed.admin_features) {stylesheets.admin_features.unuse(); stylesheetsUsed.admin_features = false;}
-  if (stylesheetsUsed.video_player) {stylesheets.video_player.unuse(); stylesheetsUsed.video_player = false;}
-  if (!stylesheetsUsed.forms) {stylesheets.forms.use(); stylesheetsUsed.forms = true;}
+  activateStylesheets(['forms']);
 
   return <UploadForm update={true} route={'/ajax/video/' + params.id} _id={params.id} />;
 }
 
 const AddMatos_Router = () => {
-  if (stylesheetsUsed.cards) {stylesheets.cards.unuse(); stylesheetsUsed.cards = false;}
-  if (stylesheetsUsed.search) {stylesheets.search.unuse(); stylesheetsUsed.search = false;}
-  if (stylesheetsUsed.admin_features) {stylesheets.admin_features.unuse(); stylesheetsUsed.admin_features = false;}
-  if (stylesheetsUsed.video_player) {stylesheets.video_player.unuse(); stylesheetsUsed.video_player = false;}
-  if (!stylesheetsUsed.forms) {stylesheets.forms.use(); stylesheetsUsed.forms = true;}
+  activateStylesheets(['forms']);
 
   return <UploadForm />;
 }
 
 
-const NoMatch = ({location}) => (
-  <Error err="Page non trouvée (React) !" />
-)
+const NoMatch = ({location}) => {
+  activateStylesheets([]);
+  console.error('Bad location', location);
+
+  return <Error err="Page non trouvée (React) !" />;
+}
+  
 
 render(<App />, document.querySelector('#reactApp'))
