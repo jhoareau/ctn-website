@@ -66,7 +66,7 @@ exports.update = (id, update, callback) => {
     if (update.title) news.title = update.title;
     if (update.text) news.text = update.text;
     if (update.image) news.image = update.image;
-    if (update.link) news.href = update.href;
+    if (update.href) news.href = update.href;
 
     news.save((err2) => {
       if (err2) return callback({ok: false}, new Error('Erreur lors de la mise à jour de la news. ID = ' + id));
