@@ -289,7 +289,7 @@ const routerWithErrorLogger = (winston) => {
       return res.json({ok: true});
     });
   });
-
+  
   return router;
 }
 

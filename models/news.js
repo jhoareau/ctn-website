@@ -5,7 +5,8 @@ let newsSchema = new mongoose.Schema({
   text: String,
   writer: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   date: {type: Date, default: Date.now},
-  image: {data: Buffer, contentType: String}
+  image: {data: Buffer, contentType: String},
+  link: String
 });
 
 let News = mongoose.model('News', newsSchema);
@@ -17,7 +18,8 @@ exports.create = (infos, callback) => {
     text: infos.text,
     writer: infos.session._id,
     date: infos.date,
-    image: infos.image
+    image: infos.image,
+    link: infos.link
   }
   let newNews = new News(schema);
   newNews.save((err, result) => {
@@ -64,6 +66,7 @@ exports.update = (id, update, callback) => {
     if (update.title) news.title = update.title;
     if (update.text) news.text = update.text;
     if (update.image) news.image = update.image;
+    if (update.link) news.link = update.link;
 
     news.save((err2) => {
       if (err2) return callback({ok: false}, new Error('Erreur lors de la mise à jour de la news. ID = ' + id));
