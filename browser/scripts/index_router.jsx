@@ -19,6 +19,7 @@ import AdminFeatures from "./admin_features.jsx";
 import MatosList from "./materiel.jsx";
 import VideoPlayer from "./video_player.jsx";
 import UploadForm from "./upload.jsx";
+import NewsForm from "./news_form.jsx";
 
 import { BrowserRouter, Match, Miss, Link } from 'react-router';
 //import { TransitionMotion, spring } from 'react-motion';
@@ -70,6 +71,7 @@ const App = () => (
       </header>
       <section className="container-fluid">
         <Match exactly pattern="/" component={Carousel_Router} />
+        <Match pattern="/news" component={News_Router} />
         <Match pattern="/mediapiston" component={Mediapiston_Router} />
         <Match pattern="/matos" component={Matos_Router} />
     
@@ -119,8 +121,39 @@ const Search_Router = ({ location }) => {
   );
 }
 
-    
+const Carousel_Router = () => {
+  activateStylesheets(['carousel', 'admin_features']);
 
+  return (
+    <div>
+      <div id="adminFeatures">
+        <AdminFeatures route='/ajax/news/adminFeatures' root={true} />
+      </div>
+      <Carousel route='/ajax/newsList' />
+    </div>
+  );
+}
+
+const News_Router = ({ pathname }) => (
+  <div>
+    <Match pattern={`${pathname}/add`} component={NewsFormComponent_Add} />
+    <Match pattern={`${pathname}/update/:id`} component={NewsFormComponent_Edit} />
+
+    <Miss component={NoMatch}/>
+  </div>
+)
+
+const NewsFormComponent_Add = () => {
+  activateStylesheets(['forms']);
+
+  return <NewsForm />;
+}
+
+const NewsFormComponent_Edit = ({ params }) => {
+  activateStylesheets(['forms']);
+
+  return <NewsForm update={true} route={'/ajax/news/' + params.id} _id={params.id} />;
+}
 
 const Mediapiston_Router = ({ pathname }) => (
   <div>
@@ -142,19 +175,6 @@ const Matos_Router = ({ pathname }) => (
     <Miss component={NoMatch}/>
   </div>
 )
-
-const Carousel_Router = () => {
-  activateStylesheets(['carousel', 'admin_features']);
-
-  return (
-    <div>
-      <div id="adminFeatures">
-        <AdminFeatures route='/ajax/news/adminFeatures' root={true} />
-      </div>
-      <Carousel route='/ajax/newsList' />
-    </div>
-  );
-}
 
 
 const VideoList_Router = () => {

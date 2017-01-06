@@ -35,6 +35,14 @@ router.get(['/mediapiston', '/mediapiston/*'], loggedIn, (req, res) => {
   res.render('react_container');
 });
 
+router.get('/news', (req, res) => {
+  res.redirect('/');
+})
+
+router.get('/news/*', loggedIn, (req, res) => {
+  res.render('react_container');
+});
+
 router.get(['/matos', '/matos/*'], loggedIn, (req, res) => {
   res.render('react_container');
 });
