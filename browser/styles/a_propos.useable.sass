@@ -1,0 +1,25 @@
+.apropos
+    padding-top: 2rem
+    width: 75%
+    margin: auto
+    text-align: center
+    h1
+        font-weight: 200
+    h3
+        font-weight: 300
+        text-align: center
+        font-size: 1rem
+    p
+        animation-duration: 1s
+        animation-delay: 2s
+        animation-name: enter
+        animation-fill-mode: forwards
+        opacity: 0
+    
+@keyframes enter
+    0%
+        opacity: 0
+        transform: translateY(-300%)
+    100%
+        opacity: 1
+        transform: translateY(100%)

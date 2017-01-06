@@ -48,7 +48,7 @@ router.get(['/matos', '/matos/*'], loggedIn, (req, res) => {
 });
 
 router.get('/a-propos', (req, res) => {
-  res.redirect('react_container');
+  res.render('react_container');
 });
 
 router.get('/ctn-asso', isAdmin, (req, res, next) => {

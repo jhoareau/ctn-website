@@ -74,6 +74,7 @@ const App = () => (
         <Match pattern="/news" component={News_Router} />
         <Match pattern="/mediapiston" component={Mediapiston_Router} />
         <Match pattern="/matos" component={Matos_Router} />
+        <Match pattern="/a-propos" component={APropos_Router} />
     
         <Miss component={NoMatch}/>
       </section>
@@ -89,7 +90,8 @@ const stylesheets = {
   video_player: require('~/browser/styles/video_player.useable.sass'),
   forms: require('~/browser/styles/forms.useable.sass'),
   carousel: require('~/browser/styles/carousel.useable.sass'),
-  news_admin: require('~/browser/styles/news_admin.useable.sass')
+  news_admin: require('~/browser/styles/news_admin.useable.sass'),
+  a_propos: require('~/browser/styles/a_propos.useable.sass')
 }
 let stylesheetsUsed = {
   cards: false,
@@ -98,7 +100,8 @@ let stylesheetsUsed = {
   video_player: false,
   forms: false,
   carousel: false,
-  news_admin: false
+  news_admin: false,
+  a_propos: false
 }
 
 const activateStylesheets = (names) => {
@@ -255,6 +258,17 @@ const AddMatos_Router = () => {
   activateStylesheets(['forms']);
 
   return <UploadForm />;
+}
+
+const APropos_Router = () => {
+  activateStylesheets(['a_propos']);
+  return (
+          <div className="apropos">
+            <h1>CTN - Centrale Television Network</h1>
+            <h3>L'association vidéo de l'Ecole Centrale de Lyon, qui est aussi une section de l'AEECL - Association des Elèves de l'Ecole Centrale de Lyon.</h3>
+            <p>À CTN, on s'occupe de la couverture vidéo de tous les évènements majeurs auxquels les étudiants de l'Ecole participent (le Gala Eclyps, le Challenge Centrale Lyon, etc...) mais aussi des évènements de la vie étudiante sur le campus, notamment en soirée. Après avoir filmé, on s'amuse à monter des zaps et des recaps des évènements afin de pouvoir les proposer aux Centraliens et aux associations. Parallèlement à l'activité liée à Centrale, CTN est parfois amenée à filmer des évènements extérieurs tels que la Fête des Lumières sur Lyon.</p>
+          </div>
+  );
 }
 
 
