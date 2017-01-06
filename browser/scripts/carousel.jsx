@@ -8,13 +8,19 @@ class CarouselItem extends React.Component {
   }
 
   render() {
+    let carouselText = <div className="carouselText">
+                          <h3>{this.props.title}</h3>
+                          <p>{this.props.text}</p>
+                        </div>;
+    if (this.props.href) carouselText = <a href={this.props.href} style={{display: 'block'}} _target="blank"> 
+                                          <div className="carouselText">
+                                            <h3>{this.props.title}</h3>
+                                            <p>{this.props.text}</p>
+                                          </div></a>;
+      
     return (
       <div style={{backgroundImage: 'url(' + this.props.image + ')'}} className="carouselItem">
-        {!this.props.thumb ? <div className="carouselText">
-                              <h3>{this.props.title}</h3>
-                              <p>{this.props.text}</p>
-                            </div>
-         : null}
+        {!this.props.thumb ? carouselText : null}
       </div>
     );
   }
@@ -23,7 +29,6 @@ CarouselItem.defaultProps = {
   title: "Pas de news ici",
   text: "Pas de news ici",
   image: '/defaults/no_video.png',
-  href: '/news/0'
 };
 
 class Carousel extends React.Component {
@@ -69,7 +74,14 @@ class Carousel extends React.Component {
     else
       return (
         <div className="carouselContainer">
-          Chargement...
+          <div className="carouselItem">
+            <div className="sk-folding-cube">
+              <div className="sk-cube1 sk-cube" />
+              <div className="sk-cube2 sk-cube" />
+              <div className="sk-cube4 sk-cube" />
+              <div className="sk-cube3 sk-cube" />
+            </div>
+          </div>
         </div>
       );
   }

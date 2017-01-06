@@ -79,7 +79,7 @@ const routerWithErrorLogger = (winston) => {
   });
 
   router.get('/news/adminFeatures', (req, res) => {
-    if (req.user.admin)
+    if (req.isAuthenticated() && req.user.admin)
       return res.json([
               { title: "Ajouter un élément", href: '/news/add' },
               { title: "Gérer les news", href: '/news/admin' }
@@ -229,10 +229,30 @@ const routerWithErrorLogger = (winston) => {
     });
   });
 
-  router.get('/newsList', loggedIn, (req, res) => {
+  router.get('/newsList', require('compression')({level: 9}), (req, res) => {
     mongodb.news.returnList((data, err) => {
       if (err) winston.log('warning', 'News List / ' + err.message);
       if (data === null) data = [];
+      return res.json(data);
+    });
+  });
+
+    router.get('/news/:id', require('compression')({level: 9}), (req, res) => {
+    mongodb.news.return(req.params.id, (data, err) => {
+      if (err) winston.log('warning', 'News / ' + err.message);
+      if (data === null) data = {};
+      return res.json(data);
+    });
+  });
+
+  router.get('/newsList/no_images', (req, res) => {
+    mongodb.news.returnList((data, err) => {
+      if (err) winston.log('warning', 'News List / ' + err.message);
+      if (data === null) data = [];
+      data = data.map((obj) => {
+        delete obj.image;
+        return obj;
+      });
       return res.json(data);
     });
   });

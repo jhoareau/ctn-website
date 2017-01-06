@@ -14,12 +14,12 @@ import Error from "./error.jsx";
 import SearchBox from "./search.jsx";
 import Header from "./header.jsx";
 import Carousel from "./carousel.jsx";
-import {VideoList, RelatedVideoList} from "./video.jsx";
+import { VideoList, RelatedVideoList } from "./video.jsx";
 import AdminFeatures from "./admin_features.jsx";
 import MatosList from "./materiel.jsx";
 import VideoPlayer from "./video_player.jsx";
 import UploadForm from "./upload.jsx";
-import NewsForm from "./news_form.jsx";
+import { NewsAdmin, NewsForm } from "./news.jsx";
 
 import { BrowserRouter, Match, Miss, Link } from 'react-router';
 //import { TransitionMotion, spring } from 'react-motion';
@@ -88,7 +88,8 @@ const stylesheets = {
   admin_features: require('~/browser/styles/admin_features.useable.sass'),
   video_player: require('~/browser/styles/video_player.useable.sass'),
   forms: require('~/browser/styles/forms.useable.sass'),
-  carousel: require('~/browser/styles/carousel.useable.sass')
+  carousel: require('~/browser/styles/carousel.useable.sass'),
+  news_admin: require('~/browser/styles/news_admin.useable.sass')
 }
 let stylesheetsUsed = {
   cards: false,
@@ -97,6 +98,7 @@ let stylesheetsUsed = {
   video_player: false,
   forms: false,
   carousel: false,
+  news_admin: false
 }
 
 const activateStylesheets = (names) => {
@@ -137,6 +139,7 @@ const Carousel_Router = () => {
 const News_Router = ({ pathname }) => (
   <div>
     <Match pattern={`${pathname}/add`} component={NewsFormComponent_Add} />
+    <Match pattern={`${pathname}/admin`} component={News_AdminComponent} />
     <Match pattern={`${pathname}/update/:id`} component={NewsFormComponent_Edit} />
 
     <Miss component={NoMatch}/>
@@ -147,6 +150,12 @@ const NewsFormComponent_Add = () => {
   activateStylesheets(['forms']);
 
   return <NewsForm />;
+}
+
+const News_AdminComponent = () => {
+  activateStylesheets(['news_admin']);
+
+  return <NewsAdmin route='/ajax/newsList/no_images' />;
 }
 
 const NewsFormComponent_Edit = ({ params }) => {
@@ -250,7 +259,7 @@ const AddMatos_Router = () => {
 
 
 const NoMatch = ({location}) => {
-  activateStylesheets([]);
+  activateStylesheets(Object.keys(stylesheetsUsed)); // Workaround React-router bug
   console.error('Bad location', location);
 
   return <Error err="Page non trouvée !" />;

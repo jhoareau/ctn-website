@@ -30,7 +30,7 @@ exports.create = (infos, callback) => {
 
 exports.return = (id, callback) => {
   if (id === null) {
-    News.find({}).populate('writer').exec((err, result) => {
+    News.find({}).populate('writer').sort('-creationDate').limit(5).exec((err, result) => {
       if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des news.'));
       if (result === null || typeof result === 'undefined') return callback(null);
 
@@ -44,12 +44,12 @@ exports.return = (id, callback) => {
     });
   }
   else {
-    News.find({_id: id}).populate('writer').exec((err, result) => {
+    News.findById(id).populate('writer').exec((err, result) => {
       if (err) return callback(null, new Error('Erreur lors de la récupération de la news. ID = ' + id));
       if (result === null || typeof result === 'undefined') return callback(null);
 
       let filteredResult = result.toJSON();
-      filteredObj.image = Buffer.from(filteredObj.image.data).toString();
+      filteredResult.image = Buffer.from(filteredResult.image.data).toString();
 
       if (typeof filteredResult.writer !== 'undefined') filteredResult.writer = result.writer.surname;
 
