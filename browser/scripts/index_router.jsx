@@ -16,7 +16,7 @@ import Header from "./header.jsx";
 import Carousel from "./carousel.jsx";
 import { VideoList, RelatedVideoList } from "./video.jsx";
 import AdminFeatures from "./admin_features.jsx";
-import MatosList from "./materiel.jsx";
+//import MatosList from "./materiel.jsx";
 import VideoPlayer from "./video_player.jsx";
 import UploadForm from "./upload.jsx";
 import { NewsAdmin, NewsForm } from "./news.jsx";
@@ -73,7 +73,7 @@ const App = () => (
         <Match exactly pattern="/" component={Carousel_Router} />
         <Match pattern="/news" component={News_Router} />
         <Match pattern="/mediapiston" component={Mediapiston_Router} />
-        <Match pattern="/matos" component={Matos_Router} />
+        {/*<Match pattern="/matos" component={Matos_Router} />*/}
         <Match pattern="/a-propos" component={APropos_Router} />
     
         <Miss component={NoMatch}/>
@@ -179,6 +179,7 @@ const Mediapiston_Router = ({ pathname }) => (
   </div>
 )
 
+/*
 const Matos_Router = ({ pathname }) => (
   <div>
     <Match exactly pattern={pathname} component={MatosList_Router} />
@@ -187,6 +188,7 @@ const Matos_Router = ({ pathname }) => (
     <Miss component={NoMatch}/>
   </div>
 )
+*/
 
 
 const VideoList_Router = () => {
@@ -215,7 +217,7 @@ const VideoListSearch_Router = ({ params }) => {
     </div>
   );
 };
-
+/*
 const MatosList_Router = () => {
   activateStylesheets(['cards', 'cards_animations', 'search', 'admin_features']);
 
@@ -230,7 +232,7 @@ const MatosList_Router = () => {
     </div>
   );
 };
-
+*/
 const VideoPlayer_Router = ({ params }) => {
   activateStylesheets(['video_player']);
 
@@ -253,13 +255,13 @@ const Update_Router = ({ params }) => {
 
   return <UploadForm update={true} route={'/ajax/video/' + params.id} _id={params.id} />;
 }
-
+/*
 const AddMatos_Router = () => {
   activateStylesheets(['forms']);
 
   return <UploadForm />;
 }
-
+*/
 const APropos_Router = () => {
   activateStylesheets(['a_propos']);
   return (

@@ -48,14 +48,14 @@ const routerWithErrorLogger = (winston) => {
     if (req.user.admin)
       return res.json([
               { title: "Mediapiston", src: 'mediapiston', href: '/mediapiston' },
-              { title: "Matériel", src: 'pret', href: '/matos' },
+              //{ title: "Matériel", src: 'pret', href: '/matos' },
               { title: "A propos", src: 'apropos', href: '/a-propos' },
-              { title: "Admin", src: 'admin', href: '/ctn-asso' },
+              //{ title: "Admin", src: 'admin', href: '/ctn-asso' },
               { title: "Déconnexion", href: '/logout', logout: true },
             ]);
     res.json([
             { title: "Mediapiston", src: 'mediapiston', href: '/mediapiston' },
-            { title: "Matériel", src: 'pret', href: '/matos' },
+            //{ title: "Matériel", src: 'pret', href: '/matos' },
             { title: "A propos", src: 'apropos', href: '/a-propos' },
             { title: "Déconnexion", href: '/logout', logout: true }
           ]);
