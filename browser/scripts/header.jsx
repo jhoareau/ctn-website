@@ -57,7 +57,7 @@ class Header extends React.Component {
     mpSvg.addEventListener('mouseenter', () => {
       TweenMax.to(mpSvgCameraColor, 1, {
         css: {
-          fill: '#43a047',
+          fill: '#88B04B',
         },
         ease: TweenMax.Power3.easeOut
       });
@@ -92,7 +92,7 @@ class Header extends React.Component {
     pretSvg.addEventListener('mouseenter', () => {
       TweenMax.to(pretSvgCardColor, 1, {
         css: {
-          fill: 'rgb(204, 214, 90)',
+          fill: '#7D7098',
         },
         ease: TweenMax.Power3.easeOut
       });
@@ -129,7 +129,7 @@ class Header extends React.Component {
     adminSvg.addEventListener('mouseenter', () => {
       TweenMax.to(adminSvgKeyColor, 1, {
         css: {
-          fill: 'rgb(204, 214, 90)',
+          fill: '#B2E79F',
         },
         ease: TweenMax.Power3.easeOut
       });
@@ -164,7 +164,7 @@ class Header extends React.Component {
     aproposSvg.addEventListener('mouseenter', () => {
       TweenMax.to(aproposRotatorColor, 1, {
         css: {
-          fill: 'rgb(204, 214, 90)',
+          fill: '#EEA2A9',
         },
         ease: TweenMax.Power3.easeOut
       });
