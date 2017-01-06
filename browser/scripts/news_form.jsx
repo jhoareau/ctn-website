@@ -94,13 +94,13 @@ class NewsForm extends React.Component {
 
     let uploadData = {
       title: this.state.newsTitle,
-      description: this.state.newsDescription
+      text: this.state.newsDescription
     };
 
-    if (this.state.newsTitle)
-      uploadData.href = this.state.newsTitle;
+    if (this.state.newsLink)
+      uploadData.href = this.state.newsLink;
 
-    uploadData.thumbnail = this.refs.canvasImage.toDataURL("image/png");
+    uploadData.image = this.refs.canvasImage.toDataURL("image/png");
 
     if (this.props.update)
       Request.post('/ajax/news/' + this.props._id + '/update').send(uploadData).end((err, data) => {

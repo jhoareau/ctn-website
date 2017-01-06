@@ -237,11 +237,14 @@ const routerWithErrorLogger = (winston) => {
     });
   });
 
-  router.put('/news', isAdmin, (req, res) => {
+  router.put('/news/add', isAdmin, (req, res) => {
     let writer = req.user;
     let request = req.body;
+
     request.session = writer;
     request.date = new Date();
+    request.image = Buffer.from(request.image);
+
     mongodb.news.create(request, (answer, err) => {
       if (err) {
         winston.log('warning', 'News Creation / ' + err.message);
@@ -252,6 +255,11 @@ const routerWithErrorLogger = (winston) => {
   });
 
   router.post('/news/:id/update', isAdmin, (req, res) => {
+    let request = req.body;
+
+    if (request.image)
+        request.image = Buffer.from(request.image);
+    
     mongodb.news.update(req.params.id, req.body, (answer, err) => {
       if (err) {
         winston.log('warning', 'News Update / ' + err.message);
