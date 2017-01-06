@@ -21,11 +21,12 @@ import VideoPlayer from "./video_player.jsx";
 import UploadForm from "./upload.jsx";
 
 import { BrowserRouter, Match, Miss, Link } from 'react-router';
-import { TransitionMotion, spring } from 'react-motion';
+//import { TransitionMotion, spring } from 'react-motion';
 import CustomLink from './custom-link.jsx';
 
 // Animations
 // Not used for the moment
+/*
 const MatchWithFade = ({ component:Component, ...rest }) => {
   const willLeave = () => ({ zIndex: 1, opacity: spring(0) })
 
@@ -55,7 +56,7 @@ const MatchWithFade = ({ component:Component, ...rest }) => {
     )}/>
   )
 }
-
+*/
 const App = () => (
   <BrowserRouter>
     <div>

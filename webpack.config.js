@@ -3,19 +3,16 @@ const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const StringReplacePlugin = require('string-replace-webpack-plugin');
 
-let minimize = process.argv.indexOf('--minimize') !== -1;
+const prod = process.argv.indexOf('-p') !== -1;
 let pluginArray = [];
-if (minimize)
-  pluginArray.push(new webpack.optimize.UglifyJsPlugin({
-    mangle: {
-      except: ['exports', 'require', '$', 'jQuery']
-    },
-    compress: {
-      warnings: false,
-      passes: 3
-    },
-    screwIE8: true
+
+if (prod)
+  pluginArray.push(new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
   }));
+
 pluginArray.push(new webpack.LoaderOptionsPlugin({
   options: {
     sassLoader: {
@@ -31,6 +28,7 @@ pluginArray.push(new webpack.LoaderOptionsPlugin({
   }
 }
 ));
+
 
 /*pluginArray.push(new webpack.ProvidePlugin({
     $: "jquery",
@@ -85,6 +83,6 @@ module.exports = {
             //{ test: /\.svg$/, loader: 'svg-inline' },
         ]
     },
-    devtool: '#inline-source-map',
+    devtool: prod ? '#source-map' : '#inline-source-map',
     plugins: pluginArray
 };

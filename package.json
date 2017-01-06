@@ -4,7 +4,7 @@
   "description": "Website for CTN",
   "main": "app.js",
   "scripts": {
-    "build": "webpack--minimize",
+    "build": "webpack -p --optimize-minimize",
     "watch": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
