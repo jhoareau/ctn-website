@@ -253,7 +253,7 @@ const NoMatch = ({location}) => {
   activateStylesheets([]);
   console.error('Bad location', location);
 
-  return <Error err="Page non trouvée (React) !" />;
+  return <Error err="Page non trouvée !" />;
 }
   
 
