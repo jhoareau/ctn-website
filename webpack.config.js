@@ -29,6 +29,8 @@ pluginArray.push(new webpack.LoaderOptionsPlugin({
 }
 ));
 
+pluginArray.push(new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|fr)$/));
+
 
 /*pluginArray.push(new webpack.ProvidePlugin({
     $: "jquery",
