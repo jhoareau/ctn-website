@@ -264,9 +264,13 @@ const APropos_Router = () => {
   activateStylesheets(['a_propos']);
   return (
           <div className="apropos">
-            <h1>CTN - Centrale Television Network</h1>
-            <h3>L'association vidéo de l'Ecole Centrale de Lyon, qui est aussi une section de l'AEECL - Association des Elèves de l'Ecole Centrale de Lyon.</h3>
-            <p>À CTN, on s'occupe de la couverture vidéo de tous les évènements majeurs auxquels les étudiants de l'Ecole participent (le Gala Eclyps, le Challenge Centrale Lyon, etc...) mais aussi des évènements de la vie étudiante sur le campus, notamment en soirée. Après avoir filmé, on s'amuse à monter des zaps et des recaps des évènements afin de pouvoir les proposer aux Centraliens et aux associations. Parallèlement à l'activité liée à Centrale, CTN est parfois amenée à filmer des évènements extérieurs tels que la Fête des Lumières sur Lyon.</p>
+            <div className="apropos_left">
+              <h1>CTN - Centrale Television Network</h1>
+              <h3>L'association vidéo de l'Ecole Centrale de Lyon, qui est aussi une section de l'AEECL - Association des Elèves de l'Ecole Centrale de Lyon.</h3>
+            </div>
+            <div className="apropos_right">
+              <p>À CTN, on s'occupe de la couverture vidéo de tous les évènements majeurs auxquels les étudiants de l'Ecole participent (le Gala Eclyps, le Challenge Centrale Lyon, etc...) mais aussi des évènements de la vie étudiante sur le campus, notamment en soirée. Après avoir filmé, on s'amuse à monter des zaps et des recaps des évènements afin de pouvoir les proposer aux Centraliens et aux associations. Parallèlement à l'activité liée à Centrale, CTN est parfois amenée à filmer des évènements extérieurs tels que la Fête des Lumières sur Lyon.</p>
+            </div>
           </div>
   );
 }
