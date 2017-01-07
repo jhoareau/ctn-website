@@ -21,7 +21,7 @@ import VideoPlayer from "./video_player.jsx";
 import UploadForm from "./upload.jsx";
 import { NewsAdmin, NewsForm } from "./news.jsx";
 
-import { BrowserRouter, Match, Miss, Link } from 'react-router';
+import { BrowserRouter, Match, Miss, Link, Redirect } from 'react-router';
 //import { TransitionMotion, spring } from 'react-motion';
 import CustomLink from './custom-link.jsx';
 
@@ -279,8 +279,8 @@ const APropos_Router = () => {
 const NoMatch = ({location}) => {
   activateStylesheets(Object.keys(stylesheetsUsed)); // Workaround React-router bug
   console.error('Bad location', location);
-
-  return <Error err="Page non trouvée !" />;
+  return <Redirect to='/' />;
+  //return <Error err="Page non trouvée !" />;
 }
   
 

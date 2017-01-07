@@ -61,29 +61,29 @@ styles:
   # Core CSS
   reboot: true
   type: true
-  images: true
+  images: false
   code: true
   grid: true
-  tables: true
+  tables: false
   forms: true
   buttons: true
 
   # Components
   animation: false
   dropdown: false
-  button-group: true
-  input-group: true
-  custom-forms: true
+  button-group: false
+  input-group: false
+  custom-forms: false
   nav: true
   navbar: true
   card: false
-  breadcrumb: true
-  pagination: true
-  jumbotron: true
+  breadcrumb: false
+  pagination: false
+  jumbotron: false
   alert: true
-  progress: true
-  media: true
-  list-group: true
+  progress: false
+  media: false
+  list-group: false
   responsive-embed: true
   close: false
   tags: false
