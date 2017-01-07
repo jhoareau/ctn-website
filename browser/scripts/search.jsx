@@ -8,7 +8,7 @@ class SearchBox extends React.Component {
   componentDidMount() {
     this.refs.searchBox.addEventListener('submit', event => {
       event.preventDefault();
-      this.context.router.transitionTo('/mediapiston/search/' + this.refs.term.value);
+      if (this.refs.term.value !== '') this.context.router.transitionTo('/mediapiston/search/' + this.refs.term.value);
     });
   }
 
