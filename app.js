@@ -5,7 +5,11 @@
 */
 
 /* Librairie Winston - Error logging & severity management */
-const winston = require('winston')
+const winston = require('winston');
+winston.remove(winston.transports.Console);
+winston.add(winston.transports.Console, {
+	colorize: true
+});
 
 /* Sous-application interne ExpressApp - Serveur HTTP */
 const expressApp = require('./apps/express')(winston)

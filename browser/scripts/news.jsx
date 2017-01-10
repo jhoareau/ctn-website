@@ -112,7 +112,7 @@ export class NewsForm extends React.Component {
     if (this.state.newsLink)
       uploadData.href = this.state.newsLink;
 
-    uploadData.image = this.refs.canvasImage.toDataURL("image/jpeg", 0.7);
+    uploadData.image = this.refs.canvasImage.toDataURL("image/jpeg", 0.8);
 
     if (this.props.update)
       Request.post('/ajax/news/' + this.props._id + '/update').send(uploadData).end((err, data) => {

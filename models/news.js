@@ -40,7 +40,7 @@ exports.return = (id, callback) => {
         let filteredObj = obj.toJSON();
         if (obj.writer) filteredObj.writer = obj.writer.surname;
         filteredObj.image = Buffer.from(filteredObj.image.data).toString();
-        filteredObj.thumbnail = Buffer.from(filteredObj.thumbnail.data).toString();
+        filteredObj.thumbnail = 'data:image/jpeg;base64,' + Buffer.from(filteredObj.thumbnail.data).toString('base64');
         return filteredObj;
       });
       callback(filteredResults);
@@ -52,8 +52,8 @@ exports.return = (id, callback) => {
       if (result === null || typeof result === 'undefined') return callback(null);
 
       let filteredResult = result.toJSON();
-      filteredResult.image = Buffer.from(filteredResult.image.data).toString();
-      filteredResult.thumbnail = Buffer.from(filteredResult.thumbnail.data).toString();
+      filteredResult.image = 'data:image/jpeg;base64,' + Buffer.from(filteredResult.image.data).toString('base64');
+      filteredResult.thumbnail = 'data:image/jpeg;base64,' + Buffer.from(filteredResult.thumbnail.data).toString('base64');
 
       if (typeof filteredResult.writer !== 'undefined') filteredResult.writer = result.writer.surname;
 

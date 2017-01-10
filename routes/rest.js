@@ -243,14 +243,14 @@ const routerWithErrorLogger = (winston) => {
     });
   });
 
-  router.get('/news/:id.png', (req, res) => {
+  router.get('/news/:id.jpg', (req, res) => {
     mongodb.news.return(req.params.id, (data, err) => {
       if (err) winston.log('warning', 'News / ' + err.message);
-      if (data === null) data = {};
-      let img = new Buffer(data.image.replace(/^data:image\/png;base64,/, ''), 'base64');
+      if (data === null) return res.status(404).send(data);
+      let img = new Buffer(data.image, 'base64');
 
       res.writeHead(200, {
-        'Content-Type': 'image/png',
+        'Content-Type': 'image/jpeg',
         'Content-Length': img.length
       });
       res.end(img);
@@ -260,7 +260,7 @@ const routerWithErrorLogger = (winston) => {
   router.get('/news/:id', (req, res) => {
     mongodb.news.return(req.params.id, (data, err) => {
       if (err) winston.log('warning', 'News / ' + err.message);
-      if (data === null) data = {};
+      if (data === null) return res.status(404).send(data);
       return res.json(data);
     });
   });
@@ -285,11 +285,11 @@ const routerWithErrorLogger = (winston) => {
     request.session = writer;
     request.date = new Date();
     let imageString = request.image;
-    request.image = Buffer.from(request.image.replace(/^data:image\/png;base64,/, ''));
-    let imageObject = Buffer.from(imageString, 'base64');
+    request.image = Buffer.from(request.image.replace(/^data:image\/jpeg;base64,/, ''));
+    let imageObject = Buffer.from(imageString.replace(/^data:image\/jpeg;base64,/, ''), 'base64');
 
-    require('sharp')(imageObject).resize(320, 180).toBuffer((err, thumbBuffer) => {
-      if (err) console.log(err);
+    require('sharp')(imageObject).resize(160, 90).toBuffer((err, thumbBuffer) => {
+      if (err) winston.log('error', 'News Creation / Thumb generation / ' + err.message);
       request.thumbnail = thumbBuffer;
       mongodb.news.create(request, (answer, err) => {
         if (err) {
