@@ -6,6 +6,7 @@ let newsSchema = new mongoose.Schema({
   writer: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   date: {type: Date, default: Date.now},
   image: Buffer,
+  thumbnail: Buffer,
   href: String
 });
 
@@ -19,6 +20,7 @@ exports.create = (infos, callback) => {
     writer: infos.session._id,
     date: infos.date,
     image: infos.image,
+    thumbnail: infos.thumbnail,
     href: infos.href
   }
   let newNews = new News(schema);
@@ -38,6 +40,7 @@ exports.return = (id, callback) => {
         let filteredObj = obj.toJSON();
         if (obj.writer) filteredObj.writer = obj.writer.surname;
         filteredObj.image = Buffer.from(filteredObj.image.data).toString();
+        filteredObj.thumbnail = Buffer.from(filteredObj.thumbnail.data).toString();
         return filteredObj;
       });
       callback(filteredResults);
@@ -50,6 +53,7 @@ exports.return = (id, callback) => {
 
       let filteredResult = result.toJSON();
       filteredResult.image = Buffer.from(filteredResult.image.data).toString();
+      filteredResult.thumbnail = Buffer.from(filteredResult.thumbnail.data).toString();
 
       if (typeof filteredResult.writer !== 'undefined') filteredResult.writer = result.writer.surname;
 

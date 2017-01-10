@@ -167,19 +167,5 @@ CommentList.defaultProps = {
   videoId: 0,
   commentText: "",
   commentId: "",
-  commentList: [
-              {
-                _id: 0,
-                text: "CTN c'est un club ou une asso ?",
-                user: "Julien Hoareau",
-                date: new Date(),
-                edit: true
-              },
-              {
-                _id: 1,
-                text: "Lel.",
-                user: "Antonio de Jesus Montez",
-                date: new Date()
-              }
-            ]
+  commentList: []
 };

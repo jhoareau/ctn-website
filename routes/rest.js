@@ -229,15 +229,35 @@ const routerWithErrorLogger = (winston) => {
     });
   });
 
-  router.get('/newsList', require('compression')({level: 9}), (req, res) => {
+  router.get('/newsList', (req, res) => {
     mongodb.news.returnList((data, err) => {
       if (err) winston.log('warning', 'News List / ' + err.message);
       if (data === null) data = [];
+      data = data.map(obj => {
+        delete obj.image;
+        delete obj.writer;
+        delete obj.date;
+        return obj;
+      });
       return res.json(data);
     });
   });
 
-    router.get('/news/:id', require('compression')({level: 9}), (req, res) => {
+  router.get('/news/:id.png', (req, res) => {
+    mongodb.news.return(req.params.id, (data, err) => {
+      if (err) winston.log('warning', 'News / ' + err.message);
+      if (data === null) data = {};
+      let img = new Buffer(data.image.replace(/^data:image\/png;base64,/, ''), 'base64');
+
+      res.writeHead(200, {
+        'Content-Type': 'image/png',
+        'Content-Length': img.length
+      });
+      res.end(img);
+    });
+  });
+
+  router.get('/news/:id', (req, res) => {
     mongodb.news.return(req.params.id, (data, err) => {
       if (err) winston.log('warning', 'News / ' + err.message);
       if (data === null) data = {};
@@ -249,8 +269,9 @@ const routerWithErrorLogger = (winston) => {
     mongodb.news.returnList((data, err) => {
       if (err) winston.log('warning', 'News List / ' + err.message);
       if (data === null) data = [];
-      data = data.map((obj) => {
+      data = data.map(obj => {
         delete obj.image;
+        delete obj.thumbnail;
         return obj;
       });
       return res.json(data);
@@ -263,14 +284,20 @@ const routerWithErrorLogger = (winston) => {
 
     request.session = writer;
     request.date = new Date();
-    request.image = Buffer.from(request.image);
+    let imageString = request.image;
+    request.image = Buffer.from(request.image.replace(/^data:image\/png;base64,/, ''));
+    let imageObject = Buffer.from(imageString, 'base64');
 
-    mongodb.news.create(request, (answer, err) => {
-      if (err) {
-        winston.log('warning', 'News Creation / ' + err.message);
-        return res.status(500).send(answer);
-      }
-      return res.json(answer);
+    require('sharp')(imageObject).resize(320, 180).toBuffer((err, thumbBuffer) => {
+      if (err) console.log(err);
+      request.thumbnail = thumbBuffer;
+      mongodb.news.create(request, (answer, err) => {
+        if (err) {
+          winston.log('warning', 'News Creation / ' + err.message);
+          return res.status(500).send(answer);
+        }
+        return res.json(answer);
+      });
     });
   });
 
