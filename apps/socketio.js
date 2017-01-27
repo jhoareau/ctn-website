@@ -1,4 +1,4 @@
-let SocketIOFileUpload = require('./socketio-fileupload'),
+let SocketIOFileUpload = require('socketio-file-upload'),
     socketio           = require('socket.io'),
     fs                 = require('fs'),
     path               = require('path'),
