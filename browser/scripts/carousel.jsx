@@ -19,16 +19,17 @@ class CarouselItem extends React.Component {
                                           </div></a>;
       
     return (
-      <div style={{backgroundImage: 'url(' + this.props.image + ')'}} className="carouselItem">
+      <div style={{backgroundImage: 'url(' + this.props.thumbnail + ')'}} className="carouselItem">
         {!this.props.thumb ? carouselText : null}
       </div>
     );
   }
 }
 CarouselItem.defaultProps = {
+  _id: null,
   title: "Pas de news ici",
   text: "Pas de news ici",
-  image: '/defaults/no_video.png',
+  thumbnail: '/defaults/no_video.png'
 };
 
 class Carousel extends React.Component {
@@ -75,12 +76,6 @@ class Carousel extends React.Component {
       return (
         <div className="carouselContainer">
           <div className="carouselItem">
-            <div className="sk-folding-cube">
-              <div className="sk-cube1 sk-cube" />
-              <div className="sk-cube2 sk-cube" />
-              <div className="sk-cube4 sk-cube" />
-              <div className="sk-cube3 sk-cube" />
-            </div>
           </div>
         </div>
       );

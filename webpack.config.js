@@ -1,7 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const autoprefixer = require('autoprefixer');
-const StringReplacePlugin = require('string-replace-webpack-plugin');
 
 const prod = process.argv.indexOf('-p') !== -1;
 let pluginArray = [];
@@ -19,7 +17,7 @@ pluginArray.push(new webpack.LoaderOptionsPlugin({
       includePaths: [path.resolve(__dirname, "public/assets/"), path.resolve(__dirname, "browser/styles/")]
     },
     postcss: function () {
-        return [autoprefixer];
+        return [require('autoprefixer')];
     },
     context: path.join(__dirname, 'public/assets'),
     output: {
@@ -51,7 +49,7 @@ pluginArray.push(new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\
     Tooltip: "exports?Tooltip!bootstrap/js/dist/tooltip",
     Util: "exports?Util!bootstrap/js/dist/util",
 }));*/
-//pluginArray.push(new ExtractTextPlugin("styles.css"));
+//pluginArray.push(new require('string-replace-webpack-plugin')("styles.css"));
 
 module.exports = {
     entry: [path.join(__dirname, "browser/scripts/index_router.jsx")],
@@ -76,6 +74,7 @@ module.exports = {
     },
     module: {
         loaders: [
+            { test: /\.js?$/, loader: "babel-loader" },
             { test: /\.jsx?$/, loader: "babel-loader", include: path.resolve(__dirname, "browser/scripts") },
             { test: /(\.css$)/, loaders: ['style', 'css', 'postcss-loader'] },
             { test: /\.useable\.sass$/, loaders: ["style-loader/useable?singleton", "css", "postcss-loader", "sass"] },
