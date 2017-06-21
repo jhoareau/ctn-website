@@ -27,7 +27,6 @@ export class NewsForm extends React.Component {
 
       let canvas = this.refs.canvasImage;
       let imageObject = new Image();
-      imageObject.src = data.image;
 
       imageObject.onload = () => {
         canvas.width = imageObject.width;
@@ -35,9 +34,14 @@ export class NewsForm extends React.Component {
         canvas.getContext('2d').drawImage(imageObject, 0, 0, imageObject.width, imageObject.height);
         this.setState({submitDisabled: false});
       };
+      imageObject.onerror = err => console.log(err);
+
+      imageObject.src = data.image;
+      console.log(imageObject);
+
     });
   }
-  
+
   componentDidMount() {
     MaterialComponentHandler.componentHandler.upgradeDom();
   }
@@ -45,6 +49,7 @@ export class NewsForm extends React.Component {
   componentDidUpdate() {
     // Forcing Material-Design-Lite component update
     this.refs.newsTitle.dispatchEvent(new Event('input'));
+    this.refs.newsLink.dispatchEvent(new Event('input'));
     this.refs.newsDesc.dispatchEvent(new Event('input'));
   }
 

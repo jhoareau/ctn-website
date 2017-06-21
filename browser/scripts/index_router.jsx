@@ -63,7 +63,7 @@ const App = () => (
     <div>
       <header>
         <nav className="navbar navbar-light navbar-full mdl-shadow--3dp"><CustomLink href="/" className="navbar-brand" root={true}><img src="/defaults/header.svg"/></CustomLink>
-        <Route path="/(mediapiston|matos)" component={Search_Router} />
+        <Route path="/(mediapiston|matos)(/*.*)" component={Search_Router} />
           <div className="float-xs-right">
             <Header route='/ajax/header' root={true} />
           </div>
@@ -165,10 +165,10 @@ const News_AdminComponent = () => {
   return <NewsAdmin route='/ajax/newsList/no_images' />;
 }
 
-const NewsFormComponent_Edit = ({ params }) => {
+const NewsFormComponent_Edit = ({ match }) => {
   activateStylesheets(['forms']);
 
-  return <NewsForm update={true} route={'/ajax/news/' + params.id} _id={params.id} />;
+  return <NewsForm update={true} route={'/ajax/news/' + match.params.id} _id={match.params.id} />;
 }
 
 const Mediapiston_Router = ({ match }) => (
@@ -212,13 +212,13 @@ const VideoList_Router = () => {
   );
 };
 
-const VideoListSearch_Router = ({ params }) => {
+const VideoListSearch_Router = ({ match }) => {
   activateStylesheets(['cards', 'search']);
 
   return (
     <div>
       <div id="videosList" style={{marginTop: '10px'}}>
-        <VideoList route={'/ajax/videoList/search/' + params.term} root={true} />
+        <VideoList route={'/ajax/videoList/search/' + match.params.term} root={true} />
       </div>
     </div>
   );
@@ -239,13 +239,13 @@ const MatosList_Router = () => {
   );
 };
 
-const VideoPlayer_Router = ({ params }) => {
+const VideoPlayer_Router = ({ match }) => {
   activateStylesheets(['video_player']);
 
   return (
     <div className="row">
-      <div className="col-xl-8"><VideoPlayer route={'/ajax/video/' + params.id} _id={params.id} root={true} /></div>
-      <div className="col-xl-4"><RelatedVideoList route={'/ajax/videoList/related/' + params.id} root={true} /></div>
+      <div className="col-xl-8"><VideoPlayer route={'/ajax/video/' + match.params.id} _id={match.params.id} root={true} /></div>
+      <div className="col-xl-4"><RelatedVideoList route={'/ajax/videoList/related/' + match.params.id} root={true} /></div>
     </div>
   );
 }
@@ -256,10 +256,10 @@ const Upload_Router = () => {
   return <UploadForm />;
 }
 
-const Update_Router = ({ params }) => {
+const Update_Router = ({ match }) => {
   activateStylesheets(['forms']);
 
-  return <UploadForm update={true} route={'/ajax/video/' + params.id} _id={params.id} />;
+  return <UploadForm update={true} route={'/ajax/video/' + match.params.id} _id={match.params.id} />;
 }
 
 const AddMatos_Router = () => {
@@ -286,9 +286,9 @@ const APropos_Router = () => {
 
 const NoMatch = ({location}) => {
   //activateStylesheets(Object.keys(stylesheetsUsed)); // Workaround React-router bug
-  console.error('Bad location', location);
-  return <Redirect to='/' />;
-  //return <Error err="Page non trouvée !" />;
+  console.error('Error 404', location);
+  //return <Redirect to='/' />;
+  return <Error err="Page non trouvée !" />;
 }
 
 
