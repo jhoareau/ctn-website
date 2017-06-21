@@ -21,7 +21,7 @@ import VideoPlayer from "./video_player.jsx";
 import UploadForm from "./upload.jsx";
 import { NewsAdmin, NewsForm } from "./news.jsx";
 
-import { BrowserRouter, Match, Miss, Link, Redirect } from 'react-router';
+import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom';
 //import { TransitionMotion, spring } from 'react-motion';
 import CustomLink from './custom-link.jsx';
 
@@ -36,7 +36,7 @@ const MatchWithFade = ({ component:Component, ...rest }) => {
       <TransitionMotion
         willLeave={willLeave}
         styles={matched ? [ {
-          key: props.location.pathname,
+          key: props.location.match,
           style: { opacity: 1 },
           data: props
         } ] : []}
@@ -63,20 +63,22 @@ const App = () => (
     <div>
       <header>
         <nav className="navbar navbar-light navbar-full mdl-shadow--3dp"><CustomLink href="/" className="navbar-brand" root={true}><img src="/defaults/header.svg"/></CustomLink>
-        <Match pattern="/(mediapiston|matos)" component={Search_Router} />
+        <Route path="/(mediapiston|matos)" component={Search_Router} />
           <div className="float-xs-right">
             <Header route='/ajax/header' root={true} />
           </div>
         </nav>
       </header>
       <section className="container-fluid">
-        <Match exactly pattern="/" component={Carousel_Router} />
-        <Match pattern="/news" component={News_Router} />
-        <Match pattern="/mediapiston" component={Mediapiston_Router} />
-        <Match pattern="/matos" component={Matos_Router} />
-        <Match pattern="/a-propos" component={APropos_Router} />
-    
-        <Miss component={NoMatch}/>
+        <Switch>
+          <Route exact path="/" component={Carousel_Router} />
+          <Route path="/news" component={News_Router} />
+          <Route path="/mediapiston" component={Mediapiston_Router} />
+          <Route path="/matos" component={Matos_Router} />
+          <Route path="/a-propos" component={APropos_Router} />
+
+          <Route component={NoMatch}/>
+        </Switch>
       </section>
     </div>
   </BrowserRouter>
@@ -139,13 +141,15 @@ const Carousel_Router = () => {
   );
 }
 
-const News_Router = ({ pathname }) => (
+const News_Router = ({ match }) => (
   <div>
-    <Match pattern={`${pathname}/add`} component={NewsFormComponent_Add} />
-    <Match pattern={`${pathname}/admin`} component={News_AdminComponent} />
-    <Match pattern={`${pathname}/update/:id`} component={NewsFormComponent_Edit} />
+    <Switch>
+      <Route path={`${match.url}/add`} component={NewsFormComponent_Add} />
+      <Route path={`${match.url}/admin`} component={News_AdminComponent} />
+      <Route path={`${match.url}/update/:id`} component={NewsFormComponent_Edit} />
 
-    <Miss component={NoMatch}/>
+      <Route component={NoMatch}/>
+    </Switch>
   </div>
 )
 
@@ -167,24 +171,28 @@ const NewsFormComponent_Edit = ({ params }) => {
   return <NewsForm update={true} route={'/ajax/news/' + params.id} _id={params.id} />;
 }
 
-const Mediapiston_Router = ({ pathname }) => (
+const Mediapiston_Router = ({ match }) => (
   <div>
-    <Match exactly pattern={pathname} component={VideoList_Router} />
-    <Match pattern={`${pathname}/watch/:id`} component={VideoPlayer_Router} />
-    <Match pattern={`${pathname}/upload`} component={Upload_Router} />
-    <Match pattern={`${pathname}/update/:id`} component={Update_Router} />
-    <Match pattern={`${pathname}/search/:term`} component={VideoListSearch_Router} />
+    <Switch>
+      <Route exact path={match.url} component={VideoList_Router} />
+      <Route path={`${match.url}/watch/:id`} component={VideoPlayer_Router} />
+      <Route path={`${match.url}/upload`} component={Upload_Router} />
+      <Route path={`${match.url}/update/:id`} component={Update_Router} />
+      <Route path={`${match.url}/search/:term`} component={VideoListSearch_Router} />
 
-    <Miss component={NoMatch}/>
+      <Route component={NoMatch}/>
+    </Switch>
   </div>
 )
 
-const Matos_Router = ({ pathname }) => (
+const Matos_Router = ({ match }) => (
   <div>
-    <Match exactly pattern={pathname} component={MatosList_Router} />
-    <Match pattern="/add" component={AddMatos_Router} />
+    <Switch>
+      <Route exact path={match.url} component={MatosList_Router} />
+      <Route path="/add" component={AddMatos_Router} />
 
-    <Miss component={NoMatch}/>
+      <Route component={NoMatch}/>
+    </Switch>
   </div>
 )
 
@@ -277,11 +285,11 @@ const APropos_Router = () => {
 
 
 const NoMatch = ({location}) => {
-  activateStylesheets(Object.keys(stylesheetsUsed)); // Workaround React-router bug
+  //activateStylesheets(Object.keys(stylesheetsUsed)); // Workaround React-router bug
   console.error('Bad location', location);
   return <Redirect to='/' />;
   //return <Error err="Page non trouvée !" />;
 }
-  
+
 
 render(<App />, document.querySelector('#reactApp'))
