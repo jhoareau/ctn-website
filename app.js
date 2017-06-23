@@ -16,7 +16,7 @@ const winston = new (winstonLib.Logger)({
     new (winstonLib.transports.Console)({
 		//Si on veut rediriger les logs vers un fichier :
 		//new (winstonLib.transports.File)({
-			//filename: './eropartner.log',
+			//filename: './ctnwebsite.log',
       timestamp: tsFormat,
       colorize: true
     })
