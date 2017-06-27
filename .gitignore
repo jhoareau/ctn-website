@@ -9,3 +9,4 @@ materiel/*
 !materiel/NOT_EMPTY
 .vscode/*
 tmp
+.ignore
