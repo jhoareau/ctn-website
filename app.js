@@ -5,10 +5,22 @@
 */
 
 /* Librairie Winston - Error logging & severity management */
-const winston = require('winston');
-winston.remove(winston.transports.Console);
-winston.add(winston.transports.Console, {
-	colorize: true
+const winstonLib = require('winston');
+
+const tsFormat = () => (new Date()).toLocaleTimeString();
+
+const winston = new (winstonLib.Logger)({
+  levels: winstonLib.config.syslog.levels,
+  transports: [
+    // colorize the output to the console
+    new (winstonLib.transports.Console)({
+		//Si on veut rediriger les logs vers un fichier :
+		//new (winstonLib.transports.File)({
+			//filename: './ctnwebsite.log',
+      timestamp: tsFormat,
+      colorize: true
+    })
+  ]
 });
 
 /* Sous-application interne ExpressApp - Serveur HTTP */
