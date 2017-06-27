@@ -90,13 +90,13 @@ export class NewsForm extends React.Component {
         alert("Ratio d'image incorrect !");
         return false;
       }
-      if (imageObject.width < 1600) {
+      /*if (imageObject.width < 1600) {
         this.refs.imageFile.value = '';
         this.refs.imageFilename.innerHTML = '';
         canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
         alert("Image trop petite, elle sera floue !");
         return false;
-      }
+      }*/
 
       canvas.width = imageObject.width;
       canvas.height = imageObject.height;

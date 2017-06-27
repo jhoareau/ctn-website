@@ -29,8 +29,5 @@ class SearchBox extends React.Component {
 SearchBox.defaultProps = {
     route: '/mediapiston/search'
 }
-SearchBox.contextTypes = {
-  router: React.PropTypes.object
-}
 
 export default SearchBox;
