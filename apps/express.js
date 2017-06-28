@@ -73,12 +73,15 @@ const appWithErrorLogger = (winston) => {
     /* Routes séparées de l'application */
     app.use(express.static(path.join(__dirname, '../public')));
     let publicRoutes = require('../routes/public')(passportMiddleware);
-    let restRoutes = require('../routes/rest')(winston);
+    let restRoutes = require('../routes/rest');
     let videoRouter = require('../routes/videos');
     let assetsRouter = require('../routes/assets');
 
     app.use('/', publicRoutes);
-    app.use('/ajax', restRoutes);
+    app.use('/ajax', restRoutes.video(winston));
+    app.use('/ajax', restRoutes.materiel(winston));
+    app.use('/ajax', restRoutes.utils(winston));
+    app.use('/ajax', restRoutes.news(winston));
     app.use('/videos', videoRouter);
     //app.use('/materiel', assetsRouter);
 
