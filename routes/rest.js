@@ -306,7 +306,7 @@ const routerWithErrorLogger = (winston) => {
 
     if (request.image)
         request.image = Buffer.from(request.image);
-    
+
     mongodb.news.update(req.params.id, req.body, (answer, err) => {
       if (err) {
         winston.log('warning', 'News Update / ' + err.message);
@@ -326,8 +326,24 @@ const routerWithErrorLogger = (winston) => {
     });
   });
 
+//Faire cette route GET en une seule??
+
+  // router.get('/matos', loggedIn, (req, res) => {
+  //   mongodb.materiel.returnList(req.user.admin, data => {
+  //     if (data === null) data = [];
+  //     return res.json(data);
+  //   });
+  // });
+
   router.get('/matos/admin', isAdmin, (req, res) => {
     mongodb.materiel.returnList(true, data => {
+      if (data === null) data = [];
+      return res.json(data);
+    });
+  });
+
+  router.get('/matos', loggedIn, (req, res) => {
+    mongodb.materiel.returnList(false, data => {
       if (data === null) data = [];
       return res.json(data);
     });
@@ -344,7 +360,7 @@ const routerWithErrorLogger = (winston) => {
       return res.json({ok: true});
     });
   });
-  
+
   return router;
 }
 
