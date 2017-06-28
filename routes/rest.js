@@ -247,7 +247,11 @@ const routerWithErrorLogger = (winston) => {
     mongodb.news.return(req.params.id, (data, err) => {
       if (err) winston.log('warning', 'News / ' + err.message);
       if (data === null) return res.status(404).send(data);
-      let img = new Buffer(data.image, 'base64');
+      let img = Buffer.from(data.image.replace(/^data:image\/jpeg;base64,/, ''), 'base64');
+
+      console.log(data.image.replace(/^data:image\/jpeg;base64,/, ''))
+
+      console.log(img);
 
       res.writeHead(200, {
         'Content-Type': 'image/jpeg',
@@ -285,7 +289,7 @@ const routerWithErrorLogger = (winston) => {
     request.session = writer;
     request.date = new Date();
     let imageString = request.image;
-    request.image = Buffer.from(request.image.replace(/^data:image\/jpeg;base64,/, ''));
+    request.image = Buffer.from(imageString.replace(/^data:image\/jpeg;base64,/, ''), 'base64');
     let imageObject = Buffer.from(imageString.replace(/^data:image\/jpeg;base64,/, ''), 'base64');
 
     require('sharp')(imageObject).resize(160, 90).toBuffer((err, thumbBuffer) => {
@@ -304,10 +308,25 @@ const routerWithErrorLogger = (winston) => {
   router.post('/news/:id/update', isAdmin, (req, res) => {
     let request = req.body;
 
-    if (request.image)
-        request.image = Buffer.from(request.image);
+    if (request.image) {
+      let imageString = request.image;
+      request.image = Buffer.from(imageString.replace(/^data:image\/jpeg;base64,/, ''), 'base64');
+      let imageObject = Buffer.from(imageString.replace(/^data:image\/jpeg;base64,/, ''), 'base64');
 
-    mongodb.news.update(req.params.id, req.body, (answer, err) => {
+      return require('sharp')(imageObject).resize(160, 90).toBuffer((err, thumbBuffer) => {
+        if (err) winston.log('error', 'News Creation / Thumb generation / ' + err.message);
+        request.thumbnail = thumbBuffer;
+        mongodb.news.update(req.params.id, request, (answer, err) => {
+          if (err) {
+            winston.log('warning', 'News Update / ' + err.message);
+            return res.status(500).send(answer);
+          }
+          return res.json(answer);
+        });
+      });
+    }
+
+    mongodb.news.update(req.params.id, request, (answer, err) => {
       if (err) {
         winston.log('warning', 'News Update / ' + err.message);
         return res.status(500).send(answer);

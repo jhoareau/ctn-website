@@ -39,7 +39,8 @@ exports.return = (id, callback) => {
       let filteredResults = result.map(obj => {
         let filteredObj = obj.toJSON();
         if (obj.writer) filteredObj.writer = obj.writer.surname;
-        filteredObj.image = Buffer.from(filteredObj.image.data).toString();
+        //filteredObj.image = Buffer.from(filteredObj.image.data).toString();
+        //filteredObj.image = 'data:image/jpeg;base64,' + Buffer.from(filteredObj.image.data).toString('base64');
         filteredObj.thumbnail = 'data:image/jpeg;base64,' + Buffer.from(filteredObj.thumbnail.data).toString('base64');
         return filteredObj;
       });
@@ -72,6 +73,7 @@ exports.update = (id, update, callback) => {
     if (update.title) news.title = update.title;
     if (update.text) news.text = update.text;
     if (update.image) news.image = update.image;
+    if (update.thumbnail) news.image = update.image;
     if (update.href) news.href = update.href;
 
     news.save((err2) => {

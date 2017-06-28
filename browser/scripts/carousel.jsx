@@ -7,20 +7,25 @@ class CarouselItem extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    if (this.props.thumb) return;
+    this.refs.carouselImage.style.backgroundImage = `url(/ajax/news/${this.props._id}.jpg)`;
+  }
+
   render() {
     let carouselText = <div className="carouselText">
                           <h3>{this.props.title}</h3>
                           <p>{this.props.text}</p>
                         </div>;
-    if (this.props.href) carouselText = <a href={this.props.href} style={{display: 'block'}} _target="blank"> 
+    if (this.props.href) carouselText = <a href={this.props.href} style={{display: 'block'}} target="_blank">
                                           <div className="carouselText">
                                             <h3>{this.props.title}</h3>
                                             <p>{this.props.text}</p>
                                           </div></a>;
-      
+
     return (
-      <div style={{backgroundImage: 'url(' + this.props.thumbnail + ')'}} className="carouselItem">
-        {!this.props.thumb ? carouselText : null}
+      <div style={{backgroundImage: 'url(' + this.props.thumbnail + ')'}} ref="carouselImage" className="carouselItem">
+        {this.props.thumb ? null : carouselText}
       </div>
     );
   }
