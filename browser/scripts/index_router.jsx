@@ -136,7 +136,7 @@ const Carousel_Router = () => {
       <div id="adminFeatures">
         <AdminFeatures route='/ajax/news/adminFeatures' root={true} />
       </div>
-      <Carousel route='/ajax/newsList' />
+      <Carousel route='/ajax/news' />
     </div>
   );
 }
@@ -162,7 +162,7 @@ const NewsFormComponent_Add = () => {
 const News_AdminComponent = () => {
   activateStylesheets(['news_admin']);
 
-  return <NewsAdmin route='/ajax/newsList/no_images' />;
+  return <NewsAdmin route='/ajax/news' />;
 }
 
 const NewsFormComponent_Edit = ({ match }) => {
@@ -206,7 +206,7 @@ const VideoList_Router = () => {
         <AdminFeatures route='/ajax/mediapiston/adminFeatures' root={true} />
       </div>
       <div id="videosList">
-        <VideoList route='/ajax/videoList' root={true} />
+        <VideoList route='/ajax/videos' root={true} />
       </div>
     </div>
   );
@@ -218,7 +218,7 @@ const VideoListSearch_Router = ({ match }) => {
   return (
     <div>
       <div id="videosList" style={{marginTop: '10px'}}>
-        <VideoList route={'/ajax/videoList/search/' + match.params.term} root={true} />
+        <VideoList route={'/ajax/videos/search/' + match.params.term} root={true} />
       </div>
     </div>
   );
@@ -244,8 +244,8 @@ const VideoPlayer_Router = ({ match }) => {
 
   return (
     <div className="row">
-      <div className="col-xl-8"><VideoPlayer route={'/ajax/video/' + match.params.id} _id={match.params.id} root={true} /></div>
-      <div className="col-xl-4"><RelatedVideoList route={'/ajax/videoList/related/' + match.params.id} root={true} /></div>
+      <div className="col-xl-8"><VideoPlayer route={'/ajax/videos/' + match.params.id} _id={match.params.id} root={true} /></div>
+      <div className="col-xl-4"><RelatedVideoList route={'/ajax/videos/related/' + match.params.id} root={true} /></div>
     </div>
   );
 }
@@ -259,7 +259,7 @@ const Upload_Router = () => {
 const Update_Router = ({ match }) => {
   activateStylesheets(['forms']);
 
-  return <UploadForm update={true} route={'/ajax/video/' + match.params.id} _id={match.params.id} />;
+  return <UploadForm update={true} route={'/ajax/videos/' + match.params.id} _id={match.params.id} />;
 }
 
 const AddMatos_Router = () => {

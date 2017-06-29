@@ -34,7 +34,7 @@ class VideoPlayer extends React.Component {
 
   deleteVideoConfirm() {
     if (confirm('Voulez vous vraiment supprimer cette vidéo ?')) {
-      Request.delete('/ajax/video/' + this.props._id + '/delete').end((err) => {
+      Request.delete('/ajax/video/' + this.props._id).end((err) => {
         if (err) return alert('Une erreur est survenue.');
         window.history.back();
       });
@@ -63,8 +63,8 @@ class VideoPlayer extends React.Component {
           <i className="fa fa-trash-o" aria-hidden="true"/>
         </button>
       </div>);
-    
-    
+
+
     return (
       <div id="videoContent">
         <div className="videoPlayer container">

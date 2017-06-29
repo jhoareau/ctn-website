@@ -45,7 +45,7 @@ class UploadSnippet extends React.Component {
     let videoObject = document.createElement('video');
     videoObject.src = URL.createObjectURL(file) + '#t=20';
     videoObject.load();
-    
+
     videoObject.addEventListener('loadeddata', () => {
       canvas.width = videoObject.videoWidth;
       canvas.height = videoObject.videoHeight;
@@ -167,7 +167,7 @@ class UploadForm extends React.Component {
       this.setState({videoTitle: data.title, videoDescription: data.description});
     });
   }
-  
+
   componentDidMount() {
     MaterialComponentHandler.componentHandler.upgradeDom();
   }
@@ -212,12 +212,12 @@ class UploadForm extends React.Component {
     }
 
     if (this.props.update)
-      Request.post('/ajax/video/' + this.props._id + '/update').send(uploadData).end((err, data) => {
+      Request.post('/ajax/videos/' + this.props._id).send(uploadData).end((err, data) => {
         if (err) return console.log(err);
         window.history.back();
       });
     else
-      Request.put('/ajax/video/add').send(uploadData).end((err, data) => {
+      Request.put('/ajax/videos').send(uploadData).end((err, data) => {
         if (err) return console.log(err);
         window.history.back();
       });

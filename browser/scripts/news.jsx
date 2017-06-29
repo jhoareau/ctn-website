@@ -90,13 +90,13 @@ export class NewsForm extends React.Component {
         alert("Ratio d'image incorrect !");
         return false;
       }
-      /*if (imageObject.width < 1600) {
+      if (imageObject.width < 1600) {
         this.refs.imageFile.value = '';
         this.refs.imageFilename.innerHTML = '';
         canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
         alert("Image trop petite, elle sera floue !");
         return false;
-      }*/
+      }
 
       canvas.width = imageObject.width;
       canvas.height = imageObject.height;
@@ -120,12 +120,12 @@ export class NewsForm extends React.Component {
     uploadData.image = this.refs.canvasImage.toDataURL("image/jpeg", 0.8);
 
     if (this.props.update)
-      Request.post('/ajax/news/' + this.props._id + '/update').send(uploadData).end((err, data) => {
+      Request.post('/ajax/news/' + this.props._id).send(uploadData).end((err, data) => {
         if (err) return console.log(err);
         window.history.back();
       });
     else
-      Request.put('/ajax/news/add').send(uploadData).end((err, data) => {
+      Request.put('/ajax/news').send(uploadData).end((err, data) => {
         if (err) return console.log(err);
         window.history.back();
       });
@@ -185,7 +185,7 @@ class NewsItem extends React.Component {
 
   confirmDelete() {
     if (confirm('Voulez vous vraiment supprimer cette news ?')) {
-      Request.delete('/ajax/news/' + this.props._id + '/delete').end((err) => {
+      Request.delete('/ajax/news/' + this.props._id).end((err) => {
         if (err) return alert('Une erreur est survenue.');
         this.props.eventHandler();
       });
