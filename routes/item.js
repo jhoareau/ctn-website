@@ -5,14 +5,6 @@ const fs = require('fs');
 const path = require('path');
 const config = require('../config.secrets.json');
 
-const transporter = require('nodemailer').createTransport(
-  service: config.email.service,
-  auth: {
-    user: config.email.account,
-    pass: config.email.password
-  }
-);
-
 const itemsRoutes = (winston) => {
 
   let router = express.Router();
@@ -48,23 +40,9 @@ const itemsRoutes = (winston) => {
     mongodb.loan.create(data, (err, answer) => {
       if (err) {
         winston.log('warning', 'Loan Creation / ' + err.message);
-        return res.status(500).send(err);
+        return res.status(500).throw(err);
       }
-      let mailOptions = {
-        from: req.user.email,
-        to: "antoniodjm@hotmail.fr",
-        subject: "[CTN] Demande de prêt de matériel",
-        text: req.body.message,
-        html: '<b>' + req.body.message + '</b>'
-      };
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          return console.log(error);
-        }
-        console.log('Message sent: ' + info.response);
-        res.json(answer);
-      });
-      transporter.close();      
+      res.json(answer);
     });
   });
 
