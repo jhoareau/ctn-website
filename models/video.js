@@ -93,10 +93,10 @@ exports.update = (id, data, callback) => {
     if (video === null || typeof video === 'undefined') return callback({ok: false});
 
     video.title = data.title;
-    video.description = data.description;
+    video.description = data.description;    
+    video.tags = data.tags;
     if (data.date) video.date = data.date;
     if (data.session) video.uploader = data.session._id;
-    if (data.tags) video.tags = data.tags;
 
     video.validated = true;
 

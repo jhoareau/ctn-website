@@ -13,7 +13,7 @@ class Comment extends React.Component {
 
   deleteComment() {
     if (confirm('Voulez vous vraiment supprimer ce commentaire ?')) {
-      Request.delete('/ajax/video/comments/' + this.props._id + '/delete').end((err) => {
+      Request.delete('/ajax/videos/comments/' + this.props._id).end((err) => {
         if (err) return console.log(err);
         this.props.triggerReload();
       });
@@ -71,7 +71,7 @@ class CommentBox extends React.Component {
     if (this.state.commentText == "") return;
 
     if (!this.props.commentText)
-      Request.put('/ajax/video/' + this.props.videoId + '/comments/add')
+      Request.put('/ajax/videos/' + this.props.videoId + '/comments')
       .send({commentText: this.state.commentText})
       .end((err) => {
         if (err) return console.log(err);
@@ -80,7 +80,7 @@ class CommentBox extends React.Component {
 
       });
     else
-      Request.post('/ajax/video/comments/' + this.props.commentId + '/update')
+      Request.post('/ajax/videos/comments/' + this.props.commentId)
       .send({commentText: this.state.commentText})
       .end((err) => {
         if (err) return console.log(err);
@@ -131,7 +131,7 @@ export default class CommentList extends React.Component {
   }
 
   reloadCommentsState() {
-    Request.get('/ajax/video/' + this.props.videoId + '/comments').end((err, data_comments) => {
+    Request.get('/ajax/videos/' + this.props.videoId + '/comments').end((err, data_comments) => {
       data_comments = data_comments.body;
       this.setState({commentList: data_comments, commentText: '', commentId: ''});
     });

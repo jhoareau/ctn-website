@@ -56,11 +56,10 @@ exports.update = (id, data, callback) => {
     if (err) throw new Error('Erreur lors de la récupération du matériel à mettre à jour.');
     if (materiel === null) return callback({ok: false});
 
-    if (materiel.thumbUrl) materiel.thumbUrl = data.thumb;
     materiel.extes = data.extes;
     materiel.name = data.name;
     materiel.caution = data.caution;
-    materiel.disponible = data.updatedDisponible;
+    if (data.updatedDisponible) materiel.disponible = data.updatedDisponible;
     if (data.updatedHistorique) materiel.historique = data.updatedHistorique;
 
     materiel.save((err) => {
