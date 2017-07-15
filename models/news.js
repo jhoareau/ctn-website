@@ -67,7 +67,7 @@ exports.returnList = exports.return.bind(this, null);
 
 exports.update = (id, update, callback) => {
   News.findById(id, (err, news) => {
-    if (err) return callback({ok: false}, new Error('Erreur lors de la récupération de la news à mettre à jour. ID = ' + id));
+    if (err) return callback({ok: false}, new Error(`Erreur lors de la récupération de la news à mettre à jour. ID =${id}`));
     if (news === null || typeof news === 'undefined') return callback({ok: false});
 
     if (update.title) news.title = update.title;
@@ -77,7 +77,7 @@ exports.update = (id, update, callback) => {
     if (update.href) news.href = update.href;
 
     news.save((err2) => {
-      if (err2) return callback({ok: false}, new Error('Erreur lors de la mise à jour de la news. ID = ' + id));
+      if (err2) return callback({ok: false}, new Error(`Erreur lors de la mise à jour de la news. ID =${id}`));
       callback({ok: true});
     });
   });
@@ -85,7 +85,7 @@ exports.update = (id, update, callback) => {
 
 exports.delete = (id, callback) => {
   News.findByIdAndRemove(id, (err, result) => {
-    if (err) return callback({ok: false}, new Error('Erreur lors de la suppression de la news. ID = ' + id));
+    if (err) return callback({ok: false}, new Error(`Erreur lors de la suppression de la news. ID =${id}`));
     callback({ok: true});
   });
 }

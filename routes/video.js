@@ -8,7 +8,7 @@ const videoRoutes = (winston) => {
 
   let router = express.Router();
 
-  router.get('/videos', routes.loggedIn, (req, res) => {
+  router.get('/', routes.loggedIn, (req, res) => {
     mongodb.video.returnList((data, err) => {
       if (err) winston.log('warning', 'VideoList / ' + err.message);
       if (data === null) data = [];
@@ -16,7 +16,7 @@ const videoRoutes = (winston) => {
     });
   });
 
-  router.get('/videos/related/:id', routes.loggedIn, (req, res) => {
+  router.get('/related/:id', routes.loggedIn, (req, res) => {
     // TODO vidéos liées à la vidéo en paramètre
     mongodb.video.getRelatedVideos(req.params.id, (data, err) => {
       if (err) winston.log('warning', 'VideoList Related / ' + err.message);
@@ -25,7 +25,7 @@ const videoRoutes = (winston) => {
     });
   });
 
-  router.get('/videos/search/:title', routes.loggedIn, (req, res) => {
+  router.get('/search/:title', routes.loggedIn, (req, res) => {
     mongodb.video.searchRelatedVideos(req.params.title, (data, err) => {
       if (err) winston.log('warning', 'VideoList Search / ' + err.message);
       if (data === null) data = [];
@@ -33,7 +33,7 @@ const videoRoutes = (winston) => {
     });
   });
 
-  router.get('/videos/:id', routes.loggedIn, (req, res) => {
+  router.get('/:id', routes.loggedIn, (req, res) => {
     mongodb.video.return(req.params.id, (data, err) => {
       if (err) winston.log('warning', 'Video / ' + err.message);
       if (data === null || data === {}) {
@@ -46,7 +46,7 @@ const videoRoutes = (winston) => {
     });
   });
 
-  router.put('/videos', routes.isAdmin, (req, res) => {
+  router.put('/', routes.isAdmin, (req, res) => {
     let uploader = req.user;
     let request = req.body;
     request.session = uploader;
@@ -62,7 +62,7 @@ const videoRoutes = (winston) => {
     });
   });
 
-  router.post('/videos/:id', routes.isAdmin, (req, res) => {
+  router.post('/:id', routes.isAdmin, (req, res) => {
     mongodb.video.update(req.params.id, req.body, (answer, err) => {
       if (err) {
         winston.log('warning', 'Video Update / ' + err.message);
@@ -77,7 +77,7 @@ const videoRoutes = (winston) => {
     }
   });
 
-  router.delete('/videos/:id', routes.isAdmin, (req, res) => {
+  router.delete('/:id', routes.isAdmin, (req, res) => {
     mongodb.video.delete(req.params.id, (data, err) => {
       if (err) {
         winston.log('warning', 'Video Delete / ' + err.message);
@@ -89,7 +89,7 @@ const videoRoutes = (winston) => {
     });
   });
 
-  router.get('/videos/:id/comments', routes.loggedIn, (req, res) => {
+  router.get('/:id/comments', routes.loggedIn, (req, res) => {
     mongodb.comment.getByVideo(req.params.id, (data, err) => {
       if (err) winston.log('warning', 'Video Comments / ' + err.message);
       if (data === null || data === []) {
@@ -108,7 +108,7 @@ const videoRoutes = (winston) => {
     })
   });
 
-  router.put('/videos/:id/comments', routes.loggedIn, (req, res) => {
+  router.put('/:id/comments', routes.loggedIn, (req, res) => {
     let request = {session: req.user, text: req.body.commentText, videoId: req.params.id};
     mongodb.comment.create(request, (answer, err) => {
       if (err) {
@@ -119,7 +119,7 @@ const videoRoutes = (winston) => {
     });
   });
 
-  router.post('/videos/comments/:id_c', routes.loggedIn, (req, res) => {
+  router.post('/comments/:id_c', routes.loggedIn, (req, res) => {
     mongodb.comment.updateText(req.params.id_c, req.body.commentText, req.user.admin ? null : req.user._id, (answer, err) => {
       if (err) {
         winston.log('warning', 'Comment Edit / ' + err.message);
@@ -131,7 +131,7 @@ const videoRoutes = (winston) => {
     })
   });
 
-  router.delete('/videos/comments/:id_c', routes.loggedIn, (req, res) => {
+  router.delete('/comments/:id_c', routes.loggedIn, (req, res) => {
     mongodb.comment.delete(req.params.id_c, req.user.admin ? null : req.user._id, (answer, err) => {
       if (err) {
         winston.log('warning', 'Comment Delete / ' + err.message);

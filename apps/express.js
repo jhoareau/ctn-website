@@ -78,10 +78,10 @@ const appWithErrorLogger = (winston) => {
     let assetsRouter = require('../routes/assets');
 
     app.use('/', publicRoutes);
-    app.use('/ajax', restRoutes.video(winston));
-    app.use('/ajax', restRoutes.materiel(winston));
     app.use('/ajax', restRoutes.utils(winston));
-    app.use('/ajax', restRoutes.news(winston));
+    app.use('/ajax/news', restRoutes.news(winston));
+    app.use('/ajax/items', restRoutes.item(winston));
+    app.use('/ajax/videos', restRoutes.video(winston));
     app.use('/videos', videoRouter);
     //app.use('/materiel', assetsRouter);
 
