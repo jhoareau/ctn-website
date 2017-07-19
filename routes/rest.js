@@ -31,7 +31,7 @@ exports.isSuperAdmin = (req, res, next) => {
   }
 }
 
-exports.materiel = require('./materiel.js');
+exports.item = require('./item.js');
 exports.news = require('./news.js');
 exports.utils = require('./utils.js');
 exports.video = require('./video.js');

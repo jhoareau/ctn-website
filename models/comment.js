@@ -11,43 +11,44 @@ let Comment = mongoose.model('Comment', commentSchema);
 exports.model = Comment;
 
 exports.create = (data, callback) => {
-    let schema = {
-      text: data.text,
-      user: data.session._id,
-      video: data.videoId
-    };
-    let newComment = new Comment(schema);
-    newComment.save((err, result) => {
-      if (err) return callback(null, new Error("Erreur lors de la création du nouveau commentaire."));
-      callback(result._id);
-    })
+  let schema = {
+    text: data.text,
+    user: data.session._id,
+    video: data.videoId
+  };
+  let newComment = new Comment(schema);
+  newComment.save((err, result) => {
+    if (err) return callback(null, new Error("Erreur lors de la création du nouveau commentaire."));
+    callback(result._id);
+  });
 }
+
 /*
 exports.return = (id, callerId, callback) => {
-  if (id === null) {
-    Comment.find({}).sort('-creationDate').populate('user').exec((err, result) => {
-      if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des commentaires.'));
-      if (result === null || typeof result === 'undefined') return callback(null);
+if (id === null) {
+Comment.find({}).sort('-creationDate').populate('user').exec((err, result) => {
+if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des commentaires.'));
+if (result === null || typeof result === 'undefined') return callback(null);
 
-      let filteredResults = result.map(obj => {
-        let filteredObj = obj.toJSON();
-        if (obj.user) filteredObj.user = obj.user.fullName;
-        return filteredObj;
-      });
-      callback(filteredResults);
-    });
-  }
-  else {
-    Comment.find({_id: id}).populate('user').exec((err, result) => {
-      if (err) return callback(null, new Error('Erreur lors de la récupération du commentaire. ID = ' + id));
-      if (result === null || typeof result === 'undefined') return callback(null);
+let filteredResults = result.map(obj => {
+let filteredObj = obj.toJSON();
+if (obj.user) filteredObj.user = obj.user.fullName;
+return filteredObj;
+});
+callback(filteredResults);
+});
+}
+else {
+Comment.find({_id: id}).populate('user').exec((err, result) => {
+if (err) return callback(null, new Error('Erreur lors de la récupération du commentaire. ID = ' + id));
+if (result === null || typeof result === 'undefined') return callback(null);
 
-      let filteredResult = result.toJSON();
+let filteredResult = result.toJSON();
 
-      if (typeof filteredResult.user !== 'undefined') filteredResult.user = result.user.fullName;
-      callback(filteredResult);
-    });
-  }
+if (typeof filteredResult.user !== 'undefined') filteredResult.user = result.user.fullName;
+callback(filteredResult);
+});
+}
 }*/
 
 //exports.returnList = exports.return.bind(this, null);
@@ -74,9 +75,9 @@ exports.getByVideo = (videoId, callback) => {
     if (result === null || typeof result === 'undefined') return callback([]);
 
     let filteredResults = result.map(obj => {
-        let filteredObj = obj.toJSON();
-        filteredObj.user = {name: obj.user.fullName, id: obj.user._id};
-        return filteredObj;
+      let filteredObj = obj.toJSON();
+      filteredObj.user = {name: obj.user.fullName, id: obj.user._id};
+      return filteredObj;
     });
 
     callback(filteredResults);

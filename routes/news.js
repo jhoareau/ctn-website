@@ -8,7 +8,7 @@ const newsRoutes = (winston) => {
 
   let router = express.Router();
 
-  router.get('/news', (req, res) => {
+  router.get('/', (req, res) => {
     mongodb.news.returnList((data, err) => {
       if (err) winston.log('warning', 'News List / ' + err.message);
       if (data === null) data = [];
@@ -22,7 +22,7 @@ const newsRoutes = (winston) => {
     });
   });
 
-  router.get('/news/:id.jpg', (req, res) => {
+  router.get('/:id.jpg', (req, res) => {
     mongodb.news.return(req.params.id, (data, err) => {
       if (err) winston.log('warning', 'News / ' + err.message);
       if (data === null) return res.status(404).send(data);
@@ -36,7 +36,7 @@ const newsRoutes = (winston) => {
     });
   });
 
-  router.get('/news/:id', (req, res) => {
+  router.get('/:id', (req, res) => {
     mongodb.news.return(req.params.id, (data, err) => {
       if (err) winston.log('warning', 'News / ' + err.message);
       if (data === null) return res.status(404).send(data);
@@ -44,7 +44,7 @@ const newsRoutes = (winston) => {
     });
   });
 
-  router.put('/news', routes.isAdmin, (req, res) => {
+  router.put('/', routes.isAdmin, (req, res) => {
     let writer = req.user;
     let request = req.body;
 
@@ -67,7 +67,7 @@ const newsRoutes = (winston) => {
     });
   });
 
-  router.post('/news/:id', routes.isAdmin, (req, res) => {
+  router.post('/:id', routes.isAdmin, (req, res) => {
     let request = req.body;
 
     if (request.image) {
@@ -97,7 +97,7 @@ const newsRoutes = (winston) => {
     });
   });
 
-  router.delete('/news/:id',routes. isAdmin, (req, res) => {
+  router.delete('/:id',routes. isAdmin, (req, res) => {
     mongodb.news.delete(req.params.id, (data, err) => {
       if (err) {
         winston.log('warning', 'News Delete / ' + err.message);

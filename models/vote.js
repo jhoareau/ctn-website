@@ -23,20 +23,20 @@ exports.create = (infos, callback) => {
   });
 }
 
-exports.getScoreByCommment = function (commentId, callback) {
+exports.getScoreByCommment = (commentId, callback) => {
   Vote.aggregate(
     {$match: {comment: commentId}},
     {$group: {
         _id: commentId,
         score: {$sum: "$voteType"}
       }
-    }, function (err, result) {
+    }, (err, result) => {
       console.log(result);
       callback(err, result)
   });
 }
 
-exports.update = function (commentId, voterId, callback) {
+exports.update = (commentId, voterId, callback) => {
   Vote.find({comment: commentId, voter: voterId}, (err, vote) => {
     if (err) return callback({ok: false}, new Error('Erreur lors de la récupération du vote à mettre à jour. ID = ' + id));
     if (vote === null || typeof vote === 'undefined') return callback({ok: false});
