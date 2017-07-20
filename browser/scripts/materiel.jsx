@@ -16,7 +16,7 @@ class Historique extends React.Component {
   }
 }
 
-class Camera extends React.Component {
+class Item extends React.Component {
   constructor(props) {
     super(props);
     this.switchDescription = this.switchDescription.bind(this);
@@ -68,8 +68,8 @@ class Camera extends React.Component {
 
     return (
         <div className="mdl-card display_card mdl-shadow--2dp" data-id={this.props._id}>
-          <div className="mdl-card__title" style={{backgroundImage: 'url("/materiel/materiel/' + this.props._id + '.png")'}}>
-            <h2 className="mdl-card__title-text">{this.props.name}</h2>
+          <div className="mdl-card__title" style={{backgroundImage: 'url("/materiel/' + this.props._id + '.png")'}}>
+            <span><h2 className="mdl-card__title-text">{this.props.name}</h2></span>
           </div>
           {
             !this.props.showHistorique ?
@@ -104,7 +104,7 @@ class Camera extends React.Component {
     );
   }
 }
-Camera.defaultProps = {
+Item.defaultProps = {
   thumbUrl : '/defaults/gopro_4.png',
   name: 'Clara - GoPro Hero 4',
   description: 'Caméra CTN',
@@ -131,6 +131,7 @@ class MatosList extends React.Component {
   populate(route) {
     Request.get(route).end((err, data) => {
       data = data.body;
+      if (err) data = [];
       this.setState({videoList: data});
     });
   }
@@ -139,8 +140,8 @@ class MatosList extends React.Component {
     if (this.props.matosList.length > 0)
       return (
         <div className="matosList">
-          {this.props.matosList.map(cameraObject => {
-            return <Camera {...cameraObject} key={cameraObject._id} />
+          {this.props.matosList.map(itemObject => {
+            return <Item {...itemObject} key={itemObject._id} />
           })}
         </div>
       );

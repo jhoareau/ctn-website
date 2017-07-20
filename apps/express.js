@@ -83,7 +83,7 @@ const appWithErrorLogger = (winston) => {
     app.use('/ajax/items', restRoutes.item(winston));
     app.use('/ajax/videos', restRoutes.video(winston));
     app.use('/videos', videoRouter);
-    //app.use('/materiel', assetsRouter);
+    app.use('/materiel', assetsRouter);
 
     // Page non existante
     app.use((req, res) => {

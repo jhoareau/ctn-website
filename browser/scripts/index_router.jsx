@@ -233,7 +233,7 @@ const MatosList_Router = () => {
         <AdminFeatures route='/ajax/matos/adminFeatures' root={true} />
       </div>
       <div id="videosList">
-        <MatosList route='/ajax/matosList' root={true} />
+        <MatosList route='/ajax/items' root={true} />
       </div>
     </div>
   );

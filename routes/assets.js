@@ -17,7 +17,7 @@ const serveFile = (path, res) => {
   res.sendFile(path);
 };
 
-router.get('/materiel/:id.png', loggedIn, (req, res) => {
+router.get('/:id.png', loggedIn, (req, res) => {
   fs.stat(path.join(__dirname, '../materiel/', req.params.id +'.png'), (err, stat) => {
     if (err && err.code == 'ENOENT') {
       serveFile(path.join(__dirname, '../public/defaults/', 'no_video.png'), res);
