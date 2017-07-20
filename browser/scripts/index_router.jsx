@@ -168,7 +168,7 @@ const News_AdminComponent = () => {
 const NewsFormComponent_Edit = ({ match }) => {
   activateStylesheets(['forms']);
 
-  return <NewsForm update={true} route={'/ajax/news/' + match.params.id} _id={match.params.id} />;
+  return <NewsForm update={true} route={`/ajax/news/${match.params.id}`} _id={match.params.id} />;
 }
 
 const Mediapiston_Router = ({ match }) => (
@@ -189,7 +189,7 @@ const Matos_Router = ({ match }) => (
   <div>
     <Switch>
       <Route exact path={match.url} component={MatosList_Router} />
-      <Route path="/add" component={AddMatos_Router} />
+      <Route path={`${match.url}/add`} component={AddMatos_Router} />
 
       <Route component={NoMatch}/>
     </Switch>
@@ -218,7 +218,7 @@ const VideoListSearch_Router = ({ match }) => {
   return (
     <div>
       <div id="videosList" style={{marginTop: '10px'}}>
-        <VideoList route={'/ajax/videos/search/' + match.params.term} root={true} />
+        <VideoList route={`/ajax/videos/search/${match.params.term}`} root={true} />
       </div>
     </div>
   );
@@ -244,8 +244,8 @@ const VideoPlayer_Router = ({ match }) => {
 
   return (
     <div className="row">
-      <div className="col-xl-8"><VideoPlayer route={'/ajax/videos/' + match.params.id} _id={match.params.id} root={true} /></div>
-      <div className="col-xl-4"><RelatedVideoList route={'/ajax/videos/related/' + match.params.id} root={true} /></div>
+      <div className="col-xl-8"><VideoPlayer route={`/ajax/videos/${match.params.id}`} _id={match.params.id} root={true} /></div>
+      <div className="col-xl-4"><RelatedVideoList route={`/ajax/videos/related/${match.params.id}`} root={true} /></div>
     </div>
   );
 }
@@ -259,13 +259,13 @@ const Upload_Router = () => {
 const Update_Router = ({ match }) => {
   activateStylesheets(['forms']);
 
-  return <UploadForm update={true} route={'/ajax/videos/' + match.params.id} _id={match.params.id} />;
+  return <UploadForm update={true} route={`/ajax/videos/'${match.params.id}`} _id={match.params.id} />;
 }
 
 const AddMatos_Router = () => {
   activateStylesheets(['forms']);
 
-  return <UploadForm />;
+  return <UploadMatosForm />;
 }
 
 const APropos_Router = () => {
