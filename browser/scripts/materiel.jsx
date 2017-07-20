@@ -1,5 +1,6 @@
 import React from 'react';
 import Request from 'superagent';
+import moment from 'moment';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Historique extends React.Component {
@@ -9,8 +10,8 @@ class Historique extends React.Component {
 
   render() {
     return (
-        <p>Empruntée par {this.props.emprunteur} le {this.props.date_emprunt} avec {this.props.responsable_emprunt}<br/>
-        Rendu le {this.props.date_rendu} avec {this.props.reponsable_rendu}</p>
+        <p>Empruntée par {this.props.emprunteur} le {moment(this.props.date_emprunt).format("D MMMM YYYY")} avec {this.props.responsable_emprunt}<br/>
+        Rendu le {moment(this.props.date_rendu).format("D MMMM YYYY")} avec {this.props.reponsable_rendu}</p>
     );
   }
 }
@@ -56,10 +57,10 @@ class Camera extends React.Component {
     };
 
     // Matériel emprunté au moment de l'affichage
-    let nowEmprunte = emprunte && !this.props.showHistorique ? <p>Empruntée par {emprunt(index).nom} le {emprunt(index).date} avec {emprunt(index).responsable}</p> : null;
+    let nowEmprunte = emprunte && !this.props.showHistorique ? <p>Empruntée par {emprunt(index).nom} le {moment(emprunt(index).date).format("D MMMM YYYY")} avec {emprunt(index).responsable}</p> : null;
     let rendreCamera = emprunte && !this.props.showHistorique ? <button className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Rendre</button> : null;
     // Matériel réservé au moment de l'affichage
-    let nowReserve = reserve ? <p>Réservée par {emprunt(index).nom} le {emprunt(index).date}</p> : null;
+    let nowReserve = reserve ? <p>Réservée par {emprunt(index).nom} le {moment(emprunt(index).date).format("D MMMM YYYY")}</p> : null;
     let validerReservation = reserve && !this.props.showHistorique ? <button className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onClick={this.validerReservation}>Valider réservation</button> : null;
     let annulerReservation = reserve && !this.props.showHistorique ? <button className="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect" onClick={this.closeReservation}>Annuler réservation</button> : null;
 
@@ -84,7 +85,7 @@ class Camera extends React.Component {
             {nowEmprunte}
             {nowReserve}
             {!emprunteOuReserve ? <p className="materielDispo">Disponible</p> : null}
-            
+
             <ReactCSSTransitionGroup transitionEnterTimeout={600} transitionLeaveTimeout={600} transitionName="cardDescription">
               {cardDescription}
             </ReactCSSTransitionGroup>
