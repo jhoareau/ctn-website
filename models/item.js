@@ -4,7 +4,7 @@ let itemSchema = new mongoose.Schema({
   extes: Boolean,
   name: String,
   description: String,
-  caution: Number,
+  deposit: Number,
   disponible: Boolean,
   // historique: [{
   //   emprunteur: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
@@ -39,7 +39,7 @@ exports.add = (data, callback) => {
     extes: data.extes,
     name: data.name,
     description: data.description,
-    caution: data.caution,
+    deposit: data.deposit,
     disponible: true,
     //historique: []
   };
@@ -58,7 +58,7 @@ exports.update = (id, data, callback) => {
 
     if (data.extes) item.extes = data.extes;
     if (data.name) item.name = data.name;
-    if (data.caution) item.caution = data.caution;
+    if (data.deposit) item.deposit = data.deposit;
     if (typeof data.disponible !== 'undefined') item.disponible = data.disponible;
     //if (data.updatedHistorique) item.historique = data.updatedHistorique;
 

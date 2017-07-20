@@ -146,7 +146,7 @@ class UploadSnippet extends React.Component {
   }
 }
 
-class UploadForm extends React.Component {
+export class UploadForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -250,4 +250,84 @@ class UploadForm extends React.Component {
   }
 }
 
-export default UploadForm;
+export class UploadMatosForm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    //this.saveUpload = this.saveUpload.bind(this);
+    //this.allowUpload = this.allowUpload.bind(this);
+    this.populate = this.populate.bind(this);
+    this.updateItemName = this.updateItemName.bind(this);
+    this.updateItemDescription = this.updateItemDescription.bind(this);
+    this.updateItemDeposit = this.updateItemDeposit.bind(this);
+
+    this.state = Object.assign({itemName: '', itemDescription: '', itemDeposit: 0, submitDisabled: true}, props);
+
+    if (typeof props.route !== 'undefined' && this.props.update) this.populate(props.route);
+  }
+
+  populate(route) {
+    Request.get(route).end((err, data) => {
+      data = data.body;
+      this.setState({itemName: data.name, itemDeposit: data.deposit, itemDescription: data.description});
+    });
+  }
+
+  componentDidMount() {
+    MaterialComponentHandler.componentHandler.upgradeDom();
+  }
+
+  componentDidUpdate() {
+    // Forcing Material-Design-Lite component update
+    this.refs.itemName.dispatchEvent(new Event('input'));
+    this.refs.itemDesc.dispatchEvent(new Event('input'));
+    this.refs.itemDeposit.dispatchEvent(new Event('input'));
+  }
+
+  updateItemName(event) {
+    event.target.required = true; // Workaround MDL marking the field as invalid
+    this.setState({itemName: event.target.value});
+  }
+
+  updateItemDeposit(event) {
+    event.target.required = true; // Workaround MDL marking the field as invalid
+    this.setState({itemDeposit: event.target.value});
+  }
+
+  updateItemDescription(event) {
+    event.target.required = true; // Workaround MDL marking the field as invalid
+    this.setState({itemDescription: event.target.value});
+  }
+
+  render() {
+    return (
+      <div>
+        <div>
+          <h6 className="mdl-typography--title formTitle">Photo</h6>
+          <UploadSnippet ref="uploadSnippet" thumbOnly={this.props.update} {...this.state} onUploadFinished={this.allowUpload}/>
+        </div>
+        <form className="form-horizontal mdl-shadow--2dp" onSubmit={this.saveUpload}>
+          <h6 className="mdl-typography--title formTitle">Détails du matériel</h6>
+          <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label mainInput">
+            <label htmlFor="itemName" className="mdl-textfield__label">Nom du matériel</label>
+            <input ref="itemName" id="itemName" className="mdl-textfield__input" type="text" value={this.state.itemName} onChange={this.updateItemName} />
+            <span className="mdl-textfield__error">Nom requis !</span>
+          </fieldset><br />
+          <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label mainInput">
+            <label htmlFor="itemName" className="mdl-textfield__label">Caution</label>
+            <input ref="itemDeposit" id="itemDeposit" className="mdl-textfield__input" type="number" value={this.state.itemDeposit} onChange={this.updateItemDeposit} />
+            <span className="mdl-textfield__error">Caution requise !</span>
+          </fieldset><br />
+          <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <label htmlFor="itemDesc" className="mdl-textfield__label">Description détaillée du matériel</label>
+            <textarea ref="itemDesc" id="itemDesc" className="mdl-textfield__input" value={this.state.itemDescription} onChange={this.updateItemDescription} />
+            <span className="mdl-textfield__error">Description requise !</span>
+          </fieldset>
+          <fieldset className="form-group form-submit">
+            <button type="submit" ref="submitButton" disabled={this.state.submitDisabled} className={"mdl-button mdl-js-button mdl-button--raised" + (this.state.submitDisabled ? ' mdl-button--disabled' : '')}>{this.props.update ? 'Modifier' : 'Ajouter'}</button>
+          </fieldset>
+        </form>
+      </div>
+    )
+  }
+}

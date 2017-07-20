@@ -18,7 +18,7 @@ import { VideoList, RelatedVideoList } from "./video.jsx";
 import AdminFeatures from "./admin_features.jsx";
 import MatosList from "./materiel.jsx";
 import VideoPlayer from "./video_player.jsx";
-import UploadForm from "./upload.jsx";
+import { UploadForm, UploadMatosForm } from "./upload.jsx";
 import { NewsAdmin, NewsForm } from "./news.jsx";
 
 import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom';
