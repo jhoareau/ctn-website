@@ -303,8 +303,19 @@ export class UploadMatosForm extends React.Component {
     return (
       <div>
         <div>
-          <h6 className="mdl-typography--title formTitle">Photo</h6>
-          <UploadSnippet ref="uploadSnippet" thumbOnly={this.props.update} {...this.state} onUploadFinished={this.allowUpload}/>
+          <h6 className="mdl-typography--title formTitle">Photo de l'objet</h6>
+          <div className="upload-container">
+            <div className="uploadBox">
+              <input className="coverBox" type="file" accept="image/*" ref="thumbnailFile" onChange={this.thumbFromThumbnailFile}/>
+              <p>
+                <i className="material-icons">cloud_upload</i><br/>
+                Image<br/>
+                <span className="boxTooltip">Sélectionner ou glisser-déposer</span><br/>
+                <span ref="thumbnailFilename"/>
+              </p>
+              <canvas ref="canvasImage" className="coverBox"/>
+            </div>
+          </div>
         </div>
         <form className="form-horizontal mdl-shadow--2dp" onSubmit={this.saveUpload}>
           <h6 className="mdl-typography--title formTitle">Détails du matériel</h6>
@@ -313,10 +324,10 @@ export class UploadMatosForm extends React.Component {
             <input ref="itemName" id="itemName" className="mdl-textfield__input" type="text" value={this.state.itemName} onChange={this.updateItemName} />
             <span className="mdl-textfield__error">Nom requis !</span>
           </fieldset><br />
-          <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label mainInput">
+          <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label input_currency">
             <label htmlFor="itemName" className="mdl-textfield__label">Caution</label>
             <input ref="itemDeposit" id="itemDeposit" className="mdl-textfield__input" type="number" value={this.state.itemDeposit} onChange={this.updateItemDeposit} />
-            <span className="mdl-textfield__error">Caution requise !</span>
+            <span className="mdl-textfield__error">Caution requise ! (Doit être un nombre entier)</span>
           </fieldset><br />
           <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label htmlFor="itemDesc" className="mdl-textfield__label">Description détaillée du matériel</label>
