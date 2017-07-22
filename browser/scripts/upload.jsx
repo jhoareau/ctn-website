@@ -260,8 +260,9 @@ export class UploadMatosForm extends React.Component {
     this.updateItemName = this.updateItemName.bind(this);
     this.updateItemDescription = this.updateItemDescription.bind(this);
     this.updateItemDeposit = this.updateItemDeposit.bind(this);
+    this.updateItemPubliclyAvailable = this.updateItemPubliclyAvailable.bind(this);
 
-    this.state = Object.assign({itemName: '', itemDescription: '', itemDeposit: 0, submitDisabled: true}, props);
+    this.state = Object.assign({itemName: '', itemDescription: '', itemDeposit: 0, itemPubliclyAvailable: true, submitDisabled: true}, props);
 
     if (typeof props.route !== 'undefined' && this.props.update) this.populate(props.route);
   }
@@ -294,6 +295,10 @@ export class UploadMatosForm extends React.Component {
     this.setState({itemDeposit: event.target.value});
   }
 
+  updateItemPubliclyAvailable(event) {
+    this.setState({itemPubliclyAvailable: event.target.value});
+  }
+
   updateItemDescription(event) {
     event.target.required = true; // Workaround MDL marking the field as invalid
     this.setState({itemDescription: event.target.value});
@@ -324,8 +329,12 @@ export class UploadMatosForm extends React.Component {
             <input ref="itemName" id="itemName" className="mdl-textfield__input" type="text" value={this.state.itemName} onChange={this.updateItemName} />
             <span className="mdl-textfield__error">Nom requis !</span>
           </fieldset><br />
+          <fieldset className="form-group mdl-switch mdl-js-switch mdl-js-ripple-effect">
+            <label htmlFor="itemPubliclyAvailable" className="mdl-switch__label">Disponible aux extés de CTN</label>
+            <input ref="itemPubliclyAvailable" id="itemPubliclyAvailable" className="mdl-switch__input" type="checkbox" checked={this.state.itemPubliclyAvailable} onChange={this.updateItemPubliclyAvailable} />
+          </fieldset><br />
           <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label input_currency">
-            <label htmlFor="itemName" className="mdl-textfield__label">Caution</label>
+            <label htmlFor="itemDeposit" className="mdl-textfield__label">Caution</label>
             <input ref="itemDeposit" id="itemDeposit" className="mdl-textfield__input" type="number" value={this.state.itemDeposit} onChange={this.updateItemDeposit} />
             <span className="mdl-textfield__error">Caution requise ! (Doit être un nombre entier)</span>
           </fieldset><br />
