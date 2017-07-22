@@ -1,19 +1,12 @@
 let mongoose = require('mongoose');
 
 let itemSchema = new mongoose.Schema({
-  extes: Boolean,
+  publiclyAvailable: Boolean,
   name: String,
   description: String,
   deposit: Number,
-  disponible: Boolean,
-  // historique: [{
-  //   emprunteur: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  //   date_emprunt: Date,
-  //   responsable_emprunt: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  //   rendu_le: Date,
-  //   responsable_rendu: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  //   valide: Boolean
-  // }]
+  image: Buffer,
+  loans: [ {type: mongoose.Schema.Types.ObjectId, ref: 'Loan'} ]
 });
 
 let Item = mongoose.model('Item', itemSchema);
@@ -27,7 +20,7 @@ exports.returnList = (admin, callback) => {
     });
   }
   else {
-    Item.find({disponible: true, extes: true}, (err, result) => {
+    Item.find({publiclyAvailable: true}, (err, result) => {
       if (err) throw new Error('Erreur lors de la récupération de la liste des items disponibles.');
       callback(result);
     });
@@ -36,17 +29,16 @@ exports.returnList = (admin, callback) => {
 
 exports.add = (data, callback) => {
   let schema = {
-    extes: data.extes,
+    publiclyAvailable: data.publiclyAvailable,
     name: data.name,
     description: data.description,
     deposit: data.deposit,
-    disponible: true,
-    //historique: []
+    image: data.image
   };
 
   let newItem = new Item(schema);
   newItem.save((err, obj) => {
-    if (err) throw new Error("Erreur lors de l'ajout du nouveau item.");
+    if (err) throw new Error("Erreur lors de l'ajout du nouvel item.");
     callback({id: obj.id});
   });
 };
@@ -56,11 +48,11 @@ exports.update = (id, data, callback) => {
     if (err) return callback(err);
     if (item === null) return callback(new Error(`Erreur lors de la récupération de l'item à mettre à jour. ID =${id}`));
 
-    if (data.extes) item.extes = data.extes;
+    if (data.publiclyAvailable) item.publiclyAvailable = data.publiclyAvailable;
     if (data.name) item.name = data.name;
     if (data.deposit) item.deposit = data.deposit;
-    if (typeof data.disponible !== 'undefined') item.disponible = data.disponible;
-    //if (data.updatedHistorique) item.historique = data.updatedHistorique;
+    if (data.description) item.description = data.description;
+    if (data.image) item.image = data.image;
 
     item.save(err => {
       if (err) return callback(err);

@@ -5,8 +5,6 @@ config.secrets.json
 launchMongo.bat
 videos/*
 !videos/NOT_EMPTY
-materiel/*
-!materiel/NOT_EMPTY
 .vscode/*
 tmp
 .ignore

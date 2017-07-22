@@ -81,7 +81,7 @@ class Item extends React.Component {
             : null
           }
           <div className="mdl-card__supporting-text">
-            <p>Caution : {this.props.caution}€</p>
+            <p>Caution : {this.props.deposit}€</p>
             {nowEmprunte}
             {nowReserve}
             {!emprunteOuReserve ? <p className="materielDispo">Disponible</p> : null}
@@ -108,7 +108,7 @@ Item.defaultProps = {
   thumbUrl : '/defaults/gopro_4.png',
   name: 'Clara - GoPro Hero 4',
   description: 'Caméra CTN',
-  caution: 300,
+  deposit: 300,
   disponible: true,
   historique: [],
   showHistorique: false,
@@ -157,7 +157,7 @@ class MatosList extends React.Component {
 MatosList.defaultProps = {
   matosList: [
                 {
-                  caution: 400,
+                  deposit: 400,
                   _id: Math.random()
                 },
                 {
