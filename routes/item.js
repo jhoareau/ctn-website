@@ -16,6 +16,16 @@ const itemsRoutes = (winston) => {
     });
   });
 
+  router.get('/:id', routes.loggedIn, (req, res) => {
+    mongodb.item.return(req.params.id, (err, item) => {
+      if (err) {
+        winston.log('warning', 'Item get / ' + err.message);
+        return res.status(500).json({error: "Server error while getting the requested item"});
+      }
+      res.json(item);
+    });
+  });
+
   router.put('/', routes.isAdmin, (req, res) => {
     mongodb.item.add(req.body, answer => {
       let thumbnailData = req.body.thumbnail.replace(/^data:image\/png;base64,/, '');
@@ -46,8 +56,28 @@ const itemsRoutes = (winston) => {
     });
   });
 
-  router.post('/loans/:id_l', routes.isAdmin, (req, res) => {
+  router.get('/loans/:id', routes.isAdmin, (req, res) => {
+    mongodb.loan.return(req.params.id, (err, loan) => {
+      if (err) {
+        winston.log('warning', 'Loan Returning / ' + err.message);
+        return res.status(500).throw(err);
+      }
+      res.json(loan);
+    });
+  });
 
+  router.get('/loans', routes.isAdmin, (req, res) => {
+    mongodb.loan.returnList((err, loans) => {
+      if (err) {
+        winston.log('warning', 'Loan list / ' + err.message);
+        return res.status(500).throw(err);
+      }
+      res.json(loans);
+    });
+  });
+
+  router.post('/loans/:id_l', routes.isAdmin, (req, res) => {
+    mongodb.loan.update(req.params.id, req.body, err => res.json({ok:true}));
   });
 
   return router;

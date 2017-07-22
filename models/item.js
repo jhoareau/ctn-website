@@ -5,8 +5,7 @@ let itemSchema = new mongoose.Schema({
   name: String,
   description: String,
   deposit: Number,
-  image: Buffer,
-  loans: [ {type: mongoose.Schema.Types.ObjectId, ref: 'Loan'} ]
+  image: Buffer
 });
 
 let Item = mongoose.model('Item', itemSchema);
@@ -26,6 +25,13 @@ exports.returnList = (admin, callback) => {
     });
   }
 };
+
+exports.return = (id, callback) => {
+  Item.findById(id, (err, item) => {
+    if (err) return callback(err);
+    callback(null, item);
+  })
+}
 
 exports.add = (data, callback) => {
   let schema = {
