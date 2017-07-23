@@ -1,4 +1,5 @@
 let mongoose = require('mongoose');
+let mongoosePaginate = require('mongoose-paginate');
 
 let videoSchema = new mongoose.Schema({
   title: {type: String, default: ''},
@@ -10,16 +11,26 @@ let videoSchema = new mongoose.Schema({
   tags: [String]
 });
 
+videoSchema.plugin(mongoosePaginate);
+
 let Video = mongoose.model('Video', videoSchema);
 exports.model = Video;
 
-exports.return = (id, callback) => {
+exports.return = (id, query, callback) => {
   if (id === null) {
-    Video.find({validated: true}).sort('-uploadDate').populate('uploader').exec((err, result) => {
+    let options = {
+  		sort: {uploadDate: -1},
+      populate: 'uploader',
+  		page: query.page,
+  		limit: query.per_page
+  	}
+    
+    Video.paginate({validated: true}, options, (err, result) => {
       if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des vidéos.'));
-      if (result === null || typeof result === 'undefined') return callback(null);
+      //result donne des infos diverses sur ce qu'a fait le plugin mongoose-paginate : les docs satisfaisant la requête et les options sont dans le field 'docs'
+      if (result.docs === null || typeof result.docs === 'undefined') return callback(null);
 
-      let filteredResults = result.map(obj => {
+      let filteredResults = result.docs.map(obj => {
         let filteredObj = obj.toJSON();
         if (obj.uploader)
           filteredObj.uploader = obj.uploader.surname || obj.uploader.fullName;
@@ -93,7 +104,7 @@ exports.update = (id, data, callback) => {
     if (video === null || typeof video === 'undefined') return callback({ok: false});
 
     video.title = data.title;
-    video.description = data.description;    
+    video.description = data.description;
     video.tags = data.tags;
     if (data.date) video.date = data.date;
     if (data.session) video.uploader = data.session._id;

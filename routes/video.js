@@ -9,7 +9,23 @@ const videoRoutes = (winston) => {
   let router = express.Router();
 
   router.get('/', routes.loggedIn, (req, res) => {
-    mongodb.video.returnList((data, err) => {
+
+    let query = {
+      page: Math.max(1, Number(req.query.page) || 1),
+      per_page: Number(req.query.per_page) || 20
+    }
+
+    if (query.per_page < 1 || query.per_page > 1000) {
+      winston.log('error', `${req.method} ${req.originalUrl} - The user queried a per_page number greater than 1000`);
+      return res.status(400).json({error: `per_page number must be set between 1 and 1000`});
+    }
+
+    if (query.page > Math.ceil(index.nbImages/query.per_page)) {
+      winston.log('error', `${req.method} ${req.originalUrl} - The user queried a page that doesn't exist with per_page ${query.per_page}`);
+      return res.status(400).json({error: `Your page doesn't exist with per_page ${query.per_page}: not enough images`});
+    }
+
+    mongodb.video.returnList(query, (data, err) => {
       if (err) winston.log('warning', 'VideoList / ' + err.message);
       if (data === null) data = [];
       return res.json(data);
@@ -34,7 +50,7 @@ const videoRoutes = (winston) => {
   });
 
   router.get('/:id', routes.loggedIn, (req, res) => {
-    mongodb.video.return(req.params.id, (data, err) => {
+    mongodb.video.return(req.params.id, null, (data, err) => {
       if (err) winston.log('warning', 'Video / ' + err.message);
       if (data === null || data === {}) {
         data = {};
