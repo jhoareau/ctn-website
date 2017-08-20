@@ -52,7 +52,7 @@ export class VideoList extends React.Component {
 
   populate(route, fetchParams = {}) {
     Request.get(route)
-    .query({page: fetchParams.page || 1, per_page: fetchParams.per_page || 20})
+    .query({page: fetchParams.page || 1, per_page: fetchParams.per_page})
     .end((err, data) => {
       data = data.body;
       if (err) data = [];

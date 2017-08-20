@@ -296,7 +296,8 @@ export class UploadMatosForm extends React.Component {
   }
 
   updateItemPubliclyAvailable(event) {
-    this.setState({itemPubliclyAvailable: event.target.value});
+    console.log(event);
+    this.setState({itemPubliclyAvailable: event.target.checked});
   }
 
   updateItemDescription(event) {
@@ -331,7 +332,7 @@ export class UploadMatosForm extends React.Component {
           </fieldset><br />
           <fieldset className="form-group mdl-switch mdl-js-switch mdl-js-ripple-effect">
             <label htmlFor="itemPubliclyAvailable" className="mdl-switch__label">Disponible aux extés de CTN</label>
-            <input ref="itemPubliclyAvailable" id="itemPubliclyAvailable" className="mdl-switch__input" type="checkbox" checked={this.state.itemPubliclyAvailable} onChange={this.updateItemPubliclyAvailable} />
+            <input ref="itemPubliclyAvailable" id="itemPubliclyAvailable" className="mdl-switch__input" type="checkbox" defaultChecked={this.state.itemPubliclyAvailable} onChange={this.updateItemPubliclyAvailable} />
           </fieldset><br />
           <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label input_currency">
             <label htmlFor="itemDeposit" className="mdl-textfield__label">Caution</label>
