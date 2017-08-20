@@ -153,8 +153,7 @@ export class UploadForm extends React.Component {
     this.saveUpload = this.saveUpload.bind(this);
     this.allowUpload = this.allowUpload.bind(this);
     this.populate = this.populate.bind(this);
-    this.updateVideoTitle = this.updateVideoTitle.bind(this);
-    this.updateVideoDescription = this.updateVideoDescription.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
 
     this.state = Object.assign({videoTitle: '', videoDescription: '', submitDisabled: true}, props);
 
@@ -178,14 +177,9 @@ export class UploadForm extends React.Component {
     this.refs.videoDesc.dispatchEvent(new Event('input'));
   }
 
-  updateVideoTitle(event) {
+  handleInputChange(event) {
     event.target.required = true; // Workaround MDL marking the field as invalid
-    this.setState({videoTitle: event.target.value});
-  }
-
-  updateVideoDescription(event) {
-    event.target.required = true; // Workaround MDL marking the field as invalid
-    this.setState({videoDescription: event.target.value});
+    this.setState({[event.target.id]: event.target.value});
   }
 
   allowUpload(videoFileID) {
@@ -233,12 +227,12 @@ export class UploadForm extends React.Component {
           <h6 className="mdl-typography--title formTitle">Détails de la vidéo</h6>
           <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label mainInput">
             <label htmlFor="videoTitle" className="mdl-textfield__label">Titre de la vidéo</label>
-            <input ref="videoTitle" id="videoTitle" className="mdl-textfield__input" type="text" value={this.state.videoTitle} onChange={this.updateVideoTitle} />
+            <input ref="videoTitle" id="videoTitle" className="mdl-textfield__input" type="text" value={this.state.videoTitle} onChange={this.handleInputChange} />
             <span className="mdl-textfield__error">Titre requis !</span>
           </fieldset><br />
           <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label htmlFor="videoDesc" className="mdl-textfield__label">Description de la vidéo</label>
-            <textarea ref="videoDesc" id="videoDesc" className="mdl-textfield__input" value={this.state.videoDescription} onChange={this.updateVideoDescription} />
+            <textarea ref="videoDesc" id="videoDescription" className="mdl-textfield__input" value={this.state.videoDescription} onChange={this.handleInputChange} />
             <span className="mdl-textfield__error">Description requise !</span>
           </fieldset>
           <fieldset className="form-group form-submit">
@@ -257,10 +251,7 @@ export class UploadMatosForm extends React.Component {
     //this.saveUpload = this.saveUpload.bind(this);
     //this.allowUpload = this.allowUpload.bind(this);
     this.populate = this.populate.bind(this);
-    this.updateItemName = this.updateItemName.bind(this);
-    this.updateItemDescription = this.updateItemDescription.bind(this);
-    this.updateItemDeposit = this.updateItemDeposit.bind(this);
-    this.updateItemPubliclyAvailable = this.updateItemPubliclyAvailable.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
 
     this.state = Object.assign({itemName: '', itemDescription: '', itemDeposit: 0, itemPubliclyAvailable: true, submitDisabled: true}, props);
 
@@ -275,7 +266,7 @@ export class UploadMatosForm extends React.Component {
   }
 
   componentDidMount() {
-    MaterialComponentHandler.componentHandler.upgradeDom();
+    //MaterialComponentHandler.componentHandler.upgradeDom();
   }
 
   componentDidUpdate() {
@@ -285,24 +276,10 @@ export class UploadMatosForm extends React.Component {
     this.refs.itemDeposit.dispatchEvent(new Event('input'));
   }
 
-  updateItemName(event) {
+  handleInputChange(event) {
     event.target.required = true; // Workaround MDL marking the field as invalid
-    this.setState({itemName: event.target.value});
-  }
-
-  updateItemDeposit(event) {
-    event.target.required = true; // Workaround MDL marking the field as invalid
-    this.setState({itemDeposit: event.target.value});
-  }
-
-  updateItemPubliclyAvailable(event) {
-    console.log(event);
-    this.setState({itemPubliclyAvailable: event.target.checked});
-  }
-
-  updateItemDescription(event) {
-    event.target.required = true; // Workaround MDL marking the field as invalid
-    this.setState({itemDescription: event.target.value});
+    let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    this.setState({[event.target.id]: value});
   }
 
   render() {
@@ -327,21 +304,21 @@ export class UploadMatosForm extends React.Component {
           <h6 className="mdl-typography--title formTitle">Détails du matériel</h6>
           <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label mainInput">
             <label htmlFor="itemName" className="mdl-textfield__label">Nom du matériel</label>
-            <input ref="itemName" id="itemName" className="mdl-textfield__input" type="text" value={this.state.itemName} onChange={this.updateItemName} />
+            <input ref="itemName" id="itemName" className="mdl-textfield__input" type="text" value={this.state.itemName} onChange={this.handleInputChange} />
             <span className="mdl-textfield__error">Nom requis !</span>
           </fieldset><br />
           <fieldset className="form-group mdl-switch mdl-js-switch mdl-js-ripple-effect">
             <label htmlFor="itemPubliclyAvailable" className="mdl-switch__label">Disponible aux extés de CTN</label>
-            <input ref="itemPubliclyAvailable" id="itemPubliclyAvailable" className="mdl-switch__input" type="checkbox" defaultChecked={this.state.itemPubliclyAvailable} onChange={this.updateItemPubliclyAvailable} />
+            <input ref="itemPubliclyAvailable" id="itemPubliclyAvailable" className="mdl-switch__input" type="checkbox" checked={this.state.itemPubliclyAvailable} onChange={this.handleInputChange} />
           </fieldset><br />
           <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label input_currency">
             <label htmlFor="itemDeposit" className="mdl-textfield__label">Caution</label>
-            <input ref="itemDeposit" id="itemDeposit" className="mdl-textfield__input" type="number" value={this.state.itemDeposit} onChange={this.updateItemDeposit} />
+            <input ref="itemDeposit" id="itemDeposit" className="mdl-textfield__input" type="number" value={this.state.itemDeposit} onChange={this.handleInputChange} />
             <span className="mdl-textfield__error">Caution requise ! (Doit être un nombre entier)</span>
           </fieldset><br />
           <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <label htmlFor="itemDesc" className="mdl-textfield__label">Description détaillée du matériel</label>
-            <textarea ref="itemDesc" id="itemDesc" className="mdl-textfield__input" value={this.state.itemDescription} onChange={this.updateItemDescription} />
+            <textarea ref="itemDesc" id="itemDescription" className="mdl-textfield__input" value={this.state.itemDescription} onChange={this.handleInputChange} />
             <span className="mdl-textfield__error">Description requise !</span>
           </fieldset>
           <fieldset className="form-group form-submit">
