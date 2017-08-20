@@ -266,7 +266,7 @@ export class UploadMatosForm extends React.Component {
   }
 
   componentDidMount() {
-    //MaterialComponentHandler.componentHandler.upgradeDom();
+    MaterialComponentHandler.componentHandler.upgradeDom();
   }
 
   componentDidUpdate() {

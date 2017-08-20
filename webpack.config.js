@@ -61,9 +61,7 @@ module.exports = {
     },
     resolve: {
       alias: {
-        '~': path.resolve(__dirname),
-        //"react": "preact-compat",
-        //"react-dom": "preact-compat"
+        '~': path.resolve(__dirname)
       }
     },
     resolveLoader: {
