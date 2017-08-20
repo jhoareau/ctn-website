@@ -43,21 +43,23 @@ export class VideoList extends React.Component {
     this.populate = this.populate.bind(this);
     this.state = props;
 
-    if (typeof props.route !== 'undefined') this.populate(props.route);
+    if (typeof props.route !== 'undefined') this.populate(props.route, props.fetchParams);
   }
 
   componentWillReceiveProps(props) {
-    this.populate(props.route);
+    this.populate(props.route, this.state.fetchParams);
   }
 
-  populate(route) {
-    Request.get(route).end((err, data) => {
+  populate(route, fetchParams = {}) {
+    Request.get(route)
+    .query({page: fetchParams.page || 1, per_page: fetchParams.per_page || 20})
+    .end((err, data) => {
       data = data.body;
       if (err) data = [];
       this.setState({videoList: data});
     });
   }
-  
+
   render() {
     if (this.state.videoList.length > 0)
       return (
@@ -76,7 +78,8 @@ export class VideoList extends React.Component {
   }
 }
 VideoList.defaultProps = {
-  videoList: []
+  videoList: [],
+  fetchParams: {page: 1, per_page: 20}
 };
 
 class RelatedVideo extends Video {
