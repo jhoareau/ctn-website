@@ -24,12 +24,11 @@ exports.return = (id, query, callback) => {
   		page: query.page,
   		limit: query.per_page
   	}
-    
+
     Video.paginate({validated: true}, options, (err, result) => {
       if (err) return callback(null, new Error('Erreur lors de la récupération de la liste des vidéos.'));
       //result donne des infos diverses sur ce qu'a fait le plugin mongoose-paginate : les docs satisfaisant la requête et les options sont dans le field 'docs'
       if (result.docs === null || typeof result.docs === 'undefined') return callback(null);
-
       let filteredResults = result.docs.map(obj => {
         let filteredObj = obj.toJSON();
         if (obj.uploader)
@@ -56,6 +55,13 @@ exports.return = (id, query, callback) => {
 }
 
 exports.returnList = exports.return.bind(this, null);
+
+exports.returnVideoCount = (callback) => {
+  Video.count({}, (err, count) => {
+    if (err) return callback();
+    callback(count);
+  });
+}
 
 exports.getRelatedVideos = (id, callback) => {
   Video.findOne({_id: id}, '_id title', (err, result) => {

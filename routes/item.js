@@ -42,10 +42,10 @@ const itemsRoutes = (winston) => {
     mongodb.item.delete(req.params.id, answer => res.json(answer));
   });
 
-  router.put('/:id_i/loans', routes.loggedIn, (req, res) => {
+  router.put('/:id/request', routes.loggedIn, (req, res) => {
     let data = req.body;
     data.session = req.user;
-    data.item = req.params.id_i;
+    data.item = req.params.id;
 
     mongodb.loan.create(data, (err, answer) => {
       if (err) {
@@ -56,28 +56,107 @@ const itemsRoutes = (winston) => {
     });
   });
 
-  router.get('/loans/:id', routes.isAdmin, (req, res) => {
-    mongodb.loan.return(req.params.id, (err, loan) => {
+  router.get('/:id/requests', routes.isAdmin, (req, res) => {
+    mongodb.loan.returnListByItem(req.params.id, 'pending', (err, loans) => {
       if (err) {
         winston.log('warning', 'Loan Returning / ' + err.message);
-        return res.status(500).throw(err);
-      }
-      res.json(loan);
-    });
-  });
-
-  router.get('/loans', routes.isAdmin, (req, res) => {
-    mongodb.loan.returnList((err, loans) => {
-      if (err) {
-        winston.log('warning', 'Loan list / ' + err.message);
         return res.status(500).throw(err);
       }
       res.json(loans);
     });
   });
 
-  router.post('/loans/:id_l', routes.isAdmin, (req, res) => {
-    mongodb.loan.update(req.params.id, req.body, err => res.json({ok:true}));
+  router.post('/:id_i/request/:id', routes.isAdmin, (req, res) => {
+    let data = req.body;
+    data.in_charge_request = req.user._id;
+
+    mongodb.loan.update(req.params.id, data, err => {
+      if (err) {
+        winston.log('warning', 'Loan Validation / Loan update / ' + err.message);
+        return res.status(500).throw(err);
+      }
+      if (data.status === 'accepted') {
+        mongodb.item.update(req.params.id_i, {publiclyAvailable: false}, err => {
+          if (err) {
+            winston.log('warning', 'Loan Validation / Item update / ' + err.message);
+            return res.status(500).throw(err);
+          }
+          res.json({ok:true});
+        });
+      }
+      else {
+        res.json({ok:true});
+      }
+    });
+  });
+
+  router.get('/:id/accepted_requests', routes.isAdmin, (req, res) => {
+    mongodb.loan.returnListByItem(req.params.id, 'accepted', (err, loans) => {
+      if (err) {
+        winston.log('warning', 'Loan Returning / ' + err.message);
+        return res.status(500).throw(err);
+      }
+      res.json(loans);
+    });
+  });
+
+  router.post('/confirm_loan/:id', routes.isAdmin, (req, res) => {
+    let data = {
+      status: 'lent',
+      in_charge_loan: req.user._id,
+      loan_date: new Date()
+    }
+
+    mongodb.loan.update(req.params.id, data, err => {
+      if (err) {
+        winston.log('warning', 'Loan Confirm Loan / Loan update / ' + err.message);
+        return res.status(500).throw(err);
+      }
+      res.json({ok:true});
+    });
+  });
+
+  router.post('/cancel_loan/:id', routes.isAdmin, (req, res) => {
+    let data = {
+      status: 'cancelled',
+      in_charge_loan: req.user._id,
+      cancellation_date: new Date()
+    }
+
+    mongodb.loan.update(req.params.id, data, err => {
+      if (err) {
+        winston.log('warning', 'Loan Cancel Loan / Loan update / ' + err.message);
+        return res.status(500).throw(err);
+      }
+      res.json({ok:true});
+    });
+  });
+
+  router.post('/:id/return', routes.isAdmin, (req, res) => {
+    let data = {
+      status: 'returned',
+      in_charge_return: req.user._id,
+    };
+
+    mongodb.loan.getLentOne( loan => {
+      if (!loan) {
+        winston.log('warning', 'Loan Return / Loan getLentOne / No Loan Found');
+        return res.status(404).throw(new Error("Error while getting the loan associated to the lent item"));
+      }
+      mongodb.loan.update(loan._id, data, err => {
+        if (err) {
+          winston.log('warning', 'Loan Return / Loan update / ' + err.message);
+          return res.status(500).throw(err);
+        }
+        mongodb.item.update(req.params.id, {publiclyAvailable: true}, err => {
+          if (err) {
+            winston.log('warning', 'Loan Return / Item update / ' + err.message);
+            return res.status(500).throw(err);
+          }
+          res.json({ok:true});
+        });
+      });
+    });
   });
 
   return router;

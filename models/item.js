@@ -54,7 +54,7 @@ exports.update = (id, data, callback) => {
     if (err) return callback(err);
     if (item === null) return callback(new Error(`Erreur lors de la récupération de l'item à mettre à jour. ID =${id}`));
 
-    if (data.publiclyAvailable) item.publiclyAvailable = data.publiclyAvailable;
+    if (typeof data.publiclyAvailable !== 'undefined') item.publiclyAvailable = data.publiclyAvailable;
     if (data.name) item.name = data.name;
     if (data.deposit) item.deposit = data.deposit;
     if (data.description) item.description = data.description;
