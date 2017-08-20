@@ -307,9 +307,9 @@ export class UploadMatosForm extends React.Component {
             <input ref="itemName" id="itemName" className="mdl-textfield__input" type="text" value={this.state.itemName} onChange={this.handleInputChange} />
             <span className="mdl-textfield__error">Nom requis !</span>
           </fieldset><br />
-          <fieldset className="form-group mdl-switch mdl-js-switch mdl-js-ripple-effect">
-            <label htmlFor="itemPubliclyAvailable" className="mdl-switch__label">Disponible aux extés de CTN</label>
-            <input ref="itemPubliclyAvailable" id="itemPubliclyAvailable" className="mdl-switch__input" type="checkbox" checked={this.state.itemPubliclyAvailable} onChange={this.handleInputChange} />
+        <fieldset className="form-group full_width">
+            <label htmlFor="itemPubliclyAvailable" className="switch_label">Disponible aux extés de CTN</label>
+            <input ref="itemPubliclyAvailable" id="itemPubliclyAvailable" className="switch_input" type="checkbox" checked={this.state.itemPubliclyAvailable} onChange={this.handleInputChange} />
           </fieldset><br />
           <fieldset className="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label input_currency">
             <label htmlFor="itemDeposit" className="mdl-textfield__label">Caution</label>
