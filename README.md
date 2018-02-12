@@ -10,7 +10,7 @@ Licensed under the MIT license.
 
 ### Building
 ```
-    $ npm install
+    $ yarn
     $ webpack
 ```
 
@@ -23,10 +23,10 @@ We're using nodemon to manage Node.js code watching, and `webpack --watch` for b
 
 ### Running
 ```bash
-    $ npm install
+    $ yarn
     $ mongod
     $ sudo /etc/init.d/redis-server start # Whether you want session-persistence on Node.js server reboot
-    $ forever start # If the forever task is properly configured
+    $ forever start # If the forever task is properly configured (on deployment)
 ```
 
 ## Code entry points
@@ -35,4 +35,4 @@ Browser: `./browser/scripts/index_router.jsx`
 Node: `./app.js`
 
 ## Questions
-Contact @jhoareau on GitHub.
+Contact on [GitHub](https://github.com/jhoareau/ctn-website/issues).
