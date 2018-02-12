@@ -23,7 +23,7 @@ const videoRoutes = (winston) => {
 
       if (query.page > Math.ceil(nbVideos/query.per_page)) {
         winston.log('error', `${req.method} ${req.originalUrl} - The user queried a page that doesn't exist with per_page ${query.per_page}`);
-        return res.status(400).json({error: `Your page doesn't exist with per_page ${query.per_page}: not enough videos`});
+        return res.status(404).json({error: `Your page doesn't exist with per_page ${query.per_page}: not enough videos`});
       }
 
       mongodb.video.returnList(query, (data, err) => {

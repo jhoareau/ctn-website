@@ -1,13 +1,21 @@
-let SocketIOFileUpload = require('socketio-file-upload'),
-    socketio           = require('socket.io'),
-    fs                 = require('fs'),
-    path               = require('path'),
-    mongodb            = require('../models/mongodb');
+const SocketIOFileUpload = require('socketio-file-upload'),
+    socketio            = require('socket.io'),
+    fs                  = require('fs'),
+    path                = require('path'),
+    mongodb             = require('../models/mongodb'),
+    Account_OAuth       = require('../models/oauth_passport');
 
-let handler = (winston, http) => {
+let handler = (winston, http, session) => {
   var io = socketio.listen(http);
   io.set('transports', ['websocket']);
+  io.use((socket, next) => session.express(socket.request, {}, next));
   io.sockets.on('connection', socket => {
+    if (typeof socket.request.session.passport === 'undefined')
+      return winston.log("error", "SocketIO Video Upload / Utilisateur non connecté");
+
+    Account_OAuth.deserializeUser(socket.request.session.passport.user, (err, user) => {
+      if (!user.admin) return winston.log("error", "SocketIO Video Upload / Utilisateur non autorisé");
+
       var uploader = new SocketIOFileUpload();
       uploader.dir = path.join(__dirname, '../videos');
       uploader.listen(socket);
@@ -63,6 +71,7 @@ let handler = (winston, http) => {
       uploader.on("error", event => {
           winston.log("warning", "SocketIO Video Upload / " + event.error.toString());
       });
+    });
   });
 
   return io;

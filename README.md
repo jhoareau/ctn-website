@@ -21,6 +21,8 @@ We're using nodemon to manage Node.js code watching, and `webpack --watch` for b
     $ nodemon
 ```
 
+If redis is not turned on in config.secrets.json, file upload will not work (as sessions do not propagate from Express to Socket.io)
+
 ### Running
 ```bash
     $ yarn

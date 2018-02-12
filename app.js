@@ -24,7 +24,9 @@ const winston = new (winstonLib.Logger)({
 });
 
 /* Sous-application interne ExpressApp - Serveur HTTP */
-const expressApp = require('./apps/express')(winston)
+const appAndSession = require('./apps/express');
+const expressApp = appAndSession.app(winston);
+const expressSession = appAndSession.session;
 const httpServer = require('http').createServer(expressApp);
 
 httpServer.listen(expressApp.get('port'), () => {
@@ -32,4 +34,4 @@ httpServer.listen(expressApp.get('port'), () => {
 });
 
 /* Sous-application interne SocketIO - Serveur d'upload de gros fichiers */
-const socketIO = require('./apps/socketio')(winston, httpServer);
+const socketIO = require('./apps/socketio')(winston, httpServer, expressSession);
