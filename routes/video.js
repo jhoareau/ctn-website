@@ -17,7 +17,7 @@ const videoRoutes = (winston) => {
       }
 
       if (query.per_page < 1) {
-        winston.log('error', `${req.method} ${req.originalUrl} - The user queried a per_page number greater than 1000`);
+        winston.log('error', `${req.method} ${req.originalUrl} - The user queried a non-valid per_page number`);
         return res.status(400).json({error: `per_page number must be set an integer greater than 1`});
       }
 

@@ -54,7 +54,7 @@ export class VideoList extends React.Component {
     Request.get(route)
     .query({page: fetchParams.page || 1, per_page: fetchParams.per_page})
     .end((err, data) => {
-      data = data.body;
+      data = data.body.data;
       if (err) data = [];
       this.setState({videoList: data});
     });
