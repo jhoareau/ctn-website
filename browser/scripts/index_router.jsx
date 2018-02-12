@@ -74,7 +74,7 @@ const App = () => (
           <Route exact path="/" component={Carousel_Router} />
           <Route path="/news" component={News_Router} />
           <Route path="/mediapiston" component={Mediapiston_Router} />
-          {/*<Route path="/matos" component={Matos_Router} />*/}
+          <Route path="/matos" component={Matos_Router} />
           <Route path="/a-propos" component={APropos_Router} />
 
           <Route component={NoMatch}/>
