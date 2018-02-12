@@ -1,9 +1,9 @@
 const SocketIOFileUpload = require('socketio-file-upload'),
-    socketio            = require('socket.io'),
-    fs                  = require('fs'),
-    path                = require('path'),
-    mongodb             = require('../models/mongodb'),
-    Account_OAuth       = require('../models/oauth_passport');
+    socketio             = require('socket.io'),
+    fs                   = require('fs'),
+    path                 = require('path'),
+    mongodb              = require('../models/mongodb'),
+    Account_OAuth        = require('../models/oauth_passport');
 
 let handler = (winston, http, session) => {
   var io = socketio.listen(http);
